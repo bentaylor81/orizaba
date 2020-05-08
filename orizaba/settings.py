@@ -84,10 +84,10 @@ DATABASES = {
 }
 
 # Comment out when pushing to production
-HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+#HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+#db_from_env = dj_database_url.config(conn_max_age=600)
+#DATABASES['default'].update(db_from_env)
 
 # Local Database Settings
 DATABASES = {
