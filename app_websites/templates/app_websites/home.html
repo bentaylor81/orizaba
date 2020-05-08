@@ -1,0 +1,16 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="ben"> 
+    Hello Ben
+        {% if orders %}									
+            {% for order in orders %}						
+                <div>{{ order.order_no }}</div>		
+                <div><img src="{{ order.profile_pic.url }}" /></div>	
+            {% endfor %}
+        {% endif %}
+</section>
+
+{% endblock %}
