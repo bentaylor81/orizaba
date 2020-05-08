@@ -76,6 +76,13 @@ WSGI_APPLICATION = 'orizaba.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# Uses the LIVE DB Locally
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    }
+}
+
 # Local Database Settings
 DATABASES = {
     'default': {
