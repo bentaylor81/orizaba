@@ -3,14 +3,33 @@
 
 {% block content %}
 
-<section class="ben"> 
-    Hello Ben
-        {% if orders %}									
-            {% for order in orders %}						
-                <div>{{ order.order_no }}</div>		
-                <div><img src="{{ order.profile_pic.url }}" /></div>	
+<section class="grid"> 
+    <div>
+        {% if orders %}	
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="head">Date</td>
+                    <td class="head">Order Number</td>
+                    <td class="head">Name</td>
+                    <td class="head">Address</td>
+                    <td class="head">Phone</td>
+                </tr>
+            {% for order in orders %}	
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td class="first-col">{{ order.date }}</td>
+                    <td>{{ order.order_no }}</td>
+                    <td>{{ order.name }}</td>	
+                    <td>
+                        {{ order.address_1 }}<br />
+                        {{ order.address_2 }}<br />
+                        {{ order.city }}<br />
+                        {{ order.postcode }}<br />
+                        {{ order.country }}
+                    </td>	
+                    <td>{{ order.phone }}</td>
             {% endfor %}
         {% endif %}
+    </div>
 </section>
 
 {% endblock %}

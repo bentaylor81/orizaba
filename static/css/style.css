@@ -1,1 +1,16 @@
-.ben { font-size: 40px; }
+/* Global */
+body { background: #f1f1f1; font-family: 'Source Sans Pro', sans-serif; font-size: 15px; line-height: 22px; color: #222; margin: 0; }
+a {	color: #504e88; text-decoration: none; font-weight: bold; }
+.grid {	display: grid; grid-template-columns: 1fr repeat(1, minmax(auto, 1500px)) 1fr; }
+section.grid > div { margin-bottom: 20px; grid-column: 2/3; padding: 20px;  background: #fff; border: 1px solid #ccc;  }
+.button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center;  }
+.alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
+
+/* Tables */
+table { border-bottom: 1px solid #bbb; }
+table tr td.head { background: #444; color: #fff; font-weight: 300; font-weight: bold; border: 0px; }
+table tr td.sub-cat { background: #555; color: #fff; }
+table tr td { padding: 5px 10px; border-right: 1px solid #bbb; }
+table tr td.first-col { border-left: 1px solid #bbb; }
+table tr.row1 { background-color: #ddd;  border-radius: 5px 5px 0px 0px;}
+table tr.row2 { background-color: #ccc; }

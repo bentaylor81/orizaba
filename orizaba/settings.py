@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'app_websites',
 ]
 
@@ -86,22 +87,22 @@ DATABASES = {
 }
 
 # Comment out when pushing to production
-#HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
-#db_from_env = dj_database_url.config(conn_max_age=600)
-#DATABASES['default'].update(db_from_env)
+HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Local Database Settings
-#DATABASES = {
- #   'default': {
-  #  'ENGINE': config('LOCAL_DB_ENGINE'),
-   # 'NAME': config('LOCAL_DB_NAME'),
-   # 'USER': config('LOCAL_DB_USER'),
-   # 'PASSWORD': config('LOCAL_DB_PASSWORD'),
-   # 'HOST': config('LOCAL_DB_HOST'),
-   # 'PORT': config('LOCAL_DB_PORT'),
-   # }
-#}
+DATABASES = {
+   'default': {
+   'ENGINE': config('LOCAL_DB_ENGINE'),
+   'NAME': config('LOCAL_DB_NAME'),
+   'USER': config('LOCAL_DB_USER'),
+   'PASSWORD': config('LOCAL_DB_PASSWORD'),
+   'HOST': config('LOCAL_DB_HOST'),
+   'PORT': config('LOCAL_DB_PORT'),
+   }
+}
 
 
 # Password validation
@@ -147,7 +148,7 @@ STATICFILES_DIRS = [
                     os.path.join(BASE_DIR, 'static'),
                 ]
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media Files # 
 
