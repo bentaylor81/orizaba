@@ -86,12 +86,12 @@ DATABASES = {
 # Local Database Settings
 DATABASES = {
     'default': {
-    'ENGINE': config('LOCAL_DB_ENGINE'),
-    'NAME': config('LOCAL_DB_NAME'),
-    'USER': config('LOCAL_DB_USER'),
-    'PASSWORD': config('LOCAL_DB_PASSWORD'),
-    'HOST': config('LOCAL_DB_HOST'),
-    'PORT': config('LOCAL_DB_PORT'),
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'orizaba',
+    'USER': 'postgres',
+    'PASSWORD': 'Theturtle1$',
+    'HOST': '127.0.0.1',
+    'PORT': '5432',
     }
 }
 
