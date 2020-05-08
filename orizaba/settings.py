@@ -25,7 +25,7 @@ SECRET_KEY = 'o7)#rlmzsb%d@mhh(97uf=^#gkn-c^fr6=%41r+_y*yq_xksa='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['orizaba.herokuapp.com', 'localhost']
 
 
 # Application definition
