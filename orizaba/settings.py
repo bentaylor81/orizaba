@@ -90,16 +90,16 @@ DATABASES = {
 #DATABASES['default'].update(db_from_env)
 
 # Local Database Settings
-DATABASES = {
-    'default': {
-    'ENGINE': config('LOCAL_DB_ENGINE'),
-    'NAME': config('LOCAL_DB_NAME'),
-    'USER': config('LOCAL_DB_USER'),
-    'PASSWORD': config('LOCAL_DB_PASSWORD'),
-    'HOST': config('LOCAL_DB_HOST'),
-    'PORT': config('LOCAL_DB_PORT'),
-    }
-}
+#DATABASES = {
+ #   'default': {
+  #  'ENGINE': config('LOCAL_DB_ENGINE'),
+   # 'NAME': config('LOCAL_DB_NAME'),
+   # 'USER': config('LOCAL_DB_USER'),
+   # 'PASSWORD': config('LOCAL_DB_PASSWORD'),
+   # 'HOST': config('LOCAL_DB_HOST'),
+   # 'PORT': config('LOCAL_DB_PORT'),
+   # }
+#}
 
 
 # Password validation
