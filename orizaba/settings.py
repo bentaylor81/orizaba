@@ -72,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'orizaba.wsgi.application'
 
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
