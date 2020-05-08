@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['orizaba.herokuapp.com', 'localhost']
 
@@ -83,15 +83,21 @@ DATABASES = {
     }
 }
 
+# Comment out when pushing to production
+HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 # Local Database Settings
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'orizaba',
-    'USER': 'postgres',
-    'PASSWORD': 'Theturtle1$',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
+    'ENGINE': config('LOCAL_DB_ENGINE'),
+    'NAME': config('LOCAL_DB_NAME'),
+    'USER': config('LOCAL_DB_USER'),
+    'PASSWORD': config('LOCAL_DB_PASSWORD'),
+    'HOST': config('LOCAL_DB_HOST'),
+    'PORT': config('LOCAL_DB_PORT'),
     }
 }
 
