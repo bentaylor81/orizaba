@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'o7)#rlmzsb%d@mhh(97uf=^#gkn-c^fr6=%41r+_y*yq_xksa='
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['orizaba.herokuapp.com', 'localhost']
 
@@ -75,14 +76,15 @@ WSGI_APPLICATION = 'orizaba.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# Local Database Settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'orizaba',
-        'USER': 'postgres',
-        'PASSWORD': 'Theturtle1$',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    'ENGINE': config('LOCAL_DB_ENGINE'),
+    'NAME': config('LOCAL_DB_NAME'),
+    'USER': config('LOCAL_DB_USER'),
+    'PASSWORD': config('LOCAL_DB_PASSWORD'),
+    'HOST': config('LOCAL_DB_HOST'),
+    'PORT': config('LOCAL_DB_PORT'),
     }
 }
 
@@ -137,3 +139,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+# For Environment Variables
+django_heroku.settings(locals())
