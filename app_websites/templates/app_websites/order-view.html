@@ -1,0 +1,24 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section> 
+    <div class="top-bar">
+        <h1>Orders &nbsp;&nbsp;>&nbsp;&nbsp; # {{ order.order_no }} &nbsp;-&nbsp; {{ order.name }} &nbsp;-&nbsp; {{ order.date }}</h1>
+    </div>
+    <div class="content grid">
+        <div class="pod">
+            <h2>Delivery Details</h2>
+            <span>Name: {{ order.name }}</span><br />
+            <span>Address 1: {{ order.address_1 }}</span><br />
+            <span>Address 2: {{ order.address_2 }}</span><br />
+            <span>City: {{ order.city }}</span><br />
+            <span>Postcode: {{ order.postcode }}</span><br />
+            <span>Country: {{ order.country }}</span><br /><br />
+            <span>Phone: {{ order.phone }}</span>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

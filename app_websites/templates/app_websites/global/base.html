@@ -7,20 +7,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie-edge">
 	<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran&display=swap" rel="stylesheet">
 	<title></title>
 </head>
 
 <body>
-    <!-- Add in the Global Header -->
-    {% include 'app_websites/global/header.html' %}
+    <div class="page-container">
+        <div class="sidebar">
 
-    {% block content %}
+            {% include 'app_websites/global/header.html' %}
 
-    {% endblock %}
+            {% include 'app_websites/global/nav.html' %}
+        
+        </div>
+        <div class="main-container">
 
-    <!-- Add in the Global Footer -->
-    {% include 'app_websites/global/footer.html' %}
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+    </div>
 </body>
 
 </html>

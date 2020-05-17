@@ -13,3 +13,6 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.order_no)
+
+    class Meta:
+        ordering = ["-date"]

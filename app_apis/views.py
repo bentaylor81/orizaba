@@ -6,5 +6,5 @@ from app_websites.models import Order
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all().order_by('date')
+    queryset = Order.objects.all().order_by('-date')
     serializer_class = OrderSerializer
