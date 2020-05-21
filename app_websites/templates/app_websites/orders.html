@@ -14,24 +14,28 @@
                     <td class="head">Date</td>
                     <td class="head">Order Number</td>
                     <td class="head">Name</td>
-                    <td class="head">Address</td>
-                    <td class="head">Phone</td>
+                    <td class="head">Delivery Address</td>
+                    <td class="head">Contact</td>
                     <td class="head">View Order</td>
                 </tr>
             {% for order in orders %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="first-col">{{ order.date }}</td>
                     <td>{{ order.order_no }}</td>
-                    <td>{{ order.name }}</td>	
+                    <td>{{ order.delivery_name }}</td>	
                     <td>
-                        {{ order.address_1 }}<br />
-                        {{ order.address_2 }}<br />
-                        {{ order.city }}<br />
-                        {{ order.postcode }}<br />
-                        {{ order.country }}
+                        {{ order.delivery_address_1 }}<br />
+                        {{ order.delivery_address_2 }}<br />
+                        {{ order.delivery_city }}<br />
+                        {{ order.delivery_postcode }}<br />
+                        {{ order.delivery_country }}
                     </td>	
-                    <td>{{ order.phone }}</td>
-                    <td><a href={% url 'order-view' order.id %}>View</a></td>
+                    <td>
+                        {{ order.delivery_phone }}<br />
+                        {{ order.delivery_email }}
+
+                    </td>
+                    <td><a href={% url 'order-view' order.order_id %}>View</a></td>
             {% endfor %}
         {% endif %}
     </div>

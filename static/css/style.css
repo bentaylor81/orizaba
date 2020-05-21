@@ -1,20 +1,21 @@
 /* Global Container*/
 body { background: #eff3f6; font-family: 'Catamaran', sans-serif; font-size: 14px; line-height: 22px; color: #222; margin: 0; }
 header { background: #222; padding: 20px; color: #fff; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; }
+.grid { display: grid; grid-template-columns: 2fr 1fr; }
 .page-container { display: grid; grid-template-columns: 200px 1fr; min-height:100vh; }
 .sidebar { min-height: calc(100vh - 171px); background: #191919; }
 .main-container { min-height: 100vh; }
 .top-bar { padding: 30px; border-bottom: 1px solid #e1e2e4; background: #fff; }
-.content { padding: 40px 30px;  }
-.pod { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px;  }
-.pod h2 { margin-bottom: 20px; }
+.pod { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px; margin-bottom: 20px; }
+.col-2 { display: grid; grid-template-columns: 1fr 1fr; }
+
 
 /* Main Styles */
 h1, h2 { padding: 0px; margin: 0px;  }
 a {	color: #368cd7; text-decoration: none; font-weight: bold; }
 .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center;  }
 .alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
+.pod h2 { margin-bottom: 20px; }
 
 /* Header */
 header .logo { font-size: 22px; color: #fff; margin-bottom: 20px; }
@@ -40,3 +41,6 @@ nav ul li { padding: 2px 20px 0px 20px; display: inline-block; }
 nav ul a { line-height: 50px; display: block; padding-left: 6px; border-bottom: 1px solid #333;  }
 nav ul a:hover { background: #333; border-left: 6px solid #368cd7; padding-left: 0px;  }
 nav a { color: #ddd;}
+
+/* Order Page */
+#order .content { padding: 30px; display: grid; grid-template-columns: 2fr 1fr; }

@@ -14,7 +14,11 @@ def orders(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def order_view(request, id):
+        sub_total = 1
+
         context = {
-                'order' : Order.objects.get(pk=id),  
+                'order' : Order.objects.get(order_id=id),
+                'order_items' : OrderItem.objects.filter(order_id=id),
+                'sub_total' : sub_total,
                 }
         return render(request, 'app_websites/order-view.html', context )
