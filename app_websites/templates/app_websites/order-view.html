@@ -54,23 +54,35 @@
                         <td>{{ order_item.product_id.location }}</td>
                     </tr>
                 {% endfor %}
-                    <tr>
+                    <tr class="row_dark_2">
                         <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>{{ sub_total }}</td>
+                        <td>Items Total&nbsp;</td>
+                        <td>£{{ items_total }}</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="first-col" colspan="3">&nbsp;</td>
                         <td>Postage</td>
-                        <td>£{{ order.delivery_price }}</td>
+                        <td>£{{ postage }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first-col" colspan="3">&nbsp;</td>
+                        <td>Total Ex. Vat</td>
+                        <td>£{{ total_ex_vat }}</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>Total Price</td>
-                        <td>{{ total_price }}</td>
+                        <td>VAT</td>
+                        <td>£{{ vat }}</td>
                         <td>&nbsp;</td>
+                    </tr>
+                    <tr class="row_dark">
+                        <td class="first-col last" colspan="3">&nbsp;</td>
+                        <td class="last">Total Inc. VAT</td>
+                        <td class="last">£{{ total_inc_vat }}</td>
+                        <td class="last">&nbsp;</td>
                     </tr>
                 </table>
                 <br /><br />

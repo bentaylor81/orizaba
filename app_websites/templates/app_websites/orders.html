@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<section> 
+<section id="orders"> 
     <div class="top-bar">
         <h1>Orders</h1>
     </div>
@@ -33,10 +33,11 @@
                     <td>
                         {{ order.delivery_phone }}<br />
                         {{ order.delivery_email }}
-
                     </td>
                     <td><a href={% url 'order-view' order.order_id %}>View</a></td>
+                </tr>
             {% endfor %}
+            </table>
         {% endif %}
     </div>
 </section>

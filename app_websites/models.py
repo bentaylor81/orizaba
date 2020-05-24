@@ -2,7 +2,7 @@ from django.db import models
 
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)
-    order_no = models.IntegerField(blank=True, default=0)
+    order_no = models.CharField(max_length=10, blank=True)
     billing_name = models.CharField(max_length=200, blank=True) 
     billing_address_1 = models.CharField(max_length=200, blank=True)
     billing_address_2 = models.CharField(max_length=200, blank=True)
