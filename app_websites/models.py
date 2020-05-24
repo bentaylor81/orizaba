@@ -31,9 +31,9 @@ class Order(models.Model):
         ordering = ["-date"]
 
 class OrderItem(models.Model):
-    orderitem_id = models.AutoField(primary_key=True)
+    orderitem_id = models.IntegerField(primary_key=True)
     order_id = models.IntegerField(blank=True, default=0)
-    product_id = models.IntegerField(blank=True, default=0)
+    product_id = models.ForeignKey('product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
