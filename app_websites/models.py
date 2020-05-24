@@ -44,6 +44,20 @@ class OrderItem(models.Model):
     class Meta:
         ordering = ["order_id"]
 
+class OrderLine(models.Model):
+    orderitem_id = models.IntegerField(primary_key=True)
+    order_id = models.IntegerField(blank=True)
+    product_id = models.IntegerField(blank=True)
+    item_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
+    item_qty = models.IntegerField(blank=True) 
+    total_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
+
+    def __str__(self):
+        return str(self.order_id)
+
+    class Meta:
+        ordering = ["order_id"]
+
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
     product_name = models.CharField(max_length=200, blank=True)	
