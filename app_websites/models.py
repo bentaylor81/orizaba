@@ -32,11 +32,11 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     orderitem_id = models.IntegerField(primary_key=True)
-    order_id = models.IntegerField(blank=True, default=0)
-    product_id = models.ForeignKey('product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
-    item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    item_qty = models.IntegerField(blank=True, default=0) 
-    total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    order_id = models.IntegerField(blank=True)
+    product_id = models.IntegerField(blank=True)
+    item_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
+    item_qty = models.IntegerField(blank=True) 
+    total_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
 
     def __str__(self):
         return str(self.order_id)
