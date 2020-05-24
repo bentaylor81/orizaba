@@ -5,7 +5,9 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'order', views.OrderViewSet)
 router.register(r'orderitem', views.OrderItemViewSet)
+router.register(r'orderline', views.OrderLineViewSet)
 router.register(r'product', views.ProductViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),
