@@ -39,7 +39,7 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return str(self.order_id) + ' | ' + str(self.product)
+        return str(self.order_id)
 
     class Meta:
         ordering = ["order_id"]
