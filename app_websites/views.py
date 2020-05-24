@@ -33,3 +33,11 @@ def order_view(request, id):
                 'total_inc_vat' : total_inc_vat,
                 }
         return render(request, 'app_websites/order-view.html', context )
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def products(request):
+        context = { 
+                'products' : Product.objects.all(),
+                }
+        return render(request, 'app_websites/products.html', context )

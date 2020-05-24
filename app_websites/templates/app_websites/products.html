@@ -1,0 +1,42 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="orders"> 
+    <div class="top-bar">
+        <h1>Orders</h1>
+    </div>
+    <div class="content">
+        {% if products %}	
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="head">Product ID</td>
+                    <td class="head">Product Name</td>
+                    <td class="head">SKU</td>
+                    <td class="head">Price</td>
+                    <td class="head">Weight</td>
+                    <td class="head">Location</td>
+                    <td class="head">Brand</td>
+                    <td class="head">Supplier</td>
+                    <td class="head">URL</td>
+                </tr>
+            {% for product in products %}	
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td class="first-col">{{ product.product_id }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.sku }}</td>	
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.weight }}</td>	
+                    <td>{{ product.location }}</td>
+                    <td>{{ product.brand }}</td>	
+                    <td>{{ product.supplier }}</td>	
+                    <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
