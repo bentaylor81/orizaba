@@ -1,5 +1,19 @@
 from django.db import models
 
+class OrderItem(models.Model):
+    orderitem_id = models.IntegerField(primary_key=True)
+    order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
+    product_id = models.ForeignKey('product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
+    item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    item_qty = models.IntegerField(blank=True, default=0) 
+    total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+
+    def __str__(self):
+        return str(self.order_id)
+
+    class Meta:
+        ordering = ["order_id"]
+
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)
     order_no = models.CharField(max_length=10, blank=True)
@@ -29,34 +43,6 @@ class Order(models.Model):
 
     class Meta:
         ordering = ["-date"]
-
-class OrderItem(models.Model):
-    orderitem_id = models.IntegerField(primary_key=True)
-    order_id = models.IntegerField(blank=True)
-    product_id = models.IntegerField(blank=True)
-    item_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
-    item_qty = models.IntegerField(blank=True) 
-    total_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
-
-    def __str__(self):
-        return str(self.order_id)
-
-    class Meta:
-        ordering = ["order_id"]
-
-class OrderLine(models.Model):
-    orderitem_id = models.IntegerField(primary_key=True)
-    order_id = models.IntegerField(blank=True)
-    product_id = models.IntegerField(blank=True)
-    item_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
-    item_qty = models.IntegerField(blank=True) 
-    total_price = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
-
-    def __str__(self):
-        return str(self.order_id)
-
-    class Meta:
-        ordering = ["order_id"]
 
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
