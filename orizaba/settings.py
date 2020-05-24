@@ -77,6 +77,8 @@ WSGI_APPLICATION = 'orizaba.wsgi.application'
 
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
