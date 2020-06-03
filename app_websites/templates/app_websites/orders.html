@@ -9,35 +9,83 @@
     </div>
     <div class="content">
         {% if orders %}	
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td class="head">Date</td>
-                    <td class="head">Order Number</td>
-                    <td class="head">Name</td>
-                    <td class="head">Delivery Address</td>
-                    <td class="head">Contact</td>
-                    <td class="head">View Order</td>
-                </tr>
-            {% for order in orders %}	
-                <tr class="{% cycle 'row1' 'row2' %}">
-                    <td class="first-col">{{ order.date }}</td>
-                    <td>{{ order.order_no }}</td>
-                    <td>{{ order.delivery_name }}</td>	
-                    <td>
-                        {{ order.delivery_address_1 }}<br />
-                        {{ order.delivery_address_2 }}<br />
-                        {{ order.delivery_city }}<br />
-                        {{ order.delivery_postcode }}<br />
-                        {{ order.delivery_country }}
-                    </td>	
-                    <td>
-                        {{ order.delivery_phone }}<br />
-                        {{ order.delivery_email }}
-                    </td>
-                    <td><a href={% url 'order-view' order.order_id %}>View</a></td>
-                </tr>
-            {% endfor %}
-            </table>
+            <div class="filter">
+                <form method="get">
+                    {{ orderFilter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="pagination">
+                {% if orders.has_previous %}
+                    <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="?page={{ orders.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
+                {% endif %}
+                <span class="page-block">
+                {% for num in orders.paginator.page_range %}
+                    {% if orders.number == num %}
+                        <span class="page-number page-current">{{ num }}</span>
+                    {% elif num > orders.number|add:'-5' and num < orders.number|add:'5' %}
+                        <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                </span>
+                {% if orders.has_next %}
+                    <a href="?page={{ orders.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="?page={{ orders.paginator.num_pages }}">End</a>
+                {% endif %}
+            </div>
+            <div>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="head">Date</td>
+                        <td class="head">Order Number</td>
+                        <td class="head">Contact Details</td>
+                        <td class="head">Delivery Address</td>
+                        <td class="head">View Order</td>
+                    </tr>
+                {% for order in orders %}	
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td class="first-col">
+                            {{ order.date|date:"d M Y" }}<br />
+                            {{ order.date|time:"H:i:s" }}
+                        </td>
+                        <td>{{ order.order_no }}</td>
+                        <td>
+                            <b>{{ order.delivery_name }}</b><br />
+                            {{ order.delivery_phone }}<br />
+                            {{ order.delivery_email }}
+                        </td>	
+                        <td>
+                            {{ order.delivery_address_1 }}<br />
+                            {{ order.delivery_address_2 }}<br />
+                            {{ order.delivery_city }}<br />
+                            {{ order.delivery_postcode }}<br />
+                            {{ order.delivery_country }}
+                        </td>	
+                        <td><a href={% url 'order-view' order.order_no %}>View</a></td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+            <div class="pagination">
+                {% if orders.has_previous %}
+                    <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="?page={{ orders.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
+                {% endif %}
+                <span class="page-block">
+                {% for num in orders.paginator.page_range %}
+                    {% if orders.number == num %}
+                        <span class="page-number page-current">{{ num }}</span>
+                    {% elif num > orders.number|add:'-5' and num < orders.number|add:'5' %}
+                        <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                    {% endif %}
+                {% endfor %}
+                </span>
+                {% if orders.has_next %}
+                    <a href="?page={{ order.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="?page={{ orders.paginator.num_pages }}">End</a>
+                {% endif %}
+            <div>
         {% endif %}
     </div>
 </section>

@@ -86,10 +86,47 @@
                     </tr>
                 </table>
                 <br /><br />
-                <b>Website:</b> {{ order.ip_address }}<br />
-                <b>IP Addres:</b> {{ order.website }}
+                <b>Website:</b> {{ order.website }}<br />
+                <b>IP Address:</b> {{ order.ip_address }}
             </div>
         </div>
+        <div>
+            <div class="pod">
+                <h2>Notes</h2>
+                <div class="messages">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="notes">
+                    {% for note in notes %}
+                    <div class="note">
+                        {{ note.note }}
+                        {{ note.order_no.order_no }}<br />
+                        <span class="date">Added by {{ note.added_by }} on {{ note.date }}</span><br />
+                    </div>
+                    {% endfor %}
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="hidden">
+                        <input type="text" name="order_id" value="{{ order.order_id }}">
+                    </div>  
+                    <div class="hidden">
+                        <input type="text" name="added_by" value="{{ current_user.first_name }}">
+                    </div> 
+                    <div>
+                        <textarea type="text" rows="6" cols="80" name="note"></textarea>
+                    </div>
+                    <button type="submit">Add Note</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 </section>
 

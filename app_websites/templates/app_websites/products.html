@@ -31,7 +31,7 @@
                     <td>{{ product.location }}</td>
                     <td>{{ product.brand }}</td>	
                     <td>{{ product.supplier }}</td>	
-                    <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
+                    <td><a href={% url 'product-view' product.product_id %}>Edit</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
                 </tr>
             {% endfor %}
             </table>

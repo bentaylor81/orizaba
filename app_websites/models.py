@@ -1,5 +1,18 @@
 from django.db import models
 
+class OrderNote(models.Model):
+    ordernote_id = models.AutoField(primary_key=True)
+    order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
+    note = models.TextField(blank=False)
+    added_by = models.CharField(max_length=10, blank=True) 
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.ordernote_id) + ' | ' + self.note + ' | ' + self.added_by + ' | ' + str(self.order_id)
+ 
+    class Meta:
+        ordering = ["-date"]
+
 class OrderItem(models.Model):
     orderitem_id = models.IntegerField(primary_key=True)
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
@@ -16,7 +29,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)
-    order_no = models.CharField(max_length=10, blank=True)
+    order_no = models.IntegerField(blank=True)
     billing_name = models.CharField(max_length=200, blank=True) 
     billing_address_1 = models.CharField(max_length=200, blank=True)
     billing_address_2 = models.CharField(max_length=200, blank=True)
@@ -37,6 +50,8 @@ class Order(models.Model):
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+    month = models.CharField(max_length=3, blank=True)  
+    year = models.IntegerField(blank=True) 
 
     def __str__(self):
         return str(self.order_no) + ' | ' + str(self.delivery_name)

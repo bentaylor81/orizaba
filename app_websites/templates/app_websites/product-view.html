@@ -1,0 +1,64 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="product"> 
+    <div class="top-bar">
+        <h1>Product &nbsp;&nbsp;>&nbsp;&nbsp; {{ product.product_name }} &nbsp;-&nbsp; {{ product.sku }}</h1>
+    </div>
+    <div class="content">
+        <div class="pod col-2">
+            <div>
+                <h2>Product Details</h2>
+                <span>Product Name: {{ product.product_name }}</span><br />
+                <span>SKU: {{ product.sku }}</span><br />
+                <span>Price: {{ product.price }}</span><br />
+                <span>Weight: {{ product.weight }}</span><br />
+                <span>Location: {{ product.location }}</span><br />
+                <span>Brand: {{ product.brand }}</span><br />
+                <span>Supplier: {{ product.supplier }}</span><br />
+                <span>Live Link: <a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">gardentractorspares.co.uk/{{ product.url }}</a></span><br />
+            </div>
+            <div>
+                Large Image
+            </div>
+        </div>
+        <div class="pod col-2">
+            <div>
+                <h2>Previous Orders</h2>
+                {% if product_orders %}
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="head">Purchase Date</td>
+                        <td class="head">Customer Name</td>
+                        <td class="head">Item Price</td>
+                        <td class="head">Quantity</td>
+                        <td class="head">Total Price</td>
+                    </tr>
+                    {% for product_order in product_orders %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td class="first-col">{{ product_order.order_id.date }}</td>
+                        <td>{{ product_order.order_id.billing_name }}</td>
+                        <td>£{{ product_order.item_price }}</td>
+                        <td>{{ product_order.item_qty }}</td>
+                        <td>£{{ product_order.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                    This product hasn't yet been purchased 
+                {% endif %}
+            </div>
+            <div>
+                <h2>Product Statistics</h2>
+                <span>Total Purchased: {{ product_orders.count }}</span><br />
+                <span>Total Revenue: £{{ product_total_price }}</span><br />
+                <br />
+                Annual Stats
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
