@@ -11,26 +11,19 @@
     {% for supplier in suppliers %}
         <div class="pod">
             <h2>{{ supplier.supplier }}</h2>
-            <div>
-                <h3>Stock Information</h3>
-                <ul>
-                    <li>Number of Items: </li>
-                    <li>Quantity In Stock: </li>
-                    <li>Total Purchase Price: </li>
-                    <li>Total Sell Price: </lil>
-                </ul>
+            {% for product in supplier.product_set.all %}
+            <div class="total-products">
+            {% if forloop.revcounter == 1 %}
+                <a href="{% url 'supplier-view' supplier.supplier %}"><span>Total Products: {{ forloop.counter }}</span></a>
+            {% endif %}
             </div>
-            <div>
-                <h3>Sales Information</h3>
-                <ul>
-                    <li>Average Buy Prices: </li>
-                    <li>Average Sell Price: </li>
-                    <li>Average % Margin: </li>
-                </ul>
-            </div>
+            {% endfor %}
         </div>
     {% endfor %}
     </div>
+    <div class="content">
+       
+        </div>
 </section>
 
 {% endblock %}

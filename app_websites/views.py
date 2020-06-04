@@ -87,10 +87,10 @@ def products(request):
 def product_view(request, id):
 
     context = { 
-            'product' : Product.objects.get(product_id=id),
-            'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
-            'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum']
-            }
+        'product' : Product.objects.get(product_id=id),
+        'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
+        'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum']
+        }
     return render(request, 'app_websites/product-view.html', context )
 
 @login_required(login_url='login')
@@ -99,8 +99,22 @@ def suppliers(request):
 
     context = { 
         'suppliers' : Supplier.objects.all(),
+        'products' : Product.objects.all().order_by('supplier'),
         }
     return render(request, 'app_websites/suppliers.html', context )
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def supplier_view(request, path):
+
+    product_count = Product.objects.filter(supplier__supplier=path).count()
+
+    context = { 
+            'supplier' : Supplier.objects.get(supplier=path),
+            'products' : Product.objects.filter(supplier__supplier=path).order_by('price'),
+            'product_count' : product_count,
+           }
+    return render(request, 'app_websites/supplier-view.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

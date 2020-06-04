@@ -1,0 +1,54 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="supplier"> 
+    <div class="top-bar">
+        <h1>Supplier &nbsp;&nbsp;>&nbsp;&nbsp; {{ supplier.supplier }}</h1>
+    </div>
+    <div class="content">
+        <div class="pod summary">
+            <h2>Supplier Details</h2>
+            Number of Products: <span>{{ product_count }}</span><br />
+            {% for product in products %}
+                {% if forloop.counter == 1 %}
+                Cheapest Product: <span>£{{ product.price }} - {{ product.product_name }}</span><br /> 
+                {% elif forloop.revcounter == 1 %}
+                Most expensive Product: <span>£{{ product.price }} - {{ product.product_name }} </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="pod">
+            <h2>{{ supplier.supplier }} Products</h2>
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="head col-80">Product ID</td>
+                    <td class="head">Product Name</td>
+                    <td class="head col-80">SKU</td>
+                    <td class="head col-60">Price</td>
+                    <td class="head col-60">Weight</td>
+                    <td class="head col-140">Location</td>
+                    <td class="head col-140">Brand</td>
+                    <td class="head col-120">QTY in Stock</td>
+                    <td class="head col-80">URL</td>
+                </tr>
+            {% for product in products %}	
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td class="first-col">{{ product.product_id }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.sku }}</td>	
+                    <td>£{{ product.price }}</td>
+                    <td>{{ product.weight }}</td>	
+                    <td>{{ product.location }}</td>
+                    <td>{{ product.brand }}</td>
+                    <td>#####</td>	
+                    <td><a href={% url 'product-view' product.product_id %}>Edit</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
