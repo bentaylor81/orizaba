@@ -38,7 +38,7 @@
                     </tr>
                     {% for product_order in product_orders %}
                     <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">{{ product_order.order_id.date }}</td>
+                        <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
                         <td>{{ product_order.order_id.billing_name }}</td>
                         <td>£{{ product_order.item_price }}</td>
                         <td>{{ product_order.item_qty }}</td>

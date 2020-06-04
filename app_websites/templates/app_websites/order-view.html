@@ -107,7 +107,7 @@
                     <div class="note">
                         {{ note.note }}
                         {{ note.order_no.order_no }}<br />
-                        <span class="date">Added by {{ note.added_by }} on {{ note.date }}</span><br />
+                        <span class="date">Added by {{ note.added_by }} on {{ note.date|date:"d M Y" }}</span><br />
                     </div>
                     {% endfor %}
                 </div>

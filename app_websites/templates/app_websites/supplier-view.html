@@ -1,4 +1,5 @@
 {% extends 'app_websites/global/base.html' %}
+{% load humanize %}
 {% load static %}
 
 {% block content %}
@@ -10,9 +11,9 @@
     <div class="content">
         <div class="pod summary">
             <h2>Supplier Details</h2>
-            Number of Products: <span>{{ product_count }}</span><br />
+            Number of Products: <span>{{ product_count|intcomma }}</span><br />
             Cheapest Product: <span>£{{ cheap_product.price }} - {{ cheap_product.product_name }}</span><br />
-            Most expensive Product: <span>£{{ expen_product.price }} - {{ expen_product.product_name }}</span><br />
+            Most expensive Product: <span>£{{ expen_product.price|intcomma }} - {{ expen_product.product_name }}</span><br />
         </div>
         <div class="pod">
             <h2>{{ supplier.supplier }} Products</h2>
