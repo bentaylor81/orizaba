@@ -78,6 +78,7 @@ class Product(models.Model):
         
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
+    path = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.supplier
@@ -87,6 +88,7 @@ class Supplier(models.Model):
 
 class Brand(models.Model):
     brand = models.CharField(max_length=200, primary_key=True)
+    path = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.brand
