@@ -61,7 +61,7 @@ nav a { color: #ddd;}
 .filter { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px; margin-bottom: 20px;   }
 .filter label { font-weight: bold; margin-right: 10px; }
 .filter input { margin-right: 20px; line-height: 22px; padding: 0px 5px; }
-.filter select { margin-right: 20px;s padding: 4px 5px; }
+.filter select { margin-right: 20px; padding: 4px 5px; }
 .filter button { line-height: 22px; width: 80px; }
 
 /* Pagination */
