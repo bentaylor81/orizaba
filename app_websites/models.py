@@ -66,8 +66,8 @@ class Product(models.Model):
     price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)	
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
-    brand = models.CharField(max_length=200, blank=True)	
-    supplier = models.CharField(max_length=200, blank=True)	
+    brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
+    supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
@@ -76,3 +76,20 @@ class Product(models.Model):
     class Meta:
         ordering = ["product_id"]
         
+class Supplier(models.Model):
+    supplier = models.CharField(max_length=200, primary_key=True)
+
+    def __str__(self):
+        return self.supplier
+
+    class Meta:
+        ordering = ["supplier"]
+
+class Brand(models.Model):
+    brand = models.CharField(max_length=200, primary_key=True)
+
+    def __str__(self):
+        return self.brand
+
+    class Meta:
+        ordering = ["brand"]

@@ -1,0 +1,36 @@
+{% extends 'app_websites/global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="brands"> 
+    <div class="top-bar">
+        <h1>Brands</h1>
+    </div>
+    <div class="content">
+    {% for brand in brands %}
+        <div class="pod">
+            <h2>{{ brand.brand }}</h2>
+            <div>
+                <h3>Brand Information</h3>
+                <ul>
+                    <li>Number of Items: </li>
+                    <li>Quantity In Stock: </li>
+                    <li>Total Purchase Price: </li>
+                    <li>Total Sell Price: </lil>
+                </ul>
+            </div>
+            <div>
+                <h3>Sales Information</h3>
+                <ul>
+                    <li>Average Buy Prices: </li>
+                    <li>Average Sell Price: </li>
+                    <li>Average % Margin: </li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

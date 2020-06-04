@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Sum
 from .models import *
-from .filters import OrderFilter
+from .filters import *
 from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
@@ -12,21 +12,21 @@ from django.contrib import messages
 @allowed_users(allowed_roles=['admin'])
 def orders(request):
 
-        orders = Order.objects.all()
-        # Order Filtering
-        orderFilter = OrderFilter(request.GET, queryset=orders)
-        orders = orderFilter.qs
-        # Order Pagination
-        paginator = Paginator(orders, 20)
-        page = request.GET.get('page')
-        orders = paginator.get_page(page)
+    orders = Order.objects.all()
+    # Order Filtering
+    orderFilter = OrderFilter(request.GET, queryset=orders)
+    orders = orderFilter.qs
+    # Order Pagination
+    paginator = Paginator(orders, 20)
+    page = request.GET.get('page')
+    orders = paginator.get_page(page)
 
-        context = { 
-                'orders' : orders,
-                'orderFilter' : OrderFilter()
-                }
-                
-        return render(request, 'app_websites/orders.html', context )
+    context = { 
+        'orders' : orders,
+        'orderFilter' : OrderFilter()
+        }
+            
+    return render(request, 'app_websites/orders.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -40,16 +40,16 @@ def order_view(request, id):
     total_inc_vat = round(float(total_ex_vat) + vat, 2)
 
     context = {
-                'order' : order,
-                'order_items' : OrderItem.objects.filter(order_id__order_no=id),
-                'notes' : OrderNote.objects.filter(order_id__order_no=id),
-                'items_total' : items_total,
-                'postage' : postage,
-                'vat' : vat,
-                'total_ex_vat' : total_ex_vat,
-                'total_inc_vat' : total_inc_vat, 
-                'current_user' : request.user,
-                }
+        'order' : order,
+        'order_items' : OrderItem.objects.filter(order_id__order_no=id),
+        'notes' : OrderNote.objects.filter(order_id__order_no=id),
+        'items_total' : items_total,
+        'postage' : postage,
+        'vat' : vat,
+        'total_ex_vat' : total_ex_vat,
+        'total_inc_vat' : total_inc_vat, 
+        'current_user' : request.user,
+        }
 
     if request.method == 'POST':
         form = OrderNoteForm(request.POST or None)
@@ -67,9 +67,19 @@ def order_view(request, id):
 @allowed_users(allowed_roles=['admin'])
 def products(request):
 
+    products = Product.objects.all()
+    # Product Filtering
+    productFilter = ProductFilter(request.GET, queryset=products)
+    products = productFilter.qs
+    # Product Pagination
+    paginator = Paginator(products, 20)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
     context = { 
-            'products' : Product.objects.all(),
-            }
+        'products' : products,
+        'productFilter' : ProductFilter()
+        }
     return render(request, 'app_websites/products.html', context )
 
 @login_required(login_url='login')
@@ -82,3 +92,21 @@ def product_view(request, id):
             'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum']
             }
     return render(request, 'app_websites/product-view.html', context )
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def suppliers(request):
+
+    context = { 
+        'suppliers' : Supplier.objects.all(),
+        }
+    return render(request, 'app_websites/suppliers.html', context )
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def brands(request):
+
+    context = { 
+        'brands' : Brand.objects.all(),
+        }
+    return render(request, 'app_websites/brands.html', context )

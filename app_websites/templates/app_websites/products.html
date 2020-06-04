@@ -3,30 +3,58 @@
 
 {% block content %}
 
-<section id="orders"> 
+<section id="products"> 
     <div class="top-bar">
-        <h1>Orders</h1>
+        <h1>Products</h1>
     </div>
     <div class="content">
-        {% if products %}	
+        {% if products %}
+        <div class="filter">
+            <form method="get">
+                {{ productFilter.form }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        {% if products.paginator.num_pages > 1 %}
+        <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
+            {% endif %}
+            <span class="page-block">
+            {% for num in products.paginator.page_range %}
+                {% if products.number == num %}
+                    <span class="page-number page-current">{{ num }}</span>
+                {% elif num > products.number|add:'-5' and num < products.number|add:'5' %}
+                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                {% endif %}
+            {% endfor %}
+            </span>
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.paginator.num_pages }}">End</a>
+            {% endif %}
+        </div>
+        {% endif %}	
+        <div class="products">
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td class="head">Product ID</td>
+                    <td class="head col-80">Product ID</td>
                     <td class="head">Product Name</td>
-                    <td class="head">SKU</td>
-                    <td class="head">Price</td>
-                    <td class="head">Weight</td>
-                    <td class="head">Location</td>
-                    <td class="head">Brand</td>
-                    <td class="head">Supplier</td>
-                    <td class="head">URL</td>
+                    <td class="head col-80">SKU</td>
+                    <td class="head col-60">Price</td>
+                    <td class="head col-60">Weight</td>
+                    <td class="head col-140">Location</td>
+                    <td class="head col-140">Brand</td>
+                    <td class="head col-120">Supplier</td>
+                    <td class="head col-80">URL</td>
                 </tr>
             {% for product in products %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="first-col">{{ product.product_id }}</td>
                     <td>{{ product.product_name }}</td>
                     <td>{{ product.sku }}</td>	
-                    <td>{{ product.price }}</td>
+                    <td>£{{ product.price }}</td>
                     <td>{{ product.weight }}</td>	
                     <td>{{ product.location }}</td>
                     <td>{{ product.brand }}</td>	
@@ -35,7 +63,29 @@
                 </tr>
             {% endfor %}
             </table>
+        </div>
+        {% if products.paginator.num_pages > 1 %}
+        <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
+            {% endif %}
+            <span class="page-block">
+            {% for num in products.paginator.page_range %}
+                {% if products.number == num %}
+                    <span class="page-number page-current">{{ num }}</span>
+                {% elif num > products.number|add:'-5' and num < products.number|add:'5' %}
+                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                {% endif %}
+            {% endfor %}
+            </span>
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.paginator.num_pages }}">End</a>
+            {% endif %}
+        </div>
         {% endif %}
+    {% endif %}
     </div>
 </section>
 
