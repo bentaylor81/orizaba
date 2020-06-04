@@ -14,7 +14,7 @@
             {% for product in supplier.product_set.all %}
             <div class="total-products">
             {% if forloop.revcounter == 1 %}
-                <a href="{% url 'supplier-view' supplier.supplier %}"><span>Total Products: {{ forloop.counter }}</span></a>
+                <a href="{% url 'supplier-view' supplier.path %}"><span>Total Products: {{ forloop.counter }}</span></a>
             {% endif %}
             </div>
             {% endfor %}

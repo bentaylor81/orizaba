@@ -108,11 +108,11 @@ def suppliers(request):
 def supplier_view(request, path):
 
     context = { 
-            'supplier' : Supplier.objects.get(supplier=path),
-            'products' : Product.objects.filter(supplier__supplier=path).order_by('price'),
-            'cheap_product' : Product.objects.filter(supplier__supplier=path).order_by('price')[0],
-            'expen_product' : Product.objects.filter(supplier__supplier=path).order_by('-price')[0],
-            'product_count' : Product.objects.filter(supplier__supplier=path).count(),
+            'supplier' : Supplier.objects.get(path=path),
+            'products' : Product.objects.filter(supplier__path=path).order_by('price'),
+            'cheap_product' : Product.objects.filter(supplier__path=path).order_by('price')[0],
+            'expen_product' : Product.objects.filter(supplier__path=path).order_by('-price')[0],
+            'product_count' : Product.objects.filter(supplier__path=path).count(),
            }
     return render(request, 'app_websites/supplier-view.html', context )
 
