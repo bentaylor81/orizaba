@@ -11,13 +11,8 @@
         <div class="pod summary">
             <h2>Supplier Details</h2>
             Number of Products: <span>{{ product_count }}</span><br />
-            {% for product in products %}
-                {% if forloop.counter == 1 %}
-                Cheapest Product: <span>£{{ product.price }} - {{ product.product_name }}</span><br /> 
-                {% elif forloop.revcounter == 1 %}
-                Most expensive Product: <span>£{{ product.price }} - {{ product.product_name }} </span>
-                {% endif %}
-            {% endfor %}
+            Cheapest Product: <span>£{{ cheap_product.price }} - {{ cheap_product.product_name }}</span><br />
+            Most expensive Product: <span>£{{ expen_product.price }} - {{ expen_product.product_name }}</span><br />
         </div>
         <div class="pod">
             <h2>{{ supplier.supplier }} Products</h2>

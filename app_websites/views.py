@@ -107,12 +107,13 @@ def suppliers(request):
 @allowed_users(allowed_roles=['admin'])
 def supplier_view(request, path):
 
-    product_count = Product.objects.filter(supplier__supplier=path).count()
-
     context = { 
             'supplier' : Supplier.objects.get(supplier=path),
             'products' : Product.objects.filter(supplier__supplier=path).order_by('price'),
-            'product_count' : product_count,
+            'cheap_product' : Product.objects.filter(supplier__supplier=path).order_by('price')[0],
+            'expen_product' : Product.objects.filter(supplier__supplier=path).order_by('-price')[0],
+            'product_count' : Product.objects.filter(supplier__supplier=path).count(),
+
            }
     return render(request, 'app_websites/supplier-view.html', context )
 
