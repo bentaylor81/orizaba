@@ -97,20 +97,20 @@ DATABASES = {
 #DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
 # Comment out when pushing to production / Uncomment to use the Local DB
-#db_from_env = dj_database_url.config(conn_max_age=600)
-#DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Local Database Settings
-#DATABASES = {
-#   'default': {
-#   'ENGINE': config('LOCAL_DB_ENGINE'),
-#   'NAME': config('LOCAL_DB_NAME'),
-#   'USER': config('LOCAL_DB_USER'),
-#   'PASSWORD': config('LOCAL_DB_PASSWORD'),
-#   'HOST': config('LOCAL_DB_HOST'),
-#   'PORT': config('LOCAL_DB_PORT'),
-#   }
-#}
+DATABASES = {
+   'default': {
+   'ENGINE': config('LOCAL_DB_ENGINE'),
+   'NAME': config('LOCAL_DB_NAME'),
+   'USER': config('LOCAL_DB_USER'),
+   'PASSWORD': config('LOCAL_DB_PASSWORD'),
+   'HOST': config('LOCAL_DB_HOST'),
+   'PORT': config('LOCAL_DB_PORT'),
+   }
+}
  
 
 

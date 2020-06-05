@@ -62,8 +62,10 @@ class Order(models.Model):
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
     product_name = models.CharField(max_length=200, blank=True)	
-    sku = models.CharField(max_length=200, blank=True)	
-    price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)	
+    sku = models.CharField(max_length=200, blank=True)
+    sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    stock_qty = models.IntegerField(blank=True, default=0) 	
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
