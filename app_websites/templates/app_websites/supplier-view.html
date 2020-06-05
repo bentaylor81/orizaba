@@ -34,7 +34,7 @@
                     <td class="first-col">{{ product.product_id }}</td>
                     <td>{{ product.product_name }}</td>
                     <td>{{ product.sku }}</td>	
-                    <td>£{{ product.price }}</td>
+                    <td>£{{ product.price|intcomma }}</td>
                     <td>{{ product.weight }}</td>	
                     <td>{{ product.location }}</td>
                     <td>{{ product.brand }}</td>
