@@ -15,3 +15,13 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
         fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'brand', 'supplier', 'url')
+
+class SupplierSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = ('supplier')
+
+class BrandSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Brand
+        fields = ('brand')
