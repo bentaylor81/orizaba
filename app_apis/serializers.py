@@ -14,7 +14,7 @@ class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'brand', 'supplier', 'url')
+        fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'supplier', 'url')
 
 class SupplierSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -24,4 +24,4 @@ class SupplierSerializer(serializers.HyperlinkedModelSerializer):
 class BrandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Brand
-        fields = ('brand')
+        fields = ('__all__')
