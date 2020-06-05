@@ -72,8 +72,8 @@
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
                     <td>{{ product.sku }}</td>	
-                    <td class="highlight">#####</td>
-                    <td class="highlight">£{{ product.price|intcomma }}</td>
+                    <td class="highlight">£{{ product.buy_price|intcomma }}</td>
+                    <td class="highlight">£{{ product.sell_price|intcomma }}</td>
                     <td class="highlight">#####</td>
                     <td class="highlight">#####</td>
                     <td>{{ product.weight|floatformat:2 }}</td>
