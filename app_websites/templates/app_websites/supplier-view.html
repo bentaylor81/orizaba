@@ -15,8 +15,8 @@
         <div class="pod summary">
             <h2>Supplier Details</h2>
             Number of Products: <span>{{ product_count|intcomma }}</span><br />
-            Cheapest Product: <span>£{{ cheap_product.price }} - {{ cheap_product.product_name }}</span><br />
-            Most expensive Product: <span>£{{ expen_product.price|intcomma }} - {{ expen_product.product_name }}</span><br />
+            Cheapest Product: <span>£{{ cheap_product.sell_price }} - {{ cheap_product.product_name }}</span><br />
+            Most expensive Product: <span>£{{ expen_product.sell_price|intcomma }} - {{ expen_product.product_name }}</span><br />
         </div>
 
         <!-- SUPPLIER PRODUCT FILTERS -->
