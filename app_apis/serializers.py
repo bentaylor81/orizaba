@@ -11,17 +11,17 @@ class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
         model = OrderItem
         fields = ('orderitem_id','order_id', 'product_id', 'item_price', 'item_qty', 'total_price')
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'supplier', 'url')
+        fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'brand', 'supplier', 'url')
 
 class SupplierSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Supplier
-        fields = ('supplier')
+        fields = ('supplier', 'path')
 
 class BrandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Brand
-        fields = ('__all__')
+        fields = ('brand', 'path')

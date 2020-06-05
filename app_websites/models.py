@@ -73,7 +73,7 @@ class Product(models.Model):
     url = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name)
+        return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name) + ' | ' + str(self.brand)
 
     class Meta:
         ordering = ["product_id"]
