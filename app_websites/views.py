@@ -98,8 +98,8 @@ def product_view(request, id):
 def suppliers(request):
 
     context = { 
-        'suppliers' : Supplier.objects.all(),
-        'products' : Product.objects.all().order_by('sort_order'),
+        'suppliers' : Supplier.objects.all().order_by('sort_order'),
+        'products' : Product.objects.all(),
         }
     return render(request, 'app_websites/suppliers.html', context )
 
