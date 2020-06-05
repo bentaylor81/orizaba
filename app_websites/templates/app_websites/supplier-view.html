@@ -4,46 +4,86 @@
 
 {% block content %}
 
-<section id="supplier"> 
+<section id="supplier">
+
     <div class="top-bar">
         <h1>Supplier &nbsp;&nbsp;>&nbsp;&nbsp; {{ supplier.supplier }}</h1>
     </div>
     <div class="content">
+
+        <!-- SUPPLIER SUMMARY -->
         <div class="pod summary">
             <h2>Supplier Details</h2>
             Number of Products: <span>{{ product_count|intcomma }}</span><br />
             Cheapest Product: <span>£{{ cheap_product.price }} - {{ cheap_product.product_name }}</span><br />
             Most expensive Product: <span>£{{ expen_product.price|intcomma }} - {{ expen_product.product_name }}</span><br />
         </div>
+
+        <!-- SUPPLIER PRODUCT FILTERS -->
+        
+        <div class="filter">
+            <form method="get">
+                {{ supplierproductFilter.form }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- SUPPLIER PRODUCT PAGINATION -->
+    {% if products %} 
+        {% if products.paginator.num_pages > 1 %}
+        <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
+            {% endif %}
+            <span class="page-block">
+            {% for num in products.paginator.page_range %}
+                {% if products.number == num %}
+                    <span class="page-number page-current">{{ num }}</span>
+                {% elif num > products.number|add:'-5' and num < products.number|add:'5' %}
+                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                {% endif %}
+            {% endfor %}
+            </span>
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ products.paginator.num_pages }}">End</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endif %}
+
+        <!-- SUPPLIER PRODUCTS --> 
         <div class="pod">
             <h2>{{ supplier.supplier }} Products</h2>
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td class="head col-80">Product ID</td>
                     <td class="head">Product Name</td>
                     <td class="head col-80">SKU</td>
-                    <td class="head col-60">Price</td>
+                    <td class="head col-80">Buy Price</td>
+                    <td class="head col-80">Sell Price</td>
+                    <td class="head col-80">QTY in Stock</td>
+                    <td class="head col-80">Profit</td>
                     <td class="head col-60">Weight</td>
-                    <td class="head col-140">Location</td>
                     <td class="head col-140">Brand</td>
-                    <td class="head col-120">QTY in Stock</td>
-                    <td class="head col-80">URL</td>
+                    <td class="head col-140">Location</td>
                 </tr>
             {% for product in products %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <td class="first-col">{{ product.product_id }}</td>
-                    <td>{{ product.product_name }}</td>
+                    <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
                     <td>{{ product.sku }}</td>	
-                    <td>£{{ product.price|intcomma }}</td>
-                    <td>{{ product.weight }}</td>	
+                    <td class="highlight">#####</td>
+                    <td class="highlight">£{{ product.price|intcomma }}</td>
+                    <td class="highlight">#####</td>
+                    <td class="highlight">#####</td>
+                    <td>{{ product.weight }}</td>
+                    <td>{{ product.brand }}</td>	
                     <td>{{ product.location }}</td>
-                    <td>{{ product.brand }}</td>
-                    <td>#####</td>	
-                    <td><a href={% url 'product-view' product.product_id %}>Edit</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
                 </tr>
             {% endfor %}
             </table>
         </div>
+
     </div>
 </section>
 

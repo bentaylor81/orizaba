@@ -107,13 +107,24 @@ def suppliers(request):
 @allowed_users(allowed_roles=['admin'])
 def supplier_view(request, path):
 
+    products = Product.objects.filter(supplier__path=path).order_by('price')
+    # Supplier Product Filtering
+    supplierproductFilter = SupplierProductFilter(request.GET, queryset=products)
+    products = supplierproductFilter.qs
+    # Supplier Product Pagination
+    paginator = Paginator(products, 20)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
     context = { 
         'supplier' : Supplier.objects.get(path=path),
-        'products' : Product.objects.filter(supplier__path=path).order_by('price'),
+        'products' : products,
+        'supplierproductFilter' : SupplierProductFilter(),
         'cheap_product' : Product.objects.filter(supplier__path=path).order_by('price')[0],
         'expen_product' : Product.objects.filter(supplier__path=path).order_by('-price')[0],
         'product_count' : Product.objects.filter(supplier__path=path).count(),
         }
+
     return render(request, 'app_websites/supplier-view.html', context )
 
 @login_required(login_url='login')

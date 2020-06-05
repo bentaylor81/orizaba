@@ -10,3 +10,13 @@ class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = ['sku', 'product_name', 'brand', 'supplier']
+
+class SupplierProductFilter(django_filters.FilterSet):
+    class Meta:
+        model = Product
+        fields = {
+            'sku' : ['contains'],
+            'product_name' : ['contains'], 
+            'brand': ['exact'],
+        }
+

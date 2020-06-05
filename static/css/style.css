@@ -48,6 +48,7 @@ table tr td.col-80 { width: 80px; }
 table tr td.col-100 { width: 100px; }
 table tr td.col-120 { width: 120px; }
 table tr td.col-140 { width: 140px; }
+table tr td.highlight { font-weight: bold; }
 
 /* Navigation */
 nav { background: #191919; padding: 20px 0px; }
