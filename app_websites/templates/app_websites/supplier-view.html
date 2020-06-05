@@ -60,10 +60,10 @@
                 <tr>
                     <td class="head">Product Name</td>
                     <td class="head col-100">SKU</td>
-                    <td class="head col-80">Buy Price</td>
-                    <td class="head col-80">Sell Price</td>
-                    <td class="head col-80">QTY in Stock</td>
-                    <td class="head col-80">Profit</td>
+                    <td class="head col-60">Buy Price</td>
+                    <td class="head col-60">Sell Price</td>
+                    <td class="head col-60">In Stock</td>
+                    <td class="head col-60">Profit</td>
                     <td class="head col-60">Weight</td>
                     <td class="head col-140">Brand</td>
                     <td class="head col-140">Location</td>
@@ -76,7 +76,7 @@
                     <td class="highlight">£{{ product.price|intcomma }}</td>
                     <td class="highlight">#####</td>
                     <td class="highlight">#####</td>
-                    <td>{{ product.weight }}</td>
+                    <td>{{ product.weight|floatformat:2 }}</td>
                     <td>{{ product.brand }}</td>	
                     <td>{{ product.location }}</td>
                 </tr>
