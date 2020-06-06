@@ -4,7 +4,7 @@ from app_websites.models import *
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Order
-        fields = ('order_id', 'order_no', 'billing_name', 'billing_address_1', 'billing_address_2', 'billing_city', 'billing_postcode', 'billing_country', 'billing_email', 'billing_phone', 'delivery_name', 'delivery_address_1', 'delivery_address_2', 'delivery_city', 'delivery_postcode', 'delivery_country', 'delivery_email', 'delivery_phone', 'delivery_price', 'ip_address', 'website', 'date' )
+        fields = ('order_id', 'order_no', 'billing_name', 'billing_address_1', 'billing_address_2', 'billing_city', 'billing_postcode', 'billing_country', 'billing_email', 'billing_phone', 'delivery_name', 'delivery_address_1', 'delivery_address_2', 'delivery_city', 'delivery_postcode', 'delivery_country', 'delivery_email', 'delivery_phone', 'delivery_price', 'ip_address', 'website', 'date', 'month', 'year' )
 
 class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
