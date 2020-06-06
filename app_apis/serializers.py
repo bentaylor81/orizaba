@@ -16,12 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ('product_id', 'product_name', 'sku', 'sell_price', 'buy_price', 'stock_qty', 'weight', 'location', 'brand', 'supplier', 'url')
 
-class SupplierSerializer(serializers.HyperlinkedModelSerializer):
+class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Supplier
-        fields = ('supplier', 'path')
-
-class BrandSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Brand
-        fields = ('brand', 'path')
+        model = Customer
+        fields = ('billing_email')
