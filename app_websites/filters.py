@@ -4,19 +4,28 @@ from .models import *
 class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = Order
-        fields = ['order_no', 'delivery_name', 'delivery_email']
+        fields = {
+            'order_no' : ['contains'],
+            'delivery_name' : ['contains'],
+            'delivery_email' : ['contains'],
+        }
 
 class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
-        fields = ['sku', 'product_name', 'brand', 'supplier']
+        fields = {
+            'product_name' : ['contains'], 
+            'sku' : ['contains'],
+            'brand': ['exact'],
+            'supplier': ['exact'],
+        }
 
 class SupplierProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = {
-            'sku' : ['contains'],
             'product_name' : ['contains'], 
+            'sku' : ['contains'],
             'brand': ['exact'],
         }
 
