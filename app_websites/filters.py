@@ -6,16 +6,16 @@ class OrderFilter(django_filters.FilterSet):
         model = Order
         fields = {
             'order_no' : ['contains'],
-            'delivery_name' : ['contains'],
-            'delivery_email' : ['contains'],
+            'delivery_name' : ['icontains'],
+            'delivery_email' : ['icontains'],
         }
 
 class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = {
-            'product_name' : ['contains'], 
-            'sku' : ['contains'],
+            'product_name' : ['icontains'], 
+            'sku' : ['icontains'],
             'brand': ['exact'],
             'supplier': ['exact'],
         }
@@ -24,8 +24,8 @@ class SupplierProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = {
-            'product_name' : ['contains'], 
-            'sku' : ['contains'],
+            'product_name' : ['icontains'], 
+            'sku' : ['icontains'],
             'brand': ['exact'],
         }
 
