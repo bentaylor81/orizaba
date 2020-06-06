@@ -72,12 +72,13 @@ def products(request):
     productFilter = ProductFilter(request.GET, queryset=products)
     products = productFilter.qs
     # Product Pagination
-    paginator = Paginator(products, 20)
+    paginator = Paginator(products, 50)
     page = request.GET.get('page')
-    products = paginator.get_page(page)
+    items = paginator.get_page(page)
 
     context = { 
         'products' : products,
+        'items' : items,
         'productFilter' : ProductFilter()
         }
     return render(request, 'app_websites/products.html', context )
@@ -112,12 +113,13 @@ def supplier_view(request, path):
     supplierproductFilter = SupplierProductFilter(request.GET, queryset=products)
     products = supplierproductFilter.qs
     # Supplier Product Pagination
-    paginator = Paginator(products, 20)
+    paginator = Paginator(products, 50)
     page = request.GET.get('page')
-    products = paginator.get_page(page)
+    items = paginator.get_page(page)
 
-    context = { 
+    context = {
         'supplier' : Supplier.objects.get(path=path),
+        'items' : items, 
         'products' : products,
         'supplierproductFilter' : SupplierProductFilter(),
         'cheap_product' : Product.objects.filter(supplier__path=path).order_by('sell_price')[0],

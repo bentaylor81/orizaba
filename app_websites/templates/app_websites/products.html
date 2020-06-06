@@ -1,90 +1,64 @@
 {% extends 'app_websites/global/base.html' %}
+{% load humanize %}
 {% load static %}
 
 {% block content %}
 
 <section id="products"> 
+
     <div class="top-bar">
         <h1>Products</h1>
     </div>
+
     <div class="content">
-        {% if products %}
+    {% if products %}
+
+        <!-- SUPPLIER SUMMARY -->
         <div class="filter">
             <form method="get">
                 {{ productFilter.form }}
                 <button type="submit">Search</button>
             </form>
         </div>
-        {% if products.paginator.num_pages > 1 %}
-        <div class="pagination">
-            {% if products.has_previous %}
-                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="?page={{ products.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
-            {% endif %}
-            <span class="page-block">
-            {% for num in products.paginator.page_range %}
-                {% if products.number == num %}
-                    <span class="page-number page-current">{{ num }}</span>
-                {% elif num > products.number|add:'-5' and num < products.number|add:'5' %}
-                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
-                {% endif %}
-            {% endfor %}
-            </span>
-            {% if products.has_next %}
-                <a href="?page={{ products.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="?page={{ products.paginator.num_pages }}">End</a>
-            {% endif %}
-        </div>
-        {% endif %}	
+
+        <!-- PRODUCT PAGINATION -->
+        {% include 'app_websites/global/pagination.html' %}
+
+        <!-- PRODUCTS --> 
         <div class="products">
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td class="head col-80">Product ID</td>
                     <td class="head">Product Name</td>
-                    <td class="head col-80">SKU</td>
-                    <td class="head col-60">Price</td>
+                    <td class="head col-120">SKU</td>
+                    <td class="head col-60">Buy Price</td>
+                    <td class="head col-60">Sell Price</td>
+                    <td class="head col-60">In Stock</td>
+                    <td class="head col-60">Profit</td>
                     <td class="head col-60">Weight</td>
-                    <td class="head col-140">Location</td>
                     <td class="head col-140">Brand</td>
-                    <td class="head col-120">Supplier</td>
-                    <td class="head col-80">URL</td>
+                    <td class="head col-140">Supplier</td>
+                    <td class="head col-140">Location</td>
                 </tr>
-            {% for product in products %}	
+            {% for product in items %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <td class="first-col">{{ product.product_id }}</td>
-                    <td>{{ product.product_name }}</td>
+                    <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
                     <td>{{ product.sku }}</td>	
-                    <td>£{{ product.price }}</td>
+                    <td class="highlight">£{{ product.buy_price|intcomma }}</td>
+                    <td class="highlight">£{{ product.sell_price|intcomma }}</td>
+                    <td class="highlight">{{ product.stock_qty }}</td>
+                    <td class="highlight">#####</td>
                     <td>{{ product.weight }}</td>	
+                    <td>{{ product.brand }}</td>
+                    <td>{{ product.supplier }}</td>		
                     <td>{{ product.location }}</td>
-                    <td>{{ product.brand }}</td>	
-                    <td>{{ product.supplier }}</td>	
-                    <td><a href={% url 'product-view' product.product_id %}>Edit</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">View</a></td>	
                 </tr>
             {% endfor %}
             </table>
         </div>
-        {% if products.paginator.num_pages > 1 %}
-        <div class="pagination">
-            {% if products.has_previous %}
-                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="?page={{ products.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
-            {% endif %}
-            <span class="page-block">
-            {% for num in products.paginator.page_range %}
-                {% if products.number == num %}
-                    <span class="page-number page-current">{{ num }}</span>
-                {% elif num > products.number|add:'-5' and num < products.number|add:'5' %}
-                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
-                {% endif %}
-            {% endfor %}
-            </span>
-            {% if products.has_next %}
-                <a href="?page={{ products.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="?page={{ products.paginator.num_pages }}">End</a>
-            {% endif %}
-        </div>
-        {% endif %}
+
+        <!-- PRODUCT PAGINATION -->
+        {% include 'app_websites/global/pagination.html' %}
+
     {% endif %}
     </div>
 </section>
