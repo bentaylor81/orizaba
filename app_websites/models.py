@@ -51,7 +51,7 @@ class Order(models.Model):
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     month = models.CharField(max_length=3, blank=True)  
-    year = models.IntegerField(blank=True) 
+    year = models.IntegerField(blank=True, default=0) 
 
     def __str__(self):
         return str(self.order_no) + ' | ' + str(self.delivery_name)

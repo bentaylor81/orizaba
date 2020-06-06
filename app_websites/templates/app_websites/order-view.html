@@ -75,13 +75,13 @@
                     <tr>
                         <td class="first-col" colspan="3">&nbsp;</td>
                         <td>VAT</td>
-                        <td>£{{ vat }}</td>
+                        <td>£{{ vat|floatformat:2 }}</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr class="row_dark">
                         <td class="first-col last" colspan="3">&nbsp;</td>
                         <td class="last">Total Inc. VAT</td>
-                        <td class="last">£{{ total_inc_vat }}</td>
+                        <td class="last">£{{ total_inc_vat|floatformat:2 }}</td>
                         <td class="last">&nbsp;</td>
                     </tr>
                 </table>

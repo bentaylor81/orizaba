@@ -113,7 +113,7 @@ def supplier_view(request, path):
     supplierproductFilter = SupplierProductFilter(request.GET, queryset=products)
     products = supplierproductFilter.qs
     # Supplier Product Pagination
-    paginator = Paginator(products, 50)
+    paginator = Paginator(products, 20)
     page = request.GET.get('page')
     items = paginator.get_page(page)
 
@@ -137,3 +137,12 @@ def brands(request):
         'brands' : Brand.objects.all(),
         }
     return render(request, 'app_websites/brands.html', context )
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def customers(request):
+
+    context = { 
+        'customers' : Customer.objects.all(),
+        }
+    return render(request, 'app_websites/customers.html', context )
