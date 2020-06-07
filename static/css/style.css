@@ -1,5 +1,5 @@
 /* Global Container*/
-body { background: #eff3f6; font-family: 'Catamaran', sans-serif; font-size: 14px; color: #222; margin: 0; }
+body { background: #eff3f6; font: 14px 'Roboto'; color: #2f2f2f; margin: 0; }
 header { background: #222; padding: 20px; color: #fff; }
 section .content { padding: 30px; }
 .grid { display: grid; grid-template-columns: 2fr 1fr; }
@@ -10,6 +10,15 @@ section .content { padding: 30px; }
 .pod { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px; margin-bottom: 20px; }
 .col-2 { display: grid; grid-template-columns: 1fr 1fr; }
 .hidden { display: none; }
+
+/* Login Container */
+.login-container { display: grid; grid-template-columns: 1fr 400px 1fr; }
+.login-container .title { font-size: 22px; background: #222; padding: 20px; color: #fff; border-radius: 10px 10px 0px 0px; }
+.login-container form { grid-column: 2/3; border: 1px solid #e1e2e4; margin-top: 200px; background: #fff; border-radius: 10px; }
+.login-container form .fields { padding: 50px; }
+.login-container form div span { display: block; }
+.login-container form input { padding: 6px; width: 280px; }
+.login-container form .button { padding: 6px; width: 100px; }
 
 /* Main Styles */
 h1, h2 { padding: 0px; margin: 0px;  }
@@ -37,7 +46,7 @@ table tr:last-child td:last-child { border-bottom-right-radius: 4px; }
 table tr td.head { background: #444; color: #fff; font-weight: 300; font-weight: bold; border: 0px; }
 table tr td.last { border: 0px; }
 table tr td.sub-cat { background: #555; color: #fff; }
-table tr td { padding: 5px 8px; border-right: 1px solid #bbb; }
+table tr td { padding: 10px 8px; border-right: 1px solid #bbb; }
 table tr td.first-col { border-left: 1px solid #bbb; }
 table tr.row1 { background-color: #eee;  border-radius: 5px 5px 0px 0px;}
 table tr.row2 { background-color: #ddd; }
@@ -98,7 +107,7 @@ nav a { color: #ddd;}
 
 /* Supplier Page */
 #supplier .content { width: 1500px; }
-#supplier .content .summary span { font-size: 20px; }
+#supplier .content .summary span { font-size: 20px; line-height: 28px; }
 
 /* Brands Page */
 #brands .content { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; }

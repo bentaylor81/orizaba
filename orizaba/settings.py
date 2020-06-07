@@ -93,8 +93,8 @@ DATABASES = {
 }
 
 # Comment out when pushing to production / Uncomment to use Live DB locally
-#HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
 # Comment out when pushing to production / Uncomment to use the Local DB
 #db_from_env = dj_database_url.config(conn_max_age=600)
@@ -136,7 +136,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-DATE_FORMAT = "Y-m-d"
+DATE_FORMAT = "d M Y"
+
+DATETIME_FORMAT = "d M Y - H:i:s"
 
 TIME_ZONE = 'UTC'
 

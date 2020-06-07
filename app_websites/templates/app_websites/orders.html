@@ -49,8 +49,7 @@
             {% for order in orders %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="first-col">
-                        {{ order.date|date:"d M Y" }}<br />
-                        {{ order.date|time:"H:i:s" }}
+                        {{ order.date }}
                     </td>
                     <td>{{ order.order_no }}</td>
                     <td>

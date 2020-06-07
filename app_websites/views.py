@@ -8,6 +8,9 @@ from django.core.paginator import Paginator
 from .forms import OrderNoteForm
 from django.contrib import messages
 
+def home(request):
+    return render(request, 'app_websites/orders.html' )
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def orders(request):

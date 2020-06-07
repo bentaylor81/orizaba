@@ -1,16 +1,25 @@
-{% extends 'app_websites/global/base.html' %}
+{% extends 'app_users/global/base.html' %}
 {% load static %}
 
 {% block content %}
 {% for message in messages %}
     {{ message }}
 {% endfor %}
+
 <form method="POST" action="">
-    {% csrf_token %} 
-    <span class="label">Username:</span>
-    <span><input type="text" name="username"></span>
-    <span class="label">Password:</span>
-    <span><input type="password" name="password"></span>
-    <input class="button" type="submit" name="Login">
+    <div class="title">
+        Orizaba Control
+    </div>
+    
+    {% csrf_token %}
+    <div class="fields">
+        <span class="label">Username:</span>
+        <span><input type="text" name="username"></span>
+        <br />
+        <span class="label">Password:</span>
+        <span><input type="password" name="password"></span>
+        <br />
+        <input class="button" type="submit" name="Login">
+    </div>
 </form>
 {% endblock %}
