@@ -21,6 +21,7 @@ class ProductFilter(django_filters.FilterSet):
         }
 
 class SupplierProductFilter(django_filters.FilterSet):
+    
     class Meta:
         model = Product
         fields = {
@@ -28,4 +29,3 @@ class SupplierProductFilter(django_filters.FilterSet):
             'sku' : ['icontains'],
             'brand': ['exact'],
         }
-

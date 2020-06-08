@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from app_websites.models import *
 
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
 
-class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = '__all__'
