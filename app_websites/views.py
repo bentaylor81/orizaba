@@ -121,6 +121,8 @@ def supplier_view(request, path):
     paginator = Paginator(products, 20)
     page = request.GET.get('page')
     items = paginator.get_page(page)
+    # Calculations
+    product_count = Product.objects.filter(supplier__path=path).count()
 
     context = {
         'supplier' : Supplier.objects.get(path=path),
@@ -129,7 +131,7 @@ def supplier_view(request, path):
         'supplierproductFilter' : SupplierProductFilter(),
         'cheap_product' : Product.objects.filter(supplier__path=path).order_by('sell_price')[0],
         'expen_product' : Product.objects.filter(supplier__path=path).order_by('-sell_price')[0],
-        'product_count' : Product.objects.filter(supplier__path=path).count(),
+        'product_count' : product_count,
         }
 
     return render(request, 'app_websites/supplier-view.html', context )

@@ -64,7 +64,10 @@ class Customer(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.billing_email)
+        return str(self.billing_email) + ' | ' + str(self.date)
+
+    class Meta:
+        ordering = ["-date"]
 
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
@@ -73,6 +76,7 @@ class Product(models.Model):
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 	
+    profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
@@ -84,7 +88,16 @@ class Product(models.Model):
 
     class Meta:
         ordering = ["product_id"]
+
+    @property
+    def item_profit(self):
+        return (self.sell_price - self.buy_price) * self.stock_qty
+
+    def save(self, *args, **kwargs):
+        self.profit = self.item_profit
+        super(Product, self).save(*args, **kwargs)
         
+
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
     path = models.CharField(max_length=200, blank=True)
