@@ -10,27 +10,79 @@
     <div class="content">
         <div>
             <div class="pod col-2">
-                <div>
+                <div class="table-2">
                     <h2>Delivery Details</h2>
-                    <span>Name: {{ order.delivery_name }}</span><br />
-                    <span>Address 1: {{ order.delivery_address_1 }}</span><br />
-                    <span>Address 2: {{ order.delivery_address_2 }}</span><br />
-                    <span>City: {{ order.delivery_city }}</span><br />
-                    <span>Postcode: {{ order.delivery_postcode }}</span><br />
-                    <span>Country: {{ order.delivery_country }}</span><br /><br />
-                    <span>Phone: {{ order.delivery_phone }}</span><br />
-                    <span>Email: {{ order.delivery_email }}</span>
+                    <table  cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Name:</th>
+                            <td>{{ order.delivery_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Address:</th>
+                            <td>{{ order.delivery_address_1 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_address_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_city }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_postcode }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_country }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone:</th>
+                            <td>{{ order.delivery_phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td>{{ order.delivery_email }}</td>
+                        </tr>
+                    </table>
                 </div>
-                <div>
+                <div class="table-2">
                     <h2>Billing Details</h2>
-                    <span>Name: {{ order.billing_name }}</span><br />
-                    <span>Address 1: {{ order.billing_address_1 }}</span><br />
-                    <span>Address 2: {{ order.billing_address_2 }}</span><br />
-                    <span>City: {{ order.billing_city }}</span><br />
-                    <span>Postcode: {{ order.billing_postcode }}</span><br />
-                    <span>Country: {{ order.billing_country }}</span><br /><br />
-                    <span>Phone: {{ order.billing_phone }}</span><br />
-                    <span>Email: {{ order.billing_email }}</span>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Name:</th>
+                            <td>{{ order.billing_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Address:</th>
+                            <td>{{ order.billing_address_1 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.billing_address_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.billing_city }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.billing_country }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.billing_country }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone:</th>
+                            <td>{{ order.billing_phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td>{{ order.billing_email.billing_email }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="pod">
@@ -47,7 +99,7 @@
                 {% for order_item in order_items %}
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td class="first-col">{{ order_item.product_id.sku }}</td>
-                        <td>{{ order_item.product_id.product_name }}</td>
+                        <td><a href={% url 'product-view'  order_item.product_id.product_id %}>{{ order_item.product_id.product_name }}</a></td>
                         <td>£{{ order_item.item_price }}</td>
                         <td>{{ order_item.item_qty }}</td>
                         <td>£{{ order_item.total_price }}</td>

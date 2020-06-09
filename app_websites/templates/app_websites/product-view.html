@@ -9,28 +9,94 @@
     </div>
     <div class="content">
         <div class="pod col-2">
-            <div>
+            <div class="table-2">
                 <h2>Product Details</h2>
-                <span>Product Name: {{ product.product_name }}</span><br />
-                <span>SKU: {{ product.sku }}</span><br />
-                <span>Price: {{ product.price }}</span><br />
-                <span>Weight: {{ product.weight }}</span><br />
-                <span>Location: {{ product.location }}</span><br />
-                <span>Brand: {{ product.brand }}</span><br />
-                <span>Supplier: {{ product.supplier }}</span><br />
-                <span>Live Link: <a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">gardentractorspares.co.uk/{{ product.url }}</a></span><br />
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Product:</th>
+                        <td>{{ product.product_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>SKU:</th>
+                        <td>{{ product.sku }}</td>
+                    </tr>
+                    <tr>
+                        <th>Price:</th>
+                        <td>{{ product.sell_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Weight:</th>
+                        <td>{{ product.weight }}</td>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <td>{{ product.location }}</td>
+                    </tr>
+                    <tr>
+                        <th>Brand:</th>
+                        <td>{{ product.brand }}</td>
+                    </tr>
+                    <tr>
+                        <th>Supplier:</th>
+                        <td>{{ product.supplier }}</td>
+                    </tr>
+                    <tr>
+                        <th>Live Link:</th>
+                        <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">gardentractorspares.co.uk/{{ product.url }}</a></td>
+                    </tr>
+                </table>
             </div>
             <div>
                 Large Image
             </div>
         </div>
         <div class="pod col-2">
+            <div class="table-2">
+                <h2>Product Financials</h2>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Buy Price:</th>
+                        <td>£{{ product.buy_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sell Price:</th>
+                        <td>£{{ product.sell_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Profit Per Item:</th>
+                        <td>#####</td>
+                    </tr>
+                    <tr><th></th><td></td></tr>
+                    <tr>
+                        <th>Quantity In Stock:</th>
+                        <td>{{ product.stock_qty }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Buy Price:</th>
+                        <td>#####</td>
+                    </tr>
+                    <tr>
+                        <th>Total Sell Price</th>
+                        <td>#####</td>
+                    </tr>
+                    <tr>
+                        <th>Total Profit:</th>
+                        <td>{{ product.profit }}</td>
+                    </tr>
+                    <tr><th></th><td></td></tr>
+                    <tr>
+                        <th>% Profit:</th>
+                        <td>#####</td>
+                    </tr>
+                </table>
+            </div>
             <div>
                 <h2>Previous Orders</h2>
                 {% if product_orders %}
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td class="head">Purchase Date</td>
+                        <td class="head">Order Number</td>
                         <td class="head">Customer Name</td>
                         <td class="head">Item Price</td>
                         <td class="head">Quantity</td>
@@ -39,7 +105,8 @@
                     {% for product_order in product_orders %}
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
-                        <td>{{ product_order.order_id.billing_name }}</td>
+                        <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
+                        <td><a href="">{{ product_order.order_id.billing_name }}</a></td>
                         <td>£{{ product_order.item_price }}</td>
                         <td>{{ product_order.item_qty }}</td>
                         <td>£{{ product_order.total_price }}</td>
@@ -50,13 +117,7 @@
                     This product hasn't yet been purchased 
                 {% endif %}
             </div>
-            <div>
-                <h2>Product Statistics</h2>
-                <span>Total Purchased: {{ product_orders.count }}</span><br />
-                <span>Total Revenue: £{{ product_total_price }}</span><br />
-                <br />
-                Annual Stats
-            </div>
+            
         </div>
     </div>
 </section>
