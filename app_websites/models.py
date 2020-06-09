@@ -75,8 +75,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=200, blank=True)
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    stock_qty = models.IntegerField(blank=True, default=0) 	
-    profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    stock_qty = models.IntegerField(blank=True, default=0) 
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
@@ -91,11 +90,23 @@ class Product(models.Model):
 
     @property
     def item_profit(self):
+        return (self.sell_price - self.buy_price)
+    
+    def total_profit(self):
         return (self.sell_price - self.buy_price) * self.stock_qty
 
-    def save(self, *args, **kwargs):
-        self.profit = self.item_profit
-        super(Product, self).save(*args, **kwargs)
+    def buy_value(self):
+        return self.buy_price * self.stock_qty
+
+    def sell_value(self):
+        return self.sell_price * self.stock_qty
+
+    def percent_profit(self):
+        return (self.item_profit / self.buy_price) * 100
+
+    #def save(self, *args, **kwargs):
+    #   self.item_profit = self.profit_item
+    #   super(Product, self).save(*args, **kwargs)
         
 
 class Supplier(models.Model):

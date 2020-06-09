@@ -21,12 +21,8 @@
                         <td>{{ product.sku }}</td>
                     </tr>
                     <tr>
-                        <th>Price:</th>
-                        <td>{{ product.sell_price }}</td>
-                    </tr>
-                    <tr>
                         <th>Weight:</th>
-                        <td>{{ product.weight }}</td>
+                        <td>{{ product.weight|floatformat:2 }}</td>
                     </tr>
                     <tr>
                         <th>Location</th>
@@ -46,11 +42,6 @@
                     </tr>
                 </table>
             </div>
-            <div>
-                Large Image
-            </div>
-        </div>
-        <div class="pod col-2">
             <div class="table-2">
                 <h2>Product Financials</h2>
                 <table cellpadding="0" cellspacing="0">
@@ -64,32 +55,35 @@
                     </tr>
                     <tr>
                         <th>Profit Per Item:</th>
-                        <td>#####</td>
+                        <td>£{{ product.item_profit }}</td>
                     </tr>
-                    <tr><th></th><td></td></tr>
+                    <tr class="break"><td></td></tr>
                     <tr>
                         <th>Quantity In Stock:</th>
                         <td>{{ product.stock_qty }}</td>
                     </tr>
+                    <tr class="break"><td></td></tr>
                     <tr>
                         <th>Total Buy Price:</th>
-                        <td>#####</td>
+                        <td>£{{ product.buy_value }}</td>
                     </tr>
                     <tr>
                         <th>Total Sell Price</th>
-                        <td>#####</td>
+                        <td>£{{ product.sell_value }}</td>
                     </tr>
+                    <tr class="break"><td></td></tr>
                     <tr>
                         <th>Total Profit:</th>
-                        <td>{{ product.profit }}</td>
+                        <td>£{{ product.total_profit }}</td>
                     </tr>
-                    <tr><th></th><td></td></tr>
                     <tr>
                         <th>% Profit:</th>
-                        <td>#####</td>
+                        <td>{{ product.percent_profit|floatformat:0 }}%</td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="pod col-2">
             <div>
                 <h2>Previous Orders</h2>
                 {% if product_orders %}
@@ -117,7 +111,9 @@
                     This product hasn't yet been purchased 
                 {% endif %}
             </div>
-            
+            <div>
+                Large Image
+            </div>
         </div>
     </div>
 </section>
