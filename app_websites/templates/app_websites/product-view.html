@@ -42,6 +42,38 @@
                     </tr>
                 </table>
             </div>
+            <div>
+                Large Image
+            </div>
+        </div>
+        <div class="pod col-2">
+            <div>
+                <h2>Previous Orders</h2>
+                {% if product_orders %}
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="head">Purchase Date</td>
+                        <td class="head">Order Number</td>
+                        <td class="head">Customer Name</td>
+                        <td class="head">Item Price</td>
+                        <td class="head">Quantity</td>
+                        <td class="head">Total Price</td>
+                    </tr>
+                    {% for product_order in product_orders %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
+                        <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
+                        <td><a href="">{{ product_order.order_id.billing_name }}</a></td>
+                        <td>£{{ product_order.item_price }}</td>
+                        <td>{{ product_order.item_qty }}</td>
+                        <td>£{{ product_order.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                    This product hasn't yet been purchased 
+                {% endif %}
+            </div>
             <div class="table-2">
                 <h2>Product Financials</h2>
                 <table cellpadding="0" cellspacing="0">
@@ -81,38 +113,6 @@
                         <td>{{ product.percent_profit|floatformat:0 }}%</td>
                     </tr>
                 </table>
-            </div>
-        </div>
-        <div class="pod col-2">
-            <div>
-                <h2>Previous Orders</h2>
-                {% if product_orders %}
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td class="head">Purchase Date</td>
-                        <td class="head">Order Number</td>
-                        <td class="head">Customer Name</td>
-                        <td class="head">Item Price</td>
-                        <td class="head">Quantity</td>
-                        <td class="head">Total Price</td>
-                    </tr>
-                    {% for product_order in product_orders %}
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
-                        <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
-                        <td><a href="">{{ product_order.order_id.billing_name }}</a></td>
-                        <td>£{{ product_order.item_price }}</td>
-                        <td>{{ product_order.item_qty }}</td>
-                        <td>£{{ product_order.total_price }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-                {% else %}
-                    This product hasn't yet been purchased 
-                {% endif %}
-            </div>
-            <div>
-                Large Image
             </div>
         </div>
     </div>
