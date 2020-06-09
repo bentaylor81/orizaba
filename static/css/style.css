@@ -8,7 +8,7 @@ section .content { padding: 30px; }
 .main-container { min-height: 100vh; }
 .top-bar { padding: 30px; border-bottom: 1px solid #e1e2e4; background: #fff; }
 .pod { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px; margin-bottom: 20px; }
-.col-2 { display: grid; grid-template-columns: 1fr 1fr; }
+.col-2 { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 30px; }
 .hidden { display: none; }
 
 /* Login Container */
