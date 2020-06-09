@@ -47,7 +47,7 @@
                     <td class="highlight">£{{ product.sell_price|intcomma }}</td>
                     <td class="highlight">{{ product.stock_qty }}</td>
                     <td class="highlight">£{{ product.total_profit }}</td>
-                    <td>{{ product.weight }}</td>	
+                    <td>{{ product.weight|floatformat:2 }}</td>	
                     <td>{{ product.brand }}</td>
                     <td>{{ product.supplier }}</td>		
                     <td>{{ product.location }}</td>
@@ -62,7 +62,5 @@
     {% endif %}
     </div>
 </section>
-
-
 
 {% endblock %}
