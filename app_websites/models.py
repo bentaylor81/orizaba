@@ -102,7 +102,13 @@ class Product(models.Model):
         return self.sell_price * self.stock_qty
 
     def percent_profit(self):
-        return (self.item_profit / self.buy_price) * 100
+        if self.buy_price != 0:
+            profit = ((self.item_profit / self.buy_price) * 100)
+            profit = round(profit, 0)
+            return str(profit) +  '%'
+        else:
+            return 'N/A'
+
 
     #def save(self, *args, **kwargs):
     #   self.item_profit = self.profit_item
