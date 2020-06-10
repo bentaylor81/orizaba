@@ -47,6 +47,8 @@ class Order(models.Model):
     delivery_email = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    delivery_method = models.CharField(max_length=200, blank=True)
+    courier = models.CharField(max_length=100, blank=True)
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -59,7 +61,18 @@ class Order(models.Model):
     class Meta:
         ordering = ["-date"]
 
+    @property
+    def courier_func(self, *args, **kwargs):
+        if self.delivery_country == "United Kingdom":
+            self.courier_name = "APC"
+        else:
+            self.courier_name = "DPD"
+        self.courier = self.courier_name
+        super(Order, self).save(*args, **kwargs)
+        return self.courier
+
 class Customer(models.Model):
+    customer_id = models.IntegerField(blank=True, unique=True)
     billing_email = models.CharField(primary_key=True, max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -68,6 +81,8 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ["-date"]
+
+    # Add a function to auto increment the customer_id
 
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
@@ -108,12 +123,6 @@ class Product(models.Model):
             return str(profit) +  '%'
         else:
             return 'N/A'
-
-
-    #def save(self, *args, **kwargs):
-    #   self.item_profit = self.profit_item
-    #   super(Product, self).save(*args, **kwargs)
-        
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)

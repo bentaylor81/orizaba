@@ -22,7 +22,7 @@
                 </tr>
             {% for customer in customers %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <td class="first-col">#####</td>
+                    <td class="first-col">{{ customer.customer_id }}</td>
                     <td>{{ customer.billing_email }}</td>
                     <td>{{ customer.date }}<br /></td>
                     {% for order in customer.order_set.all %}   
