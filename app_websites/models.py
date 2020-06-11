@@ -81,6 +81,17 @@ class Customer(models.Model):
     class Meta:
         ordering = ["-date"]
 
+class Customer2(models.Model):
+    customer_id = models.IntegerField(primary_key=True)
+    billing_email = models.CharField(max_length=200, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.billing_email) + ' | ' + str(self.date)
+
+    class Meta:
+        ordering = ["-date"]
+
     # Add a function to auto increment the customer_id
 
 class Product(models.Model):
