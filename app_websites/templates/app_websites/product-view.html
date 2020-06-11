@@ -63,7 +63,7 @@
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
                         <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
-                        <td><a href="">{{ product_order.order_id.billing_name }}</a></td>
+                        <td><a href="{% url 'customer-view' product_order.order_id.billing_email.customer_id %}">{{ product_order.order_id.billing_name }}</a></td>
                         <td>£{{ product_order.item_price }}</td>
                         <td>{{ product_order.item_qty }}</td>
                         <td>£{{ product_order.total_price }}</td>

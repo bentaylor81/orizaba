@@ -158,25 +158,10 @@ def customers(request):
 @allowed_users(allowed_roles=['admin'])
 def customer_view(request, path):
 
-    products = Product.objects.filter(supplier__path=path).order_by('sell_price')
-    # Supplier Product Filtering
-    supplierproductFilter = SupplierProductFilter(request.GET, queryset=products)
-    products = supplierproductFilter.qs
-    # Supplier Product Pagination
-    paginator = Paginator(products, 20)
-    page = request.GET.get('page')
-    items = paginator.get_page(page)
-    # Calculations
-    product_count = Product.objects.filter(supplier__path=path).count()
+    customer = Customer.objects.get(customer_id=path)
 
     context = {
-        'supplier' : Supplier.objects.get(path=path),
-        'items' : items, 
-        'products' : products,
-        'supplierproductFilter' : SupplierProductFilter(),
-        'cheap_product' : Product.objects.filter(supplier__path=path).order_by('sell_price')[0],
-        'expen_product' : Product.objects.filter(supplier__path=path).order_by('-sell_price')[0],
-        'product_count' : product_count,
+        'customer' : customer,
         }
 
-    return render(request, 'app_websites/supplier-view.html', context )
+    return render(request, 'app_websites/customer-view.html', context )

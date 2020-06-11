@@ -23,7 +23,7 @@
             {% for customer in customers %}	
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="first-col">{{ customer.customer_id }}</td>
-                    <td>{{ customer.billing_email }}</td>
+                    <td><a href="{% url 'customer-view' customer.customer_id %}">{{ customer.billing_email }}</a></td>
                     <td>{{ customer.date }}<br /></td>
                     {% for order in customer.order_set.all %}   
                         {% if forloop.last %}

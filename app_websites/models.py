@@ -36,7 +36,7 @@ class Order(models.Model):
     billing_city = models.CharField(max_length=200, blank=True)
     billing_postcode = models.CharField(max_length=200, blank=True)
     billing_country = models.CharField(max_length=200, blank=True)
-    billing_email = models.ForeignKey('Customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, null=True)
+    billing_email = models.ForeignKey('Customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank="True", null=True)
     billing_phone = models.CharField(max_length=200, blank=True)
     delivery_name = models.CharField(max_length=200, blank=True)
     delivery_address_1 = models.CharField(max_length=200, blank=True)

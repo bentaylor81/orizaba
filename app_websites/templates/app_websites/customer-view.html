@@ -1,0 +1,19 @@
+{% extends 'app_websites/global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="customers"> 
+    <div class="top-bar">
+        <h1>Customers > {{ customer.billing_email }}</h1>
+    </div>
+    <div class="content">
+        <div>
+            <span>Customer ID: </span>{{ customer.customer_id }}<br />
+            <span>Customer Email: </span>{{ customer.billing_email }}<br />
+            <span>First Order Date: </span>{{ customer.date }}<br />
+        </div>
+    </div>
+</section>
+{% endblock %}
