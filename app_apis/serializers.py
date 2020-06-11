@@ -18,5 +18,5 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Customer2
+        model = Customer
         fields = '__all__'

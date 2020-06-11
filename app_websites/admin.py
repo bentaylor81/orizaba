@@ -7,5 +7,5 @@ admin.site.register(OrderItem)
 admin.site.register(Product)
 admin.site.register(Supplier)
 admin.site.register(Brand)
-admin.site.register(Customer2)
+admin.site.register(Customer)
 

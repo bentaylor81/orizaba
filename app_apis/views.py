@@ -17,5 +17,5 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer2.objects.all().order_by('date')
+    queryset = Customer.objects.all().order_by('date')
     serializer_class = CustomerSerializer
