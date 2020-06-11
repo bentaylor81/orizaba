@@ -72,7 +72,6 @@ class Order(models.Model):
         return self.courier
 
 class Customer(models.Model):
-    customer_id = models.IntegerField(blank=True)
     billing_email = models.CharField(primary_key=True, max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
