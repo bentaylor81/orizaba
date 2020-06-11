@@ -158,7 +158,7 @@ def customers(request):
 @allowed_users(allowed_roles=['admin'])
 def customer_view(request, path):
 
-    products = Product.objects.filter(customer__path=path).order_by('sell_price')
+    products = Product.objects.filter(supplier__path=path).order_by('sell_price')
     # Supplier Product Filtering
     supplierproductFilter = SupplierProductFilter(request.GET, queryset=products)
     products = supplierproductFilter.qs
