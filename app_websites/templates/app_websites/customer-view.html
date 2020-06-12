@@ -123,8 +123,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {{% for item in annual_summary %}
-                        {% ifchanged item.year %}}
+                    {% for item in annual_summary %}
+                        {% ifchanged item.year %}
                         <tr>
                             <td>{{ item.year }}</td>
                             <td>{{ forloop.revcounter }}</td>
