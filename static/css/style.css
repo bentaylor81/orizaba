@@ -109,6 +109,11 @@ nav a { color: #ddd;}
 /* Product View Page */
 #product .table-2 table th { width: 150px; }
 
+/* Customers Page */
+
+/* Customer View Page */
+#customer .table-2 table th { width: 150px; }
+
 /* Suppliers Page */
 #suppliers .content { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 20px; }
 #suppliers .content .total-products span { font-size: 18px;  }

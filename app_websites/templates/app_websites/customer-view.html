@@ -4,16 +4,54 @@
 
 {% block content %}
 
-<section id="customers"> 
+<section id="customer"> 
     <div class="top-bar">
         <h1>Customers > {{ customer.billing_email }}</h1>
     </div>
     <div class="content">
-        <div>
-            <span>Customer ID: </span>{{ customer.customer_id }}<br />
-            <span>Customer Email: </span>{{ customer.billing_email }}<br />
-            <span>First Order Date: </span>{{ customer.date }}<br />
+        <div class="pod col-2">
+            <div class="table-2">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{ customer.billing_email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ customer.billing_email }}</td>
+                    </tr>
+                    <tr>
+                        <th>First Order Date:</th>
+                        <td>{{ customer.date }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h2>Order History</h2><!-- Add in Order Item History as well -->
+                <h2>{{ id }}</h2>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="head">Purchase Date</td>
+                        <td class="head">Order Number</td>
+                        <td class="head">Customer Name</td>
+                        <td class="head">Item Price</td>
+                        <td class="head">Quantity</td>
+                        <td class="head">Total Price</td>
+                    </tr>
+                    {% for order in orders %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td class="first-col">{{ order.date|date:"d M Y" }}</td>
+                        <td><a href="">{{ order.order_no }}</a></td>
+                        <td><a href="">{{ order.billing_name }}</a></td>
+                        <td>£</td>
+                        <td></td>
+                        <td>£</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
+        
     </div>
 </section>
 {% endblock %}

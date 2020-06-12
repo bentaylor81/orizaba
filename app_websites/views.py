@@ -159,9 +159,12 @@ def customers(request):
 def customer_view(request, path):
 
     customer = Customer.objects.get(customer_id=path)
+    billing_email = customer.billing_email
+    orders = Order.objects.filter(billing_email=billing_email)
 
     context = {
         'customer' : customer,
+        'orders' : orders, 
         }
 
     return render(request, 'app_websites/customer-view.html', context )
