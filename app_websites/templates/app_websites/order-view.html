@@ -9,48 +9,7 @@
     </div>
     <div class="content">
         <div>
-            <div class="pod col-2">
-                <div class="table-2">
-                    <h2>Delivery Details</h2>
-                    <table  cellpadding="0" cellspacing="0">
-                        <tr>
-                            <th>Name:</th>
-                            <td><a href="{% url 'customer-view' order.billing_email.customer_id %}">{{ order.delivery_name }}</a></td>
-                        </tr>
-                        <tr>
-                            <th>Address:</th>
-                            <td>{{ order.delivery_address_1 }}</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>{{ order.delivery_address_2 }}</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>{{ order.delivery_city }}</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>{{ order.delivery_postcode }}</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>{{ order.delivery_country }}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone:</th>
-                            <td>{{ order.delivery_phone }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email:</th>
-                            <td>{{ order.delivery_email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Courier:</th>
-                            <td>{{ order.courier_func }}</td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="pod col-2">   
                 <div class="table-2">
                     <h2>Billing Details</h2>
                     <table cellpadding="0" cellspacing="0">
@@ -88,58 +47,103 @@
                         </tr>
                     </table>
                 </div>
+                <div class="table-2">
+                    <h2>Delivery Details</h2>
+                    <table  cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Name:</th>
+                            <td>{{ order.delivery_name }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Address:</th>
+                            <td>{{ order.delivery_address_1 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_address_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_city }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_postcode }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ order.delivery_country }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone:</th>
+                            <td>{{ order.delivery_phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td>{{ order.delivery_email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Courier:</th>
+                            <td>{{ order.courier_func }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="pod">
+            <div class="pod table">
                 <h2>Order Details</h2>
                 <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td class="head">SKU</td>
-                        <td class="head">Product</td>
-                        <td class="head">Item Price</td>
-                        <td class="head">Quantity</td>
-                        <td class="head">Total Price</td>
-                        <td class="head">Location</td>
-                    </tr>
-                {% for order_item in order_items %}
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">{{ order_item.product_id.sku }}</td>
-                        <td><a href={% url 'product-view'  order_item.product_id.product_id %}>{{ order_item.product_id.product_name }}</a></td>
-                        <td>£{{ order_item.item_price }}</td>
-                        <td>{{ order_item.item_qty }}</td>
-                        <td>£{{ order_item.total_price }}</td>
-                        <td>{{ order_item.product_id.location }}</td>
-                    </tr>
-                {% endfor %}
-                    <tr class="row_dark_2">
-                        <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>Items Total&nbsp;</td>
-                        <td>£{{ items_total }}</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>Postage</td>
-                        <td>£{{ postage }}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>Total Ex. Vat</td>
-                        <td>£{{ total_ex_vat }}</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="first-col" colspan="3">&nbsp;</td>
-                        <td>VAT</td>
-                        <td>£{{ vat|floatformat:2 }}</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr class="row_dark">
-                        <td class="first-col last" colspan="3">&nbsp;</td>
-                        <td class="last">Total Inc. VAT</td>
-                        <td class="last">£{{ total_inc_vat|floatformat:2 }}</td>
-                        <td class="last">&nbsp;</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Product</th>
+                            <th>Item Price</th>
+                            <th>QTY</th>
+                            <th>Total Price</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_item in order_items %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">{{ order_item.product_id.sku }}</td>
+                            <td><a href={% url 'product-view'  order_item.product_id.product_id %}>{{ order_item.product_id.product_name }}</a></td>
+                            <td>£{{ order_item.item_price }}</td>
+                            <td>{{ order_item.item_qty }}</td>
+                            <td>£{{ order_item.total_price }}</td>
+                            <td>{{ order_item.product_id.location }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="row_dark_2">
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">Items Total:</td>
+                            <td>£{{ items_total }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">Postage:</td>
+                            <td>£{{ postage }}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">Total Ex. Vat:</td>
+                            <td>£{{ total_ex_vat }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">VAT:</td>
+                            <td>£{{ vat|floatformat:2 }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr class="row_dark last">
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2"><b>Total Inc. VAT:</b></td>
+                            <td><b>£{{ total_inc_vat|floatformat:2 }}</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <br /><br />
                 <b>Website:</b> {{ order.website }}<br />

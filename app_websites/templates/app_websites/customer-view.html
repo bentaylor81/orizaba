@@ -9,49 +9,192 @@
         <h1>Customers > {{ customer.billing_email }}</h1>
     </div>
     <div class="content">
-        <div class="pod col-2">
+        <div class="pod col-4">
             <div class="table-2">
                 <table cellpadding="0" cellspacing="0">
+                    <h2>Last Billing Details</h2>
                     <tr>
                         <th>Name:</th>
-                        <td>{{ customer.billing_email }}</td>
+                        <td>{{ last_order.billing_name }}<td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th valign="top">Address:</th>
+                        <td>
+                            {{ last_order.billing_address_1 }}<br />
+                            {{ last_order.billing_address_2 }}<br />
+                            {{ last_order.billing_city }}<br />
+                            {{ last_order.billing_postcode }}<br />
+                            {{ last_order.billing_country }}<br />
+                        </td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Phone:</th>
+                        <td>{{ last_order.billing_phone }}</td>
                     </tr>
                     <tr>
                         <th>Email:</th>
-                        <td>{{ customer.billing_email }}</td>
-                    </tr>
-                    <tr>
-                        <th>First Order Date:</th>
-                        <td>{{ customer.date }}</td>
+                        <td>{{ last_order.billing_email.billing_email }}</td>
                     </tr>
                 </table>
             </div>
-            <div>
-                <h2>Order History</h2><!-- Add in Order Item History as well -->
-                <h2>{{ id }}</h2>
+            <div class="table-2">
+                <table cellpadding="0" cellspacing="0">
+                    <h2>Last Delivery Details</h2>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{ last_order.delivery_name }}<td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th valign="top">Address:</th>
+                        <td>
+                            {{ last_order.delivery_address_1 }}<br />
+                            {{ last_order.delivery_address_2 }}<br />
+                            {{ last_order.delivery_city }}<br />
+                            {{ last_order.delivery_postcode }}<br />
+                            {{ last_order.delivery_country }}<br />
+                        </td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Phone:</th>
+                        <td>{{ last_order.delivery_phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ last_order.delivery_email }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table-2">
+                <h2>Order Summary</h2>
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <td class="head">Purchase Date</td>
-                        <td class="head">Order Number</td>
-                        <td class="head">Customer Name</td>
-                        <td class="head">Item Price</td>
-                        <td class="head">Quantity</td>
-                        <td class="head">Total Price</td>
+                        <th>First Order Date:</th>
+                        <td>{{ first_order.date }}</td>
                     </tr>
-                    {% for order in orders %}
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">{{ order.date|date:"d M Y" }}</td>
-                        <td><a href="">{{ order.order_no }}</a></td>
-                        <td><a href="">{{ order.billing_name }}</a></td>
-                        <td>£</td>
-                        <td></td>
-                        <td>£</td>
+                    <tr>
+                        <th>Last Order Date:</th>
+                        <td>{{ last_order.date }}</td>
                     </tr>
-                    {% endfor %}
+                    <tr>
+                        <th>First Ordered:</th>
+                        <td>{{ first_order.date|timesince }} ago</td>
+                    </tr>
+                    <tr>
+                        <th>Last Ordered:</th>
+                        <td>{{ last_order.date|timesince }} ago</td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Total Orders:</th>
+                        <td>{{ orders.count }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Items:</th>
+                        <td>{{ order_items.count }}</td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Amount Spent:</th>
+                        <td>£{{ total_spent }}</td>
+                    </tr>
+                    <!--<tr>
+                        <th>Average Order:</th>
+                        <td>###</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Profit:</th>
+                        <td>###</td>
+                    </tr>-->
                 </table>
             </div>
+            <div class="table">
+                <h2>Annual Summary</h2>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Order QTY</th>
+                            <th>Item QTY</th>
+                            <th>Total Spend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in annual_summary %}
+                        {% ifchanged item.year %}
+                        <tr>
+                            <td>{{ item.year }}</td>
+                            <td>{{ forloop.revcounter }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endifchanged %}
+                    {% endfor %}
+                    </tbody>
+                </table>                         
+            </div>
         </div>
-        
+        <div class="pod col-2">
+            <div class="table">
+                <h2>Order Item History</h2><!-- Add in Order Item History as well -->
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>QTY</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_item in order_items %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">{{ order_item.order_id.date|date:"d M Y" }}</td>
+                            <td><a href="{% url 'order-view' order_item.order_id.order_no %}">{{ order_item.order_id.order_no }}</a></td>
+                            <td><a href="">{{ order_item.product_id.product_name }}</a></td>
+                            <td>£{{ order_item.item_price }}</td>
+                            <td>{{ order_item.item_qty }}</td>
+                            <td>£{{ order_item.total_price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="table">
+                <h2>Order History</h2><!-- Add in Order Item History as well -->
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order</th>
+                            <th>Delivery Name</th>
+                            <th>Items Total </th>
+                            <th>Postage</th>
+                            <th>VAT</th>
+                            <th>Total Inc VAT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">{{ order.date|date:"d M Y" }}</td>
+                            <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
+                            <td>{{ order.delivery_name }}</td>
+                            <td>£{{ order.items_total_price }}</td>
+                            <td>£{{ order.delivery_price }}</td>
+                            <td>£{{ order.vat }}</td>
+                            <td>£{{order.total_price_inc_vat }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>     
     </div>
 </section>
 {% endblock %}

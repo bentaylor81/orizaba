@@ -47,28 +47,32 @@
             </div>
         </div>
         <div class="pod col-2">
-            <div>
+            <div class="table">
                 <h2>Previous Orders</h2>
                 {% if product_orders %}
                 <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td class="head">Purchase Date</td>
-                        <td class="head">Order Number</td>
-                        <td class="head">Customer Name</td>
-                        <td class="head">Item Price</td>
-                        <td class="head">Quantity</td>
-                        <td class="head">Total Price</td>
-                    </tr>
-                    {% for product_order in product_orders %}
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
-                        <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
-                        <td><a href="{% url 'customer-view' product_order.order_id.billing_email.customer_id %}">{{ product_order.order_id.billing_name }}</a></td>
-                        <td>£{{ product_order.item_price }}</td>
-                        <td>{{ product_order.item_qty }}</td>
-                        <td>£{{ product_order.total_price }}</td>
-                    </tr>
-                    {% endfor %}
+                    <thead>
+                        <tr>
+                            <th>Purchase Date</th>
+                            <th>Order Number</th>
+                            <th>Customer Name</th>
+                            <th>Item Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product_order in product_orders %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">{{ product_order.order_id.date|date:"d M Y" }}</td>
+                            <td><a href="{% url 'order-view' product_order.order_id.order_no %}">{{ product_order.order_id.order_no }}</a></td>
+                            <td><a href="{% url 'customer-view' product_order.order_id.billing_email.customer_id %}">{{ product_order.order_id.billing_name }}</a></td>
+                            <td>£{{ product_order.item_price }}</td>
+                            <td>{{ product_order.item_qty }}</td>
+                            <td>£{{ product_order.total_price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
                 {% else %}
                     This product hasn't yet been purchased 
@@ -89,12 +93,12 @@
                         <th>Profit Per Item:</th>
                         <td>£{{ product.item_profit }}</td>
                     </tr>
-                    <tr class="break"><td></td></tr>
+                    <tr class="break"><th></th></tr>
                     <tr>
                         <th>Quantity In Stock:</th>
                         <td>{{ product.stock_qty }}</td>
                     </tr>
-                    <tr class="break"><td></td></tr>
+                    <tr class="break"><th></th></tr>
                     <tr>
                         <th>Total Buy Price:</th>
                         <td>£{{ product.buy_value }}</td>
@@ -103,7 +107,7 @@
                         <th>Total Sell Price</th>
                         <td>£{{ product.sell_value }}</td>
                     </tr>
-                    <tr class="break"><td></td></tr>
+                    <tr class="break"><th></th></tr>
                     <tr>
                         <th>Total Profit:</th>
                         <td>£{{ product.total_profit }}</td>

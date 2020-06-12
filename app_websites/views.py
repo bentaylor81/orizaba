@@ -22,12 +22,13 @@ def orders(request):
     orderFilter = OrderFilter(request.GET, queryset=orders)
     orders = orderFilter.qs
     # Order Pagination
-    paginator = Paginator(orders, 20)
+    paginator = Paginator(orders, 5)
     page = request.GET.get('page')
-    orders = paginator.get_page(page)
+    items = paginator.get_page(page)
 
     context = { 
         'orders' : orders,
+        'items' : items,
         'orderFilter' : OrderFilter()
         }
             
@@ -77,7 +78,7 @@ def products(request):
     productFilter = ProductFilter(request.GET, queryset=products)
     products = productFilter.qs
     # Product Pagination
-    paginator = Paginator(products, 50)
+    paginator = Paginator(products, 20)
     page = request.GET.get('page')
     items = paginator.get_page(page)
 
@@ -160,11 +161,15 @@ def customer_view(request, path):
 
     customer = Customer.objects.get(customer_id=path)
     billing_email = customer.billing_email
-    orders = Order.objects.filter(billing_email=billing_email)
 
     context = {
-        'customer' : customer,
-        'orders' : orders, 
+        'orders' : Order.objects.filter(billing_email=billing_email),
+        'first_order' : Order.objects.filter(billing_email=billing_email).order_by('date')[0],
+        'last_order' : Order.objects.filter(billing_email=billing_email).order_by('-date')[0],
+        'order_items' : OrderItem.objects.filter(order_id__billing_email__customer_id=path),
+        'total_spent' : OrderItem.objects.filter(order_id__billing_email=billing_email).aggregate(Sum('total_price'))['total_price__sum'],
+        'annual_summary' : Order.objects.filter(billing_email=billing_email).order_by('date'),
+        'customer' : Customer.objects.get(customer_id=path),
         }
 
     return render(request, 'app_websites/customer-view.html', context )
