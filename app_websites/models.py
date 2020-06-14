@@ -155,7 +155,7 @@ class Month(models.Model):
     year = models.ForeignKey('year', db_column='year', on_delete=models.CASCADE, null=True, blank=True, default=0)
 
     def __str__(self):
-        return str(self.month) + ' | ' + str(self.month_char) + ' | ' + str(self.year)
+        return str(self.month_id) + ' | ' + str(self.month) + ' | ' + str(self.year)
 
 class Year(models.Model):
     year = models.IntegerField(primary_key=True)
