@@ -154,3 +154,10 @@ class Year(models.Model):
 
     def __str__(self):
         return str(self.year)
+
+class Month(models.Model):
+    month = models.IntegerField(primary_key=True)
+    month_char = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return str(self.month) + ' | ' + str(self.month_char)
