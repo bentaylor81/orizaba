@@ -161,4 +161,4 @@ class Month(models.Model):
     month_year = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return str(self.month) + ' | ' + str(self.month_char) + ' | ' + str(self.mon_year)
+        return str(self.month) + ' | ' + str(self.month_char) + ' | ' + str(self.month_year)
