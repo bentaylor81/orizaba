@@ -56,7 +56,7 @@ class Order(models.Model):
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    month = models.CharField(max_length=3, blank=True)  
+    month = models.ForeignKey('month', db_column='month', to_field='month_id', on_delete=models.CASCADE, blank=True, null=True) 
     year = models.ForeignKey('Year', db_column='year', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
