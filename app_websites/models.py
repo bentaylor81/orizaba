@@ -149,16 +149,18 @@ class Brand(models.Model):
     class Meta:
         ordering = ["brand"]
 
+class Month(models.Model):
+    month = models.IntegerField(primary_key=True)
+    month_char = models.CharField(max_length=200, blank=True)
+    year = models.ForeignKey('year', db_column='year', on_delete=models.CASCADE, null=True, blank=True, default=0)
+    month_year = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return str(self.month) + ' | ' + str(self.month_char) + ' | ' + str(self.year)
+
 class Year(models.Model):
     year = models.IntegerField(primary_key=True)
 
     def __str__(self):
         return str(self.year)
 
-class Month(models.Model):
-    month = models.IntegerField(primary_key=True)
-    month_char = models.CharField(max_length=200, blank=True)
-    month_year = models.CharField(max_length=200, blank=True)
-
-    def __str__(self):
-        return str(self.month) + ' | ' + str(self.month_char) + ' | ' + str(self.month_year)
