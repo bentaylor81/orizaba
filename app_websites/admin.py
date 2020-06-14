@@ -8,4 +8,5 @@ admin.site.register(Product)
 admin.site.register(Supplier)
 admin.site.register(Brand)
 admin.site.register(Customer)
+admin.site.register(Year)
 

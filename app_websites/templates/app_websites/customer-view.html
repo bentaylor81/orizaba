@@ -72,35 +72,14 @@
                 <h2>Order Summary</h2>
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <th>First Order Date:</th>
-                        <td>{{ first_order.date }}</td>
-                    </tr>
-                    <tr>
-                        <th>Last Order Date:</th>
-                        <td>{{ last_order.date }}</td>
-                    </tr>
-                    <tr>
                         <th>First Ordered:</th>
-                        <td>{{ first_order.date|timesince }} ago</td>
-                    </tr>
+                        <td>{{ first_order.date|date:"d M Y" }} - <b>{{ first_order.date|timesince }} ago</b></td>
+                    </tr>  
+                    <tr class="break"><th></th></tr>
                     <tr>
                         <th>Last Ordered:</th>
-                        <td>{{ last_order.date|timesince }} ago</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Total Orders:</th>
-                        <td>{{ orders.count }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total Items:</th>
-                        <td>{{ order_items.count }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Amount Spent:</th>
-                        <td>£{{ total_spent }}</td>
-                    </tr>
+                        <td>{{ last_order.date|date:"d M Y" }} - <b>{{ last_order.date|timesince }} ago</b></td>
+                    </tr>              
                     <!--<tr>
                         <th>Average Order:</th>
                         <td>###</td>
@@ -123,16 +102,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for item in annual_summary %}
-                        {% ifchanged item.year %}
+                    {% for order in annual_summary %}
+                        {% if order.ann_qty %}
                         <tr>
-                            <td>{{ item.year }}</td>
-                            <td>{{ forloop.revcounter }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ order.year }}</td>
+                            <td>{{ order.ann_cnt }}</td>
+                            <td>{{ order.ann_qty }}</td>
+                            <td>£{{ order.ann_spt }}</td>
                         </tr>
-                        {% endifchanged %}
+                        {% endif %}
                     {% endfor %}
+                        <tr class="row_dark last">
+                            <td>Totals</td>
+                            <td>{{ total.tot_cnt }}</td>
+                            <td>{{ tot_itm.tot_itm }}</td>
+                            <td>£{{ total.tot_spt }}</td>
+                        </tr>
                     </tbody>
                 </table>                         
             </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.db.models import Sum
+from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from .models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
@@ -159,17 +159,31 @@ def customers(request):
 @allowed_users(allowed_roles=['admin'])
 def customer_view(request, path):
 
+    # Get the billing email
     customer = Customer.objects.get(customer_id=path)
     billing_email = customer.billing_email
 
+    # Annual Summary Section Subquery
+    ann_spt = Year.objects.filter(order__billing_email=billing_email).annotate(ann_spt=Sum('order__total_price_inc_vat')).filter(pk=OuterRef('pk'))
+    ann_qty = Year.objects.filter(order__billing_email=billing_email).annotate(ann_qty=Sum('order__orderitem__item_qty')).filter(pk=OuterRef('pk'))
+    ann_cnt = Year.objects.filter(order__billing_email=billing_email).annotate(ann_cnt=Count('order')).filter(pk=OuterRef('pk'))
+    qs = Year.objects.annotate (
+        ann_spt=Subquery(ann_spt.values('ann_spt'), output_field=DecimalField()),
+        ann_qty=Subquery(ann_qty.values('ann_qty'), output_field=IntegerField()),
+        ann_cnt=Subquery(ann_cnt.values('ann_cnt'), output_field=IntegerField())
+    ).order_by('-year')
+    total = Order.objects.filter(billing_email=billing_email).aggregate(tot_spt=Sum('total_price_inc_vat'), tot_cnt=Count('order_id'))
+    tot_itm = OrderItem.objects.filter(order_id__billing_email=billing_email).aggregate(tot_itm=Sum('item_qty'))
+
     context = {
         'orders' : Order.objects.filter(billing_email=billing_email),
+        'order_items' : OrderItem.objects.filter(order_id__billing_email__customer_id=path),
         'first_order' : Order.objects.filter(billing_email=billing_email).order_by('date')[0],
         'last_order' : Order.objects.filter(billing_email=billing_email).order_by('-date')[0],
-        'order_items' : OrderItem.objects.filter(order_id__billing_email__customer_id=path),
-        'total_spent' : OrderItem.objects.filter(order_id__billing_email=billing_email).aggregate(Sum('total_price'))['total_price__sum'],
-        'annual_summary' : Order.objects.filter(billing_email=billing_email).order_by('date'),
-        'customer' : Customer.objects.get(customer_id=path),
+        'annual_summary' : qs,
+        'customer' : customer,
+        'total' : total,
+        'tot_itm' : tot_itm,
         }
 
     return render(request, 'app_websites/customer-view.html', context )

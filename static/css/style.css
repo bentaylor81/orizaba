@@ -46,7 +46,7 @@ table tr td { padding: 10px 8px; border-right: 1px solid #bbb; }
 table tr td:first-child { border-left: 1px solid #bbb; }
 table tr.row1 { background-color: #eee;  border-radius: 5px 5px 0px 0px;}
 table tr.row2 { background-color: #ddd; }
-table tr.row_dark td { background-color: #444; color: #fff; border: 0px; }
+table tr.row_dark td { background-color: #444; color: #fff; border: 0px; font-weight: bold; }
 table tr.row_dark_2 td { background-color: #aaa; font-weight: bold; border: 0px; }
 table tr .col-60 { width: 60px; }
 table tr .col-80 { width: 80px; }

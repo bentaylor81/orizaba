@@ -22,7 +22,7 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return str(self.order_id)
+        return str(self.order_id) + ' | ' + str(self.item_qty) + ' | ' + str(self.order_id.year)
 
     class Meta:
         ordering = ["order_id"]
@@ -36,7 +36,7 @@ class Order(models.Model):
     billing_city = models.CharField(max_length=200, blank=True)
     billing_postcode = models.CharField(max_length=200, blank=True)
     billing_country = models.CharField(max_length=200, blank=True)
-    billing_email = models.ForeignKey('Customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank="True", null=True)
+    billing_email = models.ForeignKey('Customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank=True, null=True)
     billing_phone = models.CharField(max_length=200, blank=True)
     delivery_name = models.CharField(max_length=200, blank=True)
     delivery_address_1 = models.CharField(max_length=200, blank=True)
@@ -57,10 +57,10 @@ class Order(models.Model):
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     month = models.CharField(max_length=3, blank=True)  
-    year = models.IntegerField(blank=True, default=0) 
+    year = models.ForeignKey('Year', db_column='year', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return str(self.order_no) + ' | ' + str(self.delivery_name)
+        return str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.year) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
         ordering = ["-date"]
@@ -148,3 +148,9 @@ class Brand(models.Model):
 
     class Meta:
         ordering = ["brand"]
+
+class Year(models.Model):
+    year = models.IntegerField(primary_key=True)
+
+    def __str__(self):
+        return str(self.year)
