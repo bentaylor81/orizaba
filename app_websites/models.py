@@ -92,9 +92,14 @@ class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
     product_name = models.CharField(max_length=200, blank=True)	
     sku = models.CharField(max_length=200, blank=True)
-    sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 
+    item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    stock_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    buy_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    sell_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)  
+    profit_margin = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)    
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
@@ -108,17 +113,26 @@ class Product(models.Model):
         ordering = ["product_id"]
 
     @property
-    def item_profit(self):
-        return (self.sell_price - self.buy_price)
+    def product_calcs(self, *args, **kwargs):
+        self.buy_value = (self.buy_price * self.stock_qty)
+        self.sell_value = (self.sell_price * self.stock_qty)
+        self.item_profit = (self.sell_price - self.buy_price)
+        self.stock_profit = ((self.sell_price - self.buy_price) * self.stock_qty)
+        self.profit_margin = ((self.sell_price - self.buy_price) / self.sell_price) * 100
+        super(Product, self).save(*args, **kwargs)
+        return ''
+
+    #def item_profit(self):
+    #    return (self.sell_price - self.buy_price)
     
-    def total_profit(self):
-        return (self.sell_price - self.buy_price) * self.stock_qty
+    #def total_profit(self):
+     #   return (self.sell_price - self.buy_price) * self.stock_qty
 
-    def buy_value(self):
-        return self.buy_price * self.stock_qty
+#    def buy_value(self):
+ #       return self.buy_price * self.stock_qty
 
-    def sell_value(self):
-        return self.sell_price * self.stock_qty
+  #  def sell_value(self):
+   #     return self.sell_price * self.stock_qty
 
     def percent_profit(self):
         if self.buy_price != 0:

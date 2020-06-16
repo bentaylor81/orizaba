@@ -1,0 +1,45 @@
+{% extends 'app_websites/global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="stats" class="sal"> 
+    <div class="top-bar">
+        <h1>Statistics</h1>
+    </div>
+    <div class="content">
+
+        <!-- STATISTICS TABS -->
+        {% include 'app_stats/global/tabs.html' %}
+        <div class="pod col-2">
+            <div class="table">
+                <h2>Monthly Sales by Revenue</h2>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Year / Month</th>
+                            <th>2016</th>
+                            <th>2017</th>
+                            <th>2018</th>
+                            <th>2019</th>
+                            <th>2020</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jan</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

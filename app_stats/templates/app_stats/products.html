@@ -1,0 +1,57 @@
+{% extends 'app_websites/global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="stats" class="pro"> 
+    <div class="top-bar">
+        <h1>Products</h1>
+    </div>
+    <div class="content">
+
+        <!-- STATISTICS TABS -->
+        {% include 'app_stats/global/tabs.html' %}
+
+        <div class="table pod">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Product Name</th>
+                        <th>Buy Price</th>
+                        <th>Sell Price</th>
+                        <th>Item Profit</th>
+                        <th>Stock QTY</th>
+                        <th>Buy Value</th>
+                        <th>Sell Value</th>
+                        <th>Stock Profit</th>
+                        <th>Profit Margin</th>
+                        <th>Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    {{ product.product_calcs }}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td><a href={% url 'product-view' product.product_id %}>{{ product.sku }}</a></td>
+                        <td>{{ product.product_name }}</td>
+                        <td>£{{ product.buy_price }}</td>
+                        <td>£{{ product.sell_price }}</td>
+                        <td>£{{ product.item_profit }}</td>
+                        <td>{{ product.stock_qty }}</td>
+                        <td>£{{ product.buy_value }}</td>
+                        <td>£{{ product.sell_value }}</td>
+                        <td>£{{ product.stock_profit}}</td>
+                        <td>{{ product.profit_margin|floatformat:0 }}%</td>
+                        <td>{{ product.weight|floatformat:2 }} kg</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
