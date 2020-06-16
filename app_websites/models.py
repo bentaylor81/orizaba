@@ -118,29 +118,16 @@ class Product(models.Model):
         self.sell_value = (self.sell_price * self.stock_qty)
         self.item_profit = (self.sell_price - self.buy_price)
         self.stock_profit = ((self.sell_price - self.buy_price) * self.stock_qty)
-        #self.profit_margin = ((self.sell_price - self.buy_price) / self.sell_price) * 100
-        super(Product, self).save(*args, **kwargs)
-        return ''
 
-    #def item_profit(self):
-    #    return (self.sell_price - self.buy_price)
-    
-    #def total_profit(self):
-     #   return (self.sell_price - self.buy_price) * self.stock_qty
-
-#    def buy_value(self):
- #       return self.buy_price * self.stock_qty
-
-  #  def sell_value(self):
-   #     return self.sell_price * self.stock_qty
-
-    def percent_profit(self):
         if self.buy_price != 0:
             profit = ((self.item_profit / self.buy_price) * 100)
             profit = round(profit, 0)
-            return str(profit) +  '%'
+            self.profit_margin = profit
         else:
-            return 'N/A'
+            self.profit_margin = 0
+
+        super(Product, self).save(*args, **kwargs)
+        return ''
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
