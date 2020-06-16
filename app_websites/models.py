@@ -118,7 +118,7 @@ class Product(models.Model):
         self.sell_value = (self.sell_price * self.stock_qty)
         self.item_profit = (self.sell_price - self.buy_price)
         self.stock_profit = ((self.sell_price - self.buy_price) * self.stock_qty)
-        self.profit_margin = ((self.sell_price - self.buy_price) / self.sell_price) * 100
+        #self.profit_margin = ((self.sell_price - self.buy_price) / self.sell_price) * 100
         super(Product, self).save(*args, **kwargs)
         return ''
 
