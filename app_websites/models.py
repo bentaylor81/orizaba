@@ -114,7 +114,7 @@ class Product(models.Model):
 
     @property
     def product_calcs(self, *args, **kwargs):
-        if self.buy_value != 0:
+        if self.buy_value != (self.buy_price * self.stock_qty):
 
             self.buy_value = (self.buy_price * self.stock_qty)
             self.sell_value = (self.sell_price * self.stock_qty)
