@@ -22,7 +22,7 @@ def orders(request):
     orderFilter = OrderFilter(request.GET, queryset=orders)
     orders = orderFilter.qs
     # Order Pagination
-    paginator = Paginator(orders, 2)
+    paginator = Paginator(orders, 10)
     page = request.GET.get('page')
     items = paginator.get_page(page)
 

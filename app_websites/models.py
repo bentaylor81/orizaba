@@ -9,7 +9,7 @@ class OrderNote(models.Model):
 
     def __str__(self):
         return str(self.ordernote_id) + ' | ' + self.note + ' | ' + self.added_by + ' | ' + str(self.order_id)
- 
+        
     class Meta:
         ordering = ["-date"]
 
@@ -76,7 +76,7 @@ class Order(models.Model):
         return self.courier
 
 class Customer(models.Model):
-    customer_id = models.IntegerField(primary_key=True)
+    customer_id = models.AutoField(primary_key=True)
     billing_email = models.CharField(max_length=200, blank=True, unique=True)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -85,8 +85,6 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ["-date"]
-
-    # Add a function to auto increment the customer_id
 
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)

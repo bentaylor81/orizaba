@@ -45,8 +45,6 @@ def stats_suppliers(request):
 
     context = {
         'supplier_stats' : qs,
-        'test' : test,
-
     }
     return render(request, 'app_stats/suppliers.html', context )  
 
