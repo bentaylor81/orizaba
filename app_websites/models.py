@@ -120,7 +120,7 @@ class Product(models.Model):
         self.stock_profit = (self.item_profit * self.stock_qty)
 
         if self.buy_price != 0:
-            profit = ((self.item_profit / self.buy_price) * 100)
+            profit = ((self.item_profit / self.sell_price) * 100)
             profit = round(profit, 0)
             self.profit_margin = profit
         else:
