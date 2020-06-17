@@ -129,7 +129,7 @@ class Product(models.Model):
                 self.profit_margin = 0
 
             super(Product, self).save(*args, **kwargs)
-            return ''
+        return ''
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
