@@ -12,7 +12,7 @@ def stats_products(request):
     products = Product.objects.all()
 
     # Product Pagination
-    paginator = Paginator(products, 2)
+    paginator = Paginator(products, 50)
     page = request.GET.get('page')
     items = paginator.get_page(page)
 

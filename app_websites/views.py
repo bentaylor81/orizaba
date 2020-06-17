@@ -78,7 +78,7 @@ def products(request):
     productFilter = ProductFilter(request.GET, queryset=products)
     products = productFilter.qs
     # Product Pagination
-    paginator = Paginator(products, 5)
+    paginator = Paginator(products, 50)
     page = request.GET.get('page')
     items = paginator.get_page(page)
 
