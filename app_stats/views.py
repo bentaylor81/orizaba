@@ -8,6 +8,10 @@ def stats_sales(request):
 
 def stats_products(request):
 
+    # Product Pagination
+    paginator = Paginator(products, 20)
+    page = request.GET.get('page')
+    items = paginator.get_page(page)
 
     context = {
         'products' : Product.objects.all(),
