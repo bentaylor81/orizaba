@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from app_websites.models import *
 from django.core.paginator import Paginator
 
@@ -18,6 +18,7 @@ def stats_products(request):
 
     context = {
         'products' : products,
+        'items' : items,
     }
     return render(request, 'app_stats/products.html', context)  
 
