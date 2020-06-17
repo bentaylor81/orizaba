@@ -18,7 +18,7 @@
             <form method="get">
                 {{ productFilter.form }}
                 <button type="submit">Search</button>
-                <span><i>{{ products.count }} Products Displayed</i></span>
+                <span><i>{{ products.count|intcomma }} Products Displayed</i></span>
             </form>
             
         </div>
