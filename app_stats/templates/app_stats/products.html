@@ -13,10 +13,17 @@
         <!-- STATISTICS TABS -->
         {% include 'app_stats/global/tabs.html' %}
 
-        <!-- PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
+        <!-- PRODUCT FILTERS -->
+        <div class="filter">
+            <form method="get">
+                {{ productFilter.form }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
 
         <div class="table pod">
+            <!-- PRODUCT PAGINATION -->
+            {% include 'app_websites/global/pagination.html' %}
             <table cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>

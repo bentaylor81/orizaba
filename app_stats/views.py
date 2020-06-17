@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from app_websites.models import *
+from app_websites.filters import *
 from django.core.paginator import Paginator
 
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
@@ -10,6 +11,9 @@ def stats_sales(request):
 def stats_products(request):
 
     products = Product.objects.all()
+    # Product Filtering
+    productFilter = ProductFilter(request.GET, queryset=products)
+    products = productFilter.qs
 
     # Product Pagination
     paginator = Paginator(products, 50)
