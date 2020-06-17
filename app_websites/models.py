@@ -115,6 +115,7 @@ class Product(models.Model):
     @property
     def product_calcs(self, *args, **kwargs):
         if self.buy_value != 0:
+
             self.buy_value = (self.buy_price * self.stock_qty)
             self.sell_value = (self.sell_price * self.stock_qty)
             self.item_profit = (self.sell_price - self.buy_price)
@@ -127,8 +128,8 @@ class Product(models.Model):
             else:
                 self.profit_margin = 0
 
-        super(Product, self).save(*args, **kwargs)
-        return ''
+            super(Product, self).save(*args, **kwargs)
+            return ''
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
