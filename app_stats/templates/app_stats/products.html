@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for product in products %}
+                    {% for product in items %}
                     {{ product.product_calcs }}
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td><a href={% url 'product-view' product.product_id %}>{{ product.sku }}</a></td>
