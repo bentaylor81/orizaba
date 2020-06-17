@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from app_websites.models import *
+
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 
 def stats_sales(request):
     return render(request, 'app_stats/sales.html', {})  
 
 def stats_products(request):
+
 
     context = {
         'products' : Product.objects.all(),
@@ -30,6 +32,7 @@ def stats_suppliers(request):
 
     context = {
         'supplier_stats' : qs,
+        'test' : test,
 
     }
     return render(request, 'app_stats/suppliers.html', context )  
