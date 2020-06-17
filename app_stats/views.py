@@ -23,6 +23,7 @@ def stats_products(request):
     context = {
         'products' : products,
         'items' : items,
+        'productFilter' : ProductFilter(),
     }
     return render(request, 'app_stats/products.html', context)  
 
