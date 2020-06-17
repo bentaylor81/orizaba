@@ -138,6 +138,6 @@ nav a { color: #ddd;}
 /* Tabs */
 #stats .tabs { margin-bottom: 20px; }
 #stats .tabs a span { display: inline-block; margin: 0px 10px; padding: 10px 0px; text-align: center; color: #000; }
-.sal .sal, .pro .pro, .bra .bra, .sup .sup, .cus .cus { font-weight: bold; border-bottom: 5px solid #368cd7;  }
+.sal .sal, .pro .pro, .bra .bra, .sup .sup, .cus .cus { font-weight: bold; border-bottom: 4px solid #368cd7;  }
 
 /* Statistics - Sales /*
