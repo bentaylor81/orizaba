@@ -40,20 +40,12 @@ def order_view(request, id):
 
     items_total = OrderItem.objects.filter(order_id__order_no=id).aggregate(Sum('total_price'))['total_price__sum']
     order = Order.objects.get(order_no=id)
-    postage = order.delivery_price
-    total_ex_vat = items_total + postage
-    vat = round(float(total_ex_vat) * 0.2, 2)
-    total_inc_vat = round(float(total_ex_vat) + vat, 2)
 
     context = {
         'order' : order,
         'order_items' : OrderItem.objects.filter(order_id__order_no=id),
         'notes' : OrderNote.objects.filter(order_id__order_no=id),
         'items_total' : items_total,
-        'postage' : postage,
-        'vat' : vat,
-        'total_ex_vat' : total_ex_vat,
-        'total_inc_vat' : total_inc_vat, 
         'current_user' : request.user,
         }
 

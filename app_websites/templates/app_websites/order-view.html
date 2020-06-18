@@ -116,31 +116,31 @@
                         <tr class="row_dark_2">
                             <td colspan="2">&nbsp;</td>
                             <td class="totals" colspan="2">Items Total:</td>
-                            <td>£{{ items_total }}</td>
+                            <td>£{{ order.items_total_price }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
                             <td colspan="2">&nbsp;</td>
                             <td class="totals" colspan="2">Postage:</td>
-                            <td>£{{ postage }}</td>
+                            <td>£{{ order.delivery_price }}</td>
                             <td></td>
                         </tr>
                         <tr>
                             <td colspan="2">&nbsp;</td>
                             <td class="totals" colspan="2">Total Ex. Vat:</td>
-                            <td>£{{ total_ex_vat }}</td>
+                            <td>£{{ order.total_price_ex_vat }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
                             <td colspan="2">&nbsp;</td>
                             <td class="totals" colspan="2">VAT:</td>
-                            <td>£{{ vat|floatformat:2 }}</td>
+                            <td>£{{ order.vat|floatformat:2 }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr class="row_dark last">
                             <td colspan="2">&nbsp;</td>
                             <td class="totals" colspan="2"><b>Total Inc. VAT:</b></td>
-                            <td><b>£{{ total_inc_vat|floatformat:2 }}</b></td>
+                            <td><b>£{{ order.total_price_inc_vat }}</b></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>
