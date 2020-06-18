@@ -92,11 +92,20 @@ def products(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def product_view(request, id):
+    
+    product = Product.objects.get(product_id=id)
+    if product.stock_qty == 0:
+        stock_status = 'no-stock'
+    elif 0 < product.stock_qty < 5:
+        stock_status = 'low-stock'
+    else:
+        stock_status = 'good-stock' 
 
     context = { 
-        'product' : Product.objects.get(product_id=id),
+        'product' : product,
         'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
-        'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum']
+        'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
+        'stock_status' : stock_status,
         }
     return render(request, 'app_websites/product-view.html', context )
 

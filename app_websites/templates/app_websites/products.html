@@ -31,10 +31,6 @@
                     <tr>
                         <th>Product Name</th>
                         <th class="col-120">SKU</th>
-                        <th class="col-60">Buy Price</th>
-                        <th class="col-60">Sell Price</th>
-                        <th class="col-60">In Stock</th>
-                        <th class="col-60">Profit</th>
                         <th class="col-60">Weight</th>
                         <th class="col-140">Brand</th>
                         <th class="col-140">Supplier</th>
@@ -46,11 +42,7 @@
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
                         <td>{{ product.sku }}</td>	
-                        <td class="highlight">£{{ product.buy_price|intcomma }}</td>
-                        <td class="highlight">£{{ product.sell_price|intcomma }}</td>
-                        <td class="highlight">{{ product.stock_qty }}</td>
-                        <td class="highlight">£{{ product.total_profit }}</td>
-                        <td>{{ product.weight|floatformat:2 }}</td>	
+                        <td>{{ product.weight|floatformat:2 }}kg</td>	
                         <td>{{ product.brand }}</td>
                         <td>{{ product.supplier }}</td>		
                         <td>{{ product.location }}</td>

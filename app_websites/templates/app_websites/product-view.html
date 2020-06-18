@@ -8,9 +8,11 @@
         <h1>Product &nbsp;&nbsp;>&nbsp;&nbsp; {{ product.product_name }} &nbsp;-&nbsp; {{ product.sku }}</h1>
     </div>
     <div class="content">
-        <div class="pod col-2">
+        <div class="pod col-3">
             <div class="table-2">
-                <h2>Product Details</h2>
+                <div class="stock">
+                    <span class="{{ stock_status }}">{{ product.stock_qty }}</span>&nbsp; In Stock
+                </div>
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <th>Product:</th>
@@ -22,7 +24,7 @@
                     </tr>
                     <tr>
                         <th>Weight:</th>
-                        <td>{{ product.weight|floatformat:2 }}</td>
+                        <td>{{ product.weight|floatformat:2 }}kg</td>
                     </tr>
                     <tr>
                         <th>Location</th>
@@ -38,7 +40,49 @@
                     </tr>
                     <tr>
                         <th>Live Link:</th>
-                        <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">gardentractorspares.co.uk/{{ product.url }}</a></td>
+                        <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table-2">
+                {{ product.product_calcs }}
+                <h2>Financials</h2>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Buy Price:</th>
+                        <td>£{{ product.buy_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sell Price:</th>
+                        <td>£{{ product.sell_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Profit Per Item:</th>
+                        <td>£{{ product.item_profit }}</td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Quantity In Stock:</th>
+                        <td>{{ product.stock_qty }}</td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Total Buy Price:</th>
+                        <td>£{{ product.buy_value }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Sell Price</th>
+                        <td>£{{ product.sell_value }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th>Total Profit:</th>
+                        <td>£{{ product.stock_profit }}</td>
+                    </tr>
+                    <tr class="break"><th></th></tr>
+                    <tr>
+                        <th>Profit Margin:</th>
+                        <td>{{ product.profit_margin|floatformat:0 }}%</td>
                     </tr>
                 </table>
             </div>
@@ -77,47 +121,6 @@
                 {% else %}
                     This product hasn't yet been purchased 
                 {% endif %}
-            </div>
-            <div class="table-2">
-                {{ product.product_calcs }}
-                <h2>Product Financials</h2>
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <th>Buy Price:</th>
-                        <td>£{{ product.buy_price }}</td>
-                    </tr>
-                    <tr>
-                        <th>Sell Price:</th>
-                        <td>£{{ product.sell_price }}</td>
-                    </tr>
-                    <tr>
-                        <th>Profit Per Item:</th>
-                        <td>£{{ product.item_profit }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Quantity In Stock:</th>
-                        <td>{{ product.stock_qty }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Total Buy Price:</th>
-                        <td>£{{ product.buy_value }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total Sell Price</th>
-                        <td>£{{ product.sell_value }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Total Profit:</th>
-                        <td>£{{ product.total_profit }}</td>
-                    </tr>
-                    <tr>
-                        <th>% Profit:</th>
-                        <td>{{ product.percent_profit }}</td>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>

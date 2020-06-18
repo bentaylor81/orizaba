@@ -9,7 +9,7 @@ class OrderNote(models.Model):
 
     def __str__(self):
         return str(self.ordernote_id) + ' | ' + self.note + ' | ' + self.added_by + ' | ' + str(self.order_id)
-        
+       
     class Meta:
         ordering = ["-date"]
 
@@ -103,6 +103,8 @@ class Product(models.Model):
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True)
+    condition = models.CharField(max_length=200, blank=True, default='new')	
+    special_order = models.CharField(max_length=200, blank=True, default='no')	
 
     def __str__(self):
         return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name) + ' | ' + str(self.brand)
