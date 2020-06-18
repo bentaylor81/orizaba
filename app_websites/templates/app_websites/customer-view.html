@@ -141,7 +141,7 @@
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">{{ order_item.order_id.date|date:"d M Y" }}</td>
                             <td><a href="{% url 'order-view' order_item.order_id.order_no %}">{{ order_item.order_id.order_no }}</a></td>
-                            <td><a href="">{{ order_item.product_id.product_name }}</a></td>
+                            <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
                             <td>{{ order_item.item_qty }}</td>
                             <td>£{{ order_item.total_price }}</td>
