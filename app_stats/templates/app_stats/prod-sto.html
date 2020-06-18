@@ -4,26 +4,26 @@
 
 {% block content %}
 
-<section id="stats" class="pro"> 
+<section id="stats" class="pro sto"> 
     <div class="top-bar">
-        <h1>Products</h1>
+        <h1>Products  &nbsp;&nbsp;>&nbsp;&nbsp; Stock View</h1>
     </div>
     <div class="content">
 
         <!-- STATISTICS TABS -->
-        {% include 'app_stats/global/tabs.html' %}
-
-        <!-- PRODUCT FILTERS -->
-        <div class="filter">
-            <form method="get">
-                {{ productFilter.form }}
-                <button type="submit">Search</button>
-                <span><i>{{ products.count|intcomma }} Products Displayed</i></span>
-            </form>
-            
-        </div>
+        {% include 'app_stats/global/tabs.html' %}   
 
         <div class="table pod">
+  
+            <!-- PRODUCT FILTERS -->
+            <div class="filter">
+                <form method="get">
+                    {{ productFilter.form }}
+                    <button type="submit">Search</button>
+                    <span><i>{{ products.count|intcomma }} Products Displayed</i></span>
+                </form>    
+            </div>
+
             <!-- PRODUCT PAGINATION -->
             {% include 'app_websites/global/pagination.html' %}
             

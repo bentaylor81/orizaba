@@ -80,7 +80,7 @@ nav ul a:hover { background: #333; border-left: 6px solid #368cd7; padding-left:
 nav a { color: #ddd;}
 
 /* Filters */
-.filter { background: #fff; border: 1px solid #e1e2e4; border-radius: 5px; padding: 20px; margin-bottom: 20px;   }
+.filter { margin: 10px 0px 30px 0px;   }
 .filter label { font-weight: bold; margin-right: 10px; }
 .filter input { margin-right: 20px; line-height: 22px; padding: 0px 5px; }
 .filter select { margin-right: 20px; padding: 4px 5px; }
@@ -144,8 +144,16 @@ nav a { color: #ddd;}
 /* STATISTICS APP */
 
 /* Tabs */
-#stats .tabs { margin-bottom: 20px; }
-#stats .tabs a span { display: inline-block; margin: 0px 10px; padding: 10px 0px; text-align: center; color: #000; }
-.sal .sal, .pro .pro, .bra .bra, .sup .sup, .cus .cus { font-weight: bold; border-bottom: 4px solid #368cd7;  }
+.tabs span { display: inline-block; margin-right: 15px; padding: 6px 12px; text-align: center; border: 1px solid #1c71bb; border-radius: 5px; }
+.sal .sal, .pro .pro, .bra .bra, .sup .sup, .cus .cus { font-weight: bold;  background-color: #1c71bb; border-radius: 5px; color: #fff;  }
+
+/* Sub Tabs */
+.sub-tabs > span { display: none; margin: 20px 0px 10px 0px; }
+.sub-tabs span span { margin-right: 15px; padding: 5px 0px;  }
+.sal .sub-sal, .pro .sub-pro { display: block; } /* Add the new sub tabs blocks here */
+.pro.fin .st-3, .pro.sto .st-4 { border-bottom: 4px solid #368cd7; } /* Add the new sub tabs here */
+
+
+
 
 /* Statistics - Sales /*

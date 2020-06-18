@@ -9,70 +9,71 @@
         <h1>Orders</h1>
     </div>
     <div class="content">
-    {% if orders %}	
-        <div class="filter">
-            <form method="get">
-                {{ orderFilter.form }}
-                <button type="submit">Search</button>
-            </form>
+        <div class="pod">
+            
+            <div class="filter">
+                <form method="get">
+                    {{ orderFilter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <!-- PRODUCT PAGINATION -->
+            {% include 'app_websites/global/pagination.html' %}
+
+            <div class="table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order Number</th>
+                            <th>Billing Details</th>
+                            <th>Delivery Address</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in items %}	
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">
+                                {{ order.date }}
+                            </td>
+                            <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
+                            <td>
+                                <b><a href="{% url 'customer-view' order.billing_email.customer_id %}">{{ order.billing_name }}</a></b><br />
+                                {{ order.billing_phone }}<br />
+                                {{ order.billing_email.billing_email }}
+                            </td>	
+                            <td>
+                                {{ order.delivery_name }}<br />
+                                {{ order.delivery_address_1 }}<br />
+                                {{ order.delivery_address_2 }}, 
+                                {{ order.delivery_city }}<br />
+                                {{ order.delivery_postcode }}<br />
+                                {{ order.delivery_country }}
+                            </td>	
+                            <td>
+                                <div class="table-grid">
+                                    <span>Items Total:</span> 
+                                    <span><b>£{{ order.items_total_price }}</b></span>
+                                    <span>Postage:</span>
+                                    <span><b>£{{ order.delivery_price }}</b></span>
+                                    <span>VAT:</span>
+                                    <span><b>£{{ order.vat }}</b></span>
+                                    <span class="total">Total Inc VAT:</span>
+                                    <span class="total"><b>£{{order.total_price_inc_vat }}</b></span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PRODUCT PAGINATION -->
+            {% include 'app_websites/global/pagination.html' %}
+
         </div>
-        
-        <!-- PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
-
-        <div class="table">
-            <table cellpadding="0" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Order Number</th>
-                        <th>Billing Details</th>
-                        <th>Delivery Address</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for order in items %}	
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col">
-                            {{ order.date }}
-                        </td>
-                        <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
-                        <td>
-                            <b><a href="{% url 'customer-view' order.billing_email.customer_id %}">{{ order.billing_name }}</a></b><br />
-                            {{ order.billing_phone }}<br />
-                            {{ order.billing_email.billing_email }}
-                        </td>	
-                        <td>
-                            {{ order.delivery_name }}<br />
-                            {{ order.delivery_address_1 }}<br />
-                            {{ order.delivery_address_2 }}, 
-                            {{ order.delivery_city }}<br />
-                            {{ order.delivery_postcode }}<br />
-                            {{ order.delivery_country }}
-                        </td>	
-                        <td>
-                            <div class="table-grid">
-                                <span>Items Total:</span> 
-                                <span><b>£{{ order.items_total_price }}</b></span>
-                                <span>Postage:</span>
-                                <span><b>£{{ order.delivery_price }}</b></span>
-                                <span>VAT:</span>
-                                <span><b>£{{ order.vat }}</b></span>
-                                <span class="total">Total Inc VAT:</span>
-                                <span class="total"><b>£{{order.total_price_inc_vat }}</b></span>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
-
-    {% endif %}
     </div>
 </section>
 

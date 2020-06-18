@@ -8,7 +8,7 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 def stats_sales(request):
     return render(request, 'app_stats/sales.html', {})  
 
-def stats_products(request):
+def stats_prod_fin(request):
 
     products = Product.objects.all()
     # Product Filtering
@@ -25,7 +25,10 @@ def stats_products(request):
         'items' : items,
         'productFilter' : ProductFilter(),
     }
-    return render(request, 'app_stats/products.html', context)  
+    return render(request, 'app_stats/prod-fin.html', context)  
+
+def stats_prod_sto(request):
+    return render(request, 'app_stats/prod-sto.html', {})  
 
 def stats_brands(request):
     return render(request, 'app_stats/brands.html', {})  
