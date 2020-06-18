@@ -38,14 +38,10 @@ def orders(request):
 @allowed_users(allowed_roles=['admin'])
 def order_view(request, id):
 
-    items_total = OrderItem.objects.filter(order_id__order_no=id).aggregate(Sum('total_price'))['total_price__sum']
-    order = Order.objects.get(order_no=id)
-
     context = {
-        'order' : order,
+        'order' : Order.objects.get(order_no=id),
         'order_items' : OrderItem.objects.filter(order_id__order_no=id),
         'notes' : OrderNote.objects.filter(order_id__order_no=id),
-        'items_total' : items_total,
         'current_user' : request.user,
         }
 
