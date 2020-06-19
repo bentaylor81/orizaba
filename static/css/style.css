@@ -114,7 +114,7 @@ nav a { color: #ddd;}
 #products .content .products { margin-bottom: 20px; }
 
 /* Product View Page */
-#product .col-3 { display: grid; grid-template-columns: 1fr 300px 1fr; grid-gap: 50px; }
+#product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
 #product .table-2 table th { width: 150px; }
 #product .stock { background-color: #eee; padding: 15px 10px; font-size: 30px; margin-bottom: 20px;   }
 #product .stock span { font-weight: bold;  padding: 5px 15px;   }
