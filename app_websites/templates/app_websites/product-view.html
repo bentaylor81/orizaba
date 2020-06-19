@@ -45,7 +45,11 @@
                 </table>
             </div>
             <div class="image">
-                <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
+                {% if product.image == 'null' %}
+                    <img src="{% static 'img/no-image.png' %}" />
+                {% else %}
+                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
+                {% endif %}
             </div>
             <div class="table-2">
                 {{ product.product_calcs }}
