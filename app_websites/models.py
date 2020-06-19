@@ -103,6 +103,7 @@ class Product(models.Model):
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True)
+    image = models.CharField(max_length=200, blank=True, default='null')
     condition = models.CharField(max_length=200, blank=True, default='new')	
     special_order = models.CharField(max_length=200, blank=True, default='no')	
 
