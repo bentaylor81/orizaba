@@ -12,6 +12,9 @@ class Day(models.Model):
     def __str__(self):
         return str(self.day)
 
+    class Meta:
+        ordering = ["day"]
+
 class Month(models.Model):
     month_id = models.IntegerField(primary_key=True)
     month = models.CharField(max_length=200, blank=True)
@@ -40,3 +43,6 @@ class Year(models.Model):
 
     def __str__(self):
         return str(self.year)
+
+    class Meta:
+        ordering = ["year"]
