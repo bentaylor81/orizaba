@@ -153,7 +153,7 @@ nav a { color: #ddd;}
 .sub-tabs > span { display: none; margin: 20px 0px 10px 0px; }
 .sub-tabs span span { margin-right: 15px; padding: 5px 0px;  }
 .sal .sub-sal, .pro .sub-pro { display: block; } /* Add the new sub tabs blocks here */
-.pro.fin .st-3, .pro.sto .st-4 { border-bottom: 4px solid #368cd7; } /* Add the new sub tabs here */
+.sal.day .a1, .sal.mon .a2, .sal.yea .a3, .pro.fin .b1, .pro.sto .b2 { border-bottom: 4px solid #368cd7; } /* Add the new sub tabs here */
 
 
 

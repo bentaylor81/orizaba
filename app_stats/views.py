@@ -1,12 +1,33 @@
 from django.shortcuts import render, redirect
 from app_websites.models import *
+from app_stats.models import *
 from app_websites.filters import *
 from django.core.paginator import Paginator
-
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 
-def stats_sales(request):
-    return render(request, 'app_stats/sales.html', {})  
+def stats_sales_day(request):
+
+    context = {
+        'daily_sales' : Day.objects.all(),
+    } 
+
+    return render(request, 'app_stats/sales-day.html', context )  
+
+def stats_sales_mon(request):
+
+    context = {
+        'monthly_sales' : Month.objects.all(),
+    } 
+
+    return render(request, 'app_stats/sales-mon.html', context )  
+
+def stats_sales_year(request):
+
+    context = {
+        'yearly_sales' : Year.objects.all(),
+    } 
+
+    return render(request, 'app_stats/sales-year.html', context )  
 
 def stats_prod_fin(request):
 

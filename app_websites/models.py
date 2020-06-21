@@ -49,6 +49,7 @@ class Order(models.Model):
     delivery_method = models.CharField(max_length=200, blank=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     items_total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    items_qty = models.IntegerField(blank=True, default=0)
     total_price_ex_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2) # items_total_price + delivery_price
     vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
@@ -56,8 +57,9 @@ class Order(models.Model):
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    month = models.ForeignKey('month', db_column='month', to_field='month_id', on_delete=models.CASCADE, blank=True, null=True) 
-    year = models.ForeignKey('Year', db_column='year', on_delete=models.CASCADE, blank=True, null=True)
+    day = models.ForeignKey('app_stats.day', db_column='day', to_field='day', on_delete=models.CASCADE, blank=True, null=True) 
+    month = models.ForeignKey('app_stats.month', db_column='month', to_field='month_id', on_delete=models.CASCADE, blank=True, null=True) 
+    year = models.ForeignKey('app_stats.Year', db_column='year', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.year) + ' | ' + str(self.total_price_inc_vat)
@@ -153,17 +155,5 @@ class Brand(models.Model):
     class Meta:
         ordering = ["brand"]
 
-class Month(models.Model):
-    month_id = models.IntegerField(primary_key=True)
-    month = models.CharField(max_length=200, blank=True)
-    year = models.ForeignKey('year', db_column='year', on_delete=models.CASCADE, null=True, blank=True, default=0)
 
-    def __str__(self):
-        return str(self.month_id) + ' | ' + str(self.month) + ' | ' + str(self.year)
-
-class Year(models.Model):
-    year = models.IntegerField(primary_key=True)
-
-    def __str__(self):
-        return str(self.year)
 
