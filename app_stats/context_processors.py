@@ -32,6 +32,28 @@ def stats_sales_day(request):
 
     return()
 
+# Add a Time field in Django
+# Rename Day to Date in Orders table
+# Remove Month and Year from Orders
+# Make the Date linked to Month and month linked to year via Foreign Key
+# Calculate Month based on Day
+# Calculate Year based on Month
+# This would reduce by thousands of queries as year would need 12 calls and month would need 30. 
+# Test the speed by commenting out the two function below and run the app. 
+# Add 'stats_updated' field to the orders table default to false
+# Then if stats_updated = false, add the value to the totals and change to True
+
+
+# Regarding the updating when required. Could have a 'last updated' field in the date table. 
+# Then say if latest order date time is > last updated field run the function (could be costly updating every field).
+# Or could make an update stats table, which inserts a field with a datetime everytime the stats are run.
+# Install debug toolbar
+
+# Might be easier to use a class based view
+# Setup 3 new tables - Date2, Month2 and Year2
+' '
+
+
 def stats_sales_mon(request):
 
     # Update Month Table by Annotating Sales from the Order Table
