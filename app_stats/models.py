@@ -2,6 +2,7 @@ from django.db import models
 
 class Day(models.Model):
     day = models.DateField(primary_key=True, auto_now=False, auto_now_add=False)
+    month_id = models.ForeignKey('month', db_column='month_id', on_delete=models.CASCADE, null=True, blank=True, default=201612)
     item_qty = models.IntegerField(blank=True, default=0)
     order_qty = models.IntegerField(blank=True, default=0)
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)

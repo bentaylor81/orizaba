@@ -71,10 +71,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-               # 'app_websites.context_processors.order_items', 
-               # 'app_stats.context_processors.stats_sales_day', 
-               # 'app_stats.context_processors.stats_sales_mon', 
-               # 'app_stats.context_processors.stats_sales_year', 
+                #'app_websites.context_processors.order_items', 
+                #'app_stats.context_processors.stats_sales_day', 
+                #'app_stats.context_processors.stats_sales_mon', 
             ],
         },
     },
@@ -114,7 +113,7 @@ DATABASES = {
 #    'PASSWORD': config('LOCAL_DB_PASSWORD'),
 #    'HOST': config('LOCAL_DB_HOST'),
 #    'PORT': config('LOCAL_DB_PORT'),
-#   }
+#  }
 #}
  
 # Password validation

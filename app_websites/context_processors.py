@@ -12,7 +12,7 @@ def order_items(request):
     ).order_by('order_id')
 
     for i in qs: 
-        i.items_qty = i.ord_items or 0
+        i.item_qty = i.ord_items or 0
         i.save()
 
     return ()

@@ -22,7 +22,7 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return str(self.order_id) + ' | ' + str(self.item_qty) + ' | ' + str(self.order_id.year)
+        return str(self.order_id) + ' | ' + str(self.item_qty)
 
     class Meta:
         ordering = ["order_id"]
@@ -49,33 +49,21 @@ class Order(models.Model):
     delivery_method = models.CharField(max_length=200, blank=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     items_total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    items_qty = models.IntegerField(blank=True, default=0)
+    item_qty = models.IntegerField(blank=True, default=0)
     total_price_ex_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2) # items_total_price + delivery_price
     vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    courier = models.CharField(max_length=100, blank=True)
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
-    date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    day = models.ForeignKey('app_stats.day', db_column='day', to_field='day', on_delete=models.CASCADE, blank=True, null=True) 
-    month = models.ForeignKey('app_stats.month', db_column='month', to_field='month_id', on_delete=models.CASCADE, blank=True, null=True) 
-    year = models.ForeignKey('app_stats.Year', db_column='year', on_delete=models.CASCADE, blank=True, null=True)
+    time = models.TimeField(auto_now=False, auto_now_add=False, default='00:00:00')
+    date = models.ForeignKey('app_stats.day', db_column='date', to_field='day', on_delete=models.CASCADE, blank=True, null=True) 
+    stats_updated = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.year) + ' | ' + str(self.total_price_inc_vat)
+        return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
-        ordering = ["-date"]
-
-    @property
-    def courier_func(self, *args, **kwargs):
-        if self.delivery_country == "United Kingdom":
-            self.courier_name = "APC"
-        else:
-            self.courier_name = "DPD"
-        self.courier = self.courier_name
-        super(Order, self).save(*args, **kwargs)
-        return self.courier
+        ordering = ["date"]
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
