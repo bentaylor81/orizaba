@@ -1,10 +1,13 @@
 from django.contrib import admin
 from app_websites.models import *
 from app_stats.models import *
+from app_orders.models import *
 
 admin.site.register(Order)
 admin.site.register(OrderNote)
 admin.site.register(OrderItem)
+admin.site.register(OrderStatusHistory)
+admin.site.register(OrderStatusType)
 admin.site.register(Product)
 admin.site.register(Supplier)
 admin.site.register(Brand)

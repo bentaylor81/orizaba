@@ -9,7 +9,7 @@
     </div>
     <div class="content">
         <div>
-            <div class="pod col-2">   
+            <div class="pod col-3">   
                 <div class="table-2">
                     <h2>Billing Details</h2>
                     <table cellpadding="0" cellspacing="0">
@@ -82,11 +82,10 @@
                             <th>Email:</th>
                             <td>{{ order.delivery_email }}</td>
                         </tr>
-                        <tr>
-                            <th>Courier:</th>
-                            <td>{{ order.courier_func }}</td>
-                        </tr>
                     </table>
+                </div>
+                <div>
+                    <h2>Actions</h2>
                 </div>
             </div>
             <div class="pod table">
@@ -151,39 +150,62 @@
             </div>
         </div>
         <div>
-            <div class="pod">
-                <h2>Notes</h2>
-                <div class="messages">
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="{{ message.tags }}">
-                            {{ message }}
+            <div>
+                <div class="pod">
+                    <h2>Order Status</h2>
+                    <div class="status">
+                        <!-- Display all Statuses after initial order status -->
+                        {{ initial_status }}
+
+                        {% for status in status_history %}
+                        <div class="item">
+                        <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i>
+                            <span>{{ status.status_type.name }}</span>
+                            <span class="date">{{ status.date }}</span>  
+                        </div> 
+                        <!-- Insert Starting Order Status-->
+                        {% endfor %}
+                        <div class="item">
+                            <i class="fas fa-caret-square-right"></i>
+                            <span>{{ order.status.name }}</span>
+                            <span class="date">{{ order.date }} at {{ order.time|time:"H:i" }}</span>  
+                        </div>                      
+                    </div>
+                </div>
+                <div class="pod">
+                    <h2>Notes</h2>
+                    <div class="messages">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="notes">
+                        {% for note in notes %}
+                        <div class="note">
+                            {{ note.note }}
+                            {{ note.order_no.order_no }}<br />
+                            <span class="date">Added by {{ note.added_by }} on {{ note.date|date:"d M Y" }}</span><br />
                         </div>
                         {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="notes">
-                    {% for note in notes %}
-                    <div class="note">
-                        {{ note.note }}
-                        {{ note.order_no.order_no }}<br />
-                        <span class="date">Added by {{ note.added_by }} on {{ note.date|date:"d M Y" }}</span><br />
                     </div>
-                    {% endfor %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="hidden">
+                            <input type="text" name="order_id" value="{{ order.order_id }}">
+                        </div>  
+                        <div class="hidden">
+                            <input type="text" name="added_by" value="{{ current_user.first_name }}">
+                        </div> 
+                        <div>
+                            <textarea type="text" rows="6" cols="80" name="note"></textarea>
+                        </div>
+                        <button type="submit">Add Note</button>
+                    </form>
                 </div>
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="hidden">
-                        <input type="text" name="order_id" value="{{ order.order_id }}">
-                    </div>  
-                    <div class="hidden">
-                        <input type="text" name="added_by" value="{{ current_user.first_name }}">
-                    </div> 
-                    <div>
-                        <textarea type="text" rows="6" cols="80" name="note"></textarea>
-                    </div>
-                    <button type="submit">Add Note</button>
-                </form>
             </div>
         </div>
 

@@ -30,10 +30,11 @@
                             <th>Billing Details</th>
                             <th>Delivery Address</th>
                             <th>Price</th>
+                            <th>Order Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for order in items %}	
+                        {% for order in items %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">
                                 {{ order.date }}
@@ -63,6 +64,16 @@
                                     <span class="total">Total Inc VAT:</span>
                                     <span class="total"><b>£{{order.total_price_inc_vat }}</b></span>
                                 </div>
+                            </td>
+                            <td class="status">
+                            {% for status in order.orderstatushistory_set.all %}
+                                {% if forloop.counter == 1 %}
+                                <div class="item">
+                                    <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i>
+                                    <span>{{ status.status_type.name }}{{ status.test }}</span>
+                                </div> 
+                                {% endif %}
+                            {% endfor %} 
                             </td>
                         </tr>
                         {% endfor %}

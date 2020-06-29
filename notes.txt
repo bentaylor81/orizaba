@@ -1,13 +1,5 @@
-My Notes
-
-# Removed the courier field from Order
-# Add 'stats_updated' field to the orders table default to false
-# Then if stats_updated = false, add the value to the totals and change to True
-
 
 Mike Notes
-
-# Order 110514 didn't go from Magento to Orizaba
 
 # Add in the item_qty into the Order Table from the OrderItem table
 # 'Time' field added to Order table. Needs to sync to Magento order time - time = models.TimeField(auto_now=False, auto_now_add=False, default='00:00:00')
