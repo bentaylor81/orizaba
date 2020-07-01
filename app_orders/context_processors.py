@@ -11,5 +11,4 @@ def initial_status(request):
         OrderStatusHistory.objects.create(order_id=order, status_type=type_inst) 
         order.status_updated = True
         order.save()
-
     return ()

@@ -154,9 +154,6 @@
                 <div class="pod">
                     <h2>Order Status</h2>
                     <div class="status">
-                        <!-- Display all Statuses after initial order status -->
-                        {{ initial_status }}
-
                         {% for status in status_history %}
                         <div class="item">
                         <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i>
