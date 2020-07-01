@@ -75,7 +75,7 @@ class Order(models.Model):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
-        ordering = ["date", "time"]
+        ordering = ["-date", "-time"]
 
   #  @property
    # def status(self, *args, **kwargs):
