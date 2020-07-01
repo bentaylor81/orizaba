@@ -9,12 +9,12 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 def stats_sales_day(request):
 
     # Update the Day Table by Annotating Sales from the Order Table
-    tot_item_qty = Day.objects.all().annotate(tot_item_qty=Sum('order__item_qty')).filter(pk=OuterRef('pk'), order__stats_updated=False)
-    tot_order_qty = Day.objects.all().annotate(tot_order_qty=Count('order')).filter(pk=OuterRef('pk'), order__stats_updated=False)
-    tot_item_price = Day.objects.all().annotate(tot_item_price=Sum('order__items_total_price')).filter(pk=OuterRef('pk'), order__stats_updated=False)
-    tot_delivery = Day.objects.all().annotate(tot_delivery=Sum('order__delivery_price')).filter(pk=OuterRef('pk'), order__stats_updated=False)
-    tot_vat = Day.objects.all().annotate(tot_vat=Sum('order__vat')).filter(pk=OuterRef('pk'), order__stats_updated=False)
-    tot_revenue = Day.objects.all().annotate(tot_revenue=Sum('order__total_price_inc_vat')).filter(pk=OuterRef('pk'), order__stats_updated=False)
+    tot_item_qty = Day.objects.all().annotate(tot_item_qty=Sum('order__item_qty')).filter(pk=OuterRef('pk'))
+    tot_order_qty = Day.objects.all().annotate(tot_order_qty=Count('order')).filter(pk=OuterRef('pk'))
+    tot_item_price = Day.objects.all().annotate(tot_item_price=Sum('order__items_total_price')).filter(pk=OuterRef('pk'))
+    tot_delivery = Day.objects.all().annotate(tot_delivery=Sum('order__delivery_price')).filter(pk=OuterRef('pk'))
+    tot_vat = Day.objects.all().annotate(tot_vat=Sum('order__vat')).filter(pk=OuterRef('pk'))
+    tot_revenue = Day.objects.all().annotate(tot_revenue=Sum('order__total_price_inc_vat')).filter(pk=OuterRef('pk'))
 
     qs = Day.objects.annotate (
         tot_item_qty=Subquery(tot_item_qty.values('tot_item_qty'), output_field=IntegerField()),
