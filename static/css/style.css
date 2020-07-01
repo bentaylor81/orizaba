@@ -109,6 +109,7 @@ nav a { color: #ddd;}
 #orders table td:first-child { width: 200px; }
 #orders table td:nth-child(2) { width: 200px; }
 #orders table td:nth-child(n+3):nth-child(-n+5) { width: 250px; }
+#orders .status .item { background: none; }
 
 /* Order View Page */
 #order .content { display: grid; grid-template-columns: 1.5fr 1fr; grid-gap: 30px;  }

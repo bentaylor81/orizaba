@@ -37,7 +37,8 @@
                         {% for order in items %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">
-                                {{ order.date }}
+                                {{ order.date }}<br />
+                                {{ order.time }}
                             </td>
                             <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
                             <td>
@@ -70,7 +71,7 @@
                                 {% if forloop.counter == 1 %}
                                 <div class="item">
                                     <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i>
-                                    <span>{{ status.status_type.name }}{{ status.test }}</span>
+                                    <span>{{ status.status_type.name }}</span>
                                 </div> 
                                 {% endif %}
                             {% endfor %} 

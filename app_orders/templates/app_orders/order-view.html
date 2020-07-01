@@ -163,13 +163,7 @@
                             <span>{{ status.status_type.name }}</span>
                             <span class="date">{{ status.date }}</span>  
                         </div> 
-                        <!-- Insert Starting Order Status-->
-                        {% endfor %}
-                        <div class="item">
-                            <i class="fas fa-caret-square-right"></i>
-                            <span>{{ order.status.name }}</span>
-                            <span class="date">{{ order.date }} at {{ order.time|time:"H:i" }}</span>  
-                        </div>                      
+                        {% endfor %}                    
                     </div>
                 </div>
                 <div class="pod">
