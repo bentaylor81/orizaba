@@ -67,9 +67,10 @@ class Order(models.Model):
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     time = models.TimeField(auto_now=False, auto_now_add=False, default='00:00:00')
-    date = models.ForeignKey('app_stats.day', db_column='date', to_field='day', on_delete=models.CASCADE, blank=True, null=True) 
-    stats_updated = models.BooleanField(default=False)
+    date = models.ForeignKey('app_stats.day', db_column='date', to_field='day', on_delete=models.CASCADE, blank=True, null=True)  
+    status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)
     status_updated = models.BooleanField(default=False)
+    stats_updated = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)

@@ -8,4 +8,5 @@ class OrderFilter(django_filters.FilterSet):
             'order_no' : ['contains'],
             'delivery_name' : ['icontains'],
             'delivery_email' : ['icontains'],
+            'status_current': ['exact'],
         }

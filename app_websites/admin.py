@@ -15,4 +15,7 @@ admin.site.register(Customer)
 admin.site.register(Year)
 admin.site.register(Month)
 admin.site.register(Day)
+admin.site.register(NavigationTab)
+admin.site.register(NavigationOrderTab)
+admin.site.register(NavigationSubTab)
 

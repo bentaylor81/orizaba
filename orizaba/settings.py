@@ -72,7 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'app_orders.context_processors.initial_status', # Loads initial 'Order Received Status
+                'app_orders.context_processors.initial_status', # Loads initial Order Received Status
                 #'app_websites.context_processors.order_items', 
                 #'app_stats.context_processors.stats_sales_day', 
                 #'app_stats.context_processors.stats_sales_mon', 

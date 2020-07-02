@@ -78,7 +78,40 @@ class Brand(models.Model):
     class Meta:
         ordering = ["brand"]
 
+class NavigationOrderTab(models.Model):
+    tab_name = models.CharField(max_length=200, blank=True)
+    path = models.CharField(max_length=200, blank=True)
+    sort_order = models.IntegerField(default=100)
 
+    def __str__(self):
+        return str(self.sort_order) + ' | ' + self.tab_name + ' | ' + self.path 
 
+    class Meta:
+        ordering = ["tab_name", "sort_order"]
 
+class NavigationSubTab(models.Model):
+    sub_tab_name = models.CharField(max_length=200, blank=True)
+    parent_tab = models.ForeignKey('navigationtab', db_column='parent_tab', on_delete=models.CASCADE, null=True, blank=True)
+    page = models.CharField(max_length=200, blank=True)
+    path = models.CharField(max_length=200, blank=True)
+    sort_order = models.IntegerField(default=100)
+
+    def __str__(self):
+        return self.sub_tab_name + ' | ' + str(self.parent_tab) + ' | ' + str(self.sort_order)
+
+    class Meta:
+        ordering = ["page", "parent_tab", "sort_order"]
+
+class NavigationTab(models.Model):
+    tab_name = models.CharField(max_length=200, blank=True)
+    section = models.CharField(max_length=200, blank=True)
+    page = models.CharField(max_length=200, blank=True)
+    path = models.CharField(max_length=200, blank=True)
+    sort_order = models.IntegerField(default=100)
+
+    def __str__(self):
+        return self.section + ' | ' + self.tab_name + ' | ' + str(self.sort_order)
+
+    class Meta:
+        ordering = ["section", "sort_order"]
 

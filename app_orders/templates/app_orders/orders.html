@@ -9,8 +9,11 @@
         <h1>Orders</h1>
     </div>
     <div class="content">
+
+        <!-- ORDERS TABS -->
+        {% include 'app_orders/global/tabs.html' %}   
+
         <div class="pod">
-            
             <div class="filter">
                 <form method="get">
                     {{ orderFilter.form }}

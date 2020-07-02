@@ -5,58 +5,52 @@
 {% block content %}
 
 <section id="products"> 
-
     <div class="top-bar">
         <h1>Products</h1>
     </div>
-
     <div class="content">
-    {% if products %}
+        <div class="pod">
+            <div class="filter">
+                <form method="get">
+                    {{ productFilter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
 
-        <!-- SUPPLIER SUMMARY -->
-        <div class="filter">
-            <form method="get">
-                {{ productFilter.form }}
-                <button type="submit">Search</button>
-            </form>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'app_websites/global/pagination.html' %}
+
+            <!-- PRODUCTS --> 
+            <div class="products table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th class="col-120">SKU</th>
+                            <th class="col-60">Weight</th>
+                            <th class="col-140">Brand</th>
+                            <th class="col-140">Supplier</th>
+                            <th class="col-140">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in items %}	
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
+                            <td>{{ product.sku }}</td>	
+                            <td>{{ product.weight|floatformat:2 }}kg</td>	
+                            <td>{{ product.brand }}</td>
+                            <td>{{ product.supplier }}</td>		
+                            <td>{{ product.location }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PRODUCT PAGINATION -->
+            {% include 'app_websites/global/pagination.html' %}
         </div>
-
-        <!-- PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
-
-        <!-- PRODUCTS --> 
-        <div class="products table">
-            <table cellpadding="0" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th class="col-120">SKU</th>
-                        <th class="col-60">Weight</th>
-                        <th class="col-140">Brand</th>
-                        <th class="col-140">Supplier</th>
-                        <th class="col-140">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product in items %}	
-                    <tr class="{% cycle 'row1' 'row2' %}">
-                        <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
-                        <td>{{ product.sku }}</td>	
-                        <td>{{ product.weight|floatformat:2 }}kg</td>	
-                        <td>{{ product.brand }}</td>
-                        <td>{{ product.supplier }}</td>		
-                        <td>{{ product.location }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
-
-    {% endif %}
     </div>
 </section>
-
 {% endblock %}

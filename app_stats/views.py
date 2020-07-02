@@ -8,6 +8,9 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 def stats_sales_day(request):
 
     context = {
+        'current_tab' : 'stats',
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
         'daily_sales' : Day.objects.all(),
     } 
 
@@ -15,7 +18,12 @@ def stats_sales_day(request):
 
 def stats_sales_mon(request):
 
+    # Navigation Tabs and Sub Tabs
+
     context = {
+        'current_tab' : 'stats',
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
         'monthly_sales' : Month.objects.all(),
     } 
 
@@ -50,6 +58,8 @@ def stats_sales_year(request):
         i.save()
 
     context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
         'yearly_sales' : qs,
     } 
 
@@ -68,6 +78,8 @@ def stats_prod_fin(request):
     items = paginator.get_page(page)
 
     context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
         'products' : products,
         'items' : items,
         'productFilter' : ProductFilter(),
@@ -75,10 +87,22 @@ def stats_prod_fin(request):
     return render(request, 'app_stats/prod-fin.html', context)  
 
 def stats_prod_sto(request):
-    return render(request, 'app_stats/prod-sto.html', {})  
+
+    context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
+    }
+
+    return render(request, 'app_stats/prod-sto.html', context)  
 
 def stats_brands(request):
-    return render(request, 'app_stats/brands.html', {})  
+
+    context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
+    }
+
+    return render(request, 'app_stats/brands.html', context)  
 
 def stats_suppliers(request):
 
@@ -94,9 +118,16 @@ def stats_suppliers(request):
     ).order_by('sort_order')
 
     context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+        'sub_tabs' : NavigationSubTab.objects.filter(page="stats"),
         'supplier_stats' : qs,
     }
     return render(request, 'app_stats/suppliers.html', context )  
 
 def stats_customers(request):
-    return render(request, 'app_stats/customers.html', {})  
+
+    context = {
+        'tabs' : NavigationTab.objects.filter(page="stats"),
+    }
+
+    return render(request, 'app_stats/customers.html', context)  

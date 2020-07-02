@@ -1,0 +1,14 @@
+<div class="pod">
+    <div class="tabs">
+    {% for tab in tabs %}
+        <a href="{{ tab.path }}">
+        {% if current_path == tab.path %}
+            <span class="active">{{ tab.tab_name }}</span>
+            {{ page }}
+        {% else %}
+            <span>{{ tab.tab_name }}</span>
+        {% endif %}
+        </a>
+    {% endfor %}
+    </div>
+</div>

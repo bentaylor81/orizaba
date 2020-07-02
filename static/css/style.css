@@ -33,6 +33,13 @@ a {	color: #1c71bb; text-decoration: none; font-weight: bold; }
 header .logo { font-size: 22px; color: #fff; margin-bottom: 20px; }
 header .logout { font-size: 12px; }
 
+/* Tabs */
+.tabs span { display: inline-block; margin-right: 15px; padding: 6px 12px; text-align: center; border: 1px solid #1c71bb; border-radius: 5px; }
+.tabs span.active { font-weight: bold;  background-color: #1c71bb; border-radius: 5px; color: #fff; }
+.sub-tabs a { margin: 20px 25px 10px 0px; display: inline-block;}
+.sub-tabs span { padding: 5px 0px; }
+.sub-tabs span.active { border-bottom: 4px solid #368cd7; }
+
 /* Messages */
 .messages { margin-bottom: 20px;  }
 .messages .success {  background: #7eac7e; padding: 10px; }
@@ -106,9 +113,9 @@ nav a { color: #ddd;}
 
 /* Orders Page */
 #orders .content table { width: 100%; }
-#orders table td:first-child { width: 200px; }
-#orders table td:nth-child(2) { width: 200px; }
-#orders table td:nth-child(n+3):nth-child(-n+5) { width: 250px; }
+#orders table td:first-child { width: 15%; }
+#orders table td:nth-child(2) { width: 15%; }
+#orders table td:nth-child(n+3):nth-child(-n+5) { width: 15%; }
 #orders .status .item { background: none; }
 
 /* Order View Page */
@@ -156,15 +163,7 @@ nav a { color: #ddd;}
 
 /* STATS APP STYLES */
 
-/* Tabs */
-.tabs span { display: inline-block; margin-right: 15px; padding: 6px 12px; text-align: center; border: 1px solid #1c71bb; border-radius: 5px; }
-.sal .sal, .pro .pro, .bra .bra, .sup .sup, .cus .cus { font-weight: bold;  background-color: #1c71bb; border-radius: 5px; color: #fff;  }
 
-/* Sub Tabs */
-.sub-tabs > span { display: none; margin: 20px 0px 10px 0px; }
-.sub-tabs span span { margin-right: 15px; padding: 5px 0px;  }
-.sal .sub-sal, .pro .sub-pro { display: block; } /* Add the new sub tabs blocks here */
-.sal.day .a1, .sal.mon .a2, .sal.yea .a3, .pro.fin .b1, .pro.sto .b2 { border-bottom: 4px solid #368cd7; } /* Add the new sub tabs here */
 
 
 
