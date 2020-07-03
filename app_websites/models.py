@@ -87,7 +87,7 @@ class NavigationOrderTab(models.Model):
         return str(self.sort_order) + ' | ' + self.tab_name + ' | ' + self.path 
 
     class Meta:
-        ordering = ["tab_name", "sort_order"]
+        ordering = ["sort_order", "tab_name"]
 
 class NavigationSubTab(models.Model):
     sub_tab_name = models.CharField(max_length=200, blank=True)
