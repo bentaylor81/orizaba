@@ -127,18 +127,18 @@ def customer_view(request, path):
     #    ann_qty=Subquery(ann_qty.values('ann_qty'), output_field=IntegerField()),
     #    ann_cnt=Subquery(ann_cnt.values('ann_cnt'), output_field=IntegerField())
     #).order_by('-year')
-    #total = Order.objects.filter(billing_email=billing_email).aggregate(tot_spt=Sum('total_price_inc_vat'), tot_cnt=Count('order_id'))
-    #tot_itm = OrderItem.objects.filter(order_id__billing_email=billing_email).aggregate(tot_itm=Sum('item_qty'))
+
+    # Notes: 
+        # Year field in orders doesn't now exist
 
     context = {
         'orders' : Order.objects.filter(billing_email=billing_email),
         'order_items' : OrderItem.objects.filter(order_id__billing_email__customer_id=path),
         'first_order' : Order.objects.filter(billing_email=billing_email).order_by('date')[0],
         'last_order' : Order.objects.filter(billing_email=billing_email).order_by('-date')[0],
-     #   'annual_summary' : qs,
+        'total' : Order.objects.filter(billing_email=billing_email).aggregate(tot_cnt=Count('order_id'), tot_itm=Sum('item_qty'), tot_spt=Sum('total_price_inc_vat')),  
         'customer' : customer,
-     #   'total' : total,
-      #  'tot_itm' : tot_itm,
-        }
+        #'annual_summary' : qs,
+      }
 
     return render(request, 'app_websites/customer-view.html', context )
