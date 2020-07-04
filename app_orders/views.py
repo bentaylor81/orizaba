@@ -24,7 +24,7 @@ def orders(request):
     items = paginator.get_page(page)
 
     context = { 
-        'tabs' : NavigationOrderTab.objects.all(),
+        'tabs' : OrderNavTab.objects.all(),
         'current_path' : request.get_full_path, # Used to define active tabs
         'orders' : orders,
         'items' : items,

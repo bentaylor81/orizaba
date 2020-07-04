@@ -73,12 +73,12 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <th>First Ordered:</th>
-                        <td>{{ first_order.date|date:"d M Y" }} - <b>{{ first_order.date|timesince }} ago</b></td>
+                        <td>{{ first_order.date }} - <b>{{ first_order.date }} ago</b></td>
                     </tr>  
                     <tr class="break"><th></th></tr>
                     <tr>
                         <th>Last Ordered:</th>
-                        <td>{{ last_order.date|date:"d M Y" }} - <b>{{ last_order.date|timesince }} ago</b></td>
+                        <td>{{ last_order.date }} - <b>{{ last_order.date }} ago</b></td>
                     </tr>              
                     <!--<tr>
                         <th>Average Order:</th>
@@ -139,7 +139,7 @@
                     <tbody>
                         {% for order_item in order_items %}
                         <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col">{{ order_item.order_id.date|date:"d M Y" }}</td>
+                            <td class="first-col">{{ order_item.order_id.date }}</td>
                             <td><a href="{% url 'order-view' order_item.order_id.order_no %}">{{ order_item.order_id.order_no }}</a></td>
                             <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
@@ -167,7 +167,7 @@
                     <tbody>
                         {% for order in orders %}
                         <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col">{{ order.date|date:"d M Y" }}</td>
+                            <td class="first-col">{{ order.date }}</td>
                             <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
                             <td>{{ order.delivery_name }}</td>
                             <td>£{{ order.items_total_price }}</td>
