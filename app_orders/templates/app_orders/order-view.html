@@ -49,7 +49,7 @@
                 </div>
                 <div class="table-2">
                     <h2>Delivery Details</h2>
-                    <table  cellpadding="0" cellspacing="0">
+                    <table cellpadding="0" cellspacing="0">
                         <tr>
                             <th>Name:</th>
                             <td>{{ order.delivery_name }}</a></td>
@@ -88,8 +88,13 @@
                     <h2>Actions</h2>
                 </div>
             </div>
-            <div class="pod table">
-                <h2>Order Details</h2>
+            <div class="pod table details">
+                <div class="header">
+                    <h2>Order Details</h2>
+                    <span>
+                        <button onclick="window.print()">Print Pick List</button>
+                    </span>
+                </div>
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
@@ -199,7 +204,49 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
+<section id="picklist">
+    <h2>06. APC Mailpack Next Day 1600 - 1kg<span>Picking List&nbsp;&nbsp;#&nbsp;&nbsp;{{ order.order_no }}</span></h2>
+    <div class="details">
+        <h3>Shipping to</h3>
+        <div class="shipto">     
+            {{ order.delivery_name }}<br />
+            {{ order.delivery_address_1 }}<br />
+            {{ order.delivery_address_2 }}<br />
+            {{ order.delivery_city }}<br />
+            {{ order.delivery_postcode }}<br />
+            {{ order.delivery_country }}<br />     
+        </div>
+    </div>
+    <div class="picklist">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Location</th>
+                    <th>SKU</th>
+                    <th>Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in order_items %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td class="prod-name">{{ order_item.product_id.product_name }}</td>
+                    <td>{{ order_item.product_id.location }}</td>
+                    <td>{{ order_item.product_id.sku }}</td>
+                    {% if order_item.item_qty > 1 %}
+                        <td class="qtyplus">{{ order_item.item_qty }}</td>
+                    {% else %}
+                        <td>{{ order_item.item_qty }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </section>
 
