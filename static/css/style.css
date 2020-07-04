@@ -174,7 +174,6 @@ nav a { color: #ddd;}
     #picklist { display: block; }
     #picklist h2 span { float: right; }
     #picklist .details { margin: 50px 0px; }
-    #picklist .details h3 { margin-bottom: 20px; font-size: 18px; }
     #picklist .details .shipto { line-height: 20px; }
     #picklist .details .shipto .order-no { justify-self: end; }
     #picklist table thead tr th { border-bottom: 1px solid #bbb; background-color: #eee; padding: 10px 0px; text-align: left;  } 
