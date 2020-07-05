@@ -12,6 +12,7 @@ section .content { padding: 30px; }
 .col-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-gap: 30px; }
 .col-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 30px; }
 .hidden { display: none; }
+.strike { text-decoration: line-through; }
 
 /* Login Container */
 .login-container { display: grid; grid-template-columns: 1fr 400px 1fr; }
@@ -125,7 +126,9 @@ nav a { color: #ddd;}
 #order .content table { width: 100% }
 #order .content .notes { width: 100%; }
 #order .content .note { border-bottom: 1px solid #ccc; width: 100%; margin-bottom: 10px; padding-bottom: 10px;  }
-#order .content .note .date { float: right; font-style: italic;  }
+#order .content .details .inactive { background-image: linear-gradient(45deg, #bbb 5%, #ddd 5%, #ddd 50%, #bbb 50%, #bbb 55%, #ddd 55%, #ddd 100%); background-size: 10.00px 10.00px; }
+#order .content .details .inactive td { border-right: 0px; border-top: 1px solid #bbb; }
+#order .content .details .inactive td a { font-weight: normal; }
 #picklist { display: none; }
 
 /*** WEBSITES APP STYLES ***/
@@ -183,7 +186,9 @@ nav a { color: #ddd;}
     #picklist table tr td:first-child { border-left: 0px; padding-left: 10px; }
     #picklist table tr td:last-child { text-align: center; font-size: 16px; font-weight: bold; padding: 0px 10px; }
     #picklist table tr td.prod-name { width: 400px;}
-    #picklist table tr td.qtyplus { background-color: #6eff004d; }    
+    #picklist table tr td.qtyplus { background-color: #6eff004d; }   
+    #picklist table .inactive td.no-strike { text-decoration: none; }
+    #picklist table .inactive td { text-decoration: line-through; } 
 }
 
 @page {

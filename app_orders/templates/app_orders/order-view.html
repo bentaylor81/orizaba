@@ -113,17 +113,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for order_item in order_items %}
+                    {% for order_item in order_items %}
+                        {% if order_item.active == True %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td><input type="checkbox" name="item-active" checked /></td>
-                            <td class="first-col red" for="omit">{{ order_item.product_id.sku }}</td>
+                            <td class="first-col">{{ order_item.product_id.sku }}</td>
                             <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
                             <td>{{ order_item.item_qty }}</td>
                             <td>£{{ order_item.total_price }}</td>
                             <td>{{ order_item.product_id.location }}</td>
                         </tr>
-                        {% endfor %}
+                        {% else %}
+                        <tr class="inactive">
+                            <td><input type="checkbox" name="item-active" /></td>
+                            <td class="first-col strike">{{ order_item.product_id.sku }}</td>
+                            <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
+                            <td>£{{ order_item.item_price }}</td>
+                            <td>{{ order_item.item_qty }}</td>
+                            <td>£{{ order_item.total_price }}</td>
+                            <td class="strike">{{ order_item.product_id.location }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
                         <tr class="row_dark_2">
                             <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2">Items Total:</td>
@@ -238,8 +250,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for order_item in order_items %}
-                <tr for="change" id="picklist-item">
+            {% for order_item in order_items %}
+                {% if order_item.active == True %}
+                <tr>
                     <td>{{ forloop.counter }}</td>
                     <td class="prod-name">{{ order_item.product_id.product_name }}</td>
                     <td>{{ order_item.product_id.location }}</td>
@@ -250,7 +263,16 @@
                         <td>{{ order_item.item_qty }}</td>
                     {% endif %}
                 </tr>
-                {% endfor %}
+                {% else %}
+                <tr class="inactive">
+                    <td class="no-strike">--</td>
+                    <td class="prod-name">{{ order_item.product_id.product_name }}</td>
+                    <td>{{ order_item.product_id.location }}</td>
+                    <td>{{ order_item.product_id.sku }}</td>
+                    <td class="no-strike">--</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
     </div>

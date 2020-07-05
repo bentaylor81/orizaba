@@ -39,7 +39,7 @@ def order_view(request, id):
 
     context = {
         'order' : Order.objects.get(order_no=id),
-        'order_items' : OrderItem.objects.filter(order_id__order_no=id),
+        'order_items' : OrderItem.objects.filter(order_id__order_no=id).order_by('order_id', '-active'),
         'status_history' : OrderStatusHistory.objects.filter(order_id__order_no=id),
         'notes' : OrderNote.objects.filter(order_id__order_no=id),
         'current_user' : request.user,
