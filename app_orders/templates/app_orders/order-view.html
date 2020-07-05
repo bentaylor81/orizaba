@@ -130,6 +130,7 @@
                         {% else %}
                         <tr class="inactive">
                             <td><input type="checkbox" name="item-active" /></td>
+                            <td>--</td>
                             <td class="strike">{{ order_item.product_id.sku }}</td>
                             <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
