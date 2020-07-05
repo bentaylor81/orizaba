@@ -31,6 +31,7 @@ class OrderItem(models.Model):
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.order_id) + ' | ' + str(self.item_qty)

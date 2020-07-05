@@ -86,6 +86,11 @@
                 </div>
                 <div>
                     <h2>Actions</h2>
+                    <div>
+                        <input type="checkbox" name="my-checkbox" id="opt-in">
+                        <label for="opt-in">Check me!</label>
+                      </div>
+
                 </div>
             </div>
             <div class="pod table details">
@@ -98,6 +103,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>SKU</th>
                             <th>Product</th>
                             <th>Item Price</th>
@@ -109,7 +115,8 @@
                     <tbody>
                         {% for order_item in order_items %}
                         <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col">{{ order_item.product_id.sku }}</td>
+                            <td><input type="checkbox" name="item-active" checked /></td>
+                            <td class="first-col red" for="omit">{{ order_item.product_id.sku }}</td>
                             <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
                             <td>{{ order_item.item_qty }}</td>
@@ -118,31 +125,31 @@
                         </tr>
                         {% endfor %}
                         <tr class="row_dark_2">
-                            <td colspan="2">&nbsp;</td>
+                            <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2">Items Total:</td>
                             <td>£{{ order.items_total_price }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td colspan="2">&nbsp;</td>
+                            <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2">Postage:</td>
                             <td>£{{ order.delivery_price }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="2">&nbsp;</td>
+                            <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2">Total Ex. Vat:</td>
                             <td>£{{ order.total_price_ex_vat }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td colspan="2">&nbsp;</td>
+                            <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2">VAT:</td>
                             <td>£{{ order.vat|floatformat:2 }}</td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr class="row_dark last">
-                            <td colspan="2">&nbsp;</td>
+                            <td colspan="3">&nbsp;</td>
                             <td class="totals" colspan="2"><b>Total Inc. VAT:</b></td>
                             <td><b>£{{ order.total_price_inc_vat }}</b></td>
                             <td>&nbsp;</td>
@@ -232,7 +239,7 @@
             </thead>
             <tbody>
                 {% for order_item in order_items %}
-                <tr>
+                <tr for="change" id="picklist-item">
                     <td>{{ forloop.counter }}</td>
                     <td class="prod-name">{{ order_item.product_id.product_name }}</td>
                     <td>{{ order_item.product_id.location }}</td>
