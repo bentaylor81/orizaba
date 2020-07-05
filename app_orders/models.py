@@ -30,8 +30,10 @@ class OrderItem(models.Model):
     product_id = models.ForeignKey('app_websites.product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
+    send_qty = models.IntegerField(blank=True, default=0) 
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     active = models.BooleanField(default=True)
+    initial_updated = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.order_id) + ' | ' + str(self.item_qty)
