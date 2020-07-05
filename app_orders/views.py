@@ -56,3 +56,14 @@ def order_view(request, id):
             return render(request, 'app_orders/order-view.html', context)
     else:
         return render(request, 'app_orders/order-view.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def order_view_update(request):
+
+    if request.method == 'POST':
+        form = OrderItem(request.POST or None)
+        form.save(request)
+        return render(request, 'app_orders/order-view.html', context)
+    else:
+        return render(request, 'app_orders/order-view.html', context)

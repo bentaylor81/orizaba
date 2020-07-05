@@ -21,5 +21,7 @@ def initial_send_qty(request):
     orderitems = OrderItem.objects.filter(initial_updated=False) 
 
     for orderitem in orderitems:
-        orderitem.item_qty = orderitem.send_qty
+        orderitem.send_qty = orderitem.item_qty
+        orderitem.initial_updated = True
+        orderitem.save()
     return ()
