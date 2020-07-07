@@ -81,19 +81,6 @@ class Order(models.Model):
     class Meta:
         ordering = ["-date", "-time"]
 
-  #  @property
-   # def status(self, *args, **kwargs):
-    #    if self.status_updated == True:
-     #       self.status_updated = True
-      #      o_id = int(self.order_id)
- 
-          #  s_type = OrderStatusType.objects.get(id=id)
-            
-       #     OrderStatusHistory.objects.create(order_id=data['o_id']) 
-
-        #    super(Order, self).save(*args, **kwargs)
-        #return ''
-
 class OrderStatusType(models.Model):
     status = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200, blank=True)

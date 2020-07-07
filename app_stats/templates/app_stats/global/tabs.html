@@ -1,47 +1,19 @@
 <div class="pod">
     <div class="tabs">
+        <a href="{% url 'app_stats:stats-sal-day' %}">
+            <span class="sal">Sales by Day</span>
+        </a>
         <a href="{% url 'app_stats:stats-sal-mon' %}">
-            <span class="sal">Sales</span>
+            <span class="sal">Sales by Month</span>
+        </a>
+        <a href="{% url 'app_stats:stats-sal-year' %}">
+            <span class="sal">Sales by Year</span>
         </a>
         <a href="{% url 'app_stats:stats-pro-fin' %}">
             <span class="pro">Products</span>
         </a>
-        <a href="{% url 'app_stats:stats-brands' %}">
-            <span class="bra">Brands</span>
-        </a>
         <a href="{% url 'app_stats:stats-suppliers' %}">
             <span class="sup">Suppliers</span>
         </a>
-        <a href="{% url 'app_stats:stats-customers' %}">
-            <span class="cus">Customers</span>
-        </a>
-    </div>
-    <div class="sub-tabs">
-        <span class="sub-sal">
-            <a href="{% url 'app_stats:stats-sal-day' %}">
-                <span class="a1">By Day</span>
-            </a>
-            <a href="{% url 'app_stats:stats-sal-mon' %}">
-                <span class="a2">By Month</span>
-            </a>
-            <a href="{% url 'app_stats:stats-sal-year' %}">
-                <span class="a3">By Year</span>
-            </a>
-            <a href="">
-                <span class="a4">By Product</span>
-            </a>
-            <a href="">
-                <span class="a5">By Customer</span>
-            </a>
-        </span>
-        <span class="sub-pro">
-            <a href="{% url 'app_stats:stats-pro-fin' %}">
-                <span class="b1">Financial View</span>
-            </a>
-            <a href="{% url 'app_stats:stats-pro-sto' %}">
-                <span class="b2">Stock View</span>
-            </a>
-        </span>
-
     </div>
 </div>

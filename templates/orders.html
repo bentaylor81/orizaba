@@ -1,4 +1,4 @@
-{% extends 'app_websites/global/base.html' %}
+{% extends 'global/base.html' %}
 {% load humanize %}
 {% load static %}
 
@@ -11,7 +11,7 @@
     <div class="content">
 
         <!-- ORDERS TABS -->
-        {% include 'app_orders/global/tabs.html' %}   
+        {% include 'global/order-tabs.html' %}   
 
         <div class="pod">
             <div class="filter">
@@ -22,7 +22,7 @@
             </div>
             
             <!-- PRODUCT PAGINATION -->
-            {% include 'app_websites/global/pagination.html' %}
+            {% include 'global/pagination.html' %}
 
             <div class="table">
                 <table cellpadding="0" cellspacing="0">
@@ -86,7 +86,7 @@
             </div>
 
             <!-- PRODUCT PAGINATION -->
-            {% include 'app_websites/global/pagination.html' %}
+            {% include 'global/pagination.html' %}
 
         </div>
     </div>

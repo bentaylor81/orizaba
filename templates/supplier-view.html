@@ -1,4 +1,4 @@
-{% extends 'app_websites/global/base.html' %}
+{% extends 'global/base.html' %}
 {% load humanize %}
 {% load static %}
 
@@ -11,7 +11,6 @@
     </div>
 
     <div class="content">
-
         <!-- SUPPLIER SUMMARY -->
         <div class="pod summary">
             <h2>Supplier Details</h2>
@@ -29,7 +28,7 @@
         </div>
         
         <!-- SUPPLIER PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
+        {% include 'global/pagination.html' %}
 
         <!-- SUPPLIER PRODUCTS --> 
         <div class="pod table">
@@ -67,7 +66,7 @@
         </div>
 
         <!-- SUPPLIER PRODUCT PAGINATION -->
-        {% include 'app_websites/global/pagination.html' %}
+        {% include 'global/pagination.html' %}
 
     </div>
 </section>

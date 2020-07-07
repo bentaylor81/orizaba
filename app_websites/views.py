@@ -13,7 +13,7 @@ from django.contrib import messages
 @allowed_users(allowed_roles=['admin'])
 def home(request):
 
-    return render(request, 'app_websites/orders.html' )
+    return render(request, 'orders.html' )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -33,7 +33,7 @@ def products(request):
         'items' : items,
         'productFilter' : ProductFilter()
         }
-    return render(request, 'app_websites/products.html', context )
+    return render(request, 'products.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -53,7 +53,7 @@ def product_view(request, id):
         'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
         'stock_status' : stock_status,
         }
-    return render(request, 'app_websites/product-view.html', context )
+    return render(request, 'product-view.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -63,7 +63,7 @@ def suppliers(request):
         'suppliers' : Supplier.objects.all().order_by('sort_order'),
         'products' : Product.objects.all(),
         }
-    return render(request, 'app_websites/suppliers.html', context )
+    return render(request, 'suppliers.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -90,7 +90,7 @@ def supplier_view(request, path):
         'product_count' : product_count,
         }
 
-    return render(request, 'app_websites/supplier-view.html', context )
+    return render(request, 'supplier-view.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -99,7 +99,7 @@ def brands(request):
     context = { 
         'brands' : Brand.objects.all(),
         }
-    return render(request, 'app_websites/brands.html', context )
+    return render(request, 'brands.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -108,7 +108,7 @@ def customers(request):
     context = { 
         'customers' : Customer.objects.all(),
         }
-    return render(request, 'app_websites/customers.html', context )
+    return render(request, 'customers.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -141,4 +141,4 @@ def customer_view(request, path):
         #'annual_summary' : qs,
       }
 
-    return render(request, 'app_websites/customer-view.html', context )
+    return render(request, 'customer-view.html', context )

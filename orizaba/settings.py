@@ -64,7 +64,7 @@ ROOT_URLCONF = 'orizaba.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,7 +74,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
                 'app_orders.context_processors.initial_send_qty' # Add Send_Qty from the Item_Qty in OrderItems table
-                #'app_websites.context_processors.order_items', 
+                
+                ### Commented out as the process is too heavy on the database
                 #'app_stats.context_processors.stats_sales_day', 
                 #'app_stats.context_processors.stats_sales_mon', 
             ],

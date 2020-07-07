@@ -1,4 +1,4 @@
-{% extends 'app_websites/global/base.html' %}
+{% extends 'global/base.html' %}
 {% load humanize %}
 {% load static %}
 
@@ -9,10 +9,8 @@
         <h1>Statistics</h1>
     </div>
     <div class="content">
-
         <!-- STATISTICS TABS -->
-        {% include 'app_websites/global/tabs.html' %}
-        
+        {% include 'app_stats/global/tabs.html' %}       
         <div class="pod col-2">
             <div class="table">
                 <h2>Sales by Day</h2>
@@ -45,12 +43,7 @@
                     </tbody>
                 </table>
             </div>            
-            <div class="table">
-                <h2>Daily Sales Graph</h2>
-               
-            </div>
         </div>
     </div>
 </section>
-
 {% endblock %}
