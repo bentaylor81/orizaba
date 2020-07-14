@@ -8,6 +8,23 @@ from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.views.generic import ListView
+
+class ProductListView(ListView):
+    template_name = 'products.html'
+    model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ProductFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+class SupplierListView(ListView):
+    template_name = 'suppliers.html'
+    model = Supplier
+
+
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -15,25 +32,6 @@ def home(request):
 
     return render(request, 'orders.html' )
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def products(request):
-
-    products = Product.objects.all()
-    # Product Filtering
-    productFilter = ProductFilter(request.GET, queryset=products)
-    products = productFilter.qs
-    # Product Pagination
-    paginator = Paginator(products, 50)
-    page = request.GET.get('page')
-    items = paginator.get_page(page)
-
-    context = { 
-        'products' : products,
-        'items' : items,
-        'productFilter' : ProductFilter()
-        }
-    return render(request, 'products.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

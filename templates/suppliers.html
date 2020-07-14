@@ -9,13 +9,13 @@
         <h1>Suppliers</h1>
     </div>
     <div class="content">
-    {% for supplier in suppliers %}
+    {% for supplier in object_list %}
         <div class="pod">
             <h2>{{ supplier.supplier }}</h2>
             {% for product in supplier.product_set.all %}
             <div class="total-products">
             {% if forloop.revcounter == 1 %}
-                <a href="{% url 'supplier-view' supplier.path %}"><span>Total Products: {{ forloop.counter|intcomma }}</span></a>
+                <a href=""><span>Total Products: {{ forloop.counter|intcomma }}</span></a>
             {% endif %}
             </div>
             {% endfor %}

@@ -66,7 +66,7 @@ class Supplier(models.Model):
         return self.supplier
 
     class Meta:
-        ordering = ["supplier"]
+        ordering = ["sort_order"]
 
 class Brand(models.Model):
     brand = models.CharField(max_length=200, primary_key=True)

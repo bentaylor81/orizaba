@@ -8,7 +8,16 @@ from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from .forms import OrderNoteForm
 from django.contrib import messages
+from django.views.generic import ListView
 
+class OrderListView(ListView):
+    template_name = 'orders.html'
+    model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

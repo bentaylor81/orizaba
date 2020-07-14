@@ -12,7 +12,7 @@
         <div class="pod">
             <div class="filter">
                 <form method="get">
-                    {{ productFilter.form }}
+                    {{ filter.form }}
                     <button type="submit">Search</button>
                 </form>
             </div>
@@ -34,9 +34,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for product in items %}	
+                        {% for product in filter.qs %}	
                         <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col"><a href={% url 'product-view' product.product_id %}>{{ product.product_name }}</a></td>
+                            <td class="first-col"><a href=>{{ product.product_name }}</a></td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	
                             <td>{{ product.brand }}</td>
