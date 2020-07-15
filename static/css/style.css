@@ -64,6 +64,8 @@
     table tr .col-120 { width: 120px; }
     table tr .col-140 { width: 140px; }
     table tr .highlight { font-weight: bold; background: rgba(0, 255, 0, 0.2); }
+    table tr td.empty { padding: 30px 10px; }
+    
 
     /* Table 1 - Stripped */
     .table { margin-bottom: 10px; } 

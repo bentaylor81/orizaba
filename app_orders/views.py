@@ -9,38 +9,22 @@ from django.core.paginator import Paginator
 from .forms import OrderNoteForm
 from django.contrib import messages
 from django.views.generic import ListView
+from django_filters.views import FilterView
 
-class OrderListView(ListView):
+class OrderListView(FilterView):
     template_name = 'orders.html'
     model = Order
-
+    paginate_by = 2
+    filterset_class = OrderFilter
+    strict = False
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
+        context['tabs'] = OrderNavTab.objects.all()
+        context['current_path'] = self.request.get_full_path()
+
         return context
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def orders(request):
-
-    orders = Order.objects.all()
-    # Order Filtering
-    orderFilter = OrderFilter(request.GET, queryset=orders)
-    orders = orderFilter.qs
-    # Order Pagination
-    paginator = Paginator(orders, 10)
-    page = request.GET.get('page')
-    items = paginator.get_page(page)
-
-    context = { 
-        'tabs' : OrderNavTab.objects.all(),
-        'current_path' : request.get_full_path, # Used to define active tabs
-        'orders' : orders,
-        'items' : items,
-        'orderFilter' : OrderFilter()
-        }
-            
-    return render(request, 'orders.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

@@ -8,4 +8,4 @@ class OrderFilter(django_filters.FilterSet):
 
     class Meta:
         model = Order
-        fields = ['Order', 'BillingName']
+        fields = ['Order', 'BillingName', 'status_current']
