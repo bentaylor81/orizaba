@@ -100,7 +100,7 @@
     .filter span { float: right; margin-top: 7px; }
 
     /* Pagination */
-    .pagination { text-align: center; margin-bottom: 10px; }
+    .pagination { float: right; margin-bottom: 10px; }
     .pagination a:hover { text-decoration: underline; }
     .pagination .page-block { margin: 0px 5px; display: inline-block; }
     .pagination .page-number { background: #368cd7; padding: 2px 12px; border-radius: 3px; color: #fff; display: inline-block; }

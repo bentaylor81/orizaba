@@ -14,13 +14,12 @@ from django_filters.views import FilterView
 class OrderListView(FilterView):
     template_name = 'orders.html'
     model = Order
-    paginate_by = 2
+    paginate_by = 20
     filterset_class = OrderFilter
     strict = False
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
         context['tabs'] = OrderNavTab.objects.all()
         context['current_path'] = self.request.get_full_path()
 
