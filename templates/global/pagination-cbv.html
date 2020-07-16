@@ -1,8 +1,8 @@
 <!-- PAGINATION -->
 <div class="pagination-block">
     <div class="counter">
-        Total Items: <b>{{ page_obj.paginator.count }}</b><br />
-        Showing Items: <b>{{ page_obj.start_index }}</b> to <b>{{ page_obj.end_index }}</b>
+        Total: <b>{{ page_obj.paginator.count }}</b><br />
+        Showing: <b>{{ page_obj.start_index }}</b> to <b>{{ page_obj.end_index }}</b>
     </div>
     {% if is_paginated %}
     <div class="pagination">
