@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'django_filters',
-    'django_tables2',
     'app_websites',
     'app_apis',
     'app_users',
