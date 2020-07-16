@@ -16,7 +16,7 @@ from .tables import OrderTable
 class OrderListView(FilterView):
     template_name = 'orders.html'
     model = Order
-    paginate_by = 20 # Need to set the pagination so it goes after the Filters
+    paginate_by = 20
     filterset_class = OrderFilter
     strict = False
     
