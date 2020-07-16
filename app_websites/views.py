@@ -9,15 +9,15 @@ from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.views.generic import ListView
+from django_filters.views import FilterView
 
-class ProductListView(ListView):
+class ProductListView(FilterView):
     template_name = 'products.html'
     model = Product
+    paginate_by = 50
+    filterset_class = ProductFilter
+    strict = False
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = ProductFilter(self.request.GET, queryset=self.get_queryset())
-        return context
 
 class SupplierListView(ListView):
     template_name = 'suppliers.html'

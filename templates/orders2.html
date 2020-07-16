@@ -1,6 +1,8 @@
 {% extends 'global/base.html' %}
-{% load humanize %}
 {% load static %}
+{% load render_table from django_tables2 %}
+{% load humanize %}
+
 
 {% block content %}
 
@@ -21,9 +23,12 @@
                 </form>
             </div>
             
-            <!-- ORDERS PAGINATION -->
+            <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination-cbv.html' %}
-
+            <div>
+                {% render_table table %}
+                Hello Ben
+            </div>
             <div class="table">
                 <table cellpadding="0" cellspacing="0">
                     <thead>

@@ -65,7 +65,6 @@
     table tr .col-140 { width: 140px; }
     table tr .highlight { font-weight: bold; background: rgba(0, 255, 0, 0.2); }
     table tr td.empty { padding: 30px 10px; }
-    
 
     /* Table 1 - Stripped */
     .table { margin-bottom: 10px; } 
@@ -82,6 +81,17 @@
     .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff;   }
     .table-2 table td { border: 0px; background: #fff; padding: 3px 0px;   }
     .table-2 table tr.break th { height: 10px; border: 0px; }
+
+    /* Table 3 - Django_Tables2 */
+    .django_tables { margin-bottom: 10px; } 
+    .django_tables thead { background: #444; }
+    .django_tables tr:last-child td { border-bottom: 1px solid #bbb; }
+    .django_tables tr.row_dark td { border-bottom: 0px; }
+    .django_tables tr th {  color: #fff; text-align: left; font-weight: bold; border: 0px; padding: 10px 8px; }
+    .django_tables tr th a { color: #fff; }
+    .django_tables .totals { text-align: right; }
+    .django_tables .table-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .django_tables .table-grid .total { margin-top: 15px; }
 
     /* Navigation */
     nav { background: #191919; padding: 20px 0px; }
@@ -100,7 +110,7 @@
     .filter span { float: right; margin-top: 7px; }
 
     /* Pagination */
-    .pagination { float: right; margin-bottom: 10px; }
+    .pagination { float:right; margin-bottom: 10px; }
     .pagination a:hover { text-decoration: underline; }
     .pagination .page-block { margin: 0px 5px; display: inline-block; }
     .pagination .page-number { background: #368cd7; padding: 2px 12px; border-radius: 3px; color: #fff; display: inline-block; }
