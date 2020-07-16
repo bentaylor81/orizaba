@@ -1,4 +1,3 @@
-from django_tables2 import SingleTableView
 from django.shortcuts import render, redirect
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_websites.models import *
@@ -11,7 +10,6 @@ from .forms import OrderNoteForm
 from django.contrib import messages
 from django.views.generic import ListView
 from django_filters.views import FilterView
-from .tables import OrderTable
 
 class OrderListView(FilterView):
     template_name = 'orders.html'
@@ -25,20 +23,6 @@ class OrderListView(FilterView):
         context['tabs'] = OrderNavTab.objects.all()
         context['current_path'] = self.request.get_full_path()
         return context
-
-# For Django Tables 2 - Currently not in use
-class Order2ListView(SingleTableView):
-    model = Order
-    table_class = OrderTable
-    template_name = 'orders2.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tabs'] = OrderNavTab.objects.all()
-        context['current_path'] = self.request.get_full_path()
-        return context
-
-
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
