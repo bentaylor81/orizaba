@@ -1,44 +1,49 @@
 <!-- PAGINATION -->
-{% if is_paginated %}
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <!-- This checks is there is active filtering -->
-        {% if '=' in request.get_full_path %}
-            <a href="{{ request.get_full_path }}&page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
-        {% else %}
-            <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
-        {% endif %}
-    {% endif %}
-    <span class="page-block">
-    <!-- Generate the page numbers -->
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <span class="page-number page-current">{{ num }}</span>
-        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+<div class="pagination-block">
+    {% if is_paginated %}
+    <div class="counter">
+        <i>Showing <b>{{ object_list|length }}</b> of <b>{{ paginator.count }}</b></i>
+    </div>
+    <div class="pagination">
+        {% if page_obj.has_previous %}
             <!-- This checks is there is active filtering -->
             {% if '=' in request.get_full_path %}
-                <a href="{{ request.get_full_path }}&page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                <a href="{{ request.get_full_path }}&page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
             {% else %}
-                <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                <a href="?page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
             {% endif %}
         {% endif %}
-    {% endfor %}
-    </span>
-    {% if page_obj.has_next %}
-        <!-- This checks is there is active filtering -->
-        {% if '=' in request.get_full_path %}
-            <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="{{ request.get_full_path }}&page={{ page_obj.paginator.num_pages }}">End</a>
+        <span class="page-block">
+        <!-- Generate the page numbers -->
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="page-number page-current">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+                <!-- This checks is there is active filtering -->
+                {% if '=' in request.get_full_path %}
+                    <a href="{{ request.get_full_path }}&page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                {% else %}
+                    <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </span>
+        {% if page_obj.has_next %}
+            <!-- This checks is there is active filtering -->
+            {% if '=' in request.get_full_path %}
+                <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ request.get_full_path }}&page={{ page_obj.paginator.num_pages }}">End</a>
+            {% else %}
+                <a href="?page={{ page_obj.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="?page={{ page_obj.paginator.num_pages }}">End</a>
+            {% endif %}
         {% else %}
-            <a href="?page={{ page_obj.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="?page={{ page_obj.paginator.num_pages }}">End</a>
+            <i class="fas fa-arrow-circle-right"></i>&nbsp;&nbsp;|&nbsp;&nbsp; <b>End</b>
         {% endif %}
-    {% else %}
-        <i class="fas fa-arrow-circle-right"></i>&nbsp;&nbsp;|&nbsp;&nbsp; <b>End</b>
+    </div>
     {% endif %}
 </div>
-{% endif %}

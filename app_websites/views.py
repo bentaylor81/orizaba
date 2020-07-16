@@ -14,7 +14,7 @@ from django_filters.views import FilterView
 class ProductListView(FilterView):
     template_name = 'products.html'
     model = Product
-    paginate_by = 50
+    paginate_by = 2
     filterset_class = ProductFilter
     strict = False
 

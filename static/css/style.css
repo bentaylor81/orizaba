@@ -110,7 +110,8 @@
     .filter span { float: right; margin-top: 7px; }
 
     /* Pagination */
-    .pagination { float:right; margin-bottom: 10px; }
+    .pagination-block { display: grid; grid-template-columns: 1fr 1fr; }
+    .pagination { justify-self: end; margin-bottom: 10px; }
     .pagination a:hover { text-decoration: underline; }
     .pagination .page-block { margin: 0px 5px; display: inline-block; }
     .pagination .page-number { background: #368cd7; padding: 2px 12px; border-radius: 3px; color: #fff; display: inline-block; }
