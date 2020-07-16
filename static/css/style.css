@@ -111,6 +111,7 @@
 
     /* Pagination */
     .pagination-block { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 10px; }
+    .pagination-block .counter { align-self: bottom; }
     .pagination { justify-self: end; }
     .pagination a:hover { text-decoration: underline; }
     .pagination .page-block { margin: 0px 5px; display: inline-block; }
