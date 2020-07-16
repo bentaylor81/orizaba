@@ -1,9 +1,9 @@
 <!-- PAGINATION -->
 <div class="pagination-block">
-    {% if is_paginated %}
     <div class="counter">
         Showing <b>{{ object_list|length }}</b> of <b>{{ paginator.count }}</b>
     </div>
+    {% if is_paginated %}
     <div class="pagination">
         {% if page_obj.has_previous %}
             <!-- This checks is there is active filtering -->
