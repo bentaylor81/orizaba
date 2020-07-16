@@ -3,7 +3,7 @@
 <div class="pagination">
     {% if page_obj.has_previous %}
         <!-- This checks is there is active filtering -->
-        {% if 'status' or 'supplier' in request.get_full_path %}
+        {% if '=' in request.get_full_path %}
             <a href="{{ request.get_full_path }}&page=1">Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
             <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-circle-left"></i></a>
         {% else %}
@@ -18,7 +18,7 @@
             <span class="page-number page-current">{{ num }}</span>
         {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
             <!-- This checks is there is active filtering -->
-            {% if 'status' or 'supplier' in request.get_full_path %}
+            {% if '=' in request.get_full_path %}
                 <a href="{{ request.get_full_path }}&page={{ num }}"><span class="page-number">{{ num }}</span></a>
             {% else %}
                 <a href="?page={{ num }}"><span class="page-number">{{ num }}</span></a>
@@ -28,7 +28,7 @@
     </span>
     {% if page_obj.has_next %}
         <!-- This checks is there is active filtering -->
-        {% if 'status' or 'supplier' in request.get_full_path %}
+        {% if '=' in request.get_full_path %}
             <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}"><i class="fas fa-arrow-circle-right"></i></a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
             <a href="{{ request.get_full_path }}&page={{ page_obj.paginator.num_pages }}">End</a>
