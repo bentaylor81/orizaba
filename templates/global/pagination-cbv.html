@@ -2,7 +2,7 @@
 <div class="pagination-block">
     {% if is_paginated %}
     <div class="counter">
-        <i>Showing <b>{{ object_list|length }}</b> of <b>{{ paginator.count }}</b></i>
+        Showing <b>{{ object_list|length }}</b> of <b>{{ paginator.count }}</b>
     </div>
     <div class="pagination">
         {% if page_obj.has_previous %}
