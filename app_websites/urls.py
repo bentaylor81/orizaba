@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import *
-from wkhtmltopdf.views import *
+
 
 urlpatterns = [   
     path('products', ProductListView.as_view(), name='products'),
