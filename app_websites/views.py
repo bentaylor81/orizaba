@@ -44,6 +44,7 @@ class ProductListView(FilterView):
  
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
+
         options = {
             'copies' : qty,
             'page-width' : '50mm',
