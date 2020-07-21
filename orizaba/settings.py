@@ -178,9 +178,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 # 3rd Party APIs
 
 # PrintNode
-WKHTMLTOPDF_CMD = subprocess.Popen(
-    ['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf-pack-ng')], # Note we default to 'wkhtmltopdf' as the binary name
-    stdout=subprocess.PIPE).communicate()[0].strip()
 
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
