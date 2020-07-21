@@ -46,16 +46,16 @@
                             <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
                             <td>
                                 <b><a href="{% url 'customer-view' order.billing_email.customer_id %}">{{ order.billing_name }}</a></b><br />
-                                {{ order.billing_phone }}<br />
-                                {{ order.billing_email.billing_email }}
+                                <!--{{ order.billing_phone }}<br />
+                                {{ order.billing_email.billing_email }}-->
                             </td>	
                             <td>
-                                {{ order.delivery_name }}<br />
+                                <!--{{ order.delivery_name }}<br />
                                 {{ order.delivery_address_1 }}<br />
                                 {{ order.delivery_address_2 }}, 
                                 {{ order.delivery_city }}<br />
                                 {{ order.delivery_postcode }}<br />
-                                {{ order.delivery_country }}
+                                {{ order.delivery_country }}-->
                             </td>	
                             <td>
                                 <div class="table-grid">

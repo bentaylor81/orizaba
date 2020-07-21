@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_websites.models import *
@@ -10,6 +11,16 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.views.generic import ListView
 from django_filters.views import FilterView
+from django.http import HttpResponseRedirect, HttpResponse
+from django.views import View
+from .forms import ProductLabelForm
+import requests
+import json
+
+from django.views.generic import View
+import pdfkit
+
+
 
 class ProductListView(FilterView):
     template_name = 'products.html'
@@ -17,7 +28,73 @@ class ProductListView(FilterView):
     paginate_by = 50
     filterset_class = ProductFilter
     strict = False
+    form_class = ProductLabelForm
 
+    def post(self, request, *args, **kwargs):
+        form = ProductLabelForm(request.POST)
+        # Label Parameters
+        sku = form.data['sku']
+        product = form.data['product']
+        location = form.data['location']
+        # Print Quantity and Redirect Path
+        qty = form.data['qty']
+        path = form.data['path']
+
+        config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
+
+        options = {
+            'page-width' : '50mm',
+            'page-height' : '100mm',
+            'orientation' : 'Landscape',
+            'margin-top': '0',
+            'margin-right': '0',
+            'margin-bottom': '0',
+            'margin-left': '0',
+        }
+
+        # Create the Label using PDF Kit
+        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+        #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
+        # Generate download
+        #response = HttpResponse(pdf, content_type='application/pdf')
+        #response['Content-Disposition'] = 'inline; filename="/label.pdf"'
+
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)
+        
+        # Maybe move the above into Form.py OR check if the product table pdf exists tab = True
+        # If it's false then update the pdf, if it's true skip this step.
+        # Mike to set pdf to false when a change is made
+        # Mike to add Part Type to DB
+        # Needs to check if the pdf exists, if it doesn't then generate it, if it does then pass this step
+
+
+
+        # Send the Printjob to Print Node
+        url = settings.PRINTNODE_URL
+        auth = settings.PRINTNODE_AUTH
+        printer = settings.PRINTNODE_LABEL_PRINTER
+        content = "product-label.pdf" 
+        copies = qty
+
+        payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Test Page", "options": {"copies": ' +str(copies)+ '}}'
+        headers = {'Content-Type': 'application/json', 'Authorization': auth, }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        print(response.text.encode('utf8'))
+
+        return HttpResponseRedirect(path)
+
+def generate_label(request, id):
+    
+    context = { 
+            'product': Product.objects.get(sku=id),
+        }
+    return render(request, 'pdf/label.html', context )
+
+# Tidy up and move to ENV variables
+# Create PDF on the fly
+# Order new labels
 
 class SupplierListView(ListView):
     template_name = 'suppliers.html'

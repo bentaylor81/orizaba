@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>{{ product.sku }} Label</title>
+        <style type="text/css">
+            body { font-family: 'Open Sans', sans-serif;  }
+            table { border: 1px solid #000; }
+            table tr td.sides.right { border-left: 1px solid #000; }
+            table tr td.sides.left { border-right: 1px solid #000; }
+            .sides { text-align: center; font-size: 25px; font-weight: bold; }
+            .sides.right div { -webkit-transform: rotate(90deg); }
+            .sides.left div { -webkit-transform: rotate(-90deg); }
+            .details { padding: 20px 10px; text-align: center; width: 90%; font-size: 20px; }
+            .details span.sku { font-weight: bold; margin-bottom: 20px; font-size: 25px; }
+            
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="sides left">
+                        <div>{{ product.sku }}</div>
+                    </td>
+                    <td class="details">
+                        <span class="sku">{{ product.sku }}</span><br /><br />
+                        {{ product.product_name }}<br/><br />
+                        Location: <b>{{ product.location }}</b> 
+                    </td>
+                    <td class="sides right">
+                        <div>{{ product.sku }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

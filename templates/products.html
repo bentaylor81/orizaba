@@ -16,10 +16,8 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
-
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination-cbv.html' %}
-
             <!-- PRODUCTS --> 
             <div class="products table">
                 <table cellpadding="0" cellspacing="0">
@@ -31,6 +29,8 @@
                             <th class="col-140">Brand</th>
                             <th class="col-140">Supplier</th>
                             <th class="col-140">Location</th>
+                            <th class="col-140">Print</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -42,15 +42,43 @@
                             <td>{{ product.brand }}</td>
                             <td>{{ product.supplier }}</td>		
                             <td>{{ product.location }}</td>
+                            <td class="product-label">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="hidden">
+                                        <input type="text" name="sku" value="{{ product.sku }}">
+                                        <input type="text" name="product" value="{{ product.product_name }}">
+                                        <input type="text" name="location" value="{{ product.location }}">
+                                        <input type="text" name="path" value="{{ request.get_full_path }}">                            
+                                    </div>
+                                    <div>
+                                        <select name="qty">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                        <button type="submit">Print Label</button>
+                                        {{ id }}{{ country }}
+                                    </div>  
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination.html' %}
         </div>
     </div>
 </section>
 {% endblock %}
+
+

@@ -209,6 +209,10 @@
     #picklist table tr td.qtyplus { background-color: #6eff004d; }   
     #picklist table .inactive td.no-strike { text-decoration: none; }
     #picklist table .inactive td { text-decoration: line-through; } 
+
+    /* Product Label */
+    #products .top-bar, #products .filter, #products table th, #products table td, #products table td.product-label button { display: none; }
+    #products .product-label { display: block; } 
 }
 
 @page {
