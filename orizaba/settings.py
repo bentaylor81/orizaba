@@ -181,7 +181,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
-#WKHTMLTOPDF_CONFIG = config('WKHTMLTOPDF_CONFIG')
+WKHTMLTOPDF_URL = config('WKHTMLTOPDF_URL')
 
 # For Environment Variables
 django_heroku.settings(locals())
