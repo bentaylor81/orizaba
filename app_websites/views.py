@@ -42,7 +42,7 @@ class ProductListView(FilterView):
 
         
  
-        config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
+        config = pdfkit.configuration(wkhtmltopdf='./bin/wkhtmltopdf')
 
         options = {
             'page-width' : '50mm',
