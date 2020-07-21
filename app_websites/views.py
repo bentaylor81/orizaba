@@ -57,13 +57,14 @@ class ProductListView(FilterView):
         }
 
         # Create the Label using PDF Kit
-        projectUrl = 'https://' + request.get_host() + '/product/label/%s' % sku
-        #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
+        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+        pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         # Generate download
-        #response = HttpResponse(pdf, content_type='application/pdf')
-        #response['Content-Disposition'] = 'inline; filename="/label.pdf"'
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
+        return response
 
-        pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
+        #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
         
         # Maybe move the above into Form.py OR check if the product table pdf exists tab = True
         # If it's false then update the pdf, if it's true skip this step.
