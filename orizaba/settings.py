@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    'wkhtmltopdf',
+   # 'wkhtmltopdf',
     'django_filters',
     'app_websites',
     'app_apis',
