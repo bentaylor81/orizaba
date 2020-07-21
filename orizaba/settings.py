@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-   # 'wkhtmltopdf',
+    'wkhtmltopdf',
     'django_filters',
     'app_websites',
     'app_apis',
@@ -184,7 +184,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
-#WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
+WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
 # For Environment Variables
 django_heroku.settings(locals())
