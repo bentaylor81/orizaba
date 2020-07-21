@@ -41,7 +41,7 @@ class ProductListView(FilterView):
         path = form.data['path']
         #wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
  
-        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+        #config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
         options = {
             'copies' : qty,
