@@ -59,21 +59,15 @@ class ProductListView(FilterView):
         # Create the Label using PDF Kit
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
         pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
-        # Generate download
+        
+        # Generates pdf as a download
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
         return response
 
+        # Generates pdf and creates a file in static
         #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
         
-        # Maybe move the above into Form.py OR check if the product table pdf exists tab = True
-        # If it's false then update the pdf, if it's true skip this step.
-        # Mike to set pdf to false when a change is made
-        # Mike to add Part Type to DB
-        # Needs to check if the pdf exists, if it doesn't then generate it, if it does then pass this step
-
-
-
         # Send the Printjob to Print Node
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
@@ -96,10 +90,6 @@ def generate_label(request, id):
             'product': Product.objects.get(sku=id),
         }
     return render(request, 'pdf/label.html', context )
-
-# Tidy up and move to ENV variables
-# Create PDF on the fly
-# Order new labels
 
 class SupplierListView(ListView):
     template_name = 'suppliers.html'
