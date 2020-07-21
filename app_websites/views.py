@@ -40,7 +40,7 @@ class ProductListView(FilterView):
         # Print Quantity and Redirect Path
         qty = form.data['qty']
         path = form.data['path']
-        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
+        wkhtmltopdf_config = '/app/bin/wkhtmltopdf'
  
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 

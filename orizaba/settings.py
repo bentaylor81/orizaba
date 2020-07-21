@@ -103,24 +103,24 @@ DATABASES = {
 }
 
 # Comment out when pushing to production / Uncomment to use Live DB locally
-#HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
 # Comment out when pushing to production / Uncomment to use the Local DB
-#db_from_env = dj_database_url.config(conn_max_age=600)
-#DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Local Database Settings
-#DATABASES = {
-#'default': {
-#    'ENGINE': config('LOCAL_DB_ENGINE'),
-#    'NAME': config('LOCAL_DB_NAME'),
-#    'USER': config('LOCAL_DB_USER'),
-#    'PASSWORD': config('LOCAL_DB_PASSWORD'),
-#    'HOST': config('LOCAL_DB_HOST'),
-#    'PORT': config('LOCAL_DB_PORT'),
-#  }
-#}
+DATABASES = {
+'default': {
+    'ENGINE': config('LOCAL_DB_ENGINE'),
+    'NAME': config('LOCAL_DB_NAME'),
+    'USER': config('LOCAL_DB_USER'),
+    'PASSWORD': config('LOCAL_DB_PASSWORD'),
+    'HOST': config('LOCAL_DB_HOST'),
+    'PORT': config('LOCAL_DB_PORT'),
+  }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -188,3 +188,22 @@ WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
 # For Environment Variables
 django_heroku.settings(locals())
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
