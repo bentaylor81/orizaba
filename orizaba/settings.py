@@ -178,6 +178,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 # 3rd Party APIs
 
 # PrintNode
+
+
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
