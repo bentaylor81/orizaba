@@ -19,6 +19,7 @@ import json
 
 from django.views.generic import View
 import pdfkit
+import wkhtmltopdf
 
 
 
