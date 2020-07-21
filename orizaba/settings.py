@@ -104,7 +104,7 @@ DATABASES = {
 
 # Comment out when pushing to production / Uncomment to use Live DB locally
 #HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
 # Comment out when pushing to production / Uncomment to use the Local DB
 #db_from_env = dj_database_url.config(conn_max_age=600)
@@ -184,7 +184,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
-#WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
+WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
 # For Environment Variables
 django_heroku.settings(locals())
