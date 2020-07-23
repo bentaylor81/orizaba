@@ -25,6 +25,7 @@ class Product(models.Model):
     profit_margin = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)    
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True)	
+    part_type = models.CharField(max_length=200, blank=True)	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True)
