@@ -22,7 +22,6 @@ import pdfkit
 import wkhtmltopdf
 
 
-
 class ProductListView(FilterView):
     template_name = 'products.html'
     model = Product
@@ -40,10 +39,15 @@ class ProductListView(FilterView):
         # Print Quantity and Redirect Path
         qty = form.data['qty']
         path = form.data['path']
-        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
- 
-        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+    
+    ### WeasyPrint ###
 
+
+        
+    ### wkhtmltopdf - Below Code uses wkhtmltopdf which I can't get to work live ###
+
+        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
+        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
         options = {
             'copies' : qty,
@@ -68,7 +72,8 @@ class ProductListView(FilterView):
         # Generates pdf and creates a file in static
         #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
         
-        # Send the Printjob to Print Node
+    ### PRINTNODE - Send the Printjob to Print Node ###
+
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_LABEL_PRINTER
@@ -80,7 +85,7 @@ class ProductListView(FilterView):
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
-        print(response.text.encode('utf8'))
+        # print(response.text.encode('utf8'))
 
         return HttpResponseRedirect(path)
 
