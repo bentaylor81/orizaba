@@ -59,7 +59,8 @@ class ProductListView(FilterView):
 
         # Create the Label using PDF Kit
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
-        pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)
+        #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         
         # Generates pdf as a download
         response = HttpResponse(pdf, content_type='application/pdf')
@@ -67,8 +68,11 @@ class ProductListView(FilterView):
         return response
 
         #Generates pdf and creates a file in static
-        pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
-        
+        #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
+        #response = HttpResponse(pdf, content_type='application/pdf')
+        #return response
+
+
     ### PRINTNODE - Send the Printjob to Print Node ###
 
         url = settings.PRINTNODE_URL
@@ -82,7 +86,7 @@ class ProductListView(FilterView):
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
-        # print(response.text.encode('utf8'))
+        print(response.text.encode('utf8'))
 
         return HttpResponseRedirect(path)
 
