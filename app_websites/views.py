@@ -62,8 +62,9 @@ class ProductListView(FilterView):
         pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         
         # Generates pdf as a download
-        #response = HttpResponse(pdf, content_type='application/pdf')
-        #response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
+        return response
 
         #Generates pdf and creates a file in static
         pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
