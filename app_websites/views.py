@@ -9,15 +9,13 @@ from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.views.generic import ListView
+from django.views.generic import View, ListView
 from django_filters.views import FilterView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views import View
 from .forms import ProductLabelForm
 import requests
 import json
-
-from django.views.generic import View
 import pdfkit
 import wkhtmltopdf
 
