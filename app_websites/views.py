@@ -33,21 +33,19 @@ class ProductListView(FilterView):
 
     def post(self, request, *args, **kwargs):
         form = ProductLabelForm(request.POST)
-        # Label Parameters
+    # Label Parameters
         sku = form.data['sku']
         product = form.data['product']
         location = form.data['location']
-        # Print Quantity and Redirect Path
         qty = form.data['qty']
         path = form.data['path']
         
-    ### wkhtmltopdf - Below Code uses wkhtmltopdf which I can't get to work live ###
-
+    ### wkhtmltopdf - Generate the label and save to static
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
         options = {
-            'copies' : qty,
+            'copies' : '1',
             'page-width' : '50mm',
             'page-height' : '100mm',
             'orientation' : 'Landscape',
@@ -57,35 +55,28 @@ class ProductListView(FilterView):
             'margin-left': '0',
         }
 
-        # Create the Label using PDF Kit
+    # Create the Label using PDF Kit
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+
+    # Generates pdf and creates a file in static
         pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)
-        #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         
-        # Generates pdf as a download
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
-
-
-        #Generates pdf and creates a file in static
-        #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
+    # Generates pdf as a download
+        #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         #response = HttpResponse(pdf, content_type='application/pdf')
+        #response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
         #return response
 
-
     ### PRINTNODE - Send the Printjob to Print Node ###
-
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_LABEL_PRINTER
         content = "product-label.pdf" 
         copies = qty
-
         payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Test Page", "options": {"copies": ' +str(copies)+ '}}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-
         print(response.text.encode('utf8'))
 
         return HttpResponseRedirect(path)
