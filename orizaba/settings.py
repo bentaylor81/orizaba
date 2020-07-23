@@ -190,21 +190,3 @@ WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 # For Environment Variables
 django_heroku.settings(locals())
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}

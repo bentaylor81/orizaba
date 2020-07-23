@@ -77,6 +77,7 @@ class ProductListView(FilterView):
 
         return HttpResponseRedirect(path)
 
+# This Function creates the file which renders the PDF
 def generate_label(request, id):
     
     context = { 
@@ -87,9 +88,6 @@ def generate_label(request, id):
 class SupplierListView(ListView):
     template_name = 'suppliers.html'
     model = Supplier
-
-
-
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
