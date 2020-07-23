@@ -40,10 +40,6 @@ class ProductListView(FilterView):
         # Print Quantity and Redirect Path
         qty = form.data['qty']
         path = form.data['path']
-    
-    ### WeasyPrint ###
-
-
         
     ### wkhtmltopdf - Below Code uses wkhtmltopdf which I can't get to work live ###
 
@@ -66,12 +62,11 @@ class ProductListView(FilterView):
         pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         
         # Generates pdf as a download
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
-        return response
+        #response = HttpResponse(pdf, content_type='application/pdf')
+        #response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
 
-        # Generates pdf and creates a file in static
-        #pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
+        #Generates pdf and creates a file in static
+        pdf = pdfkit.from_url(projectUrl, "/static/pdf/product-label.pdf", configuration=config, options=options)
         
     ### PRINTNODE - Send the Printjob to Print Node ###
 
