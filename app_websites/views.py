@@ -31,7 +31,7 @@ class ProductListView(FilterView):
 
     def post(self, request, *args, **kwargs):
         form = ProductLabelForm(request.POST)
-    # Label Parameters
+    # Label Parameters from the Form
         sku = form.data['sku']
         product = form.data['product']
         location = form.data['location']
