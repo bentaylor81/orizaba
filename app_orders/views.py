@@ -87,13 +87,13 @@ class OrderPicklistEdit(UpdateView):
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
         order_no = self.object.order_id
-        projectUrl = 'http://orizaba.herokuapp.com/orders/%s/picklist' % order_no
+        projectUrl = 'http://orizaba.herokuapp.com/orders/%s/picklist' % order_no # Need to un-hardcode
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # Send to PrintNode
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_DESKTOP_PRINTER
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: Ben", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf"}'
+        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: Ben", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}' # Need to un-hardcode
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
 
         response = requests.request("POST", url, headers=headers, data=payload)
