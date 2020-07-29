@@ -41,7 +41,7 @@ class OrderDetail(DetailView):
 
     def get_object(self):
         id_ = self.kwargs.get("pk")
-        return get_object_or_404(Order, order_no=id_)
+        return get_object_or_404(Order, order_id=id_)
 
 class OrderAddressEdit(UpdateView):
     template_name = 'app_orders/order-detail.html'
@@ -98,7 +98,7 @@ class OrderPicklistEdit(UpdateView):
 
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
-        return reverse('order-detail', kwargs={'pk': self.object.pk})
+        return 
 
 
     def get_success_url(self):
