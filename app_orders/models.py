@@ -32,14 +32,12 @@ class OrderItem(models.Model):
     item_qty = models.IntegerField(blank=True, default=0) 
     send_qty = models.IntegerField(blank=True, default=0) 
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    active = models.BooleanField(default=True)
-    initial_updated = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.order_id) + ' | ' + str(self.item_qty)
 
     class Meta:
-        ordering = ["order_id"]
+        ordering = ["orderitem_id"]
 
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)

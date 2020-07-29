@@ -1,0 +1,16 @@
+<div class="actions">    
+{% if 'edit' in request.get_full_path %}
+    &nbsp;
+{% else %}
+    <h2>Actions</h2>
+    <div>
+        <a href="{% url 'order-address-edit' order.order_no %}"><button>Edit Address</button></a>
+    </div>
+    <div>
+        <a href="{% url 'order-picklist-edit' order.order_no %}"><button>Create Picklist</button></a>
+    </div>
+    <div>
+        <a href="{% url 'order-picklist' order.order_no %}"><button>Show Picklist</button></a>
+    </div>
+{% endif %}
+</div>

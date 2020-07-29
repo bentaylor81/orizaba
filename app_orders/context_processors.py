@@ -16,12 +16,13 @@ def initial_status(request):
     return ()
 
 # Add the Send Qty from the Item Qty in OrderItem table when an Order in received. 
-def initial_send_qty(request):
+# Don't need to do this, just save it when Print Picklist
+#def initial_send_qty(request):
 
-    orderitems = OrderItem.objects.filter(initial_updated=False) 
+    #orderitems = OrderItem.objects.filter(initial_updated=False) 
 
-    for orderitem in orderitems:
-        orderitem.send_qty = orderitem.item_qty
-        orderitem.initial_updated = True
-        orderitem.save()
-    return ()
+   ## for orderitem in orderitems:
+     #   orderitem.send_qty = orderitem.item_qty
+        #orderitem.initial_updated = True
+      #  orderitem.save()
+    #return ()

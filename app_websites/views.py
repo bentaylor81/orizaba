@@ -19,6 +19,7 @@ import json
 import pdfkit
 import wkhtmltopdf
 
+
 class ProductListView(FilterView):
     template_name = 'products.html'
     model = Product
@@ -96,8 +97,6 @@ def home(request):
     return render(request, 'orders.html' )
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
 def product_view(request, id):
     
     product = Product.objects.get(product_id=id)

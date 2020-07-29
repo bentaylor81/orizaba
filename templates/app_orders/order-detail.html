@@ -1,0 +1,41 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="order"> 
+    <div class="top-bar">
+        <!-- TITLE COMPONENT -->
+        {% include 'app_orders/components/title.html' %}
+    </div>
+    <div class="content">
+        <div>
+            <div class="pod col-3">   
+                <!-- BILLING AND DELIVERY ADDRESS COMPONENT -->
+                {% include 'app_orders/components/address.html' %}
+                <!-- ACTIONS COMPONENT-->
+                {% include 'app_orders/components/actions.html' %}
+            </div>
+            {% if 'picklist' in request.get_full_path %}
+            <div class="pod table details">
+                <!-- PICKLIST COMPONENT -->
+                {% include 'app_orders/components/picklist.html' %}
+            </div>   
+            {% endif %} 
+            <div class="pod table details">
+                <!-- ORDER ITEMS COMPONENT -->
+                {% include 'app_orders/components/items.html' %}
+            </div>
+        </div>
+        <div>
+            <div class="pod">
+                <!-- STATUS COMPONENT -->
+                {% include 'app_orders/components/status.html' %}
+            </div>
+            <div class="pod">
+                <!-- NOTES COMPONENT -->
+                {% include 'app_orders/components/notes.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

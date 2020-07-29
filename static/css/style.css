@@ -26,8 +26,9 @@
     .login-container form .button { padding: 6px; width: 100px; }
 
     /* Main Styles */
-    h1, h2 { padding: 0px; margin: 0px;  }
+    h1, h2 { padding: 0px; margin: 0px; }
     a {	color: #1c71bb; text-decoration: none; font-weight: bold; }
+    button { width: 140px; padding: 5px 0px; }
     .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center;  }
     .alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
     .pod h2 { margin-bottom: 20px; }
@@ -78,26 +79,18 @@
 
     /* Table 2 - Clear */
     .table-2 table { border: 0px; }
-    .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff;   }
-    .table-2 table td { border: 0px; background: #fff; padding: 3px 0px;   }
+    .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff; }
+    .table-2 table td { border: 0px; background: #fff; padding: 4px 0px; }
+    .table-2 table.form td { padding: 2px 0px; }
+    .table-2 table.form td input { width: 97%; }
+    .table-2 table.form td button { float: right; margin-top: 5px; }
     .table-2 table tr.break th { height: 10px; border: 0px; }
-
-    /* Table 3 - Django_Tables2 */
-    .django_tables { margin-bottom: 10px; } 
-    .django_tables thead { background: #444; }
-    .django_tables tr:last-child td { border-bottom: 1px solid #bbb; }
-    .django_tables tr.row_dark td { border-bottom: 0px; }
-    .django_tables tr th {  color: #fff; text-align: left; font-weight: bold; border: 0px; padding: 10px 8px; }
-    .django_tables tr th a { color: #fff; }
-    .django_tables .totals { text-align: right; }
-    .django_tables .table-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .django_tables .table-grid .total { margin-top: 15px; }
 
     /* Navigation */
     nav { background: #191919; padding: 20px 0px; }
     nav ul { list-style: none; padding: 0px; border-top: 1px solid #333; }
     nav ul li { padding: 2px 20px 0px 20px; display: inline-block; }
-    nav ul a { line-height: 50px; display: block; padding-left: 6px; border-bottom: 1px solid #333;  }
+    nav ul a { line-height: 50px; display: block; padding-left: 6px; border-bottom: 1px solid #333; .table-2 table td}
     nav ul a:hover { background: #333; border-left: 6px solid #368cd7; padding-left: 0px; border-bottom: 1px solid #333; }
     nav a { color: #ddd;}
 
@@ -141,6 +134,7 @@
     #order .content .details .header { display: grid; grid-template-columns: 1fr 1fr; }
     #order .content .details .header span { justify-self: end; }
     #order .content table { width: 100% }
+    #order .content .actions div { text-align: right; padding-bottom: 12px; margin-bottom: 12px; width: 100%; border-bottom: 1px solid #ccc; }
     #order .content .notes { width: 100%; }
     #order .content .notes-form textarea { width: 100%; }
     #order .content .note { border-bottom: 1px solid #ccc; width: 100%; margin-bottom: 10px; padding-bottom: 10px;  }
@@ -149,7 +143,7 @@
     #order .content .details .inactive td a { font-weight: normal; }
     #order .content .details .send_qty { text-align: center; }
     #order .content .details .send_qty input { width: 25px; text-align: center; }
-    #picklist { display: none; }
+    #order .content input.send_qty { width: 30px; }
 
 /*** APP_WEBSITES CSS ***/
 
@@ -187,35 +181,3 @@
     #brands .content .pod { display: grid; grid-template-columns: 200px 200px; }
     #brands .content .pod h2 { grid-column: 1/3; }
 
-/* MEDIA STYLES */
-
-@media print {
-    /* Picking List */
-    .page-container { display: block; }
-    .page-container .sidebar { display: none; }
-    #order { display: none; }
-    #picklist { display: block; }
-    #picklist h2 span { float: right; }
-    #picklist .details { margin: 50px 0px; }
-    #picklist .details .shipto { line-height: 20px; }
-    #picklist .details .shipto .order-no { justify-self: end; }
-    #picklist table thead tr th { border-bottom: 1px solid #bbb; background-color: #eee; padding: 10px 0px; text-align: left;  } 
-    #picklist table thead tr th:first-child { padding-left: 10px; }
-    #picklist table thead tr th:last-child { padding-right: 0px; }
-    #picklist table tr td { border-bottom: 1px solid #bbb; border-right: 0px; padding: 10px 30px 10px 0px;  }
-    #picklist table tr td:first-child { border-left: 0px; padding-left: 10px; }
-    #picklist table tr td:last-child { text-align: center; font-size: 16px; font-weight: bold; padding: 0px 10px; }
-    #picklist table tr td.prod-name { width: 400px;}
-    #picklist table tr td.qtyplus { background-color: #6eff004d; }   
-    #picklist table .inactive td.no-strike { text-decoration: none; }
-    #picklist table .inactive td { text-decoration: line-through; } 
-
-    /* Product Label */
-    #products .top-bar, #products .filter, #products table th, #products table td, #products table td.product-label button { display: none; }
-    #products .product-label { display: block; } 
-}
-
-@page {
-    size: A4;
-    margin: 80; 
-}

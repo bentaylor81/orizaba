@@ -43,9 +43,9 @@
                                 {{ order.date }}<br />
                                 {{ order.time }}
                             </td>
-                            <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
+                            <td><a href="{% url 'order-detail' order.order_no %}">{{ order.order_no }}</a></td>
                             <td>
-                                <b><a href="{% url 'customer-view' order.billing_email.customer_id %}">{{ order.billing_name }}</a></b><br />
+                                <b><a href="{% comment %}{% url 'customer-view' order.billing_email.customer_id %}{% endcomment %}">{{ order.billing_name }}</a></b><br />
                                 <!--{{ order.billing_phone }}<br />
                                 {{ order.billing_email.billing_email }}-->
                             </td>	

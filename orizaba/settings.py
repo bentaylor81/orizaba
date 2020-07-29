@@ -75,7 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
-                'app_orders.context_processors.initial_send_qty', # Add Send_Qty from the Item_Qty in OrderItems table
+                #'app_orders.context_processors.initial_send_qty', # Add Send_Qty from the Item_Qty in OrderItems table
                 
                 ### Commented out as the process is too heavy on the database
                 #'app_stats.context_processors.stats_sales_day', 
@@ -119,7 +119,7 @@ DATABASES = {
 #    'PASSWORD': config('LOCAL_DB_PASSWORD'),
 #    'HOST': config('LOCAL_DB_HOST'),
 #    'PORT': config('LOCAL_DB_PORT'),
-#  }
+#    }
 #}
 
 # Password validation
@@ -178,11 +178,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 ### 3rd Party API Credentials ###
-
+#
 # PrintNode
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
+PRINTNODE_DESKTOP_PRINTER = config('PRINTNODE_DESKTOP_PRINTER')
 
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')

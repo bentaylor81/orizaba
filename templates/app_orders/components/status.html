@@ -1,0 +1,10 @@
+<h2>Order Status</h2>
+<div class="status">
+    {% for status in object.orderstatushistory_set.all %}
+    <div class="item">
+    <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i> 
+    <span>{{ status.status_type.name }}</span>
+        <span class="date">{{ status.date }}</span>  
+    </div> 
+    {% endfor %}                    
+</div>

@@ -1,0 +1,118 @@
+<div class="table-2">
+    <h2>Billing Details</h2>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Name:</th>
+            <td><a href="{% comment %}{% url 'customer-view' order.billing_email.customer_id %}{% endcomment %}">{{ order.billing_name }}</a></td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>{{ order.billing_address_1 }}</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>{{ order.billing_address_2 }}</td>
+        </tr>
+        <tr>
+            <th>City:</th>
+            <td>{{ order.billing_city }}</td>
+        </tr>
+        <tr>
+            <th>Postcode:</th>
+            <td>{{ order.billing_postcode }}</td>
+        </tr>
+        <tr>
+            <th>Country:</th>
+            <td>{{ order.billing_country }}</td>
+        </tr>
+        <tr>
+            <th>Phone:</th>
+            <td>{{ order.billing_phone }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ order.billing_email.billing_email }}</td>
+        </tr>
+    </table>
+</div>
+<div class="table-2">
+    <h2>Delivery Details</h2>
+    {% if '/address/edit' in request.get_full_path %}
+    <form class="form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table class="form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>Name:</th>
+                <td><input type="text" name="delivery_name" value="{{ order.delivery_name }}"></td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td><input type="text" name="delivery_address_1" value="{{ order.delivery_address_1 }}"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="text" name="delivery_address_2" value="{{ order.delivery_address_2 }}"></td>
+            </tr>
+            <tr>
+                <th>City:</th>
+                <td><input type="text" name="delivery_city" value="{{ order.delivery_city }}"></td>
+            </tr>
+            <tr>
+                <th>Postcode:</th>
+                <td><input type="text" name="delivery_postcode" value="{{ order.delivery_postcode }}"></td>
+            </tr>
+            <tr>
+                <th>Country:</th>
+                <td><input type="text" name="delivery_country" value="{{ order.delivery_country }}"></td>
+            </tr>
+            <tr>
+                <th>Phone:</th>
+                <td><input type="text" name="delivery_phone" value="{{ order.delivery_phone }}"></td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td><input type="text" name="delivery_email" value="{{ order.delivery_email }}"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><button type="submit">Save Address</button></td>
+            </tr>
+        </table>
+    </form>
+    {% else %}
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Name:</th>
+            <td>{{ order.delivery_name }}</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>{{ order.delivery_address_1 }}</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>{{ order.delivery_address_2 }}</td>
+        </tr>
+        <tr>
+            <th>City:</th>
+            <td>{{ order.delivery_city }}</td>
+        </tr>
+        <tr>
+            <th>Postcode:</th>
+            <td>{{ order.delivery_postcode }}</td>
+        </tr>
+        <tr>
+            <th>Country:</th>
+            <td>{{ order.delivery_country }}</td>
+        </tr>
+        <tr>
+            <th>Phone:</th>
+            <td>{{ order.delivery_phone }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ order.delivery_email }}</td>
+        </tr>
+    </table>
+    {% endif %}
+</div>
