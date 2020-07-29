@@ -87,7 +87,7 @@ class OrderPicklistEdit(UpdateView):
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
         order_no = self.object.order_id
-        projectUrl = 'http://localhost:8000/orders/%s/picklist' % order_no
+        projectUrl = 'http://orizaba.herokuapp.com/orders/%s/picklist' % order_no
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # Send to PrintNode
         url = settings.PRINTNODE_URL
