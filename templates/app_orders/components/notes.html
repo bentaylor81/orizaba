@@ -1,13 +1,4 @@
 <h2>Notes</h2>
-<div class="messages">
-    {% if messages %}
-        {% for message in messages %}
-        <div class="{{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    {% endif %}
-</div>
 <div class="notes">
     {% for note in object.ordernote_set.all %}
     <div class="note">
