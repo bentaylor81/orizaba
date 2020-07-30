@@ -7,7 +7,7 @@ from .filters import *
 from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
-from .forms import OrderAddressForm, OrderNoteForm, OrderForm, OrderItemFormset
+from .forms import OrderDeliveryDetailsForm, OrderNoteForm, OrderForm, OrderItemFormset
 from .utils import *
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -45,7 +45,7 @@ class OrderDetail(DetailView):
 
 class OrderDeliveryEdit(SuccessMessageMixin, UpdateView):
     template_name = 'app_orders/order-detail.html'
-    form_class = OrderAddressForm
+    form_class = OrderDeliveryDetailsForm
     model = OrderItem
     queryset = Order.objects.all()
     success_message = 'Delivery Details Updated'

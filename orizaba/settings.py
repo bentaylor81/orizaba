@@ -75,7 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
-                #'app_orders.context_processors.initial_send_qty', # Add Send_Qty from the Item_Qty in OrderItems table
+                'app_orders.context_processors.initial_send_qty', # Add Send_Qty from the Item_Qty in OrderItems table
                 
                 ### Commented out as the process is too heavy on the database
                 #'app_stats.context_processors.stats_sales_day', 

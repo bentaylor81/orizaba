@@ -31,6 +31,7 @@ class OrderItem(models.Model):
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
     send_qty = models.IntegerField(blank=True, default=0) 
+    send_qty_init_updated = models.BooleanField(default=False)
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
 
     def __str__(self):
@@ -104,6 +105,11 @@ class OrderNavTab(models.Model):
 
 class OrderDeliveryMethod(models.Model):
     delivery_method = models.CharField(max_length=200, blank=True)
+    sort_order = models.IntegerField(default=100)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.delivery_method
+
+    class Meta:
+        ordering = ["sort_order"]

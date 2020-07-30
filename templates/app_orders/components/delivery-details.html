@@ -79,11 +79,10 @@
                     <select id="cars" name="delivery_method">
                         <option value="{{ order.delivery_method.pk }}">{{ order.delivery_method }}</option>
                         <option>-----</option>
-                        {% for delivery in delivery_methods %}
-                        
+                        {% for delivery in delivery_methods %}                       
                         <option value="{{ delivery.pk }}">{{ delivery.delivery_method }}</option>
                         {% endfor %}
-                      </select>
+                    </select>
                 </td>
             </tr>
             <tr><td></td></tr>
