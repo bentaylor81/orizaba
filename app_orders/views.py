@@ -43,7 +43,7 @@ class OrderDetail(DetailView):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
 
-class OrderAddressEdit(SuccessMessageMixin, UpdateView):
+class OrderDeliveryEdit(SuccessMessageMixin, UpdateView):
     template_name = 'app_orders/order-detail.html'
     form_class = OrderAddressForm
     model = OrderItem
@@ -52,6 +52,11 @@ class OrderAddressEdit(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['delivery_methods'] = OrderDeliveryMethod.objects.all()
+        return context
 
 class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
     model = Order

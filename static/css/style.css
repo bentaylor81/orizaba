@@ -131,6 +131,7 @@
 
     /* Order View Page */
     #order .content { display: grid; grid-template-columns: 1.8fr 1fr; grid-gap: 30px;  }
+    #order .content .col-3 { grid-template-columns: 1fr 1fr 0.8fr; }
     #order .content .details .header { display: grid; grid-template-columns: 1fr 1fr; }
     #order .content .details .header span { justify-self: end; }
     #order .content table { width: 100% }

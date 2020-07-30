@@ -5,7 +5,7 @@ from django.forms import inlineformset_factory
 class OrderAddressForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ["delivery_name", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email"]
+        fields = ["delivery_name", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email", "delivery_method"]
 
 class OrderNoteForm(forms.ModelForm):
     class Meta:

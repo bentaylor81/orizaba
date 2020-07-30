@@ -16,4 +16,5 @@ admin.site.register(Year)
 admin.site.register(Month)
 admin.site.register(Day)
 admin.site.register(OrderNavTab)
+admin.site.register(OrderDeliveryMethod)
 

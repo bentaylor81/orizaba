@@ -58,7 +58,7 @@ class Order(models.Model):
     delivery_country = models.CharField(max_length=200, blank=True)
     delivery_email = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
-    delivery_method = models.CharField(max_length=200, blank=True)
+    delivery_method = models.ForeignKey('orderdeliverymethod', db_column='delivery_method', default=15, on_delete=models.CASCADE, blank=True, null=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     items_total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0)
@@ -101,3 +101,9 @@ class OrderNavTab(models.Model):
 
     class Meta:
         ordering = ["sort_order", "tab_name"]
+
+class OrderDeliveryMethod(models.Model):
+    delivery_method = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.delivery_method
