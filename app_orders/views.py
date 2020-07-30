@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from .forms import OrderAddressForm, OrderNoteForm, OrderForm, OrderItemFormset
 from .utils import *
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, UpdateView
 from django.views.generic.edit import FormMixin
@@ -20,7 +21,6 @@ import requests
 import json
 import pdfkit
 import wkhtmltopdf
-
 
 class OrderList(FilterView):
     template_name = 'app_orders/order-list.html'
@@ -43,16 +43,17 @@ class OrderDetail(DetailView):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
 
-class OrderAddressEdit(UpdateView):
+class OrderAddressEdit(SuccessMessageMixin, UpdateView):
     template_name = 'app_orders/order-detail.html'
     form_class = OrderAddressForm
     model = OrderItem
     queryset = Order.objects.all()
+    success_message = 'Delivery Details Updated'
 
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-class OrderPicklistEdit(UpdateView):
+class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
     model = Order
     form_class = OrderForm
     template_name = 'app_orders/order-detail.html'
@@ -80,31 +81,28 @@ class OrderPicklistEdit(UpdateView):
         order_item_form.save()
         # Generate PDF Picklist
         self.generate_picklist(self.request)
-        return
+        messages.success(self.request, 'Picking List Printed')
+        return HttpResponseRedirect(self.get_success_url())
 
     def generate_picklist(self, request):
         # Generate the PDF
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
         order_no = self.object.order_id
-        projectUrl = 'http://orizaba.herokuapp.com/orders/%s/picklist' % order_no # Need to un-hardcode
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_no # Need to un-hardcode
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # Send to PrintNode
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_DESKTOP_PRINTER
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: Ben", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}' # Need to un-hardcode
+        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: Ben", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
-
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
         return 
 
-
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
- 
-
 
 
 

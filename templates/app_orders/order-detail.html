@@ -7,9 +7,18 @@
         <!-- TITLE COMPONENT -->
         {% include 'app_orders/components/title.html' %}
     </div>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %} 
     <div class="content">
         <div>
-            <div class="pod col-3">   
+            <div class="pod col-3">                
                 <!-- BILLING AND DELIVERY ADDRESS COMPONENT -->
                 {% include 'app_orders/components/address.html' %}
                 <!-- ACTIONS COMPONENT-->

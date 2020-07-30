@@ -45,9 +45,9 @@
     .sub-tabs span.active { border-bottom: 4px solid #368cd7; }
 
     /* Messages */
-    .messages { margin-bottom: 20px;  }
-    .messages .success {  background: #7eac7e; padding: 10px; }
-    .messages .error {  background: #e99595; padding: 10px; }
+    .messages { font-weight: bold; font-size: 16px; }
+    .messages .success {  background: #9eda9e; padding: 20px; }
+    .messages .error {  background: #e99595; padding: 20px; }
 
     /* Tables */
     table { width: 100%; }

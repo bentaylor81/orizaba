@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>{{ product.sku }} Label</title>
+        <title>{{ order.order_no }} Picklist</title>
         <style type="text/css">
             .page-container { display: block; }
             .page-container .sidebar { display: none; }
@@ -57,7 +57,7 @@
                             {% if order_item.item_qty > 1 %}
                                 <td class="qtyplus">{{ order_item.send_qty }}</td>
                             {% else %}
-                                <td>{{ order_item.item_qty }}</td>
+                                <td>{{ order_item.send_qty }}</td>
                             {% endif %}
                         </tr>
                         {% comment %}
