@@ -15,7 +15,7 @@ class OrderNoteForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = []
+        fields = ['delivery_address_1', 'delivery_address_2']
 
 OrderItemFormset = inlineformset_factory(
     Order, 
