@@ -38,7 +38,7 @@ class OrderItem(models.Model):
         return str(self.order_id) + ' | ' + str(self.item_qty)
 
     class Meta:
-        ordering = ["orderitem_id"]
+        ordering = ["orderitem_id", "-send_qty"]
 
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)
