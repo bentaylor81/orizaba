@@ -54,8 +54,8 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
-                            <td>{{ order_item.product_id.location }}</td>
                             <td>{{ order_item.product_id.sku }}</td>
+                            <td>{{ order_item.product_id.location }}</td>
                             {% if order_item.send_qty > 1 %}
                                 <td class="qtyplus">{{ order_item.send_qty }}</td>
                             {% else %}
@@ -66,8 +66,8 @@
                         <tr class="inactive">
                             <td class="no-strike">--</td>
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
-                            <td>{{ order_item.product_id.location }}</td>
                             <td>{{ order_item.product_id.sku }}</td>
+                            <td>{{ order_item.product_id.location }}</td>
                             <td class="no-strike">--</td>
                         </tr>
                         {% endif %}
