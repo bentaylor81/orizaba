@@ -100,7 +100,7 @@ class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_DESKTOP_PRINTER
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: Ben", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf", "options": {"color": "true"}}'
+        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
