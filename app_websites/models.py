@@ -37,7 +37,7 @@ class Product(models.Model):
         return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name) + ' | ' + str(self.brand)
 
     class Meta:
-        ordering = ["product_id"]
+        ordering = ["product_id", "location"]
 
     @property
     def product_calcs(self, *args, **kwargs):
