@@ -93,8 +93,9 @@ class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
         # Generate the PDF
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+        order_id = self.object.order_id
         order_no = self.object.order_no
-        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_no # Need to un-hardcode
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # Send to PrintNode
         url = settings.PRINTNODE_URL
