@@ -43,8 +43,8 @@ class ProductListView(FilterView):
 
         options = {
             'copies' : '1',
-            'page-width' : '102mm',
-            'page-height' : '204mm',
+            'page-width' : '51mm',
+            'page-height' : '102mm',
             'orientation' : 'Landscape',
             'margin-top': '0',
             'margin-right': '0',
