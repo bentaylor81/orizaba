@@ -70,7 +70,7 @@ class ProductListView(FilterView):
         printer = settings.PRINTNODE_LABEL_PRINTER
         content = "product-label.pdf" 
         copies = qty
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Product Label", "options": { "fit_to_page" : "true", "copies": ' +str(copies)+ '}}'
+        payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Product Label", "options": { "fit_to_page" : true, "copies": ' +str(copies)+ '}}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
 
         response = requests.request("POST", url, headers=headers, data=payload)
