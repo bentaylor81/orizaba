@@ -46,7 +46,7 @@ class ProductListView(FilterView):
             'page-width' : '102mm',
             'page-height' : '51mm',
             'dpi' : 300,
-            'orientation' : 'Landscape',
+            'orientation' : 'Portrait',
             'margin-top': '0',
             'margin-right': '0',
             'margin-bottom': '0',
