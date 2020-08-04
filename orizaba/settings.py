@@ -148,7 +148,7 @@ LANGUAGE_CODE = 'en-us'
 
 #DATE_FORMAT = "d M Y"
 
-DATETIME_FORMAT = "d M Y - H:i"
+DATETIME_FORMAT = "D d M Y - H:i"
 
 TIME_ZONE = 'UTC'
 

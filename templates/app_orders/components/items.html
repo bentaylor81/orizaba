@@ -13,8 +13,6 @@
         </tr>
     </thead>
     <tbody>  
-    <form class="order-item-form" id="picklist" action="{% url 'order-picklist-edit' order.order_no %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
         {% for order_item in object.orderitem_set.all %}
         <tr class="{% cycle 'row1' 'row2' %}">            
             <td>{{ order_item.product_id.sku }}</td>
@@ -24,7 +22,6 @@
             <td>£{{ order_item.total_price }}</td>
         </tr>
         {% endfor %}
-    </form>
         <tr class="row_dark_2">
             <td class="totals" colspan="4">Items Total:</td>
             <td>£{{ order.items_total_price }}</td>

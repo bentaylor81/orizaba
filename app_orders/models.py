@@ -11,6 +11,30 @@ class OrderStatusHistory(models.Model):
     class Meta:
         ordering = ["-date"]
 
+class OrderShipment(models.Model):
+    orderlabel_id = models.AutoField(primary_key=True)
+    order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True) 
+    delivery_name = models.CharField(max_length=200, blank=True)
+    delivery_address_1 = models.CharField(max_length=200, blank=True)
+    delivery_address_2 = models.CharField(max_length=200, blank=True)
+    delivery_city = models.CharField(max_length=200, blank=True)
+    delivery_postcode = models.CharField(max_length=200, blank=True)
+    delivery_country = models.CharField(max_length=200, blank=True)
+    delivery_phone = models.CharField(max_length=200, blank=True)
+    delivery_email = models.CharField(max_length=200, blank=True)
+    delivery_method = models.CharField(max_length=200, blank=True)
+    tracking_code = models.CharField(max_length=200, blank=True)
+    tracking_ref = models.CharField(max_length=200, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_sent = models.DateTimeField(null=True)
+    date_delivered = models.DateTimeField(null=True) 
+
+    def __str__(self):
+        return str(self.orderlabel_id) + ' | ' + self.delivery_name
+
+    class Meta:
+        ordering = ["-date_created"]
+
 class OrderNote(models.Model):
     ordernote_id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)

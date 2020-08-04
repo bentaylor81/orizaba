@@ -7,13 +7,13 @@ from .filters import *
 from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
-from .forms import OrderDeliveryDetailsForm, OrderNoteForm, OrderForm, OrderItemFormset
+from .forms import *
 from .utils import *
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, UpdateView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, CreateView
 from django_filters.views import FilterView
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
@@ -35,13 +35,34 @@ class OrderList(FilterView):
         context['current_path'] = self.request.get_full_path()
         return context
 
-class OrderDetail(DetailView):
+class OrderDetail(FormMixin, DetailView):
     template_name = 'app_orders/order-detail.html'
     queryset = Order.objects.all()
+    form_class = OrderShipmentForm
+    model = Order
 
     def get_object(self):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            order_id = self.object.order_id
+            shipment_order_id = Order.objects.get(pk=order_id)
+            form.instance.order_id = shipment_order_id
+            form.save()
+            messages.success(self.request, 'Shipment Created and Label Processing')
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('order-detail', kwargs={'pk': self.object.pk})
+
 
 class OrderDeliveryEdit(SuccessMessageMixin, UpdateView):
     template_name = 'app_orders/order-detail.html'
@@ -81,8 +102,8 @@ class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
             return HttpResponse('Form Invalid')
 
     def form_valid(self, form, order_item_form):
-        self.object = form.save()
-        order_item_form.instance = self.object
+        #self.object = form.save() # Not sure why I need these 2 lines
+        #order_item_form.instance = self.object
         order_item_form.save()
         # Generate PDF Picklist
         self.generate_picklist(self.request)
@@ -109,6 +130,7 @@ class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
+
 
 
 

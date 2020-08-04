@@ -1,0 +1,84 @@
+<div class="header">
+    <h2>Shipments</h2>
+</div>
+<table cellpadding="0" cellspacing="0">
+    <thead>
+        <tr>  
+            <th>Name & Address</th>
+            <th>Contact Details</th>
+            <th>Delivery Details</th>
+            <th>Dates</th> 
+            <th>Status</th>     
+        </tr> 
+    </thead>
+    </tbody>  
+    {% for shipment in object.ordershipment_set.all %}
+        <tr class="{% cycle 'row1' 'row2' %}">           
+            <td>
+                {{ shipment.delivery_name }}<br />
+                {{ shipment.delivery_address_1 }},<br />
+                {{ shipment.delivery_address_2 }},<br />
+                {{ shipment.delivery_city }},<br />
+                {{ shipment.delivery_postcode }}<br />
+                {{ shipment.delivery_country }}
+            </td>
+            <td>
+                {{ shipment.delivery_phone }}<br />
+                {{ shipment.delivery_email }}
+            </td>
+            <td>
+                <h3>{{ shipment.delivery_method }}</h3>
+                <div class="col-2">
+                    <div><b>Tracking:</b></div>
+                    <div>{{ shipment.tracking_code }}</div>
+                    <div><b>Reference:</b></div>
+                    <div>{{ shipment.tracking_ref }}</div>
+                </div>
+            </td>
+            <td>
+                <div class="col-2">
+                    <div>
+                        <b>Created:</b>
+                    </div>
+                    <div>
+                        {{ shipment.date_created }}
+                    </div>
+                    <div>
+                        <b>Sent:</b>
+                    </div>
+                    <div>
+                        {% if shipment.date_sent %}
+                            {{ shipment.date_sent }}
+                        {% else %}
+                            --
+                        {% endif %}
+                    </div>
+                    <div>
+                        <b>Delivered:</b>
+                    </div>
+                    <div>
+                        {% if shipment.date_delivered %}
+                            {{ shipment.date_delivered }}
+                        {% else %}
+                            --
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td class="status">
+                {% if shipment.date_delivered %}
+                    <i class="fas fa-check-square"></i><br />
+                    Delivered
+                {% elif shipment.date_sent %}
+                    <i class="fas fa-truck"></i><br />
+                    In Transit
+                {% else %}
+                    <i class="fas fa-warehouse"></i><br />
+                    Warehouse
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

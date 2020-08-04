@@ -7,6 +7,11 @@ class OrderDeliveryDetailsForm(forms.ModelForm):
         model = Order
         fields = ["delivery_name", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email", "delivery_method"]
 
+class OrderShipmentForm(forms.ModelForm):
+    class Meta:
+        model = OrderShipment
+        fields = ["delivery_name", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email", "delivery_method", ]
+
 class OrderNoteForm(forms.ModelForm):
     class Meta:
         model = OrderNote

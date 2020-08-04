@@ -67,8 +67,7 @@
     table tr .highlight { font-weight: bold; background: rgba(0, 255, 0, 0.2); }
     table tr td.empty { padding: 30px 10px; }
 
-    /* Table 1 - Stripped */
-    .table { margin-bottom: 10px; } 
+    /* Table 1 - Stripped */ 
     .table table thead { background: #444; }
     .table table tr:last-child td { border-bottom: 1px solid #bbb; }
     .table table tr.row_dark td { border-bottom: 0px; }
@@ -135,7 +134,8 @@
     #order .content .details .header { display: grid; grid-template-columns: 1fr 1fr; }
     #order .content .details .header span { justify-self: end; }
     #order .content table { width: 100% }
-    #order .content .actions div { text-align: right; padding-bottom: 12px; margin-bottom: 12px; width: 100%; border-bottom: 1px solid #ccc; }
+    #order .content .actions div { position: relative; text-align: right; padding-bottom: 12px; margin-bottom: 12px; width: 100%; border-bottom: 1px solid #ccc; }
+    #order .content .actions span { position: absolute; left: 0px; top: 0px; font-size: 22px; font-weight: bold; }
     #order .content .notes { width: 100%; }
     #order .content .notes-form textarea { width: 100%; }
     #order .content .note { border-bottom: 1px solid #ccc; width: 100%; margin-bottom: 10px; padding-bottom: 10px;  }
@@ -145,6 +145,13 @@
     #order .content .details .send_qty { text-align: center; }
     #order .content .details .send_qty input { width: 25px; text-align: center; }
     #order .content input.send_qty { width: 30px; }
+    #order .content .shipment h3 { padding: 0px; margin: 0px 0px 20px 0px; }
+    #order .content .shipment .col-2 { display: inline-grid; grid-template-columns: auto auto; grid-gap: 10px; }
+    #order .content .shipment .status { text-align: center; font-size: 18px; }
+    #order .content .shipment .fa-warehouse { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
+    #order .content .shipment .fa-truck { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
+    #order .content .shipment .fa-check-square { color: #38a938; font-size: 40px; margin: 0px 0px 10px 0px; }
+
 
 /*** APP_WEBSITES CSS ***/
 
