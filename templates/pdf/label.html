@@ -5,7 +5,7 @@
             body { font-family: sans-serif; height: 100%; width: 100%; margin: 0px;  }
             .wrapper { background: #fff;  padding: 10px; position: relative; width: 100%; } 
             .wrapper div { display: inline-block; }
-            .sides.right { -webkit-transform: rotate(90deg); position: absolute; right: -45px; top: 50%; font-size: 24px; padding: 10px 20px; background-color: #ddd; }
+            .sides.right { -webkit-transform: rotate(90deg); position: absolute; right: -45px; top: 45%; font-size: 24px; padding: 10px 20px; background-color: #ddd; }
             .details { font-size: 20px;  width: 100%; }
             span.sku { font-weight: bold; margin-bottom: 20px; font-size: 40px; }     
             span.location { font-size: 30px; }
@@ -16,7 +16,7 @@
             <div class="details">
                 <span class="sku">{{ product.sku }}</span><br /><br />
                 {{ product.part_type }}<br/><br />
-                <span class="sku">{{ product.location }}</span>
+                <span class="location">{{ product.location }}</span>
             </div>
             <div class="sides right">
                 {{ product.sku }}
