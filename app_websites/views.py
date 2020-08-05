@@ -43,10 +43,10 @@ class ProductListView(FilterView):
 
         options = {
             'copies' : '1',
-            'page-width' : '102mm',
-            'page-height' : '51mm',
-            'dpi' : 300,
-            'orientation' : 'Portrait',
+            'page-width' : '51mm',
+            'page-height' : '102mm',
+
+            'orientation' : 'Landscape',
             'margin-top': '0',
             'margin-right': '0',
             'margin-bottom': '0',
@@ -74,8 +74,8 @@ class ProductListView(FilterView):
         payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Product Label", "options": {"copies": ' +str(copies)+ '}}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text.encode('utf8'))
+        #response = requests.request("POST", url, headers=headers, data=payload)
+        #print(response.text.encode('utf8'))
 
         return HttpResponseRedirect(path)
 
