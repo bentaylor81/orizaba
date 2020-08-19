@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" id="head">
     <h2>Shipments</h2>
 </div>
 <table cellpadding="0" cellspacing="0">
@@ -48,7 +48,7 @@
                     </div>
                     <div>
                         {% if shipment.date_sent %}
-                            {{ shipment.date_sent }}
+                            {{ shipment.date_sent|date:'D d M Y' }}
                         {% else %}
                             --
                         {% endif %}

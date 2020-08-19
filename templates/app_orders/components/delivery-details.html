@@ -1,3 +1,4 @@
+{% load static %}
 <div class="table-2">
     <h2>Billing Details</h2>
     <table cellpadding="0" cellspacing="0">
@@ -76,14 +77,18 @@
             <tr>
                 <th>Delivery:</th>
                 <td>
-                    <select id="cars" name="delivery_method">
+                    <select name="delivery_method">
                         <option value="{{ order.delivery_method.pk }}">{{ order.delivery_method }}</option>
-                        <option>-----</option>
+                        <option value="{{ order.delivery_method.pk }}">-------</option>
                         {% for delivery in delivery_methods %}                       
                         <option value="{{ delivery.pk }}">{{ delivery.delivery_method }}</option>
                         {% endfor %}
                     </select>
                 </td>
+            </tr>
+            <tr>
+                <th>Send Date:</th>
+                <td><input type="date" name="date_sent" id="date" value="{{ order.date_sent|date:'Y-m-d' }}"></td>
             </tr>
             <tr><td></td></tr>
             <tr>
@@ -93,7 +98,7 @@
         </table>
     </form>
     {% else %}
-    <table cellpadding="0" cellspacing="0">
+    <table id="non-form" cellpadding="0" cellspacing="0">
         <tr>
             <th>Name:</th>
             <td>{{ order.delivery_name }}</td>
@@ -128,8 +133,25 @@
         </tr>
         <tr>
             <th>Delivery:</th>
-            <td>{{ order.delivery_method }}</td>
+            <td>
+                {% if order.delivery_method %}                   
+                    {{ order.delivery_method }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Send Date:</th>
+            <td>
+                {% if order.date_sent %}                   
+                    {{ order.date_sent|date:'D d M Y' }}
+                {% else %}
+                    Not Set
+                {% endif %}
+            </td>
         </tr>
     </table>
     {% endif %}
 </div>
+

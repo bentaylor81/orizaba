@@ -49,6 +49,9 @@
     .messages .success {  background: #9eda9e; padding: 20px; }
     .messages .error {  background: #e99595; padding: 20px; }
 
+    /* Forms */
+    form input#date { font: 13px 'Roboto'; }
+
     /* Tables */
     table { width: 100%; }
     table tr.last td { border: 0px; }
@@ -78,10 +81,12 @@
 
     /* Table 2 - Clear */
     .table-2 table { border: 0px; }
-    .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff; }
+    .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff; padding: 0px 0px 0px 5px; }
     .table-2 table td { border: 0px; background: #fff; padding: 4px 0px; }
+    .table-2 tr.highlight td, .table-2 tr.highlight th { background: #9eda9e; }
     .table-2 table.form td { padding: 2px 0px; }
     .table-2 table.form td input { width: 97%; }
+    .table-2 table.form td input#date { width: 98%; padding: 0px 1px; }
     .table-2 table.form td button { float: right; margin-top: 5px; }
     .table-2 table tr.break th { height: 10px; border: 0px; }
 

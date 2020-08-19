@@ -14,15 +14,3 @@ def initial_status(request):
         order.status_updated = True
         order.save()
     return ()
-
-# When ran Sent Qty = Item Qty
-# send_qty_init_updated field then set to true 
-def initial_send_qty(request):
-
-    orderitems = OrderItem.objects.filter(send_qty_init_updated=False) 
-
-    for orderitem in orderitems:
-        orderitem.send_qty = orderitem.item_qty
-        orderitem.send_qty_init_updated = True
-        orderitem.save()
-    return ()

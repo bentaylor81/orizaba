@@ -23,8 +23,8 @@
                 <td>{{ item.product_id }}{{ item.instance.product_id.sku }}</td>
                 <td>{{ item.instance.product_id.product_name }}</td> 
                 <td>{{ item.instance.product_id.location }}</td>               
-                <td>{{ item.instance.item_qty  }}</td>
-                <td>{{ item.send_qty }}</td>
+                <td id="item-qty">{{ item.instance.item_qty }}</td>
+                <td id="send-qty">{{ item.send_qty }}</td>
             </tr>     
             {% endfor %}
             <tr class="row_dark_2">

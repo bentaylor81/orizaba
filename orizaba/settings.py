@@ -75,7 +75,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
-                'app_orders.context_processors.initial_send_qty', # Add Send_Qty from the Item_Qty in OrderItems table
                 
                 ### Commented out as the process is too heavy on the database
                 #'app_stats.context_processors.stats_sales_day', 
@@ -103,24 +102,24 @@ DATABASES = {
 }
 
 # Comment out when pushing to production / Uncomment to use Live DB locally
-#HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-#DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+# HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+# DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
-# Comment out when pushing to production / Uncomment to use the Local DB
-#db_from_env = dj_database_url.config(conn_max_age=600)
-#DATABASES['default'].update(db_from_env)
+# # Comment out when pushing to production / Uncomment to use the Local DB
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
 
-# Local Database Settings
-#DATABASES = {
-#'default': {
-#    'ENGINE': config('LOCAL_DB_ENGINE'),
-#    'NAME': config('LOCAL_DB_NAME'),
-#    'USER': config('LOCAL_DB_USER'),
-#    'PASSWORD': config('LOCAL_DB_PASSWORD'),
-#    'HOST': config('LOCAL_DB_HOST'),
-#    'PORT': config('LOCAL_DB_PORT'),
-#    }
-#}
+# # Local Database Settings
+# DATABASES = {
+# 'default': {
+#     'ENGINE': config('LOCAL_DB_ENGINE'),
+#     'NAME': config('LOCAL_DB_NAME'),
+#     'USER': config('LOCAL_DB_USER'),
+#     'PASSWORD': config('LOCAL_DB_PASSWORD'),
+#     'HOST': config('LOCAL_DB_HOST'),
+#     'PORT': config('LOCAL_DB_PORT'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

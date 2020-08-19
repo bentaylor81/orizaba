@@ -26,7 +26,7 @@ class OrderShipment(models.Model):
     tracking_code = models.CharField(max_length=200, blank=True)
     tracking_ref = models.CharField(max_length=200, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_sent = models.DateTimeField(null=True)
+    date_sent = models.DateField(null=True)
     date_delivered = models.DateTimeField(null=True) 
 
     def __str__(self):
@@ -55,7 +55,6 @@ class OrderItem(models.Model):
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
     send_qty = models.IntegerField(blank=True, default=0) 
-    send_qty_init_updated = models.BooleanField(default=False)
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
 
     def __str__(self):
@@ -83,7 +82,7 @@ class Order(models.Model):
     delivery_country = models.CharField(max_length=200, blank=True)
     delivery_email = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
-    delivery_method = models.ForeignKey('orderdeliverymethod', db_column='delivery_method', default=1, on_delete=models.CASCADE, blank=True, null=True)
+    delivery_method = models.ForeignKey('orderdeliverymethod', db_column='delivery_method', on_delete=models.CASCADE, blank=True, null=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     items_total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0)
@@ -94,6 +93,7 @@ class Order(models.Model):
     website = models.CharField(max_length=200, blank=True)
     time = models.TimeField(auto_now=False, auto_now_add=False, default='00:00:00')
     date = models.ForeignKey('app_stats.day', db_column='date', to_field='day', on_delete=models.CASCADE, blank=True, null=True)  
+    date_sent = models.DateField(null=True, blank=True)
     status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)
     status_updated = models.BooleanField(default=False)
     stats_updated = models.BooleanField(default=False)
