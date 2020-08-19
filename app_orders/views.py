@@ -11,6 +11,7 @@ from .forms import *
 from .utils import *
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, UpdateView
 from django.views.generic.edit import FormMixin, CreateView
@@ -22,7 +23,8 @@ import json
 import pdfkit
 import wkhtmltopdf
 
-class OrderList(FilterView):
+class OrderList(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
     template_name = 'app_orders/order-list.html'
     model = Order
     paginate_by = 20
@@ -35,7 +37,8 @@ class OrderList(FilterView):
         context['current_path'] = self.request.get_full_path()
         return context
 
-class OrderDetail(FormMixin, DetailView):
+class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
+    login_url = '/login/'
     template_name = 'app_orders/order-detail.html'
     queryset = Order.objects.all()
     form_class = OrderShipmentForm
@@ -64,7 +67,8 @@ class OrderDetail(FormMixin, DetailView):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
 
-class OrderDeliveryEdit(SuccessMessageMixin, UpdateView):
+class OrderDeliveryEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    login_url = '/login/'
     template_name = 'app_orders/order-detail.html'
     form_class = OrderDeliveryDetailsForm
     model = OrderItem
@@ -79,7 +83,8 @@ class OrderDeliveryEdit(SuccessMessageMixin, UpdateView):
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         return context
 
-class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
+class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    login_url = '/login/'
     model = Order
     form_class = OrderForm
     template_name = 'app_orders/order-detail.html'

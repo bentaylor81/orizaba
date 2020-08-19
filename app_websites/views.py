@@ -6,6 +6,7 @@ from app_stats.models import *
 from app_orders.models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -20,7 +21,8 @@ import pdfkit
 import wkhtmltopdf
 
 
-class ProductListView(FilterView):
+class ProductListView(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
     template_name = 'products.html'
     model = Product
     paginate_by = 50
@@ -86,7 +88,8 @@ def generate_label(request, id):
         }
     return render(request, 'pdf/label.html', context )
 
-class SupplierListView(ListView):
+class SupplierListView(LoginRequiredMixin,ListView):
+    login_url = '/login/'
     template_name = 'suppliers.html'
     model = Supplier
 
@@ -96,9 +99,9 @@ def home(request):
 
     return render(request, 'orders.html' )
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def product_view(request, id):
-    
     product = Product.objects.get(product_id=id)
     if product.stock_qty == 0:
         stock_status = 'no-stock'

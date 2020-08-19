@@ -15,7 +15,7 @@ def loginPage(request):
             user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('orders')
+            return redirect('/orders')
         else:
             messages.info(request, 'Username or Password is Incorrect')
     return render(request, 'login.html')
