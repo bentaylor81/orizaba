@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.db.models import FloatField
 from django.db.models.functions import Cast
 from django.shortcuts import render, redirect
-from app_websites.models import *
+from app_products.models import *
 from app_stats.models import *
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count, Q
 

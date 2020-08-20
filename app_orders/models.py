@@ -51,7 +51,7 @@ class OrderNote(models.Model):
 class OrderItem(models.Model):
     orderitem_id = models.IntegerField(primary_key=True)
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
-    product_id = models.ForeignKey('app_websites.product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
+    product_id = models.ForeignKey('app_products.product', db_column='product_id', on_delete=models.CASCADE, null=True, blank=True)
     item_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0) 
     send_qty = models.IntegerField(blank=True, default=0) 
@@ -72,7 +72,7 @@ class Order(models.Model):
     billing_city = models.CharField(max_length=200, blank=True)
     billing_postcode = models.CharField(max_length=200, blank=True)
     billing_country = models.CharField(max_length=200, blank=True)
-    billing_email = models.ForeignKey('app_websites.customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank=True, null=True)
+    billing_email = models.ForeignKey('app_products.customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank=True, null=True)
     billing_phone = models.CharField(max_length=200, blank=True)
     delivery_name = models.CharField(max_length=200, blank=True)
     delivery_address_1 = models.CharField(max_length=200, blank=True)

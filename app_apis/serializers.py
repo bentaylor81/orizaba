@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app_websites.models import *
+from app_products.models import *
 from app_orders.models import *
 
 class OrderSerializer(serializers.ModelSerializer):

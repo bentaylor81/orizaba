@@ -8,7 +8,7 @@ urlpatterns = [
     path('api', include('app_apis.urls')),
     path('', include('app_orders.urls')),
     path('', include('app_users.urls')),
-    path('', include('app_websites.urls')),
+    path('', include('app_products.urls')),
     path('', include('app_stats.urls')),
 ]
 

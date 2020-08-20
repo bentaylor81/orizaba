@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from app_websites.models import *
+from app_products.models import *
 from app_stats.models import *
-from app_websites.filters import *
+from app_products.filters import *
 from django.core.paginator import Paginator
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count, Q
 

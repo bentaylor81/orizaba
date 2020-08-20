@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
-from app_websites.models import *
+from app_products.models import *
 from app_stats.models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
