@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'app_products',
     'app_apis',
     'app_users',
-    'app_stats',
     'app_orders', 
 ]
 
@@ -75,10 +74,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
-                
-                ### Commented out as the process is too heavy on the database
-                #'app_stats.context_processors.stats_sales_day', 
-                #'app_stats.context_processors.stats_sales_mon', 
             ],
         },
     },

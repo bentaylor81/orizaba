@@ -2,7 +2,6 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_products.models import *
-from app_stats.models import *
 from app_orders.models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
