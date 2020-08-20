@@ -91,7 +91,7 @@ class Order(models.Model):
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
-    # Need to add the date time
+    date = models.DateTimeField(null=True, blank=True)
     date_sent = models.DateField(null=True, blank=True)
     status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)
     status_updated = models.BooleanField(default=False)
@@ -101,7 +101,7 @@ class Order(models.Model):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
-        ordering = ["order_id"]
+        ordering = ["date"]
 
 class OrderStatusType(models.Model):
     status = models.IntegerField(primary_key=True)
