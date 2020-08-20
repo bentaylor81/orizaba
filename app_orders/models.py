@@ -115,17 +115,6 @@ class OrderStatusType(models.Model):
     class Meta:
         ordering = ["status"]
 
-class OrderNavTab(models.Model):
-    tab_name = models.CharField(max_length=200, blank=True)
-    path = models.CharField(max_length=200, blank=True)
-    sort_order = models.IntegerField(default=100)
-
-    def __str__(self):
-        return str(self.sort_order) + ' | ' + self.tab_name + ' | ' + self.path 
-
-    class Meta:
-        ordering = ["sort_order", "tab_name"]
-
 class OrderDeliveryMethod(models.Model):
     delivery_method = models.CharField(max_length=200, blank=True)
     sort_order = models.IntegerField(default=100)

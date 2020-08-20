@@ -7,10 +7,10 @@ admin.site.register(OrderNote)
 admin.site.register(OrderItem)
 admin.site.register(OrderStatusHistory)
 admin.site.register(OrderStatusType)
+admin.site.register(OrderDeliveryMethod)
 admin.site.register(Product)
 admin.site.register(Supplier)
 admin.site.register(Brand)
 admin.site.register(Customer)
-admin.site.register(OrderNavTab)
-admin.site.register(OrderDeliveryMethod)
+
 

@@ -32,7 +32,6 @@ class OrderList(LoginRequiredMixin, FilterView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tabs'] = OrderNavTab.objects.all()
         context['current_path'] = self.request.get_full_path()
         return context
 
