@@ -18,7 +18,7 @@ def loginPage(request):
             return redirect('/orders')
         else:
             messages.info(request, 'Username or Password is Incorrect')
-    return render(request, 'login.html')
+    return render(request, 'app_users/login.html')
 
 def logoutUser(request):
     logout(request)
