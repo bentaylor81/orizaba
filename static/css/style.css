@@ -164,7 +164,7 @@
     /* Product General */
     .no-stock { background-color: #ff000082; }
     .low-stock { background-color: #ff710057; }
-    .good-stock { background-color: #1c8c054d; }
+    .good-stock { background-color: #1c8c0573; }
 
     /* Product List Page */
     #products .content { width: 1500px; }
