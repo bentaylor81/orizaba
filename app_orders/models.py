@@ -93,9 +93,8 @@ class Order(models.Model):
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
     date_sent = models.DateField(null=True, blank=True)
-    status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)
+    status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)  # This is needed for order filtering, status to be updated everytime order state changes.
     status_updated = models.BooleanField(default=False)
-    stats_updated = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
