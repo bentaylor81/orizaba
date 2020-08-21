@@ -29,19 +29,20 @@
                             <th class="col-140">Brand</th>
                             <th class="col-140">Supplier</th>
                             <th class="col-140">Location</th>
+                            <th class="col-140">Stock Qty</th>
                             <th class="col-140">Print</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         {% for product in object_list %}	
-                        <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col"><a href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
+                        <tr class="main-row {% cycle 'row1' 'row2' %}">
+                            <td class="first-col"><a class="no-js" href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	
                             <td>{{ product.brand }}</td>
                             <td>{{ product.supplier }}</td>		
                             <td>{{ product.location }}</td>
+                            <td class="stock"><span>{{ product.stock_qty }}</stock></td>
                             <td class="product-label">
                                 <form method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
@@ -52,7 +53,7 @@
                                         <input type="text" name="path" value="{{ request.get_full_path }}">                            
                                     </div>
                                     <div>
-                                        <select name="qty">
+                                        <select name="qty" class="no-js">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -64,10 +65,39 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                        <button type="submit">Print Label</button>
+                                        <button class="no-js" type="submit">Print Label</button>
                                         {{ id }}{{ country }}
                                     </div>  
                                 </form>
+                            </td>
+                        </tr>
+                        <tr class="extra-content {% cycle 'row1' 'row2' %}">
+                            <td colspan="8">
+                                {% if product.image %}    
+                                <div class="image">
+                                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
+                                </div>
+                                {% endif %}
+                                <div class="table-2">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <th>Buy Price:</th>
+                                            <td>£{{ product.buy_price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sell Price:</th>
+                                            <td>£{{ product.sell_price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Weight:</th>
+                                            <td>{{ product.weight|floatformat:2 }}kg</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Live Link:</th>
+                                            <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -79,6 +109,7 @@
         </div>
     </div>
 </section>
+<script type="text/javascript" src="{% static 'js/product.js' %}"></script>
 {% endblock %}
 
 
