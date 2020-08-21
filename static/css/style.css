@@ -169,7 +169,7 @@
     /* Product List Page */
     #products .content { width: 1500px; }
     #products .content .products { margin-bottom: 20px; }
-    #products .content .stock span { width: 40px; line-height: 40px; text-align: center; display: block; font-size: 22px; font-weight: bold; }
+    #products .content .stock span { width: 45px; line-height: 45px; text-align: center; display: block; font-size: 22px; font-weight: bold; }
     #products tr.extra-content { display: none; }
     #products tr.extra-content.active { display: revert; }
     #products tr.extra-content > td { border-top: 1px solid #bbb; border-bottom: 1px solid #bbb; }
