@@ -36,8 +36,7 @@ class ProductList(LoginRequiredMixin, FilterView):
         product = form.data['product']
         location = form.data['location']
         qty = form.data['qty']
-        path = form.data['path']
-        
+        path = form.data['path']        
     ### wkhtmltopdf - Generate the label and save to static
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
@@ -52,19 +51,15 @@ class ProductList(LoginRequiredMixin, FilterView):
             'margin-bottom': '0',
             'margin-left': '0',
         }
-
     # Create the Label using PDF Kit
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
-
     # Generates pdf and creates a file in static
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)
-        
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)        
     # Generates pdf as a download
         #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         #response = HttpResponse(pdf, content_type='application/pdf')
         #response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
         #return response
-
     ### PRINTNODE - Send the Printjob to Print Node ###
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
@@ -76,8 +71,24 @@ class ProductList(LoginRequiredMixin, FilterView):
 
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
-
         return HttpResponseRedirect(path)
+
+class SupplierList(LoginRequiredMixin,ListView):
+    login_url = '/login/'
+    template_name = 'app_products/supplier-list.html'
+    model = Supplier
+
+class BrandList(LoginRequiredMixin,ListView):
+    login_url = '/login/'
+    template_name = 'app_products/brand-list.html'
+    model = Brand
+
+class CustomerList(LoginRequiredMixin,ListView):
+    login_url = '/login/'
+    template_name = 'app_products/customer-list.html'
+    model = Customer
+
+
 
 # This Function creates the file which renders the PDF
 def generate_label(request, id):
@@ -86,11 +97,6 @@ def generate_label(request, id):
             'product': Product.objects.get(sku=id),
         }
     return render(request, 'pdf/label.html', context )
-
-class SupplierList(LoginRequiredMixin,ListView):
-    login_url = '/login/'
-    template_name = 'app_products/supplier-list.html'
-    model = Supplier
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -138,23 +144,7 @@ def supplier_view(request, path):
 
     return render(request, 'app_products/supplier-detail.html', context )
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def brands(request):
 
-    context = { 
-        'brands' : Brand.objects.all(),
-        }
-    return render(request, 'app_products/brand-list.html', context )
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def customers(request):
-
-    context = { 
-        'customers' : Customer.objects.all(),
-        }
-    return render(request, 'app_products/customer-list.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

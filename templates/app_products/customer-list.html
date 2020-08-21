@@ -9,8 +9,6 @@
         <h1>Customers</h1>
     </div>
     <div class="content">
-    {% if customers %}	
-
         <div class="table">
             <table cellpadding="0" cellspacing="0">
                 <thead>
@@ -23,10 +21,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for customer in customers %}	
+                    {% for customer in object_list %}	
                     <tr class="{% cycle 'row1' 'row2' %}">
                         <td class="first-col">{{ customer.customer_id }}</td>
-                        <td><a href="{% url 'customer-view' customer.customer_id %}">{{ customer.billing_email }}</a></td>
+                        <td><a href="{% url 'customer-detail' customer.customer_id %}">{{ customer.billing_email }}</a></td>
                         <td>{{ customer.date }}<br /></td>
                         {% for order in customer.order_set.all %}   
                             {% if forloop.last %}
@@ -39,8 +37,6 @@
                 </tbody>
             </table>
         </div>
-
-    {% endif %}
     </div>
 </section>
 {% endblock %}

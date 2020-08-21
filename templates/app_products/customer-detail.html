@@ -140,8 +140,8 @@
                         {% for order_item in order_items %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">{{ order_item.order_id.date }}</td>
-                            <td><a href="{% url 'order-view' order_item.order_id.order_no %}">{{ order_item.order_id.order_no }}</a></td>
-                            <td><a href="{% url 'product-view'  order_item.product_id.product_id %}">{{ order_item.product_id.product_name }}</a></td>
+                            <td><a href="{% url 'order-detail' order_item.order_id.pk %}">{{ order_item.order_id.order_no }}</a></td>
+                            <td><a href="{% url 'product-detail'  order_item.product_id.pk %}">{{ order_item.product_id.product_name }}</a></td>
                             <td>£{{ order_item.item_price }}</td>
                             <td>{{ order_item.item_qty }}</td>
                             <td>£{{ order_item.total_price }}</td>
@@ -168,7 +168,7 @@
                         {% for order in orders %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">{{ order.date }}</td>
-                            <td><a href="{% url 'order-view' order.order_no %}">{{ order.order_no }}</a></td>
+                            <td><a href="{% url 'order-detail' order.pk %}">{{ order.order_no }}</a></td>
                             <td>{{ order.delivery_name }}</td>
                             <td>£{{ order.items_total_price }}</td>
                             <td>£{{ order.delivery_price }}</td>
