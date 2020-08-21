@@ -89,7 +89,6 @@ class Order(models.Model):
     total_price_ex_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2) # items_total_price + delivery_price
     vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    ip_address = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
     date_sent = models.DateField(null=True, blank=True)
