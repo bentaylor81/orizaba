@@ -25,12 +25,12 @@
                         <tr>
                             <th>Product Name</th>
                             <th class="col-120">SKU</th>
-                            <th class="col-60">Weight</th>
+                            <th class="col-120">Weight</th>
                             <th class="col-140">Brand</th>
                             <th class="col-140">Supplier</th>
                             <th class="col-140">Location</th>
                             <th class="col-80">Stock Qty</th>
-                            <th class="col-140">Print</th>
+                            <th class="col-80">Print</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +43,7 @@
                             <td>{{ product.supplier }}</td>		
                             <td>{{ product.location }}</td>
                             <td class="stock"><span>{{ product.stock_qty }}</stock></td>
-                            <td class="product-label">
+                            <td class="product-label no-js">
                                 <form method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="hidden">
@@ -53,7 +53,7 @@
                                         <input type="text" name="path" value="{{ request.get_full_path }}">                            
                                     </div>
                                     <div>
-                                        <select name="qty" class="no-js">
+                                        <select name="qty" class="print-label" onchange="this.form.submit()">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -65,8 +65,6 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                        <button class="no-js" type="submit">Print Label</button>
-                                        {{ id }}{{ country }}
                                     </div>  
                                 </form>
                             </td>

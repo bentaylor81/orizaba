@@ -179,6 +179,7 @@
     #products tr.extra-content .table-2 th { background: unset; color: unset; }
     #products tr.extra-content .table-2 td { background: unset; }
     #products tr.extra-content .table-2 td:last-child { border: 0px; }
+    #products form select.print-label { width: 50px; height: 30px; }
 
     /* Product Detail Page */
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
