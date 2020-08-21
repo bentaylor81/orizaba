@@ -7,15 +7,8 @@
         <!-- TITLE COMPONENT -->
         {% include 'app_orders/components/order-detail/title.html' %}
     </div>
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="{{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %} 
+    <!-- MESSAGES COMPONENT - GLOBAL -->
+    {% include 'global/messages.html' %}
     <div class="content">
         <div>
             <div class="pod col-3"> 
