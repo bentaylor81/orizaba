@@ -45,7 +45,7 @@
                             </td>
                             <td><a href="{% url 'order-detail' order.pk %}">{{ order.order_no }}</a></td>
                             <td>
-                                <b><a href="{% comment %}{% url 'customer-view' order.billing_email.customer_id %}{% endcomment %}">{{ order.billing_name }}</a></b><br />
+                                <b><a href="{% url 'customer-detail' order.billing_email.pk %}">{{ order.billing_name }}</a></b><br />
                                 {{ order.billing_phone }}<br />
                                 {{ order.billing_email.billing_email }}
                             </td>	

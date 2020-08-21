@@ -73,21 +73,24 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <th>First Ordered:</th>
-                        <td>{{ first_order.date }} - <b>{{ first_order.date }} ago</b></td>
+                        <td>{{ first_order.date }}<br></td>
                     </tr>  
-                    <tr class="break"><th></th></tr>
                     <tr>
-                        <th>Last Ordered:</th>
-                        <td>{{ last_order.date }} - <b>{{ last_order.date }} ago</b></td>
-                    </tr>              
-                    <!--<tr>
-                        <th>Average Order:</th>
-                        <td>###</td>
+                        <th>&nbsp;</th>
+                        <td><b>{{ first_order.date|timesince }} ago</b></td>
                     </tr>
                     <tr>
-                        <th>Customer Profit:</th>
-                        <td>###</td>
-                    </tr>-->
+                        <th><hr></th>
+                        <td><hr></th>
+                    </tr>
+                    <tr>
+                        <th>Last Ordered:</th>
+                        <td>{{ last_order.date }}
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><b>{{ last_order.date|timesince }} ago</b></td>
+                    </tr>
                 </table>
             </div>
             <div class="table">
