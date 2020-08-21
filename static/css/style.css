@@ -162,9 +162,9 @@
 /*** APP_WEBSITES CSS ***/
 
     /* Product General */
-    .no-stock { border: 1px solid red; background-color: #ff000082; }
-    .low-stock { border: 1px solid #ff7100; background-color: #ff710085; }
-    .good-stock { border: 1px solid #1c8c05; background-color: #1c8c058a; }
+    .no-stock { background-color: #ff000082; }
+    .low-stock { background-color: #ff710057; }
+    .good-stock { background-color: #1c8c054d; }
 
     /* Product List Page */
     #products .content { width: 1500px; }

@@ -71,6 +71,7 @@ class ProductList(LoginRequiredMixin, FilterView):
 
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
+        messages.success(self.request, 'Processing Product Label')
         return HttpResponseRedirect(path)
 
 class SupplierList(LoginRequiredMixin,ListView):

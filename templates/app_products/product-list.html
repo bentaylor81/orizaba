@@ -8,6 +8,15 @@
     <div class="top-bar">
         <h1>Products</h1>
     </div>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="content">
         <div class="pod">
             <div class="filter">
