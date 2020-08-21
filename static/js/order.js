@@ -3,15 +3,15 @@
 let purchased = document.querySelector('#purchased-on').innerHTML;
 
     if (purchased.includes('GARDEN')){
-        site = 'gardentratorspares.co.uk'     
+        site = 'gardentractorspares.co.uk'     
     } else if (purchased.includes('WESTWOOD')) {
-        site = 'westwoodtratorspares.co.uk'    
+        site = 'westwoodtractorspares.co.uk'    
     } else if (purchased.includes('COUNTAX')) {
-        site = 'countaxtratorspares.co.uk' 
+        site = 'countaxtractorspares.co.uk' 
     } else if (purchased.includes('SNAPPER')) {
-        site = 'snappertratorspares.co.uk' 
+        site = 'snappertractorspares.co.uk' 
     } else if (purchased.includes('TORO')) {
-        site = 'torotratorspares.co.uk' 
+        site = 'torotractorspares.co.uk' 
     } else if (purchased.includes('HAYTER')) {
         site = 'hayterspares.co.uk'
     } else if (purchased.includes('BRIGGS')) {
