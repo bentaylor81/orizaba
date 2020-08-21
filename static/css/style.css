@@ -28,6 +28,7 @@
     /* Main Styles */
     h1, h2 { padding: 0px; margin: 0px; }
     a {	color: #1c71bb; text-decoration: none; font-weight: bold; }
+    hr { border-top: 1px solid #ccc; border-bottom: 0px; }
     button { width: 140px; padding: 5px 0px; }
     .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center;  }
     .alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
@@ -81,14 +82,16 @@
 
     /* Table 2 - Clear */
     .table-2 table { border: 0px; }
-    .table-2 table th { font-weight: bold; text-align: left; width: 80px; background: #fff; padding: 0px 0px 0px 5px; }
+    .table-2 table th { font-weight: bold; text-align: left; width: 100px; background: #fff; padding: 0px 0px 0px 5px; }
     .table-2 table td { border: 0px; background: #fff; padding: 4px 0px; }
     .table-2 tr.highlight td, .table-2 tr.highlight th { background: #9eda9e; }
     .table-2 table.form td { padding: 2px 0px; }
     .table-2 table.form td input { width: 97%; }
     .table-2 table.form td input#date { width: 98%; padding: 0px 1px; }
     .table-2 table.form td button { float: right; margin-top: 5px; }
+    .table-2 table.form td select { width: 100%; }
     .table-2 table tr.break th { height: 10px; border: 0px; }
+    .table-2 table tr.separator { border-top: 1px solid #bbb; margin-top: 10px; padding-top: 10px; }
 
     /* Navigation */
     nav { background: #191919; padding: 20px 0px; }

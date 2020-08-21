@@ -1,3 +1,24 @@
+// BILLING DETAILS
+    // Convert the purchased on website code to readable format
+let purchased = document.querySelector('#purchased-on').innerHTML;
+
+    if (purchased.includes('GARDEN')){
+        site = 'gardentratorspares.co.uk'     
+    } else if (purchased.includes('WESTWOOD')) {
+        site = 'westwoodtratorspares.co.uk'    
+    } else if (purchased.includes('COUNTAX')) {
+        site = 'countaxtratorspares.co.uk' 
+    } else if (purchased.includes('SNAPPER')) {
+        site = 'snappertratorspares.co.uk' 
+    } else if (purchased.includes('TORO')) {
+        site = 'torotratorspares.co.uk' 
+    } else if (purchased.includes('HAYTER')) {
+        site = 'hayterspares.co.uk'
+    } else if (purchased.includes('BRIGGS')) {
+        site = 'briggsandstrattonparts.co.uk' 
+    }
+    document.querySelector('#purchased-on').innerHTML = site  
+
 // DELIVERY DETAILS
     // Set the <tr> Class to Highlight if field is 'Not Set'
 let del = document.querySelectorAll('#non-form tr');
@@ -18,3 +39,5 @@ for(let i=0; i < sendQty.length; i++){
     sendQty[i].setAttribute("max", itemQty[i].innerHTML);
     sendQty[i].setAttribute("value", itemQty[i].innerHTML);
 }
+
+

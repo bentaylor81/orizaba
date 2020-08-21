@@ -1,42 +1,5 @@
 {% load static %}
 <div class="table-2">
-    <h2>Billing Details</h2>
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <th>Name:</th>
-            <td><a href="{% comment %}{% url 'customer-view' order.billing_email.customer_id %}{% endcomment %}">{{ order.billing_name }}</a></td>
-        </tr>
-        <tr>
-            <th>Address:</th>
-            <td>{{ order.billing_address_1 }}</td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>{{ order.billing_address_2 }}</td>
-        </tr>
-        <tr>
-            <th>City:</th>
-            <td>{{ order.billing_city }}</td>
-        </tr>
-        <tr>
-            <th>Postcode:</th>
-            <td>{{ order.billing_postcode }}</td>
-        </tr>
-        <tr>
-            <th>Country:</th>
-            <td>{{ order.billing_country }}</td>
-        </tr>
-        <tr>
-            <th>Phone:</th>
-            <td>{{ order.billing_phone }}</td>
-        </tr>
-        <tr>
-            <th>Email:</th>
-            <td>{{ order.billing_email.billing_email }}</td>
-        </tr>
-    </table>
-</div>
-<div class="table-2">
     <h2>Delivery Details</h2>
     {% if '/delivery/edit' in request.get_full_path %}
     <form class="form" method="post" enctype="multipart/form-data">

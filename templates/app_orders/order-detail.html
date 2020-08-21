@@ -18,8 +18,10 @@
     {% endif %} 
     <div class="content">
         <div>
-            <div class="pod col-3">                
-            <!-- BILLING AND DELIVERY ADDRESS COMPONENT -->
+            <div class="pod col-3"> 
+            <!-- BILLING ADDRESS COMPONENT -->
+                {% include 'app_orders/components/billing-details.html' %}               
+            <!-- DELIVERY ADDRESS COMPONENT -->
                 {% include 'app_orders/components/delivery-details.html' %}
             <!-- END -->
             <!-- ACTIONS COMPONENT-->
