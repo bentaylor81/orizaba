@@ -1,0 +1,42 @@
+<div class="table-2">
+    {{ product.product_calcs }}
+    <h2>Financials</h2>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Buy Price:</th>
+            <td>£{{ product.buy_price }}</td>
+        </tr>
+        <tr>
+            <th>Sell Price:</th>
+            <td>£{{ product.sell_price }}</td>
+        </tr>
+        <tr>
+            <th>Profit Per Item:</th>
+            <td>£{{ product.item_profit }}</td>
+        </tr>
+        <tr class="break"><th></th></tr>
+        <tr>
+            <th>Quantity In Stock:</th>
+            <td>{{ product.stock_qty }}</td>
+        </tr>
+        <tr class="break"><th></th></tr>
+        <tr>
+            <th>Total Buy Price:</th>
+            <td>£{{ product.buy_value }}</td>
+        </tr>
+        <tr>
+            <th>Total Sell Price</th>
+            <td>£{{ product.sell_value }}</td>
+        </tr>
+        
+        <tr>
+            <th>Total Profit:</th>
+            <td>£{{ product.stock_profit }}</td>
+        </tr>
+        <tr class="break"><th></th></tr>
+        <tr>
+            <th>Profit Margin:</th>
+            <td>{{ product.profit_margin|floatformat:0 }}%</td>
+        </tr>
+    </table>
+</div>

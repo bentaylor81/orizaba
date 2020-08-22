@@ -1,0 +1,35 @@
+<div class="table-2">
+    <div class="stock">
+        <span>{{ product.stock_qty }}</span>&nbsp; In Stock
+    </div>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Product:</th>
+            <td>{{ product.product_name }}</td>
+        </tr>
+        <tr>
+            <th>SKU:</th>
+            <td>{{ product.sku }}</td>
+        </tr>
+        <tr>
+            <th>Weight:</th>
+            <td>{{ product.weight|floatformat:2 }}kg</td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td>{{ product.location }}</td>
+        </tr>
+        <tr>
+            <th>Brand:</th>
+            <td>{{ product.brand }}</td>
+        </tr>
+        <tr>
+            <th>Supplier:</th>
+            <td>{{ product.supplier }}</td>
+        </tr>
+        <tr>
+            <th>Live Link:</th>
+            <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
+        </tr>
+    </table>
+</div>

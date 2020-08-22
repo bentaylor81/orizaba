@@ -5,127 +5,29 @@
 
 <section id="product"> 
     <div class="top-bar">
-        <h1>Product &nbsp;&nbsp;>&nbsp;&nbsp; {{ product.product_name }} &nbsp;-&nbsp; {{ product.sku }}</h1>
+        <!-- TITLE COMPONENT -->
+        {% include 'app_products/components/product-detail/title.html' %}
+        <!-- END -->  
     </div>
+    <!-- MESSAGES COMPONENT - GLOBAL -->
+    {% include 'global/messages.html' %}
+    <!-- END -->  
     <div class="content">
         <div class="pod col-3">
-            <div class="table-2">
-                <div class="stock">
-                    <span>{{ product.stock_qty }}</span>&nbsp; In Stock
-                </div>
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <th>Product:</th>
-                        <td>{{ product.product_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>SKU:</th>
-                        <td>{{ product.sku }}</td>
-                    </tr>
-                    <tr>
-                        <th>Weight:</th>
-                        <td>{{ product.weight|floatformat:2 }}kg</td>
-                    </tr>
-                    <tr>
-                        <th>Location</th>
-                        <td>{{ product.location }}</td>
-                    </tr>
-                    <tr>
-                        <th>Brand:</th>
-                        <td>{{ product.brand }}</td>
-                    </tr>
-                    <tr>
-                        <th>Supplier:</th>
-                        <td>{{ product.supplier }}</td>
-                    </tr>
-                    <tr>
-                        <th>Live Link:</th>
-                        <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="image">
-                {% if product.image == 'null' %}
-                    <img src="{% static 'img/no-image.png' %}" />
-                {% else %}
-                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
-                {% endif %}
-            </div>
-            <div class="table-2">
-                {{ product.product_calcs }}
-                <h2>Financials</h2>
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <th>Buy Price:</th>
-                        <td>£{{ product.buy_price }}</td>
-                    </tr>
-                    <tr>
-                        <th>Sell Price:</th>
-                        <td>£{{ product.sell_price }}</td>
-                    </tr>
-                    <tr>
-                        <th>Profit Per Item:</th>
-                        <td>£{{ product.item_profit }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Quantity In Stock:</th>
-                        <td>{{ product.stock_qty }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Total Buy Price:</th>
-                        <td>£{{ product.buy_value }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total Sell Price</th>
-                        <td>£{{ product.sell_value }}</td>
-                    </tr>
-                    
-                    <tr>
-                        <th>Total Profit:</th>
-                        <td>£{{ product.stock_profit }}</td>
-                    </tr>
-                    <tr class="break"><th></th></tr>
-                    <tr>
-                        <th>Profit Margin:</th>
-                        <td>{{ product.profit_margin|floatformat:0 }}%</td>
-                    </tr>
-                </table>
-            </div>
+            <!-- PRODUCT AND STOCK COMPONENT -->
+            {% include 'app_products/components/product-detail/details.html' %}
+            <!-- END -->    
+            <!-- IMAGE COMPONENT -->
+            {% include 'app_products/components/product-detail/image.html' %}
+            <!-- END -->  
+            <!-- FINANCIALS COMPONENT -->
+            {% include 'app_products/components/product-detail/financials.html' %}
+            <!-- END -->             
         </div>
         <div class="pod col-2">
-            <div class="table">
-                <h2>Previous Orders</h2>
-                {% if product_orders %}
-                <table cellpadding="0" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Purchase Date</th>
-                            <th>Order Number</th>
-                            <th>Customer Name</th>
-                            <th>Item Price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product_order in product_orders %}
-                        <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="first-col">{{ product_order.order_id.date }}</td>
-                            <td><a href="{% url 'order-detail' product_order.order_id.pk %}">{{ product_order.order_id.order_no }}</a></td>
-                            <td><a href="{% url 'customer-detail' product_order.order_id.billing_email.customer_id %}">{{ product_order.order_id.billing_name }}</a></td>
-                            <td>£{{ product_order.item_price }}</td>
-                            <td>{{ product_order.item_qty }}</td>
-                            <td>£{{ product_order.total_price }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                    This product hasn't yet been purchased 
-                {% endif %}
-            </div>
+            <!-- PREVIOUS ORDERS COMPONENT -->
+            {% include 'app_products/components/product-detail/previous-orders.html' %}
+            <!-- END -->   
         </div>
     </div>
 </section>

@@ -6,14 +6,17 @@
     <div class="top-bar">
         <!-- TITLE COMPONENT -->
         {% include 'app_orders/components/order-detail/title.html' %}
+        <!-- END -->
     </div>
     <!-- MESSAGES COMPONENT - GLOBAL -->
     {% include 'global/messages.html' %}
+    <!-- END -->
     <div class="content">
         <div>
             <div class="pod col-3"> 
             <!-- BILLING ADDRESS COMPONENT -->
-                {% include 'app_orders/components/order-detail/billing-details.html' %}               
+                {% include 'app_orders/components/order-detail/billing-details.html' %} 
+            <!-- END -->              
             <!-- DELIVERY ADDRESS COMPONENT -->
                 {% include 'app_orders/components/order-detail/delivery-details.html' %}
             <!-- END -->

@@ -1,0 +1,8 @@
+{% load static %}
+<div class="image">
+    {% if product.image == 'null' %}
+        <img src="{% static 'img/no-image.png' %}" />
+    {% else %}
+        <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
+    {% endif %}
+</div>
