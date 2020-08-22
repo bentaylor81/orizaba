@@ -99,7 +99,7 @@ class Order(models.Model):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
-        ordering = ["date"]
+        ordering = ["-date"]
 
 class OrderStatusType(models.Model):
     status = models.IntegerField(primary_key=True)
