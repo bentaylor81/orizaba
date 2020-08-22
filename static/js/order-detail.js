@@ -2,19 +2,19 @@
     // Convert the purchased on website code to readable format
 let purchased = document.querySelector('#purchased-on').innerHTML;
 
-    if (purchased.includes('GARDEN')){
+    if (purchased.includes('GARD')){
         site = 'gardentractorspares.co.uk'     
-    } else if (purchased.includes('WESTWOOD')) {
+    } else if (purchased.includes('WEST')) {
         site = 'westwoodtractorspares.co.uk'    
-    } else if (purchased.includes('COUNTAX')) {
+    } else if (purchased.includes('COUN')) {
         site = 'countaxtractorspares.co.uk' 
-    } else if (purchased.includes('SNAPPER')) {
+    } else if (purchased.includes('SNAP')) {
         site = 'snappertractorspares.co.uk' 
     } else if (purchased.includes('TORO')) {
         site = 'torotractorspares.co.uk' 
-    } else if (purchased.includes('HAYTER')) {
+    } else if (purchased.includes('HAYT')) {
         site = 'hayterspares.co.uk'
-    } else if (purchased.includes('BRIGGS')) {
+    } else if (purchased.includes('BRIG')) {
         site = 'briggsandstrattonparts.co.uk' 
     }
     document.querySelector('#purchased-on').innerHTML = site  
