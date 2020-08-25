@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <th>Send Date:</th>
-                <td><input type="date" name="date_sent" id="date" value="{{ order.date_sent|date:'Y-m-d' }}"></td>
+                <td><input type="date" name="date_sent" min="{% now 'Y-m-d' %}" id="date" value="{{ order.date_sent|date:'Y-m-d' }}"></td>
             </tr>
             <tr><td></td></tr>
             <tr>

@@ -4,10 +4,10 @@
 {% else %}
     <h2>Actions</h2>
     <div>
-        <span>1.</span><a href="{% url 'order-delivery-edit' order.pk %}"><button>Edit Delivery Details</button></a>
+        <a href="{% url 'order-delivery-edit' order.pk %}"><button>Set Delivery Details</button></a>
     </div>
     <div>
-        <span>2.</span><a href="{% url 'order-picklist-edit' order.pk %}"><button>Create Picklist</button></a>
+        <a href="{% url 'order-picklist-edit' order.pk %}"><button id="button-pick">Create Picklist</button></a>      
     </div>
     <div>
         <form method="post" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
             <input type="hidden" name="delivery_email" value="{{ order.delivery_email }}">
             <input type="hidden" name="delivery_method" value="{{ order.delivery_method }}">
             <input type="hidden" name="date_sent" value="{{ order.date_sent|date:'Y-m-d' }}">
-            <span>3.</span><button type="submit">Create Shipment</button> 
+            <button type="submit" id="button-ship">Create Shipment</button> 
         </form>
     </div>
 {% endif %}

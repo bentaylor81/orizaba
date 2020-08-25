@@ -1,29 +1,40 @@
 <!-- Admin Side Navigation Section -->
 <nav>
     <ul>
-        <a href="{% url 'order-list' %}">
-            <li>Orders</li>
-        </a>
-        <a href="{% url 'product-list' %}">
-            <li>Products</li>
-        </a>
-        <a href="{% url 'brand-list' %}">
-            <li>Brands</li>
-        </a>
-        <a href="{% url 'supplier-list' %}">
-            <li>Suppliers</li>
-        </a>
-        <a href="{% url 'customer-list' %}">
-            <li>Customers</li>
-        </a>
-        <!--<a href="">
-            <li>Support</li>
-        </a>
-        <a href="">
-            <li>Finance</li>
-        </a>
-        <a href="">
-            <li>Reviews</li>
-        </a>-->
+        <li class="menu-item" data-menu="orders">
+            <div>
+                <a href="{% url 'order-list' %}">Orders</a>
+                <span><i class="fas fa-angle-down"></i></span>
+            </div>
+            <ul class="dropdown">
+                <a href="{% url 'order-list' %}">
+                    <li data-sub-menu="returns">Returns</li>
+                </a>
+                <a sub="tracking" href="{% url 'order-list' %}">
+                    <li data-sub-menu="tracking">Tracking</li>
+                </a>
+            </ul>
+        </li>
+        <li class="menu-item" data-menu="products">
+            <div>
+                <a href="{% url 'product-list' %}">Products</a>
+                <span><i class="fas fa-angle-down"></i></span>
+            </div>
+            <ul class="dropdown">
+                <a href="{% url 'brand-list' %}">
+                    <li data-sub-menu="brands">Brands</li>
+                </a>     
+            </ul>
+        </li>
+        <li class="menu-item" data-menu="suppliers">
+            <div>
+                <a href="{% url 'supplier-list' %}">Suppliers</a>
+            </div>
+        </li>
+        <li class="menu-item" data-menu="customers">
+            <div>
+                <a href="{% url 'customer-list' %}">Customers</a>
+            </div>
+        </li>
     </ul>
 </nav>

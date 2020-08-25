@@ -4,12 +4,11 @@
 
 {% block content %}
 
-<section id="supplier">
-
+<section id="supplier" data-page="suppliers">
     <div class="top-bar">
         <h1>Supplier &nbsp;&nbsp;>&nbsp;&nbsp; {{ supplier.supplier }}</h1>
+        <span id="menu-section">Products</span>
     </div>
-
     <div class="content">
         <!-- SUPPLIER SUMMARY -->
         <div class="pod summary">
@@ -18,18 +17,15 @@
             Cheapest Product: <span>£{{ cheap_product.sell_price }} - {{ cheap_product.product_name }}</span><br />
             Most expensive Product: <span>£{{ expen_product.sell_price|intcomma }} - {{ expen_product.product_name }}</span><br />
         </div>
-
         <!-- SUPPLIER PRODUCT FILTERS -->     
         <div class="filter">
             <form method="get">
                 {{ supplierproductFilter.form }}
                 <button type="submit">Search</button>
             </form>
-        </div>
-        
+        </div>      
         <!-- SUPPLIER PRODUCT PAGINATION -->
         {% include 'global/pagination.html' %}
-
         <!-- SUPPLIER PRODUCTS --> 
         <div class="pod table">
             <h2>{{ supplier.supplier }} Products</h2>
@@ -64,10 +60,8 @@
                 </tbody>
             </table>
         </div>
-
         <!-- SUPPLIER PRODUCT PAGINATION -->
         {% include 'global/pagination.html' %}
-
     </div>
 </section>
 
