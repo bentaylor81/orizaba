@@ -52,7 +52,7 @@
     .messages .error {  background: #e99595; padding: 20px; }
 
     /* Forms */
-    form input#date { font: 13px 'Roboto'; }
+    form input#date, input.date-input { font: 13px 'Roboto'; }
 
     /* Tables */
     table { width: 100%; }
