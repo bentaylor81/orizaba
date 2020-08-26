@@ -9,14 +9,20 @@ class ProductFilter(filters.FilterSet):
     o = filters.OrderingFilter(
 
         choices=(
+            ('brand', 'Brand'),
+            ('-brand', 'Brand (desc)'),
             ('location', 'Location'),
             ('-location', 'Location (desc)'),
+            ('product_name', 'Product Name'),
+            ('-product_name', 'Product Name (desc)'),
             ('sell_price', 'Sell Price'),
             ('-sell_price', 'Sell Price (desc)'),
             ('sku', 'SKU'),
             ('-sku', 'SKU (desc)'),
             ('stock_qty', 'Stock Qty'),
             ('-stock_qty', 'Stock Qty (desc)'),
+            ('supplier', 'Supplier'),
+            ('-supplier', 'Supplier (desc)'),
             ('weight', 'Weight'),
             ('-weight', 'Weight (desc)'),
         ),
