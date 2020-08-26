@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['orizaba.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['orizaba.co.uk', 'orizaba.herokuapp.com', 'localhost']
 
 
 # Application definition
