@@ -71,8 +71,9 @@
     table tr .col-140 { width: 140px; }
     table tr .highlight { font-weight: bold; background: rgba(0, 255, 0, 0.2); }
     table tr td.empty { padding: 30px 10px; }
-    .arrow-up { float: right; font-size: 13px; display: none; background: url('../img/icons/caret-up-solid.svg') no-repeat center; background-size: 20px 20px; fill: #fff; }
-    .arrow-down { float: right; font-size: 13px; display: none; background: url('../img/icons/caret-down-solid.svg') no-repeat center; background-size: 20px 20px; fill: #fff; }
+    /** Make this neater by using one class **/
+    .arrow-up { width: 20px; float: right; font-size: 13px; display: none; background: url('../img/icons/caret-up-solid.svg') no-repeat center; background-size: 20px 20px; fill: #fff; }
+    .arrow-down { width: 20px; float: right; font-size: 13px; display: none; background: url('../img/icons/caret-down-solid.svg') no-repeat center; background-size: 20px 20px; fill: #fff; }
 
     /* Table 1 - Stripped */ 
     .table table thead { background: #444; }

@@ -16,7 +16,7 @@
 // TABLE ORDERING
 
     let tableHead = document.querySelectorAll('th');
-
+    tableHeadIdon = tableHead
         len = window.location.href.split("&").length; // Get number of URL extensions
         urlEnd = window.location.href.split("&")[len-1]; // Get the last URL Extension
         
@@ -43,6 +43,23 @@
                 window.location.search += path;
             }
         }
+
+        for(let i=0; i < tableHead.length; i++){
+
+            if (urlEnd.includes(tableHead[i].dataset.order)){
+                tableHead[i].firstElementChild.style.display = 'block';
+                console.log(tableHead[i].dataset.order);
+                if (urlEnd.includes('o=-')){
+                    tableHead[i].firstElementChild.className = "arrow-down";
+                    console.log('Descend')
+                }
+                else {
+                    tableHead[i].firstElementChild.className = "arrow-up";
+                    console.log('Ascend')
+                }
+            }
+        }
+
 
     // This all relates to changing the arrow state, I think a separate for loop is needed for the arrow classes.
     // WRITE UP NOTES
