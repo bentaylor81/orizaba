@@ -6,7 +6,6 @@ class ProductFilter(filters.FilterSet):
     Product = filters.CharFilter(field_name='product_name', label='Product', lookup_expr='icontains')
     Sku = filters.CharFilter(field_name='sku', label='SKU', lookup_expr='icontains')
     stock_qty = filters.ChoiceFilter(choices=STOCK_CHOICES, label='Out of Stock')
-
     o = filters.OrderingFilter(
 
         choices=(
@@ -21,6 +20,7 @@ class ProductFilter(filters.FilterSet):
             ('weight', 'Weight'),
             ('-weight', 'Weight (desc)'),
         ),
+        label='Order by',
     )
 
     class Meta:

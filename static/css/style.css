@@ -119,6 +119,7 @@
     .filter select { margin-right: 15px; padding: 4px 5px; }
     .filter button { line-height: 22px; width: 80px; }
     .filter span { float: right; margin-top: 7px; }
+    .filter #id_Sku { width: 100px; }
 
     /* Pagination */
     .pagination-block { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 10px; }
