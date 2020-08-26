@@ -74,7 +74,7 @@
 
     /* Table 1 - Stripped */ 
     .table table thead { background: #444; }
-    .table table tr:last-child td { border-bottom: 1px solid #bbb; }
+    .table table { border-bottom: 1px solid #bbb; }
     .table table tr.row_dark td { border-bottom: 0px; }
     .table table tr th {  color: #fff; text-align: left; font-weight: bold; border: 0px; padding: 10px 8px; }
     .table table .totals { text-align: right; }
@@ -115,8 +115,8 @@
     /* Filters */
     .filter { margin: 10px 0px 30px 0px;   }
     .filter label { font-weight: bold; margin-right: 10px; }
-    .filter input { margin-right: 20px; line-height: 22px; padding: 0px 5px; }
-    .filter select { margin-right: 20px; padding: 4px 5px; }
+    .filter input { margin-right: 15px; line-height: 22px; padding: 0px 5px; }
+    .filter select { margin-right: 15px; padding: 4px 5px; }
     .filter button { line-height: 22px; width: 80px; }
     .filter span { float: right; margin-top: 7px; }
 
