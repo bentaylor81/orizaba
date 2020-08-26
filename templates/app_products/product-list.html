@@ -26,8 +26,9 @@
                     <thead>
                         <tr>
                             <th>Product Name</th>
-                            <th class="col-120">SKU</th>
-                            <th class="col-120">Weight</th>
+                            <th class="col-100">SKU</th>
+                            <th class="col-100">Weight</th>
+                            <th class="col-100">Sell Price</th>
                             <th class="col-140">Brand</th>
                             <th class="col-140">Supplier</th>
                             <th class="col-140">Location</th>
@@ -41,6 +42,7 @@
                             <td class="first-col"><a class="no-js" href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	
+                            <td>£{{ product.sell_price }}</td>
                             <td>{{ product.brand }}</td>
                             <td>{{ product.supplier }}</td>		
                             <td>{{ product.location }}</td>
