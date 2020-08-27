@@ -29,7 +29,7 @@ OrderItemFormset = inlineformset_factory(
     can_delete=False,
     fields=('order_id', 'item_qty', 'send_qty', 'product_id' ),
     widgets={
-        'send_qty' : forms.NumberInput(attrs={'class':'send_qty', 'min': '0' }), # Need to try and get a max in there.
+        'send_qty' : forms.NumberInput(attrs={'class':'send_qty', 'min': '0' }), 
         'product_id' : forms.TextInput(attrs={'type': 'hidden'})
         }
     )

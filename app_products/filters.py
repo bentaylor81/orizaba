@@ -26,7 +26,7 @@ class ProductFilter(filters.FilterSet):
             ('weight', 'Weight'),
             ('-weight', 'Weight (desc)'),
         ),
-        label='Order by',
+        label='',
     )
 
     class Meta:

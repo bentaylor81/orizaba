@@ -14,48 +14,46 @@
     }  
 
 // TABLE ORDERING
-
     let tableHead = document.querySelectorAll('th');
-    tableHeadIdon = tableHead
+        tableHeadIdon = tableHead
         len = window.location.href.split("&").length; // Get number of URL extensions
-        urlEnd = window.location.href.split("&")[len-1]; // Get the last URL Extension
+        urlEnd = window.location.href.split("&")[len-1]; // Get the last URL Extension  
+        url = window.location.toString();
         
-
-        console.log(window.location.href)
-            console.log(len)
-            console.log(urlEnd)
-
+    // LOOP TO SET THE ORDERING BY ASC OR DESC
         for(let i=0; i < tableHead.length; i++){
             
             tableHead[i].addEventListener('click', sortTable);
 
             function sortTable(){
-
                 if (urlEnd.includes('o=-')) {
-                    console.log('desc');
                     path = '&o=' + tableHead[i].dataset.order;
                 }
                 else {
-                    console.log('asc'); 
                     path = '&o=-' + tableHead[i].dataset.order;
                 }
-                // Try and make it so that here it removes the urlEnd, so the url doesn't get too long
-                window.location.search += path;
+                // REMOVES THE END OF THE URL AND REPLACES WITH THE NEW END
+                if (len > 1) {
+                    window.location = url.replace('&' + urlEnd, path)
+                }
+                else {
+                    window.location.search += path; 
+                }
+
             }
         }
-
+    // LOOP TO SET THE DIRECTION OF THE ARROWS
         for(let i=0; i < tableHead.length; i++){
 
             if (urlEnd.includes(tableHead[i].dataset.order)){
-                tableHead[i].firstElementChild.style.display = 'block';
-                console.log(tableHead[i].dataset.order);
+                tableHead[i].firstElementChild.style.opacity = 'unset';
+                tableHead[i].firstElementChild.style.backgroundImage = "url('/static/img/icons/caret-up-solid.svg')";
+
                 if (urlEnd.includes('o=-')){
-                    tableHead[i].firstElementChild.className = "arrow-down";
-                    console.log('Descend')
+                    tableHead[i].firstElementChild.style.backgroundImage = "url('/static/img/icons/caret-down-solid.svg')";
                 }
                 else {
-                    tableHead[i].firstElementChild.className = "arrow-up";
-                    console.log('Ascend')
+                    tableHead[i].firstElementChild.style.backgroundImage = "url('/static/img/icons/caret-up-solid.svg')";
                 }
             }
         }
