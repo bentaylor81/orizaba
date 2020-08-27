@@ -24,7 +24,7 @@ class ProductList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/product-list.html'
     model = Product
-    paginate_by = 50
+    paginate_by = 20
     filterset_class = ProductFilter
     strict = False
     form_class = ProductLabelForm
