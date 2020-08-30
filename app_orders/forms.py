@@ -15,7 +15,7 @@ class OrderShipmentForm(forms.ModelForm):
 class OrderNoteForm(forms.ModelForm):
     class Meta:
         model = OrderNote
-        fields = ["note", "order_id", "added_by"]
+        fields = ["note"]
 
 class OrderForm(forms.ModelForm):
     class Meta:

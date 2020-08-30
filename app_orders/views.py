@@ -32,7 +32,7 @@ class OrderList(LoginRequiredMixin, FilterView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_path'] = self.request.get_full_path()
+        context['current_user'] = self.request.user()
         return context
 
 class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
@@ -43,26 +43,42 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     model = Order
 
     def get_object(self):
+        #self.xero_api(self.request) # XERO API
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+        order_id = self.object.order_id
+        form_order_id = Order.objects.get(pk=order_id)
 
-        if form.is_valid():
-            order_id = self.object.order_id
-            shipment_order_id = Order.objects.get(pk=order_id)
-            form.instance.order_id = shipment_order_id
-            form.save()
-            messages.success(self.request, 'Shipment Created and Label Processing')
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
+        if 'add-shipment' in request.POST:
+            form_class = self.get_form_class()
+            form = self.get_form(form_class)
+            if form.is_valid():
+                form.instance.order_id = form_order_id
+                form.save()
+                messages.success(self.request, 'Shipment Created and Label Processing')        
+            else:
+                return self.form_invalid(form)
+
+        elif 'add-note' in request.POST:
+            form = OrderNoteForm(request.POST or None)
+            if form.is_valid(): 
+                form.instance.added_by = request.user.first_name
+                form.instance.order_id = form_order_id
+                form.save()
+                messages.success(request, 'Note has been added')
+            else:
+                return self.form_invalid(form)
+        
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
+
+    # def xero_api(self, request): # XERO API
+    #     email_invoice() # XERO API
 
 
 class OrderDeliveryEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):

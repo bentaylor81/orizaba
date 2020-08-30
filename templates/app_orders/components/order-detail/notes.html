@@ -2,22 +2,14 @@
 <div class="notes">
     {% for note in object.ordernote_set.all %}
     <div class="note">
-        {{ note.note }}
-        {{ note.order_no.order_no }}<br />
-        <span class="date">Added by {{ note.added_by }} on {{ note.date|date:"d M Y" }}</span><br />
+        <div class="text">{{ note.note }}</div>
+        <div class="date"><i class="far fa-clipboard"></i>Added by {{ note.added_by }} on {{ note.date }}</div><br />
     </div>
     {% endfor %}
 </div>
 <form class="notes-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="hidden">
-        <input type="text" name="order_id" value="{{ order.order_id }}">
-    </div>  
-    <div class="hidden">
-        <input type="text" name="added_by" value="{{ current_user.first_name }}">
-    </div> 
-    <div>
-        <textarea type="text" rows="6" name="note"></textarea>
-    </div>
-    <button type="submit">Add Note</button>
+    <textarea type="text" rows="6" name="note"></textarea>
+    <button name="add-note" type="submit">Add Note</button>
 </form>
+

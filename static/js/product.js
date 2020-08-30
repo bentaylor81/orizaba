@@ -15,7 +15,6 @@
 
 // TABLE ORDERING
     let tableHead = document.querySelectorAll('th');
-        tableHeadIdon = tableHead
         len = window.location.href.split("&").length; // Get number of URL extensions
         urlEnd = window.location.href.split("&")[len-1]; // Get the last URL Extension  
         url = window.location.toString();
@@ -57,18 +56,6 @@
                 }
             }
         }
-
-
-    // This all relates to changing the arrow state, I think a separate for loop is needed for the arrow classes.
-    // WRITE UP NOTES
-    // tableHead[i].firstElementChild.style.display = 'block';
-    // if(tableHead[i].firstElementChild.className == "arrow-down"){
-    //     tableHead[i].firstElementChild.className = "arrow-up";
-    // } else {
-    //     tableHead[i].firstElementChild.className = "arrow-down";
-    // }
-
-    
 
 // ** REMOVED DUE TO PAGE LOAD TIME **
 // // PRODUCT LIST - EXPANDABLE PRODUCT TABLE ROW

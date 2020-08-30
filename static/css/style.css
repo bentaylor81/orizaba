@@ -53,6 +53,7 @@
 
     /* Forms */
     form input#date, input.date-input { font: 13px 'Roboto'; }
+    textarea { padding: 5px; font: 12px 'Roboto'; }
 
     /* Tables */
     table { width: 100%; }
@@ -159,6 +160,9 @@
     #order .content .notes { width: 100%; }
     #order .content .notes-form textarea { width: 100%; }
     #order .content .note { border-bottom: 1px solid #ccc; width: 100%; margin-bottom: 10px; padding-bottom: 10px;  }
+    #order .content .note .text { margin-bottom: 10px; background: #eee; padding: 10px; }
+    #order .content .note .date { font-size: 12px; font-weight: bold; }
+    #order .content .note .date i { font-size: 18px; margin-right: 10px; }
     #order .content .details .inactive { background-image: linear-gradient(45deg, #bbb 5%, #ddd 5%, #ddd 50%, #bbb 50%, #bbb 55%, #ddd 55%, #ddd 100%); background-size: 10.00px 10.00px; }
     #order .content .details .inactive td { border-right: 0px; border-top: 1px solid #bbb; }
     #order .content .details .inactive td a { font-weight: normal; }

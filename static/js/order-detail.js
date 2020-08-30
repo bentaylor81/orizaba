@@ -44,4 +44,3 @@ for(let i=0; i < sendQty.length; i++){
     sendQty[i].setAttribute("value", itemQty[i].innerHTML);
 }
 
-

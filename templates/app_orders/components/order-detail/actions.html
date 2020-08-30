@@ -22,8 +22,11 @@
             <input type="hidden" name="delivery_email" value="{{ order.delivery_email }}">
             <input type="hidden" name="delivery_method" value="{{ order.delivery_method }}">
             <input type="hidden" name="date_sent" value="{{ order.date_sent|date:'Y-m-d' }}">
-            <button type="submit" id="button-ship">Create Shipment</button> 
+            <button name="add-shipment" type="submit" id="button-ship">Create Shipment</button> 
         </form>
+    </div>
+    <div>
+        <button id="email-invoice">Email Invoice</button>
     </div>
 {% endif %}
 </div>

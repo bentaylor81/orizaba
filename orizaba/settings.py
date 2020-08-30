@@ -171,7 +171,7 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
-### 3rd Party API Credentials ###
+### 3RD PARTY API CREDENTIALS ###
 #
 # PrintNode
 PRINTNODE_URL = config('PRINTNODE_URL')
