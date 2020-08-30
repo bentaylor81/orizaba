@@ -144,7 +144,7 @@ LANGUAGE_CODE = 'en-us'
 
 DATETIME_FORMAT = "D d M Y - H:i"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
