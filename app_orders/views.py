@@ -42,6 +42,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     form_class = OrderShipmentForm
     model = Order
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['delivery_methods'] = OrderDeliveryMethod.objects.all()
+        return context
+
     def get_object(self):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
