@@ -39,12 +39,12 @@ class ProductList(LoginRequiredMixin, FilterView):
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
-        options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin': '0', }
-        #     'margin-top': '0',
-        #     'margin-right': '0',
-        #     'margin-bottom': '0',
-        #     'margin-left': '0',
-        # }
+        options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape',
+             'margin-top': '0',
+             'margin-right': '0',
+             'margin-bottom': '0',
+             'margin-left': '0',
+         }
         # GENERATE A PDF FILE IN STATIC
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
         pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)        
