@@ -118,11 +118,11 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         #order_item_form.instance = self.object
         order_item_form.save()
         # Generate PDF Picklist
-        self.generate_picklist(self.request)
+        self.print_picklist(self.request)
         messages.success(self.request, 'Picking List Printed')
         return HttpResponseRedirect(self.get_success_url())
 
-    def generate_picklist(self, request):
+    def print_picklist(self, request):
         # Generate the PDF
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
@@ -143,9 +143,9 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-def create_picklist(request, id):
-    
+# FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
+def generate_picklist(request, id):
     context = { 
             'order': Order.objects.get(order_id=id),
         }
-    return render(request, 'app_orders/order-picklist.html', context )
+    return render(request, 'app_orders/order-picklist-pdf.html', context )
