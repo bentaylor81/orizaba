@@ -26,7 +26,7 @@ let del = document.querySelectorAll('#non-form tr');
     buttonShip = document.querySelector('#button-ship');
 
 for(let i=0; i < del.length; i++){
-    if (del[i].textContent.includes('Not Set') == true){
+    if (del[i].textContent.includes('Not Set') == true) {
         del[i].className = "highlight";
         buttonPick.setAttribute('disabled', '');
         buttonShip.setAttribute('disabled', '');

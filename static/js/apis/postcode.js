@@ -11,7 +11,11 @@ let postcode = document.querySelector('#postcode span').innerHTML
         }
         else {
             isValid.innerHTML = '<img src="/static/img/icons/times-circle-solid.svg">'
+            buttonPick.setAttribute('disabled', ''); // Disables the Create Picklist button
+            buttonShip.setAttribute('disabled', ''); // Disables the Create Shipment button
         }
     });    
+
+
   
 
