@@ -4,9 +4,6 @@
 {% else %}
     <h2>Actions</h2>
     <div>
-        <a href="{% url 'order-delivery-edit' order.pk %}"><button>Set Delivery Details</button></a>
-    </div>
-    <div>
         <button class="modal-button">Set Delivery Details</button>
         {% include 'app_orders/components/order-detail/delivery-details-edit.html' %}
     </div>

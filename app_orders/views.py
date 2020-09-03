@@ -43,7 +43,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     model = Order
 
     def get_object(self):
-        #self.xero_api(self.request) # XERO API
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Order, order_id=id_)
 
@@ -85,26 +84,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
-
-    # def xero_api(self, request): # XERO API
-    #     email_invoice() # XERO API
-
-
-class OrderDeliveryEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    login_url = '/login/'
-    template_name = 'app_orders/order-detail.html'
-    form_class = OrderDeliveryDetailsForm
-    model = OrderItem
-    queryset = Order.objects.all()
-    success_message = 'Delivery Details Updated'
-
-    def get_success_url(self):
-        return reverse('order-detail', kwargs={'pk': self.object.pk})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['delivery_methods'] = OrderDeliveryMethod.objects.all()
-        return context
 
 class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = '/login/'
@@ -159,36 +138,4 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-
-
-
-
-
-
-
-
-# Below is to be deleted
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def order_view(request, id):
-
-    context = {
-        'order' : Order.objects.get(order_no=id),
-        'order_items' : OrderItem.objects.filter(order_id__order_no=id).order_by('order_id'),
-        'status_history' : OrderStatusHistory.objects.filter(order_id__order_no=id),
-        'notes' : OrderNote.objects.filter(order_id__order_no=id),
-        'current_user' : request.user,
-        }
-
-    if request.method == 'POST':
-        form = OrderNoteForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            messages.success(request, ('Note has been added'))
-            return render(request, 'order-view.html', context)
-        else: 
-            messages.error(request, ('Note cannot be blank'))
-            return render(request, 'order-view.html', context)
-    else:
-        return render(request, 'order-view.html', context)
 
