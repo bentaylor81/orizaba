@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for order_item in object.orderitem_set.all %}
+                    {% for order_item in order.orderitem_set.all %}
                         {% if order_item.send_qty > 0 %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
