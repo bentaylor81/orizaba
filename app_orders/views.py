@@ -90,7 +90,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
+class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    login_url = '/login/'
     model = Order
     form_class = OrderForm
     template_name = 'app_orders/order-detail.html'
@@ -142,4 +143,9 @@ class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-
+def create_picklist(request, id):
+    
+    context = { 
+            'order': Order.objects.get(order_id=id),
+        }
+    return render(request, 'app_orders/order-picklist.html', context )
