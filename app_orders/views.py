@@ -114,23 +114,20 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             return HttpResponse('Form Invalid')
 
     def form_valid(self, form, order_item_form):
-        #self.object = form.save() # Not sure why I need these 2 lines
-        #order_item_form.instance = self.object
         order_item_form.save()
-        # Generate PDF Picklist
         self.print_picklist(self.request)
         messages.success(self.request, 'Picking List Printed')
         return HttpResponseRedirect(self.get_success_url())
 
     def print_picklist(self, request):
-        # Generate the PDF
+        # GENERATE THE PDF PICKLIST
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
         order_id = self.object.order_id
         order_no = self.object.order_no
         projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
-        # Send to PrintNode
+        # SEND TO PRINTNODE
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_DESKTOP_PRINTER

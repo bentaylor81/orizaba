@@ -19,7 +19,6 @@ import json
 import pdfkit
 import wkhtmltopdf
 
-
 class ProductList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/product-list.html'
@@ -72,7 +71,7 @@ def generate_label(request, id):
     context = { 
             'product': Product.objects.get(sku=id),
         }
-    return render(request, 'pdf/label.html', context )
+    return render(request, 'app_products/product-label-pdf.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
