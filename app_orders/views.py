@@ -72,6 +72,15 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             else:
                 return self.form_invalid(form)
         
+        elif 'edit-delivery-details' in request.POST: 
+            form = OrderDeliveryDetailsForm(self.request.POST, instance=self.object)  
+            if form.is_valid():
+                form.order_id = form_order_id
+                form.save()
+                messages.success(self.request, 'Delivery Details Updated')
+            else:
+                return self.form_invalid(form)
+
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

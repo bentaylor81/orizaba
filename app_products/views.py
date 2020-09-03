@@ -31,36 +31,29 @@ class ProductList(LoginRequiredMixin, FilterView):
 
     def post(self, request, *args, **kwargs):
         form = ProductLabelForm(request.POST)
-    # Label Parameters from the Form
         sku = form.data['sku']
         product = form.data['product']
         location = form.data['location']
         qty = form.data['qty']
         path = form.data['path']        
-    ### wkhtmltopdf - Generate the label and save to static
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
 
-        options = {
-            'copies' : '1',
-            'page-width' : '51mm',
-            'page-height' : '102mm',
-            'orientation' : 'Landscape',
-            'margin-top': '0',
-            'margin-right': '0',
-            'margin-bottom': '0',
-            'margin-left': '0',
-        }
-    # Create the Label using PDF Kit
+        options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin': '0', }
+        #     'margin-top': '0',
+        #     'margin-right': '0',
+        #     'margin-bottom': '0',
+        #     'margin-left': '0',
+        # }
+        # GENERATE A PDF FILE IN STATIC
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
-    # Generates pdf and creates a file in static
         pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)        
-    # Generates pdf as a download
+        # GENERATE PDF AS A DOWNLOAD
         #pdf = pdfkit.from_url(projectUrl, False, configuration=config, options=options)
         #response = HttpResponse(pdf, content_type='application/pdf')
         #response['Content-Disposition'] = 'attachment; filename="/label.pdf"'
         #return response
-    ### PRINTNODE - Send the Printjob to Print Node ###
+        # SEND TO PRINTNODE
         url = settings.PRINTNODE_URL
         auth = settings.PRINTNODE_AUTH
         printer = settings.PRINTNODE_LABEL_PRINTER
@@ -68,7 +61,6 @@ class ProductList(LoginRequiredMixin, FilterView):
         copies = qty
         payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Product Label", "options": {"copies": ' +str(copies)+ '}}'
         headers = {'Content-Type': 'application/json', 'Authorization': auth, }
-
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text.encode('utf8'))
         messages.success(self.request, 'Processing Product Label')

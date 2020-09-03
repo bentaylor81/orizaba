@@ -7,6 +7,10 @@
         <a href="{% url 'order-delivery-edit' order.pk %}"><button>Set Delivery Details</button></a>
     </div>
     <div>
+        <button class="modal-button">Set Delivery Details</button>
+        {% include 'app_orders/components/order-detail/delivery-details-edit.html' %}
+    </div>
+    <div>
         <a href="{% url 'order-picklist-edit' order.pk %}"><button id="button-pick">Create Picklist</button></a>      
     </div>
     <div>
@@ -25,8 +29,6 @@
             <button name="add-shipment" type="submit" id="button-ship">Create Shipment</button> 
         </form>
     </div>
-    <div>
-        <button id="email-invoice">Email Invoice</button>
-    </div>
+    
 {% endif %}
 </div>

@@ -80,7 +80,8 @@
         </tr>
         <tr>
             <th>Postcode:</th>
-            <td>{{ order.delivery_postcode }}</td>
+            <td id="postcode"><span>{{ order.delivery_postcode }}</span><span class="modal-button postcode-valid"></span></td>
+            {% include 'app_orders/components/order-detail/google-maps-modal.html' %} <!-- Opens the modal showing Google maps -->
         </tr>
         <tr>
             <th>Country:</th>
