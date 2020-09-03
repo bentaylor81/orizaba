@@ -90,8 +90,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    login_url = '/login/'
+class OrderPicklistEdit(SuccessMessageMixin, UpdateView):
     model = Order
     form_class = OrderForm
     template_name = 'app_orders/order-detail.html'
