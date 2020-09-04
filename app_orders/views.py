@@ -84,7 +84,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 messages.success(self.request, 'Delivery Details Updated')
             else:
                 return self.form_invalid(form)
-
+                
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

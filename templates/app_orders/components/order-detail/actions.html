@@ -5,11 +5,16 @@
     <h2>Actions</h2>
     <div>
         <button class="modal-button">Set Delivery Details</button>
-        {% include 'app_orders/components/order-detail/delivery-details-edit.html' %}
+        {% include 'app_orders/components/order-detail/delivery-details-modal.html' %}
     </div>
     <div>
         <a href="{% url 'order-picklist-edit' order.pk %}"><button id="button-pick">Create Picklist</button></a>      
     </div>
+    <!-- NOT IN USE, WILL ATTEMPT TO GET IT INTO A MODAL AT A LATER DATE -->
+    <!-- <div>
+        <button class="modal-button">Create Picklist</button>  
+        {% include 'app_orders/components/order-detail/picklist-modal.html' %}   
+    </div> -->
     <div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -26,6 +31,5 @@
             <button name="add-shipment" type="submit" id="button-ship">Create Shipment</button> 
         </form>
     </div>
-    
 {% endif %}
 </div>

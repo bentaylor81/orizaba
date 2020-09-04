@@ -1,14 +1,20 @@
+{% load static %}
 <html>
     <head>
         <title>{{ product.sku }} Label</title>
         <style type="text/css">
-            body { font-family: sans-serif; height: 100%; width: 100%; margin: 0px;  }
-            .wrapper { background: #fff;  padding: 10px; position: relative; width: 100%; } 
+            body { font-family: sans-serif; height: 100%; width: 100%; margin: 0px; }
+            .wrapper { background: #fff;  padding: 10px; position: relative; width: 100%; height: 230px; } 
             .right { -webkit-transform: rotate(90deg); position: absolute; right: -40px; top: 60px; font-size: 20px; padding: 8px 20px 8px 20px; border-radius: 0px 10px 10px 0px; background-color: #ddd; min-width: 130px; }
             .details { font-size: 18px;  width: 80%; }
             .sku { font-weight: bold; margin-bottom: 20px; font-size: 36px; }     
             .part-type { margin-bottom: 20px; }
             .location { font-size: 28px; }
+            .sealed_item { padding: 30px 15px; }
+            .sealed_item h2 { margin: 0px 0px 20px 0px; }
+            .sealed_item img { width: 100px; float: left; margin: 0px 15px 0px 0px; }
+            .sealed_item .desc { line-height: 24px; margin-bottom: 35px;  }
+            .sealed_item .sure { font-size: 19px; font-weight: bold; }
         </style>
     </head>
     <body>
@@ -22,5 +28,17 @@
                 {{ product.sku }}
             </div>
         </div>
+        {% if product.sealed_item == True %}
+        <div class="wrapper">
+            <div class="sealed_item">
+                <img src="{% static 'img/gts-logo-250.png' %}">
+                <div>
+                    <h2>Please Read Before Opening</h3>
+                    <div class="desc">This part is classed as a sealed item, meaning it cannot be returned once this package is opened.</div>
+                    <div class="sure">Make sure this is the correct part before opening</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </body>
 </html>

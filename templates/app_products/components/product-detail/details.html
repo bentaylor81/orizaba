@@ -28,6 +28,16 @@
             <td>{{ product.supplier }}</td>
         </tr>
         <tr>
+            <th>Sealed Item:</th>
+            <td>
+                {% if product.sealed_item == True %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
             <th>Live Link:</th>
             <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
         </tr>

@@ -38,6 +38,7 @@ class Product(models.Model):
     image = models.CharField(max_length=200, blank=True, default='null')
     condition = models.CharField(max_length=200, blank=True, default='new')	
     special_order = models.CharField(max_length=200, blank=True, default='no')	
+    sealed_item = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name) + ' | ' + str(self.brand)
