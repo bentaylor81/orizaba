@@ -1,11 +1,5 @@
 from django.db import models
 
-# STOCK CHOICES USED IN PRODUCT MODEL
-STOCK_CHOICES = (
-        (0, 'Yes'),
-    )
-
-
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     billing_email = models.CharField(max_length=200, blank=True, unique=True)
@@ -23,7 +17,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=200, blank=True)
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    stock_qty = models.IntegerField(choices=STOCK_CHOICES, blank=True, default=0) 
+    stock_qty = models.IntegerField(blank=True, default=0) 
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
