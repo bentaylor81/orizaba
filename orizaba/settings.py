@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'wkhtmltopdf',
     'django_filters',
+    'storages',
     'app_products',
     'app_apis',
     'app_users',
@@ -183,6 +184,17 @@ PRINTNODE_DESKTOP_PRINTER = config('PRINTNODE_DESKTOP_PRINTER')
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
+# Amazon S3 Buckets Config
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+
+AWS_S3_FILE_OVERWRITE = True
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
+# Comment the above 2 lines out to use local static files. 
+
 # For Environment Variables
 django_heroku.settings(locals())
-
