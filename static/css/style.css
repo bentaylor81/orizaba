@@ -1,11 +1,11 @@
 /* GLOBAL CSS */   
     
     /* Global Container*/
-    body { background: #eff3f6; font: 13px 'Roboto'; color: #2f2f2f; margin: 0; -webkit-print-color-adjust: exact !important; }
+    body {  font: 13px 'Roboto'; color: #2f2f2f; margin: 0; -webkit-print-color-adjust: exact !important; }
     header { background: #222; padding: 20px; color: #fff; }
     section .content { padding: 30px; }
     .grid { display: grid; grid-template-columns: 2fr 1fr; }
-    .page-container { display: grid; grid-template-columns: 200px 1fr; min-height:100vh; }
+    .page-container { background: #eff3f6; display: grid; grid-template-columns: 200px 1fr; min-height:100vh; }
     .sidebar { min-height: calc(100vh - 171px); background: #191919; }
     .main-container { min-height: 100vh; }
     .top-bar { padding: 30px; border-bottom: 1px solid #e1e2e4; background: #fff; }

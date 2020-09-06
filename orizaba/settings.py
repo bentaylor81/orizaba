@@ -73,7 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'app_orders.context_processors.initial_status', # Loads initial Order Received Status into OrderStatusHistory table
+                'app_orders.context_processors.initial_status', # LOADS INITIAL ORDER RECEIVED STATUS INTO ORDERSTATUSHISTORY TABLE
+                'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
             ],
         },
     },

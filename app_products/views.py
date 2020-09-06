@@ -21,7 +21,7 @@ import wkhtmltopdf
 
 class ProductList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
-    template_name = 'app_products/product-list.html'
+    template_name = 'app_products/product_list/product-list.html'
     model = Product
     paginate_by = 20
     filterset_class = ProductFilter
@@ -71,7 +71,7 @@ def generate_label(request, id):
     context = { 
             'product': Product.objects.get(sku=id),
         }
-    return render(request, 'app_products/product-label-pdf.html', context )
+    return render(request, 'app_products/product_list/pdfs/label-create.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -82,7 +82,7 @@ def product_view(request, id):
         'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
         'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
         }
-    return render(request, 'app_products/product-detail.html', context )
+    return render(request, 'app_products/product_detail/product-detail.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

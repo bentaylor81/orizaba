@@ -5,7 +5,7 @@
 <section id="order" data-page="orders"> 
     <div class="top-bar">
         <!-- TITLE COMPONENT -->
-        {% include 'app_orders/components/order-detail/title.html' %}
+        {% include 'app_orders/order_detail/components/title.html' %}
         <!-- END -->
     </div>
     <!-- MESSAGES COMPONENT - GLOBAL -->
@@ -15,44 +15,44 @@
         <div>
             <div class="pod col-3"> 
             <!-- BILLING ADDRESS COMPONENT -->
-                {% include 'app_orders/components/order-detail/billing-details.html' %} 
+                {% include 'app_orders/order_detail/components/billing-details.html' %} 
             <!-- END -->              
             <!-- DELIVERY ADDRESS COMPONENT -->
-                {% include 'app_orders/components/order-detail/delivery-details.html' %}
+                {% include 'app_orders/order_detail/components/delivery-details.html' %}
             <!-- END -->
             <!-- ACTIONS COMPONENT-->
-                {% include 'app_orders/components/order-detail/actions.html' %}
+                {% include 'app_orders/order_detail/components/actions.html' %}
             <!-- END -->
             </div>
             <!-- PICKLIST COMPONENT -->
             {% if 'picklist' in request.get_full_path %}
             <div class="pod table details">
-                {% include 'app_orders/components/order-detail/picklist.html' %}
+                {% include 'app_orders/order_detail/components/picklist.html' %}
             </div>   
             {% endif %} 
             <!-- END -->
             <!-- SHIPMENT COMPONENT -->
             {% if object.ordershipment_set.all %}
             <div class="pod table shipment">
-                {% include 'app_orders/components/order-detail/shipment.html' %}
+                {% include 'app_orders/order_detail/components/shipment.html' %}
             </div>
             {% endif %}  
             <!-- END -->
             <!-- ORDER ITEMS COMPONENT -->
             <div class="pod table details">          
-                {% include 'app_orders/components/order-detail/items.html' %}
+                {% include 'app_orders/order_detail/components/items.html' %}
             </div>
             <!-- END -->
         </div>
         <div>
             <!-- STATUS COMPONENT -->
             <div class="pod">
-                {% include 'app_orders/components/order-detail/status.html' %}
+                {% include 'app_orders/order_detail/components/status.html' %}
             </div>
             <!-- END -->
             <!-- NOTES COMPONENT -->
             <div class="pod">  
-                {% include 'app_orders/components/order-detail/notes.html' %}
+                {% include 'app_orders/order_detail/components/notes.html' %}
             </div>
             <!-- END -->
         </div>

@@ -1,0 +1,118 @@
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">  
+        <style type="text/css" media="all">
+            @page { 
+                size: A4 portrait; 
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/pdf.css' %}">
+    </head>
+    <body>
+        <section id="invoice">
+            <div class="header table-2">
+                <table>
+                    <tr>
+                        <td class="company-details">
+                            <img src="{% static 'img/gts-logo-250.png' %}">
+                            <div>
+                                Garden Tractor Spares<br>
+                                Unit 15 & 16,<br>
+                                Corinium Business Centre,<br>
+                                Speculation Rd,<br>
+                                Cinderford,<br>
+                                GL14 2YD<br><br>
+                                info@gardentractorspares.co.uk
+                            </div>
+                        </td>
+                        <td class="invoice-details">
+                            <div class="table-2">
+                                <h1>Sales Invoice</h1>
+                                <table>
+                                    <tr>
+                                        <td>Invoice Date:</td>
+                                        <td>{{ order.date|date:'D d M Y' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Invoice #:</td>
+                                        <td>{{ order.order_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">Customer Info:</td>
+                                        <td>   
+                                            {{ order.billing_name }}<br />
+                                            {{ order.billing_address_1 }}<br />
+                                            {{ order.billing_address_2 }}<br />
+                                            {{ order.billing_city }}<br />
+                                            {{ order.billing_postcode }}<br />
+                                            {{ order.billing_country }}<br />    
+                                        </td>
+                                    </tr>
+                                </table> 
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table invoice-items">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="prod-name">Product</th>
+                            <th>Item Price</th>
+                            <th>Qty</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_item in order.orderitem_set.all %}
+                        <tr class="item-row">
+                            <td>{{ forloop.counter }}</td>
+                            <td class="prod-name">{{ order_item.product_id.product_name }}</td>
+                            <td>£{{ order_item.item_price }}</td>
+                            <td>{{ order_item.item_qty }}</td>
+                            <td>£{{ order_item.total_price }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="row_dark_2">
+                            <td class="totals" colspan="4">Items Total:</td>
+                            <td>£{{ order.items_total_price }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">Postage:</td>
+                            <td>£{{ order.delivery_price }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">Total Ex. Vat:</td>
+                            <td>£{{ order.total_price_ex_vat }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2">VAT:</td>
+                            <td>£{{ order.vat|floatformat:2 }}</td>
+                        </tr>
+                        <tr class="row_dark last">
+                            <td colspan="2">&nbsp;</td>
+                            <td class="totals" colspan="2"><b>Total Inc. VAT:</b></td>
+                            <td><b>£{{ order.total_price_inc_vat }}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <b>Garden Tractor Spares</b> is the trading name of Orizaba Properties Ltd<br>
+                <b>Company Number:</b> 04699141<br>
+                <b>VAT Number:</b> 813 4283 47<br>
+                <b>Commodity Code:</b> 8433900000<br>
+            </div>
+        </section>
+    </body>
+</html>

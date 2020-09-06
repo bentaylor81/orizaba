@@ -24,7 +24,7 @@ import wkhtmltopdf
 
 class OrderList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
-    template_name = 'app_orders/order-list.html'
+    template_name = 'app_orders/order_list/order-list.html'
     model = Order
     paginate_by = 20
     filterset_class = OrderFilter
@@ -37,7 +37,7 @@ class OrderList(LoginRequiredMixin, FilterView):
 
 class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     login_url = '/login/'
-    template_name = 'app_orders/order-detail.html'
+    template_name = 'app_orders/order_detail/order-detail.html'
     queryset = Order.objects.all()
     form_class = OrderShipmentForm
     model = Order
@@ -94,7 +94,7 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = '/login/'
     model = Order
     form_class = OrderForm
-    template_name = 'app_orders/order-detail.html'
+    template_name = 'app_orders/order_detail/order-detail.html'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -141,8 +141,16 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
-def generate_picklist(request, id):
+def picklist_create(request, id):
     context = { 
             'order': Order.objects.get(order_id=id),
         }
-    return render(request, 'app_orders/order-picklist-pdf.html', context )
+    return render(request, 'app_orders/order_detail/pdfs/picklist-create.html', context )
+
+# FUNCTION TO CREATE THE INVOICE PDF FROM INVOICE HTML FILE
+def invoice_create(request, id):
+    context = { 
+            'order': Order.objects.get(order_id=id),
+        }
+    return render(request, 'app_orders/order_detail/pdfs/invoice-create.html', context )
+    
