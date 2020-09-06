@@ -29,6 +29,7 @@ def invoice_pdf(request):
         order.invoice_created = True  
         order.save()  
         order_id = order.order_id  
-        projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id
-        pdf = pdfkit.from_url(projectUrl, 'static/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)   
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id 
+        pdf = pdfkit.from_url(projectUrl, 'https://orizaba-control.s3-us-west-2.amazonaws.com/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)
+        # pdf = pdfkit.from_url(projectUrl, 'static/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)   # Change this to upload to S3
     return ()

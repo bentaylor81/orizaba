@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-# # Comment out when pushing to production / Uncomment to use Live DB locally
+# Comment out when pushing to production / Uncomment to use Live DB locally
 # HEROKU_DB_KEY = config('HEROKU_DB_KEY')
 # DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
@@ -198,3 +198,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # For Environment Variables
 django_heroku.settings(locals())
+
+# If I put ENV vars above it uses S3 but says the access key is wrong.
+# It's ok if the css files aren't served from AWS, I want to make it so that only the pdfs go to AWS
