@@ -116,6 +116,12 @@ class OrderStatusType(models.Model):
 
 class OrderDeliveryMethod(models.Model):
     delivery_method = models.CharField(max_length=200, blank=True)
+    service_provider_name = models.CharField(max_length=200, blank=True)
+    service_name = models.CharField(max_length=200, blank=True)
+    service_description = models.CharField(max_length=200, blank=True)
+    service_provider_id = models.IntegerField(blank=True, default=0)
+    service_id = models.IntegerField(blank=True, default=0)
+    service_provider_uid = models.IntegerField(blank=True, default=0)
     sort_order = models.IntegerField(default=100)
     active = models.BooleanField(default=True)
 

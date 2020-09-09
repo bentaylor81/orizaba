@@ -74,37 +74,7 @@
                                 </form>
                             </td>
                         </tr>
-                        <!-- REMOVED AS IMAGES TAKE TOO LONG TO LOAD -->
-                        <!-- TO RE-ADD THIS FEATURE THE IMAGES NEED TO BE ADDED TO STATIC-->
-                        <!-- <tr class="extra-content {% cycle 'row1' 'row2' %}">
-                            <td colspan="9">
-                                {% if product.image %}    
-                                <div class="image">
-                                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
-                                </div>
-                                {% endif %}
-                                <div class="table-2">
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <th>Buy Price:</th>
-                                            <td>£{{ product.buy_price }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sell Price:</th>
-                                            <td>£{{ product.sell_price }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Weight:</th>
-                                            <td>{{ product.weight|floatformat:2 }}kg</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Live Link:</th>
-                                            <td><a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr> -->
+
                         {% empty %}
                         <tr>
                             <td class="empty" colspan="9">
@@ -114,6 +84,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <!-- ADDS EXTRA IMAGE UNDERNEATH IF ONLY ONE PRODUCT IS SHOWING -->
+                <div class="extra-content">
+                {% for product in object_list %}	               
+                    {% if product.image %}    
+                    <div class="extra-image">
+                        <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
             </div>
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination.html' %}

@@ -73,4 +73,12 @@
 //         }
 //     }  
         
+// EXPAND THE ROW IF THERE IS ONLY ONE ROW IN THE TABLE
+        // ALLOWS THE PICTURE TO BE SHOWN, SO WE DON'T HAVE TO CLICK INTO THE PRODUCT DETAIL
+        let mainRow = document.querySelectorAll('.main-row');
+            
+        if (mainRow.length == 1) {
+            let extraContent = document.querySelector('.extra-content')
+            extraContent.style.display = 'block';
+        }
     

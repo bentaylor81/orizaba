@@ -22,6 +22,8 @@ import json
 import pdfkit
 import wkhtmltopdf
 
+from django.core import serializers
+
 class OrderList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_orders/order_list/order-list.html'
@@ -59,9 +61,20 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         if 'add-shipment' in request.POST:
             form_class = self.get_form_class()
             form = self.get_form(form_class)
+ 
             if form.is_valid():
                 form.instance.order_id = form_order_id
                 form.save()
+                url = settings.PH_URL
+                headers = settings.PH_HEADERS
+                version = str(settings.PH_VERSION)
+                account = str(settings.PH_ACCOUNT)
+                service_info = str('<ServiceInfo><ServiceId>'+str(self.object.delivery_method.service_id)+'</ServiceId><ServiceCustomerUID>'+str(self.object.delivery_method.service_provider_uid)+'</ServiceCustomerUID><ServiceProviderId>'+str(self.object.delivery_method.service_provider_id)+'</ServiceProviderId></ServiceInfo>')
+                delivery_address = str('<DeliveryAddress><ContactName>'+self.object.delivery_name+'</ContactName><Email>'+self.object.delivery_email+'</Email><Phone>'+self.object.delivery_phone+'</Phone><Address1>'+self.object.delivery_address_1+'</Address1><Address2>'+self.object.delivery_address_2+'</Address2><City>'+self.object.delivery_city+'</City><Postcode>'+self.object.delivery_postcode+'</Postcode><Country>GB</Country><AddressType>Business</AddressType></DeliveryAddress>')
+                reference = '<Reference1>'+str(self.object.order_no)+'</Reference1><ContentsDescription>Machine Spare Parts</ContentsDescription><Packages><Package><PackageType>Parcel</PackageType><Value Currency=\"GBP\">'+str(self.object.total_price_inc_vat)+'</Value><Contents>Machine Spare Parts</Contents><Dimensions><Length>20</Length><Width>20</Width><Height>20</Height></Dimensions><Weight>2</Weight></Package></Packages>'
+                payload = version + account + service_info + delivery_address + reference + '</Shipment>'
+                response = requests.request("POST", url, headers=headers, data = payload)
+                print(response.text.encode('utf8'))
                 messages.success(self.request, 'Shipment Created and Label Processing')        
             else:
                 return self.form_invalid(form)

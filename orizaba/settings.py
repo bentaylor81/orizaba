@@ -75,7 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # LOADS INITIAL ORDER RECEIVED STATUS INTO ORDERSTATUSHISTORY TABLE
-                'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
+                #'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
             ],
         },
     },
@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-# Comment out when pushing to production / Uncomment to use Live DB locally
+# # Comment out when pushing to production / Uncomment to use Live DB locally
 # HEROKU_DB_KEY = config('HEROKU_DB_KEY')
 # DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
@@ -175,7 +175,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 ### 3RD PARTY API CREDENTIALS ###
 #
-# PrintNode
+# PRINTNODE
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
@@ -184,7 +184,18 @@ PRINTNODE_DESKTOP_PRINTER = config('PRINTNODE_DESKTOP_PRINTER')
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
-# Amazon S3 Buckets Config
+# PARCELHUB
+PH_URL = config('PH_URL')
+PH_HEADERS = {
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Accept': '*/*',
+        'Authorization': config('PH_BEARER')
+        }
+PH_VERSION = '<?xml version=\"1.0\" encoding=\"utf-8\"?><Shipment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://api.parcelhub.net/schemas/api/parcelhub-api-v0.4.xsd\">'
+PH_ACCOUNT = config('PH_ACCOUNT')
+
+# AMAZON S3 BUCKET CONFIG
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
