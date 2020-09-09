@@ -208,7 +208,7 @@
     #product .table-2 table th { width: 150px; }
     #product .stock { background-color: #eee; padding: 15px 10px; font-size: 30px; margin-bottom: 20px;   }
     #product .stock span { font-weight: bold;  padding: 5px 15px;   }
-    #product .image img { width: 300px; padding: 5px; background: #eee; }
+    #product .image img { width: 400px; padding: 5px; background: #eee; }
 
     /* Customer List Page */
 
