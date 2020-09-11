@@ -60,7 +60,7 @@ class Product(models.Model):
         return ''
 
 class PurchaseOrder(models.Model):
-    po_id = models.IntegerField(primary_key=True)
+    po_id = models.AutoField(primary_key=True)
     reference = models.CharField(max_length=200, blank=True)	
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
