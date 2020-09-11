@@ -59,6 +59,15 @@ class Product(models.Model):
             super(Product, self).save(*args, **kwargs)
         return ''
 
+class PurchaseOrder(models.Model):
+    po_id = models.IntegerField(primary_key=True)
+    reference = models.CharField(max_length=200, blank=True)	
+    supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.po_id
+
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
     path = models.CharField(max_length=200, blank=True)
@@ -80,8 +89,3 @@ class Brand(models.Model):
     class Meta:
         ordering = ["brand"]
 
-class PurchaseOrder(models.Model):
-    po_id = models.IntegerField(primary_key=True)
-
-    def __str__(self):
-        return self.po_id
