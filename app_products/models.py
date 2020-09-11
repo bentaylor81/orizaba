@@ -66,7 +66,7 @@ class PurchaseOrder(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.po_id
+        return str(self.po_id) + ' | ' + str(self.reference)
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
