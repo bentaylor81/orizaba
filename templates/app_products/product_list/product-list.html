@@ -39,7 +39,7 @@
                     <tbody>
                         {% for product in object_list %}	
                         <tr class="main-row {% cycle 'row1' 'row2' %}">
-                            <td class="first-col"><a class="no-js" href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
+                            <td class="first-col"><a href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	
                             <td>£{{ product.sell_price }}</td>
@@ -47,7 +47,7 @@
                             <td>{{ product.supplier }}</td>		
                             <td>{{ product.location }}</td>
                             <td class="stock"><span>{{ product.stock_qty }}</stock></td>
-                            <td class="product-label no-js">
+                            <td class="product-label">
                                 <form method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="hidden">

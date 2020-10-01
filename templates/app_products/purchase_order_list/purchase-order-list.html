@@ -1,0 +1,69 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="purchase-orders"  data-page="products" data-sub-page="purchase-orders"> 
+    <div class="top-bar">
+        <h1>Purchase Orders</h1>
+    </div>
+    <!-- MESSAGES COMPONENT - GLOBAL -->
+    {% include 'global/messages.html' %}
+    <div class="content">
+        <div class="pod">
+            <div class="filter">
+                <form method="get">
+                    {{ filter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination-cbv.html' %}
+            <!-- ADD PURCHASE ORDER -->
+            <div class="add-po">
+                <button class="modal-button">Add Purchase Order</button>
+                {% include 'app_products/purchase_order_list/modals/add.html' %} <!-- Opens the modal showing Google maps -->
+            </div>
+            <!-- PRODUCTS --> 
+            <div class="products table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>PO #</th>
+                            <th>Reference</th>
+                            <th>Supplier</th>
+                            <th>Date Added</th>
+                            <th>Date Ordered</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for purchase_order in object_list %}	
+                        <tr class="main-row {% cycle 'row1' 'row2' %}">
+                            <td>{{ purchase_order.po_id }}</td>	
+                            <td><a href="{% url 'purchase-order-detail' purchase_order.pk %}">{{ purchase_order.reference }}</a></td>	
+                            <td>{{ purchase_order.supplier }}</td>	
+                            <td>{{ purchase_order.date_added|date:'D - d M Y'}}</td>
+                            <td>{{ purchase_order.date_ordered|date:'D - d M Y'}}</td>	
+                            <td><span class="status">{{ purchase_order.status }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td class="empty" colspan="9">
+                                There are no purchase orders to display. 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination.html' %}
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="{% static 'js/purchase-order-list.js' %}"></script>
+{% endblock %}
+
+

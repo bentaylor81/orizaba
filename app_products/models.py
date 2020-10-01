@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
@@ -10,6 +11,64 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ["-date"]
+
+class PurchaseOrderItem(models.Model):
+    STATUS_CHOICES = [
+        ('Order Pending', 'Order Pending'),
+        ('Partial Receipt', 'Partial Receipt'),
+        ('Full Receipt', 'Full Receipt'),
+    ]
+    product = models.ForeignKey('product', on_delete=models.CASCADE) ### Make not null, might need to revert this
+    purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
+    order_qty = models.IntegerField(blank=True, default=0)      # Total order quantity
+    received_qty = models.IntegerField(blank=True, default=0)   # Total parts received
+    outstanding_qty = models.IntegerField(blank=True, default=0)    # Total parts still outstanding
+    delivery_qty = models.IntegerField(blank=True, default=0) # Parts received in this delivery
+    received_status = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, default="Order Pending") 
+    status_ordering = models.IntegerField(blank=True, default=1) 
+    comments = models.CharField(max_length=100, blank=True)
+    date_updated = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.id) + ' | ' + str(self.purchaseorder.reference) + ' | ' + str(self.product.product_name) + ' | ' + str(self.order_qty) + ' | ' + str(self.received_qty) + ' | ' + str(self.outstanding_qty) + ' | ' + str(self.received_status)
+
+    def save(self, *args, **kwargs):
+        self.received_qty = (self.received_qty + self.delivery_qty) # Delivery part added to current received value
+        self.delivery_qty = 0                                       # Delivery set back to 0
+        self.outstanding_qty = (self.order_qty - self.received_qty) # Outstanding part qty updated
+
+        if self.outstanding_qty == 0:
+            self.received_status = 'Full Receipt'
+            self.status_ordering = '3'
+        elif self.outstanding_qty != 0 and self.outstanding_qty < self.order_qty:
+            self.received_status = 'Partial Receipt'
+            self.status_ordering = '2'
+        super(PurchaseOrderItem, self).save(*args, **kwargs) 
+
+    class Meta:
+        ordering = ["status_ordering", "-id"]
+
+class PurchaseOrder(models.Model):
+    PO_CHOICES = [
+        ("Pending", 'Pending'),
+        ("Part Receipt", 'Part Receipt'),
+        ("Unleashed", 'Unleashed'),
+        ("Complete", 'Complete'),
+    ]
+    po_id = models.AutoField(primary_key=True)
+    reference = models.CharField(max_length=200, blank=True)	
+    supplier_reference = models.CharField(max_length=200, blank=True)	
+    supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True)
+    date_added = models.DateField(auto_now_add=True)
+    date_ordered = models.DateField(blank=True, null=True)
+    status = models.CharField(max_length=200, choices=PO_CHOICES, blank=True)
+    notes = models.CharField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return str(self.po_id) + ' | ' + str(self.reference)
+
+    class Meta:
+        ordering = ["-pk"]
 
 class Product(models.Model):
     product_id = models.IntegerField(primary_key=True)
@@ -35,7 +94,7 @@ class Product(models.Model):
     sealed_item = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.product_id) + ' | ' + str(self.sku) + ' | ' + str(self.product_name) + ' | ' + str(self.brand)
+        return str(self.sku)
 
     class Meta:
         ordering = ["product_id", "location"]
@@ -43,30 +102,18 @@ class Product(models.Model):
     @property
     def product_calcs(self, *args, **kwargs):
         if self.buy_value != (self.buy_price * self.stock_qty):
-
             self.buy_value = (self.buy_price * self.stock_qty)
             self.sell_value = (self.sell_price * self.stock_qty)
             self.item_profit = (self.sell_price - self.buy_price)
             self.stock_profit = (self.item_profit * self.stock_qty)
-
             if self.sell_price != 0:
                 profit = ((self.item_profit / self.sell_price) * 100)
                 profit = round(profit, 0)
                 self.profit_margin = profit
             else:
                 self.profit_margin = 0
-
             super(Product, self).save(*args, **kwargs)
         return ''
-
-class PurchaseOrder(models.Model):
-    po_id = models.AutoField(primary_key=True)
-    reference = models.CharField(max_length=200, blank=True)	
-    supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return str(self.po_id) + ' | ' + str(self.reference)
 
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)

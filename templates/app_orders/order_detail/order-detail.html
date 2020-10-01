@@ -4,9 +4,7 @@
 {% block content %}
 <section id="order" data-page="orders"> 
     <div class="top-bar">
-        <!-- TITLE COMPONENT -->
-        {% include 'app_orders/order_detail/components/title.html' %}
-        <!-- END -->
+        <h1>Orders &nbsp;&nbsp;>&nbsp;&nbsp; # {{ order.order_no }} &nbsp;-&nbsp; {{ order.delivery_name }} &nbsp;-&nbsp; {{ order.date }}</h1>
     </div>
     <!-- MESSAGES COMPONENT - GLOBAL -->
     {% include 'global/messages.html' %}

@@ -33,6 +33,12 @@ class ProductFilter(filters.FilterSet):
         model = Product
         fields = ['Product', 'Sku', 'brand', 'supplier', 'stock_qty']
         
+class PurchaseOrderFilter(filters.FilterSet):
+    
+    class Meta:
+        model = PurchaseOrder
+        fields = ['reference', 'supplier', 'status']
+
 
 class SupplierProductFilter(filters.FilterSet):
     

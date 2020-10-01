@@ -9,11 +9,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app_users.decorators import unauthenticated_user, allowed_users
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView, UpdateView
 from django_filters.views import FilterView
+from django.views.generic.edit import FormMixin
 from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from .forms import ProductLabelForm
+from django.forms import formset_factory
+from .forms import *
 import requests
 import json
 import pdfkit
@@ -50,17 +53,87 @@ class ProductList(LoginRequiredMixin, FilterView):
         messages.success(self.request, 'Processing Product Label')
         return HttpResponseRedirect(path)
 
-class SupplierList(LoginRequiredMixin,ListView):
+class PurchaseOrderList(LoginRequiredMixin, FormMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_products/purchase_order_list/purchase-order-list.html'
+    model = PurchaseOrder
+    paginate_by = 20
+    filterset_class = PurchaseOrderFilter
+    form_class = PurchaseOrderCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['suppliers'] = Supplier.objects.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = PurchaseOrderCreateForm(self.request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Purchase Order has been Added')
+            return redirect('purchase-order-list')
+
+class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    template_name = 'app_products/purchase_order_detail/purchase-order-detail.html'
+    model = PurchaseOrder
+    form_class = PurchaseOrderForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        po_item_form = PoItemFormset(instance=self.object)
+        return self.render_to_response(self.get_context_data(form=form, po_item_form=po_item_form))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['suppliers'] = Supplier.objects.all()
+        po_item = PurchaseOrderItem.objects.filter(purchaseorder__po_id=self.object.pk)
+        context['total_lines'] = po_item.count or 0 
+        context['parts_ordered'] = po_item.aggregate(Sum('order_qty'))['order_qty__sum'] or 0
+        context['parts_received'] = po_item.aggregate(Sum('received_qty'))['received_qty__sum'] or 0
+        context['parts_outstanding'] = context['parts_ordered'] - context['parts_received'] or 0
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object() 
+
+        if 'status' in request.POST or 'notes' in request.POST or 'edit-po' in request.POST:
+            form = PurchaseOrderForm(self.request.POST, instance=self.object)  
+            if form.is_valid(): 
+                form.save()
+                messages.success(request, 'Purchase Order Saved')
+                return HttpResponseRedirect(self.get_success_url())
+            else:
+                return self.form_invalid(form)
+        else:
+            form_class = self.get_form_class()
+            form = self.get_form(form_class)
+            po_item_form = PoItemFormset(self.request.POST, instance=self.object)
+            if (po_item_form.is_valid() and form.is_valid()):
+                print('Valid Form')
+                po_item_form.save()
+                return HttpResponseRedirect(self.get_success_url())
+            else:
+                print('Invalid Form')
+                print (po_item_form.errors)
+                return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})
+
+class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'app_products/supplier-list.html'
     model = Supplier
 
-class BrandList(LoginRequiredMixin,ListView):
+class BrandList(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'app_products/brand-list.html'
     model = Brand
 
-class CustomerList(LoginRequiredMixin,ListView):
+class CustomerList(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'app_products/customer-list.html'
     model = Customer

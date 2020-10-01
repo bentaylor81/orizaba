@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 import requests
 import json
+from django.forms import inlineformset_factory
 
 class ProductLabelForm(forms.Form):
     sku = forms.CharField(max_length=20)
@@ -10,25 +11,25 @@ class ProductLabelForm(forms.Form):
     qty = forms.IntegerField()
     path = forms.CharField(max_length=50)
 
-
-    def print_label(self):
-        url = "https://api.printnode.com/printjobs"
-        auth = 'Basic RzV0TkdoNlItMDJuUzM2U1NYcXJVaTFPOXZBNWN2WE9CNV8xeWFYb1Vrbzo='
-        content = "test-label.pdf"
-        title = "Hello Ben"
-        printer = "69572913"
-        copies = "10"
-
-        payload = '{"printerId": ' +str(printer)+ ', "title": " ' +str(title)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/' +str(content)+ '", "source": "GTS Test Page", "options": {"copies": ' +str(copies)+ '}}'
-        
-        headers = {
-                'Content-Type': 'application/json',
-                'Authorization': auth,
-        }
-
-        response = requests.request("POST", url, headers=headers, data = payload)
-
-        print(response.text.encode('utf8'))
-
+class PurchaseOrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = PurchaseOrder
+        fields = ['reference', 'supplier_reference', 'supplier', 'status', 'date_ordered']
  
+class PurchaseOrderForm(forms.ModelForm):
+    class Meta:
+        model = PurchaseOrder
+        fields = ['status', 'notes', 'reference', 'supplier', 'supplier_reference', 'date_ordered']
 
+PoItemFormset = inlineformset_factory(
+    PurchaseOrder, 
+    PurchaseOrderItem, 
+    extra=0, 
+    can_delete=True,
+    fields=('product', 'purchaseorder', 'order_qty', 'delivery_qty', 'comments', 'date_updated'),
+    widgets={
+        'delivery_qty' : forms.NumberInput(attrs={'min': '0' }), 
+        'product' : forms.TextInput(attrs={'type': 'hidden' }), 
+        }
+    )
+    
