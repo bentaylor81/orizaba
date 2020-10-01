@@ -41,7 +41,7 @@ const products = await res.json();
 
 const outputHtml = matches => {
     // Show the dropdown list on the 2nd character added to the input box 
-    if (search.value.length > 1) {
+    if (search.value.length > 2) {
         if (matches.length > 0) {
             matchList.style.display = 'block';
             const html = matches.map(match => `
