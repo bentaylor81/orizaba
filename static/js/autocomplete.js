@@ -31,6 +31,7 @@ const products = await res.json();
         function selectProduct(){
             // Set the search box value with the SKU - cosmetic only, not submitted     
             sku = document.querySelectorAll('.match-item .item-sku')[i].innerHTML
+            search.style.fontWeight = '900'
             search.value = sku
             // Set the hidden text field with the ProductId to be submitted
             productId = document.querySelectorAll('.match-item .product-id')[i].innerHTML      
