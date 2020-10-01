@@ -21,5 +21,5 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
 
 class ProductSimpleViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all().order_by('-product_id')
+    queryset = Product.objects.all().order_by('sku')
     serializer_class = ProductSimpleSerializer
