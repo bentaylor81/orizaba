@@ -13,6 +13,7 @@ const products = await res.json();
         return products.sku.match(regex)
     });
 
+    // If everything is removed from the input, show no list
     if (searchText.length === 0) {
         matches = [];
         matchList.style.display = 'none';
