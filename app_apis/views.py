@@ -19,3 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all().order_by('date')
     serializer_class = CustomerSerializer
+
+class ProductSimpleViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all().order_by('-product_id')
+    serializer_class = ProductSimpleSerializer
