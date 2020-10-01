@@ -276,7 +276,7 @@
     #purchase-order .part-row .icon-right { cursor: pointer; width: 10px; background: url('/static/img/icons/caret-right-solid.svg') no-repeat 13px; background-size: 8px; border-left: 1px solid #bbb; }
     #purchase-order .part-row .icon-down { cursor: pointer; width: 10px; background: url('/static/img/icons/caret-down-solid-bbb.svg') no-repeat 10px; background-size: 13px; }
     #purchase-order .small-modal button { width: 160px; }
-    #purchase-order .open-part-add { cursor: pointer; }
+    #purchase-order #open-part-add { cursor: pointer; }
     #purchase-order .add-po-item { display: none; background: #ddd; padding: 10px; width: calc(100% - 20px); margin: -5px 0px 10px 0px; }
     #purchase-order .add-po-item .po-item-product { float: left; position: relative; margin-right: 20px; }
     #purchase-order .add-po-item .po-item-product input { width: 250px; }
