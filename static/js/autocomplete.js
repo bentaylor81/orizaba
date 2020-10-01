@@ -40,16 +40,19 @@ const products = await res.json();
 };
 
 const outputHtml = matches => {
-    if (matches.length > 0) {
-        matchList.style.display = 'block';
-        const html = matches.map(match => `
-            <div class="match-item">
-                <b><span class="item-sku">${match.sku}</span></b> - <span class="item-product-name">${match.product_name}</span>
-                <span class="product-id">${match.product_id}</span>
-            </div>
-        `).join('');       
-        matchList.innerHTML = html;
-    }    
+    // Show the dropdown list on the 2nd character added to the input box 
+    if (search.value.length > 1) {
+        if (matches.length > 0) {
+            matchList.style.display = 'block';
+            const html = matches.map(match => `
+                <div class="match-item">
+                    <b><span class="item-sku">${match.sku}</span></b> - <span class="item-product-name">${match.product_name}</span>
+                    <span class="product-id">${match.product_id}</span>
+                </div>
+            `).join('');       
+            matchList.innerHTML = html;
+        }  
+    }  
 }
 
 search.addEventListener('input', () => searchProducts(search.value))
