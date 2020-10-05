@@ -27,6 +27,7 @@
                     outstandingCell[i].classList.add('complete')
                     outstandingIcon[i].innerHTML = '<img src="/static/img/icons/check-circle-solid.svg">'
                     document.querySelectorAll('.part-select')[i].setAttribute('disabled','disabled');
+                    document.querySelectorAll('.label-checkbox')[i].setAttribute('disabled','disabled');
                 } else if (receivedCell[i].innerHTML > 0) {
                     rowNumber[i].classList.add('partial-complete')
                     outstandingCell[i].classList.add('partial-complete')
@@ -130,6 +131,7 @@
         poIdAttrib = nameBase + rowCount + '-purchaseorder'
         idAttrib = nameBase + rowCount + '-id'
         productAttrib = nameBase + rowCount + '-product'
+        productSkuAttrib = nameBase + rowCount + '-product_sku'
         qtyAttrib = nameBase + rowCount + '-order_qty'
         
         // This sets the name value of 'Purchase Order', 'ID', 'Product' and 'Order Qty'
@@ -137,6 +139,7 @@
         document.querySelector('.po-id').setAttribute('value', poId)
         document.querySelector('.po-item-id').setAttribute('name', idAttrib)
         document.querySelector('.po-item-product').setAttribute('name', productAttrib)
+        document.querySelector('.po-item-product-sku').setAttribute('name', productSkuAttrib)
         document.querySelector('.po-item-qty input').setAttribute('name', qtyAttrib)
 
         // Set the number of total forms based on the number of current rows

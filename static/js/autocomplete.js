@@ -4,7 +4,7 @@ const matchItem = document.querySelectorAll('#match-list .match-item')
 
 // Search /api/product/?format=json and filter
 const searchProducts = async searchText => {
-const res = await fetch('/api/product-simple/?format=json')
+const res = await fetch('/api/product/?format=json')
 const products = await res.json();
 
     // Get matches to current text input
@@ -34,8 +34,10 @@ const products = await res.json();
             search.style.fontWeight = '900'
             search.value = sku
             // Set the hidden text field with the ProductId to be submitted
-            productId = document.querySelectorAll('.match-item .product-id')[i].innerHTML      
+            productId = document.querySelectorAll('.match-item .product-id')[i].innerHTML
+            productSku = document.querySelectorAll('.match-item .item-sku')[i].innerHTML        
             document.querySelector('.po-item-product').setAttribute('value', productId) 
+            document.querySelector('.po-item-product-sku').setAttribute('value', productSku) 
         }
     }
 };

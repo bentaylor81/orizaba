@@ -112,16 +112,24 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             form = self.get_form(form_class)
             po_item_form = PoItemFormset(self.request.POST, instance=self.object)
             if (po_item_form.is_valid() and form.is_valid()):
-                print('Valid Form')
                 po_item_form.save()
+                for form in po_item_form:
+                    if (form['label'].value()==True):
+                        sku = form['product_sku'].value()
+                        qty = form['delivery_qty'].value()     
+                        # GENERATE A PDF FILE IN STATIC
+                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+                        pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
+                        # SEND TO PRINTNODE
+                        payload = '{"printerId": ' +str(settings.PRINTNODE_LABEL_PRINTER)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"##https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
+                        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+                        print(response.text.encode('utf8'))
                 return HttpResponseRedirect(self.get_success_url())
             else:
-                print('Invalid Form')
-                print (po_item_form.errors)
                 return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})
+        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})        
 
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'

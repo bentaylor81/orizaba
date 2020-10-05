@@ -24,5 +24,5 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class ProductSimpleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Supplier
         fields = ['product_id', 'sku', 'product_name']

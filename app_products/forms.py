@@ -26,10 +26,12 @@ PoItemFormset = inlineformset_factory(
     PurchaseOrderItem, 
     extra=0, 
     can_delete=True,
-    fields=('product', 'purchaseorder', 'order_qty', 'delivery_qty', 'comments', 'date_updated'),
+    fields=('product', 'product_sku','purchaseorder', 'order_qty', 'delivery_qty', 'comments', 'label', 'date_updated'),
     widgets={
         'delivery_qty' : forms.NumberInput(attrs={'min': '0' }), 
         'product' : forms.TextInput(attrs={'type': 'hidden' }), 
+        'product_sku' : forms.TextInput(attrs={'type': 'hidden' }), 
+        'label' : forms.CheckboxInput (attrs={'class': 'label-checkbox' }), 
         }
     )
     

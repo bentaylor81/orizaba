@@ -18,7 +18,8 @@ class PurchaseOrderItem(models.Model):
         ('Partial Receipt', 'Partial Receipt'),
         ('Full Receipt', 'Full Receipt'),
     ]
-    product = models.ForeignKey('product', on_delete=models.CASCADE) ### Make not null, might need to revert this
+    product = models.ForeignKey('product', on_delete=models.CASCADE)
+    product_sku = models.CharField(max_length=200, blank=True)
     purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
     order_qty = models.IntegerField(blank=True, default=0)      # Total order quantity
     received_qty = models.IntegerField(blank=True, default=0)   # Total parts received
@@ -27,6 +28,7 @@ class PurchaseOrderItem(models.Model):
     received_status = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, default="Order Pending") 
     status_ordering = models.IntegerField(blank=True, default=1) 
     comments = models.CharField(max_length=100, blank=True)
+    label = models.BooleanField(default=False)
     date_updated = models.DateField(blank=True, null=True)
 
     def __str__(self):
@@ -35,6 +37,7 @@ class PurchaseOrderItem(models.Model):
     def save(self, *args, **kwargs):
         self.received_qty = (self.received_qty + self.delivery_qty) # Delivery part added to current received value
         self.delivery_qty = 0                                       # Delivery set back to 0
+        self.label = False                                          # Reset the print label to False
         self.outstanding_qty = (self.order_qty - self.received_qty) # Outstanding part qty updated
 
         if self.outstanding_qty == 0:

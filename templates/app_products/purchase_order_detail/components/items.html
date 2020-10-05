@@ -5,10 +5,12 @@
         {% csrf_token %}
         {{ po_item_form.management_form }}
         <!-- EXPANDABLE SECTION FOR ADDING A PART -->
+        <!-- GENERATED VIA THE jS PURCHASE-ORDER-DETAIL.JS LINE 125 -->
         <div class="add-po-item">
             <input class="po-id" type="hidden" value="1">
             <input class="po-item-id" type="hidden">
             <input class="po-item-product" type="hidden">
+            <input class="po-item-product-sku" type="hidden">
             <div class="po-item-product">
                 <b>Product SKU:</b>
                 <div>
@@ -41,7 +43,7 @@
                     <th>Ordered</th>
                     <th>Received</th>
                     <th>Outstanding</th>
-                    <th>Add</th>
+                    <th>Label / Add</th>
                     <th>Stock</th>
                     <th>Comments</th>
                 </tr>
@@ -54,12 +56,13 @@
                     {% endfor %}   
                     <td class="icon-right">&nbsp;</td>
                     <td class="col-40 part-count"><b>{{ forloop.counter }}</b></td>
-                    <td class="col-80">{{ item.instance.product.sku }}{{ item.product }}</td>
+                    <td class="col-80">{{ item.instance.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
                     <td class="col-300"><a href="{% url 'product-detail' item.instance.product.pk %}">{{ item.instance.product.product_name }}</a></td>
                     <td class="col-60 part-ordered">{{ item.instance.order_qty }}</td>
                     <td class="col-60 part-received">{{ item.instance.received_qty }}</td>
                     <td class="col-60 part-outstanding">{{ item.instance.outstanding_qty }}<span></span></td>
-                    <td class="col-50 received-select">
+                    <td class="col-60 received-select">
+                        {{ item.label }}
                         <select class="part-select " type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"  onchange="this.form.submit()">
                         {% with ''|center:item.instance.outstanding_qty as range %}
                             <option name="item" value="0">--</option>
@@ -67,7 +70,7 @@
                             <option name="item" value="{{ forloop.counter }}">{{ forloop.counter }}</option>
                             {% endfor %}
                         {% endwith %}
-                        </select>
+                        </select>     
                     </td>
                     <td class="col-40 stock"><span>{{ item.instance.product.stock_qty }}</span></td>                    
                     <td class="comments">

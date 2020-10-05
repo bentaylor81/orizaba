@@ -14,6 +14,8 @@ import os
 import django_heroku
 from decouple import config
 import dj_database_url
+import pdfkit
+import wkhtmltopdf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -80,6 +82,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'PAGE_SIZE': 50
+}
 
 WSGI_APPLICATION = 'orizaba.wsgi.application'
 
@@ -175,7 +183,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 ### 3RD PARTY API CREDENTIALS ###
 #
-# PRINTNODE
+# PRINTNODE - PHASE THIS OUT SO EACH LABEL OR PDF GENERATION HAS IT'S OWN BLOCK
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
@@ -183,6 +191,18 @@ PRINTNODE_DESKTOP_PRINTER = config('PRINTNODE_DESKTOP_PRINTER')
 
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
+
+### LABEL GENERATION - CURRENTLY USED FOR PO ITEM LABEL ONLY
+# WKHTMLTOPDF
+WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
+WKHTMLTOPDF_CONFIG = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
+WKHTMLTOPDF_OPTIONS = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
+
+# PRINTNOTE
+PRINTNODE_URL = config('PRINTNODE_URL')
+PRINTNODE_AUTH = config('PRINTNODE_AUTH')
+PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
+PRINTNODE_HEADERS = {'Content-Type': 'application/json', 'Authorization': PRINTNODE_AUTH, }
 
 # PARCELHUB
 PH_URL = config('PH_URL')
