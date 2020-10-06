@@ -287,7 +287,7 @@
     #purchase-order .add-po-item button { margin: 5px 0px 0px 20px; } 
     #purchase-order .add-po-item #close-part-add { float: right; margin: 0px; }
     #purchase-order .add-po-item #close-part-add i { font-size: 22px;}
-    #purchase-order #match-list { display: none; background: #eee; position: absolute; z-index: 1; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); }
+    #purchase-order #match-list { height: 400px; overflow: scroll; display: none; background: #eee; position: absolute; z-index: 1; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); }
     #purchase-order #match-list .match-item span { margin: 0px; }
     #purchase-order #match-list .match-item { padding: 10px; line-height: 20px; border-bottom: 1px solid #bbb; width: calc(100% - 20px); }
     #purchase-order #match-list .match-item:hover { background: #ddd;  width: calc(100% - 20px); }
