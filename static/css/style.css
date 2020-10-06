@@ -33,8 +33,8 @@
     h1, h2 { padding: 0px; margin: 0px; }
     a {	color: #1c71bb; text-decoration: none; font-weight: bold; }
     hr { border-top: 1px solid #ccc; border-bottom: 0px; }
-    button { width: 140px; padding: 5px 0px; }
-    .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center;  }
+    button { width: 140px; padding: 5px 0px; cursor: pointer; }
+    .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center; cursor: pointer; }
     .alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
     .pod h2 { margin-bottom: 20px; }
 
@@ -53,7 +53,6 @@
     .messages { font-weight: bold; font-size: 16px; }
     .messages .success {  background: #9eda9e; padding: 20px; }
     .messages .error {  background: #e99595; padding: 20px; }
-
 
     /* Forms */
     form input, form input#date, input.date-input { font: 13px 'Roboto'; }
@@ -287,7 +286,7 @@
     #purchase-order .add-po-item button { margin: 5px 0px 0px 20px; } 
     #purchase-order .add-po-item #close-part-add { float: right; margin: 0px; }
     #purchase-order .add-po-item #close-part-add i { font-size: 22px;}
-    #purchase-order #match-list { height: 400px; overflow: scroll; display: none; background: #eee; position: absolute; z-index: 1; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); }
+    #purchase-order #match-list { height: 400px; overflow-y: scroll; display: none; background: #eee; position: absolute; z-index: 1; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); }
     #purchase-order #match-list .match-item span { margin: 0px; }
     #purchase-order #match-list .match-item { padding: 10px; line-height: 20px; border-bottom: 1px solid #bbb; width: calc(100% - 20px); }
     #purchase-order #match-list .match-item:hover { background: #ddd;  width: calc(100% - 20px); }
