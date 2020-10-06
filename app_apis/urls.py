@@ -11,6 +11,6 @@ router.register(r'customer', views.CustomerViewSet)
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include((router.urls, 'app_apis'))),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
