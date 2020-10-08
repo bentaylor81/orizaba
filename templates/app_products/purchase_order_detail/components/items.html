@@ -35,7 +35,11 @@
         <!-- JAVASCRIPT FILTER OF THE LIST -->
         <!-- HIDDEN WHEN THE ADD PURCHASE ORDER SECTION IS OPEN --> 
         <div class="po-filter">
-            <b>SKU Filter: </b><input type="text" value="" />
+            <b>SKU Filter: </b><input id="sku-input" type="text" value="" />&nbsp;&nbsp;&nbsp;
+            <b>Date Received Filter: </b>
+            <select id="date-select" type="date" value="" />
+                <option></option>
+            </select>
         </div>
         <!-- MAIN TABLE DISPLAYING ALL ADDED PARTS -->    
         <table cellpadding="0" cellspacing="0">                         
@@ -87,7 +91,7 @@
                             {% endif %}
                             <span>
                                 {% if item.instance.date_updated %}
-                                <i><b>{{ item.instance.received_status }}</b> - {{ item.instance.date_updated|date:'D d M Y' }}</i>
+                                <i><b>{{ item.instance.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;<span class="date-received">{{ item.instance.date_updated|date:'D d M Y' }}</span></i>
                                 {% endif %}
                             </span>
                         </div>

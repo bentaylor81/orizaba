@@ -49,7 +49,7 @@ class PurchaseOrderItem(models.Model):
         super(PurchaseOrderItem, self).save(*args, **kwargs) 
 
     class Meta:
-        ordering = ["status_ordering", "-id"]
+        ordering = ["-date_updated"]         # Temporarily it is not ordering by Status, so status_ordering field might not be needed.
 
 class PurchaseOrder(models.Model):
     PO_CHOICES = [

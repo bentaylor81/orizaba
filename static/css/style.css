@@ -293,6 +293,7 @@
     #purchase-order #match-list .match-item .product-id { display: none; }
     #purchase-order .po-filter { background: #ddd; padding: 10px; }
     #purchase-order .po-filter input { padding: 5px; }
+    #purchase-order .po-filter #date-select { width: 160px; }
 
     /* Customer List Page */
 

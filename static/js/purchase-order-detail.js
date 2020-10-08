@@ -13,7 +13,8 @@
 // 11. OPEN ICON NEXT TOO HEADER
 // 12. OPEN THE ADD PART BLOCK
 // 13. CLOSE THE ADD PART BLOCK
-// 14. FILTER BOX
+// 14. SKU FILTER BOX
+// 15. DATE RECEIVED FILTERING
 
 
 //// JAVASCRIPT ////
@@ -219,8 +220,8 @@ function closeAddBlock(){
     }
 }     
 
-// 14. FILTER BOX - THE LIST DOWN WHEN SKU IS ADDED INTO THE FILTER BOX
-let filterInput= document.querySelector('.po-filter input');
+// 14. SKU FILTER BOX - THE LIST DOWN WHEN SKU IS ADDED INTO THE FILTER BOX
+let filterInput= document.querySelector('.po-filter #sku-input');
     tableSku = document.querySelectorAll('.part-sku');   
     partRow = document.querySelectorAll('.part-row');
 
@@ -243,7 +244,7 @@ let filterInput= document.querySelector('.po-filter input');
         
         skuFilter.value = localStorage.getItem('poFilterSku')
 
-    // SET THE VALUE OF THE INPUT TO THE lOCAL STORAGE VALUE
+    // SET THE VALUE OF THE INPUT TO THE LOCAL STORAGE VALUE
     let inputSku = filterInput.value;
 
         for(let i=0; i < tableSku.length; i++) {                 
@@ -253,3 +254,30 @@ let filterInput= document.querySelector('.po-filter input');
                 partRow[i].style.display = 'none';
             }
         }
+
+// 15. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
+let dateFilterSelect = document.querySelector('.po-filter #date-select');
+    dateReceived = document.querySelectorAll('#purchase-order .date-received');
+    
+    for(let i=0; i < dateReceived.length; i++){
+        if(i==0 || dateReceived[i].innerHTML != dateReceived[i-1].innerHTML) {
+            dateOption = "<option>" + dateReceived[i].innerHTML + "</option>"
+            dateFilterSelect.insertAdjacentHTML('beforeend', dateOption)
+        }
+    }
+
+    // SHOW / HIDE ROWS BASED ON THE DATE
+    dateFilterSelect.addEventListener('input', function() {
+        let filterDate = dateFilterSelect.value;
+
+        for(let i=0; i < dateReceived.length; i++) {                 
+            if(dateReceived[i].innerText.includes(filterDate)) {
+                partRow[i].style.display = 'table-row';                   
+            } else {
+                partRow[i].style.display = 'none';
+            }
+        }            
+    });
+
+
+
