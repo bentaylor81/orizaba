@@ -221,6 +221,12 @@ function closeAddBlock(){
         document.querySelectorAll('.further-actions .delete-part')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.further-actions input')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.label-checkbox')[i].removeAttribute('disabled','disabled');
+
+        // This makes sure it doesn't re-enable the checkbox for the already completed row.
+        if (receivedCell[i].innerHTML == orderedCell[i].innerHTML ) {
+            document.querySelectorAll('.part-select')[i].setAttribute('disabled','disabled');
+            document.querySelectorAll('.label-checkbox')[i].setAttribute('disabled','disabled');
+        }
     }
 }     
     // LOCAL STORAGE FOR openPartAdd TO KEEP THE BOX OPEN IF SET TO OPEN
