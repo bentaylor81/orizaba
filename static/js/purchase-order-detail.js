@@ -199,6 +199,7 @@ function openAddBlock(){
         document.querySelectorAll('.further-actions button')[i].setAttribute('disabled', 'disabled');
         document.querySelectorAll('.further-actions .delete-part')[i].setAttribute('disabled', 'disabled');
         document.querySelectorAll('.further-actions input')[i].setAttribute('disabled', 'disabled');
+        document.querySelectorAll('.label-checkbox')[i].setAttribute('disabled','disabled');
     }
 }
 
@@ -219,6 +220,7 @@ function closeAddBlock(){
         document.querySelectorAll('.further-actions button')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.further-actions .delete-part')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.further-actions input')[i].removeAttribute('disabled', 'disabled');
+        document.querySelectorAll('.label-checkbox')[i].removeAttribute('disabled','disabled');
     }
 }     
     // LOCAL STORAGE FOR openPartAdd TO KEEP THE BOX OPEN IF SET TO OPEN
