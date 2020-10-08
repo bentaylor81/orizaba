@@ -91,8 +91,9 @@
                             {% endif %}
                             <span>
                                 {% if item.instance.date_updated %}
-                                <i><b>{{ item.instance.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;<span class="date-received">{{ item.instance.date_updated|date:'D d M Y' }}</span></i>
+                                    <i><b>{{ item.instance.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;
                                 {% endif %}
+                                    <span class="date-received">{{ item.instance.date_updated|date:'D d M Y' }}</span></i>
                             </span>
                         </div>
                         <div class="edit">

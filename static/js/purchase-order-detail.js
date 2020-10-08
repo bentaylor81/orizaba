@@ -260,9 +260,11 @@ let dateFilterSelect = document.querySelector('.po-filter #date-select');
     dateReceived = document.querySelectorAll('#purchase-order .date-received');
     
     for(let i=0; i < dateReceived.length; i++){
-        if(i==0 || dateReceived[i].innerHTML != dateReceived[i-1].innerHTML) {
-            dateOption = "<option>" + dateReceived[i].innerHTML + "</option>"
-            dateFilterSelect.insertAdjacentHTML('beforeend', dateOption)
+        if(dateReceived[i].innerText != '') {
+            if(i==0 || dateReceived[i].innerHTML != dateReceived[i-1].innerHTML) {
+                dateOption = "<option>" + dateReceived[i].innerHTML + "</option>"
+                dateFilterSelect.insertAdjacentHTML('beforeend', dateOption)
+            }
         }
     }
 
