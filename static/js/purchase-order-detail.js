@@ -189,6 +189,7 @@ openPartAdd.addEventListener('click', openAddBlock);
 function openAddBlock(){
     document.querySelector('.add-po-item').style.display = 'inline-block';
     document.querySelector('.po-filter').style.display = 'none';
+    localStorage.setItem('partAddBox', 'open');
 
     // When this block is open the input fields in the main row are disabled
     for(let i=0; i < receivedSelect.length; i++ ){
@@ -206,6 +207,7 @@ function openAddBlock(){
 function closeAddBlock(){
     document.querySelector('.add-po-item').style.display = 'none';
     document.querySelector('.po-filter').style.display = 'block';
+    localStorage.setItem('partAddBox', 'closed');
 
     totForms = rowCount
     document.querySelector('#id_purchaseorderitem_set-TOTAL_FORMS').setAttribute('value', totForms);
@@ -219,8 +221,17 @@ function closeAddBlock(){
         document.querySelectorAll('.further-actions input')[i].removeAttribute('disabled', 'disabled');
     }
 }     
+    // LOCAL STORAGE FOR openPartAdd TO KEEP THE BOX OPEN IF SET TO OPEN
+    console.log(localStorage.getItem('partAddBox'))
+    if(localStorage.getItem('partAddBox') == 'open') {
+        console.log ('Opened box');
+        openAddBlock()
+    } else {
+        console.log('Closed Box')
+        closeAddBlock()
+    }
 
-// 14. SKU FILTER BOX - THE LIST DOWN WHEN SKU IS ADDED INTO THE FILTER BOX
+// 14. SKU FILTER BOX - THE LIST DROPS DOWN WHEN SKU IS ADDED INTO THE FILTER BOX
 let filterInput= document.querySelector('.po-filter #sku-input');
     tableSku = document.querySelectorAll('.part-sku');   
     partRow = document.querySelectorAll('.part-row');
