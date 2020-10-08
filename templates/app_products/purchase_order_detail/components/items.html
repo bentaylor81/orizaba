@@ -31,7 +31,12 @@
                 </div>
             </div>
             <div id="close-part-add" onclick="closeAddBlock()"><i class="far fa-window-close"></i></div>
-        </div>        
+        </div>    
+        <!-- JAVASCRIPT FILTER OF THE LIST -->
+        <!-- HIDDEN WHEN THE ADD PURCHASE ORDER SECTION IS OPEN --> 
+        <div class="po-filter">
+            <b>SKU Filter: </b><input type="text" value="" />
+        </div>
         <!-- MAIN TABLE DISPLAYING ALL ADDED PARTS -->    
         <table cellpadding="0" cellspacing="0">                         
             <thead>
@@ -56,7 +61,7 @@
                     {% endfor %}   
                     <td class="icon-right">&nbsp;</td>
                     <td class="col-40 part-count"><b>{{ forloop.counter }}</b></td>
-                    <td class="col-80">{{ item.instance.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
+                    <td class="col-80 part-sku">{{ item.instance.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
                     <td class="col-300"><a href="{% url 'product-detail' item.instance.product.pk %}">{{ item.instance.product.product_name }}</a></td>
                     <td class="col-60 part-ordered">{{ item.instance.order_qty }}</td>
                     <td class="col-60 part-received">{{ item.instance.received_qty }}</td>
