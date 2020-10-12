@@ -234,6 +234,8 @@
     #product .stock { background-color: #eee; padding: 15px 10px; font-size: 30px; margin-bottom: 20px;   }
     #product .stock span { font-weight: bold;  padding: 5px 15px;   }
     #product .image img { width: 300px; padding: 5px; background: #eee; }
+    #product .edit-image i { cursor: pointer; }
+    .product-image-form img { width: 100px; }
 
     /* Purchase Order List Page */
     #purchase-orders .status { padding: 6px 0px; width: 120px; text-align: center; display: inline-block; font-weight: bold; background-color: #bbb; }

@@ -120,7 +120,6 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        print(form)
         order_item_form = OrderItemFormset(self.request.POST, instance=self.object)
         if (order_item_form.is_valid() and form.is_valid()):
             return self.form_valid(form, order_item_form)

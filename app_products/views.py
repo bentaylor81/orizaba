@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_products.models import *
 from app_orders.models import *
@@ -52,6 +52,32 @@ class ProductList(LoginRequiredMixin, FilterView):
         print(response.text.encode('utf8'))
         messages.success(self.request, 'Processing Product Label')
         return HttpResponseRedirect(path)
+
+class ProductDetail(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    template_name = 'app_products/product_detail/product-detail.html'
+    form_class = ProductDetailForm
+    model = Product
+
+    def get_success_url(self):
+        messages.success(self.request, 'Product Updated')
+        return reverse('product-detail', kwargs={'pk': self.object.pk})     
+
+
+
+
+
+# The below function will be deleted soon.
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['admin'])
+# def product_view(request, id):
+
+#     context = { 
+#         'product' : Product.objects.get(product_id=id),
+#         'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
+#         'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
+#         }
+#     return render(request, 'app_products/product_detail/product-detail.html', context )
 
 class PurchaseOrderList(LoginRequiredMixin, FormMixin, FilterView):
     login_url = '/login/'
@@ -154,16 +180,7 @@ def generate_label(request, id):
         }
     return render(request, 'app_products/product_list/pdfs/label-create.html', context )
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def product_view(request, id):
 
-    context = { 
-        'product' : Product.objects.get(product_id=id),
-        'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
-        'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
-        }
-    return render(request, 'app_products/product_detail/product-detail.html', context )
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

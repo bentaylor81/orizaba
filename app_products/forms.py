@@ -4,6 +4,11 @@ import requests
 import json
 from django.forms import inlineformset_factory
 
+class ProductDetailForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['product_image']
+
 class ProductLabelForm(forms.Form):
     sku = forms.CharField(max_length=20)
     product_name = forms.CharField(max_length=20)

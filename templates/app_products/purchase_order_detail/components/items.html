@@ -121,10 +121,10 @@
         {% for item in po_item_form %}  
         <div class="extra-content">                 
             <div class="extra-image">
-                {% if item.instance.product.image != 'no_selection' %}
-                <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
+                {% if item.instance.product.product_image == 'img/no-image.png' %}
+                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
                 {% else %}
-                <img src="{% static 'img/no-image.png' %}">
+                     <img src="/static/media/{{ item.instance.product.product_image }}">
                 {% endif %}
             </div>
             <div class="further-actions">
