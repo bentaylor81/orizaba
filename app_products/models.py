@@ -92,7 +92,7 @@ class Product(models.Model):
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True, default='null')
     image = models.CharField(max_length=200, blank=True, default='null')
-    product_image = models.ImageField(upload_to="img/products", default="img/no-image.png", null=True, blank=True)
+    product_image = models.ImageField(upload_to="images/products", default="img/no-image.png", null=True, blank=True)
     condition = models.CharField(max_length=200, blank=True, default='new')	
     special_order = models.CharField(max_length=200, blank=True, default='no')	
     sealed_item = models.BooleanField(default=False)
