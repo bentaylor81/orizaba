@@ -12,7 +12,7 @@
                             {% if object.product_image == 'img/no-image.png' %}
                                 <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ object.image }}" />
                             {% else %}
-                                <img src="/static/media/{{ object.product_image }}">
+                                <img src="{{ object.product_image.url }}">
                             {% endif %}
                         </td>
                     </tr>

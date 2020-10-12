@@ -213,11 +213,14 @@ PH_HEADERS = {
 PH_VERSION = '<?xml version=\"1.0\" encoding=\"utf-8\"?><Shipment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://api.parcelhub.net/schemas/api/parcelhub-api-v0.4.xsd\">'
 PH_ACCOUNT = config('PH_ACCOUNT')
 
+
 # AMAZON S3 BUCKET CONFIG
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
+STATICFILES_STORAGE = config('STATICFILES_STORAGE')
 
 AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
