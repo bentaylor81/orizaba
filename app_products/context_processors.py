@@ -21,10 +21,8 @@ def stock_movement_order(request):
             adjustment_qty=-orderitem.item_qty, 
             movement_type="Online Sale",
             order_id=orderitem.order_id,
-            current_stock_qty=current_stock_qty,
-            date_added=orderitem.order_id.date
+            current_stock_qty=current_stock_qty
             )  
-        # orderitems = OrderItem.objects.all() - Set this above instead of filter to run on all items
         # date_added=orderitem.order_id.date - add this above if you want to update date 
         # Set the sotck movement_added field to true, so that this doesn't get added more than once
         orderitem.stock_movement_added = True
