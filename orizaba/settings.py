@@ -85,6 +85,7 @@ TEMPLATES = [
                 #'app_products.context_processors.orizaba_stock_qty', # SETS ORIZABA_STOCK_QTY TO STOCK_QTY PULLED FROM UNLEASHED TO RESET STOCK TO SYNC WITH UNLEASHED
                 #'app_products.context_processors.current_stock_qty_null', # SETS THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO NULL
                 #'app_products.context_processors.update_stock_movement_date', # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
+                'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
             ],
         },
     },
