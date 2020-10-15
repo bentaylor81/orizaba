@@ -240,7 +240,7 @@
     #product .on-purchase-order .qty { width: 25%; }
     #product .on-purchase-order .po-details { width: 70%; line-height: 16px; }
     #product .on-purchase-order .po-details h4 { padding: 0px; margin: 0px 0px 5px 0px; }
-    #product .on-purchase-order .po-details i { font-size: 11px; }
+    #product .on-purchase-order .po-details i { font-size: 13px; }
     #product .image img { width: 300px; padding: 5px; background: #eee; }
     #product .stock-movement td.stock-qty { text-align: center; font-weight: bold; }
     #product .edit-image i { cursor: pointer; }
