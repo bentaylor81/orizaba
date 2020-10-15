@@ -12,7 +12,7 @@
                 {% for item in purchase_order_item %}
                     {% ifchanged item.purchaseorder.po_id %}
                         {% if item.outstanding_qty != 0 %}
-                            <i class="fas fa-chevron-right"></i> <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.outstanding_qty }} Ordered</a> on {{ item.purchaseorder.date_added|date:'d M Y' }}<br>
+                            <i class="fas fa-caret-right"></i> <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.outstanding_qty }} Ordered</a> on {{ item.purchaseorder.date_added|date:'d M Y' }}<br>
                         {% endif %}
                     {% endifchanged %}
                 {% endfor %}
