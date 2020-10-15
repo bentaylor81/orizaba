@@ -1,3 +1,4 @@
+//// PRODUCT DETAIL ////
 // STOCK QUANTITY SET CLASS
     // Style the Stock Quantity class depending on the quantity
     let stock = document.querySelectorAll('.stock span');
@@ -11,8 +12,20 @@
         } else {
             stock[i].className = 'low-stock';
         }
-    }  
+    } 
+    
+// STOCK MOVEMENT TABLE - SET THE STOCK QTY FORMAT IF IT IS NONE
+    let stockQty = document.querySelectorAll('.stock-movement .stock-qty')
 
+    for(let i=0; i < stockQty.length; i++){
+        let value = stockQty[i].innerHTML;
+        if (value == 'None') {
+            stockQty[i].innerHTML = '--'
+        }
+    } 
+
+
+//// PRODUCT LIST ////
 // TABLE ORDERING
     let tableHead = document.querySelectorAll('th');
         len = window.location.href.split("&").length; // Get number of URL extensions
