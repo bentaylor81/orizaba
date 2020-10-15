@@ -7,6 +7,7 @@ admin.site.register(Brand)
 admin.site.register(Customer)
 admin.site.register(PurchaseOrder)
 admin.site.register(PurchaseOrderItem)
+admin.site.register(StockMovement)
 
 
 

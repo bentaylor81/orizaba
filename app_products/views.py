@@ -59,25 +59,17 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
     form_class = ProductDetailForm
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stock_movement'] = StockMovement.objects.filter(product_id__product_id=self.object.pk)
+        context['previous_orders'] = OrderItem.objects.filter(product_id__product_id=self.object.pk)
+        context['purchase_order_item'] = PurchaseOrderItem.objects.filter(product__product_id=self.object.pk)
+        context['parts_outstanding'] = context['purchase_order_item'].aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
+        return context
+
     def get_success_url(self):
         messages.success(self.request, 'Product Updated')
         return reverse('product-detail', kwargs={'pk': self.object.pk})     
-
-
-
-
-
-# The below function will be deleted soon.
-# @login_required(login_url='login')
-# @allowed_users(allowed_roles=['admin'])
-# def product_view(request, id):
-
-#     context = { 
-#         'product' : Product.objects.get(product_id=id),
-#         'product_orders' : OrderItem.objects.filter(product_id__product_id=id),
-#         'product_total_price' : OrderItem.objects.filter(product_id__product_id=id).aggregate(Sum('total_price'))['total_price__sum'],
-#         }
-#     return render(request, 'app_products/product_detail/product-detail.html', context )
 
 class PurchaseOrderList(LoginRequiredMixin, FormMixin, FilterView):
     login_url = '/login/'
@@ -124,6 +116,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object() 
+        po_id = self.object.po_id
 
         if 'status' in request.POST or 'notes' in request.POST or 'edit-po' in request.POST:
             form = PurchaseOrderForm(self.request.POST, instance=self.object)  
@@ -140,9 +133,17 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             if (po_item_form.is_valid() and form.is_valid()):
                 po_item_form.save()
                 for form in po_item_form:
+                    sku = form['product_sku'].value()
+                    qty = form['delivery_qty'].value()  
+                    product_id = int(form['product'].value())       
+                    # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
+                    if (qty and int(qty) != 0):
+                        product_inst = Product.objects.get(pk=product_id)
+                        current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) # Adds the current stock qty (Product table) to purchase order qty
+                        StockMovement.objects.create(product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) # Sets the rolling stock value in the Stock Movement row
+                        Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   # Sets the stock value in the product table
+                    # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
                     if (form['label'].value()==True):
-                        sku = form['product_sku'].value()
-                        qty = form['delivery_qty'].value()     
                         # GENERATE A PDF FILE IN STATIC
                         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
                         pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
@@ -156,6 +157,11 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})        
+
+class StockList(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'app_products/stock-list.html'
+    model = Product
 
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'

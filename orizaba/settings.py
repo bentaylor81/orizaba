@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'wkhtmltopdf',
     'django_filters',
+    'mathfilters',
     'storages',
     'app_products',
     'app_apis',
@@ -78,6 +79,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # LOADS INITIAL ORDER RECEIVED STATUS INTO ORDERSTATUSHISTORY TABLE
                 #'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
+                'app_products.context_processors.stock_movement_order', # CREATES A ROW IN STOCK MOVEMENT TABLE WHEN AN ORDER ITEM IS PURCHASED
+                #'app_products.context_processors.orizaba_stock_qty', # SETS ORIZABA_STOCK_QTY TO STOCK_QTY PULLED FROM UNLEASHED TO RESET STOCK TO SYNC WITH UNLEASHED
             ],
         },
     },
@@ -222,12 +225,12 @@ AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
 
 AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
-# Comment the above 2 lines out to use local static files. 
+# Comment the above 2 lines out to use local static files
+# All uploads local and live now go to AWS
+# Other static files (css, pdf) are served from Heroku server
 
 # For Environment Variables
 django_heroku.settings(locals())
-
-# If I put ENV vars above it uses S3 but says the access key is wrong.
-# It's ok if the css files aren't served from AWS, I want to make it so that only the pdfs go to AWS

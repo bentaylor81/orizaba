@@ -1,6 +1,27 @@
 from django.db import models
 import datetime
 
+class StockMovement(models.Model):
+    STATUS_CHOICES = [
+        ('Online Sale', 'Online Sale'),
+        ('Purchase Order Receipt', 'Purchase Order Receipt'),
+        ('Manual Adjustment', 'Manual Adjustment'),      
+    ]
+    product_id = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
+    adjustment_qty = models.IntegerField(blank=True, default=0) # Related to the quantity delivered, like in PurchaseOrderItem table
+    movement_type = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True) 
+    purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
+    order_id = models.ForeignKey('app_orders.order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
+    current_stock_qty = models.IntegerField(blank=True, default=0)
+    # Make a stock total added boolean field so that only future stats are counted in the stock value
+
+    def __str__(self):
+        return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty)
+
+    class Meta:
+        ordering = ["-date_added"]
+
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     billing_email = models.CharField(max_length=200, blank=True, unique=True)
@@ -80,6 +101,7 @@ class Product(models.Model):
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 
+    orizaba_stock_qty = models.IntegerField(blank=True, default=0)
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)

@@ -56,6 +56,7 @@ class OrderItem(models.Model):
     item_qty = models.IntegerField(blank=True, default=0) 
     send_qty = models.IntegerField(blank=True, default=0) 
     total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    stock_movement_added = models.BooleanField(default=False) # Set this to True when going live, so the stock doesn't get updated for all previous orders.
 
     def __str__(self):
         return str(self.order_id) + ' | ' + str(self.item_qty)
