@@ -13,7 +13,7 @@ class StockMovement(models.Model):
     date_added = models.DateTimeField(auto_now_add=True) 
     purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
     order_id = models.ForeignKey('app_orders.order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
-    current_stock_qty = models.IntegerField(blank=True, default=0)
+    current_stock_qty = models.IntegerField(default=0, blank=True, null=True)
     # Make a stock total added boolean field so that only future stats are counted in the stock value
 
     def __str__(self):

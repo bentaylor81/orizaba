@@ -80,8 +80,8 @@ TEMPLATES = [
                 'app_orders.context_processors.initial_status', # LOADS INITIAL ORDER RECEIVED STATUS INTO ORDERSTATUSHISTORY TABLE
                 #'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
                 'app_products.context_processors.stock_movement_order', # CREATES A ROW IN STOCK MOVEMENT TABLE WHEN AN ORDER ITEM IS PURCHASED
-                'app_products.context_processors.orizaba_stock_qty', # SETS ORIZABA_STOCK_QTY TO STOCK_QTY PULLED FROM UNLEASHED TO RESET STOCK TO SYNC WITH UNLEASHED
-                #'app_products.context_processors.current_stock_qty_zero', # SETS THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO 0
+                #'app_products.context_processors.orizaba_stock_qty', # SETS ORIZABA_STOCK_QTY TO STOCK_QTY PULLED FROM UNLEASHED TO RESET STOCK TO SYNC WITH UNLEASHED
+                'app_products.context_processors.current_stock_qty_null', # SETS THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO NULL
             ],
         },
     },

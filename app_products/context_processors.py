@@ -37,10 +37,10 @@ def orizaba_stock_qty(request):
         product.save()
     return ()
 
-# RESET FUNCTION - RUN THIS FUNCTION TO SET THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO 0
-def current_stock_qty_zero(request):
+# RESET FUNCTION - RUN THIS FUNCTION TO SET THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO NULL
+def current_stock_qty_null(request):
     stock_movement = StockMovement.objects.all()
     for product in stock_movement:
-        product.current_stock_qty = 0
+        product.current_stock_qty = None
         product.save()
     return ()
