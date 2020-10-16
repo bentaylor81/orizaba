@@ -47,7 +47,6 @@ class PurchaseOrderItem(models.Model):
     outstanding_qty = models.IntegerField(blank=True, default=0)    # Total parts still outstanding
     delivery_qty = models.IntegerField(blank=True, default=0) # Parts received in this delivery
     received_status = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, default="Order Pending") 
-    status_ordering = models.IntegerField(blank=True, default=1) 
     comments = models.CharField(max_length=100, blank=True)
     label = models.BooleanField(default=False)
     date_updated = models.DateField(blank=True, null=True)
@@ -63,14 +62,12 @@ class PurchaseOrderItem(models.Model):
 
         if self.outstanding_qty == 0:
             self.received_status = 'Full Receipt'
-            self.status_ordering = '3'
         elif self.outstanding_qty != 0 and self.outstanding_qty < self.order_qty:
             self.received_status = 'Partial Receipt'
-            self.status_ordering = '2'
         super(PurchaseOrderItem, self).save(*args, **kwargs) 
 
     class Meta:
-        ordering = ["-date_updated", "-id"]    # Temporarily it is not ordering by Status, so status_ordering field might not be needed.
+        ordering = ["product_sku"]
 
 class PurchaseOrder(models.Model):
     PO_CHOICES = [
