@@ -14,7 +14,7 @@
 // 12. OPEN THE ADD PART BLOCK
 // 13. CLOSE THE ADD PART BLOCK
 // 14. SKU FILTER BOX
-// 15. DATE RECEIVED FILTERING
+// 15. DATE RECEIVED FILTERING - ** REMOVED **
 
 
 //// JAVASCRIPT ////
@@ -274,31 +274,32 @@ let filterInput= document.querySelector('.po-filter #sku-input');
             }
         }
 
-// 15. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
-let dateFilterSelect = document.querySelector('.po-filter #date-select');
-    dateReceived = document.querySelectorAll('#purchase-order .date-received');
+// // 15. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
+// REMOVED AS WE WON'T USE THIS PAGE TO FILTER THE DATE WHEN UPLOADING TO UNLEASHED
+// let dateFilterSelect = document.querySelector('.po-filter #date-select');
+//     dateReceived = document.querySelectorAll('#purchase-order .date-received');
     
-    for(let i=0; i < dateReceived.length; i++){
-        if(dateReceived[i].innerText != '') {
-            if(i==0 || dateReceived[i].innerHTML != dateReceived[i-1].innerHTML) {
-                dateOption = "<option>" + dateReceived[i].innerHTML + "</option>"
-                dateFilterSelect.insertAdjacentHTML('beforeend', dateOption)
-            }
-        }
-    }
+//     for(let i=0; i < dateReceived.length; i++){
+//         if(dateReceived[i].innerText != '') {
+//             if(i==0 || dateReceived[i].innerHTML != dateReceived[i-1].innerHTML) {
+//                 dateOption = "<option>" + dateReceived[i].innerHTML + "</option>"
+//                 dateFilterSelect.insertAdjacentHTML('beforeend', dateOption)
+//             }
+//         }
+//     }
 
-    // SHOW / HIDE ROWS BASED ON THE DATE
-    dateFilterSelect.addEventListener('input', function() {
-        let filterDate = dateFilterSelect.value;
+//     // SHOW / HIDE ROWS BASED ON THE DATE
+//     dateFilterSelect.addEventListener('input', function() {
+//         let filterDate = dateFilterSelect.value;
 
-        for(let i=0; i < dateReceived.length; i++) {                 
-            if(dateReceived[i].innerText.includes(filterDate)) {
-                partRow[i].style.display = 'table-row';                   
-            } else {
-                partRow[i].style.display = 'none';
-            }
-        }            
-    });
+//         for(let i=0; i < dateReceived.length; i++) {                 
+//             if(dateReceived[i].innerText.includes(filterDate)) {
+//                 partRow[i].style.display = 'table-row';                   
+//             } else {
+//                 partRow[i].style.display = 'none';
+//             }
+//         }            
+//     });
 
 
 
