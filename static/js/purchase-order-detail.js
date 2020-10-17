@@ -14,7 +14,8 @@
 // 12. OPEN THE ADD PART BLOCK
 // 13. CLOSE THE ADD PART BLOCK
 // 14. SKU FILTER BOX
-// 15. DATE RECEIVED FILTERING - ** REMOVED **
+// 15. PRODUCT ADD BLANK OTHER DROPDOWNS
+// 16. DATE RECEIVED FILTERING - ** REMOVED **
 
 
 //// JAVASCRIPT ////
@@ -186,7 +187,7 @@ let openPartAdd = document.querySelector('#open-part-add');
 // 12. OPEN THE ADD PART BLOCK
 openPartAdd.addEventListener('click', openAddBlock);
 
-function openAddBlock(){
+function openAddBlock() {
     document.querySelector('.add-po-item').style.display = 'inline-block';
     document.querySelector('.po-filter').style.display = 'none';
     localStorage.setItem('partAddBox', 'open');
@@ -230,12 +231,9 @@ function closeAddBlock(){
     }
 }     
     // LOCAL STORAGE FOR openPartAdd TO KEEP THE BOX OPEN IF SET TO OPEN
-    console.log(localStorage.getItem('partAddBox'))
     if(localStorage.getItem('partAddBox') == 'open') {
-        console.log ('Opened box');
         openAddBlock()
     } else {
-        console.log('Closed Box')
         closeAddBlock()
     }
 
@@ -249,7 +247,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
         let inputSku = filterInput.value;
         localStorage.setItem('poFilterSku', filterInput.value); // Save to local storage on keyup
 
-        for(let i=0; i < tableSku.length; i++) {                 
+        for(let i=0; i < tableSku.length; i++){                 
             if(tableSku[i].innerText.includes(inputSku)) {
                 partRow[i].style.display = 'table-row';                   
             } else {
@@ -266,7 +264,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
     // SET THE VALUE OF THE INPUT TO THE LOCAL STORAGE VALUE
     let inputSku = filterInput.value;
 
-        for(let i=0; i < tableSku.length; i++) {                 
+        for(let i=0; i < tableSku.length; i++){                 
             if(tableSku[i].innerText.includes(inputSku)) {
                 partRow[i].style.display = 'table-row';                   
             } else {
@@ -274,7 +272,35 @@ let filterInput= document.querySelector('.po-filter #sku-input');
             }
         }
 
-// // 15. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
+// 15. PRODUCT ADD BLANK OTHER DROPDOWNS
+// This stops other dropdowns being selected once the option in a dropdown has been clicked. 
+    let partSelect = document.querySelectorAll('.part-select:not([disabled="disabled"])')
+        labelCheckbox = document.querySelectorAll('.label-checkbox:not([disabled="disabled"])')
+
+        for(let i=0; i < partSelect.length; i++){           
+            partSelect[i].addEventListener('focus', disableOther);     
+            partSelect[i].addEventListener('blur', enableOther);
+        }
+    // Disables the other dropdowns
+        function disableOther(){
+            for(let i=0; i < partSelect.length; i++){                 
+                if(this != partSelect[i]){
+                    partSelect[i].setAttribute('disabled', 'disabled')
+                    labelCheckbox[i].setAttribute('disabled', 'disabled')
+                }       
+            }
+        }
+    // Re-enables the other dropdowns when you click out of the clicked dropdown
+        function enableOther(){
+            for(let i=0; i < partSelect.length; i++){                 
+                if(this != partSelect[i]){
+                    partSelect[i].removeAttribute('disabled', 'disabled')
+                    labelCheckbox[i].removeAttribute('disabled', 'disabled')
+                }    
+            }
+        }
+
+// // 16. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
 // REMOVED AS WE WON'T USE THIS PAGE TO FILTER THE DATE WHEN UPLOADING TO UNLEASHED
 // let dateFilterSelect = document.querySelector('.po-filter #date-select');
 //     dateReceived = document.querySelectorAll('#purchase-order .date-received');

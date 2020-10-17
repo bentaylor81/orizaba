@@ -19,6 +19,7 @@
     .expanded-grid { display: grid !important; }
     .required { color: red; }
     .fade-out { visibility: hidden; opacity: 0; transition: visibility 0s 1s, opacity 1s linear; }
+    .disabled { opacity: 0.1; pointer-events: none; }
 
     /* Login Container */
     .login-container { display: grid; grid-template-columns: 1fr 400px 1fr; }
