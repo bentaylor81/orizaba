@@ -279,7 +279,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
 
         for(let i=0; i < partSelect.length; i++){     
             partSelect[i].addEventListener('change', disableOther);     
-            partSelect[i].addEventListener('blur', enableOther);
+            //partSelect[i].addEventListener('blur', enableOther);
             
         }
     // Disables the other dropdowns
@@ -291,15 +291,15 @@ let filterInput= document.querySelector('.po-filter #sku-input');
                 }       
             }
         }
-    // Re-enables the other dropdowns when you click out of the clicked dropdown
-        function enableOther(){
-            for(let i=0; i < partSelect.length; i++){ 
-                if(this != partSelect[i]){
-                    partSelect[i].removeAttribute('disabled', 'disabled')
-                    labelCheckbox[i].removeAttribute('disabled', 'disabled')
-                }    
-            }
-        }
+    // // Re-enables the other dropdowns when you click out of the clicked dropdown
+    //     function enableOther(){
+    //         for(let i=0; i < partSelect.length; i++){ 
+    //             if(this != partSelect[i]){
+    //                 partSelect[i].removeAttribute('disabled', 'disabled')
+    //                 labelCheckbox[i].removeAttribute('disabled', 'disabled')
+    //             }    
+    //         }
+    //     }
 
     // Need to disable mouse clicks when the page is loading
         // Maybe there is an event listener for when an option in a select box is selected, then can disable other options
