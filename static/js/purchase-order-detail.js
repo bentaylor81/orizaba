@@ -294,25 +294,17 @@ let filterInput= document.querySelector('.po-filter #sku-input');
     // Re-enables the other dropdowns when you click out of the clicked dropdown
         function enableOther(){
             for(let i=0; i < partSelect.length; i++){ 
-                if (document.readyState === 'complete') {
-                    console.log(document.readyState) 
-       
-                    if(this != partSelect[i]){
-                        partSelect[i].removeAttribute('disabled', 'disabled')
-                        labelCheckbox[i].removeAttribute('disabled', 'disabled')
-                    }    
-                }
+                if(this != partSelect[i]){
+                    partSelect[i].removeAttribute('disabled', 'disabled')
+                    labelCheckbox[i].removeAttribute('disabled', 'disabled')
+                }    
             }
         }
 
     // Need to disable mouse clicks when the page is loading
-        //https://www.geeksforgeeks.org/how-to-show-page-loading-div-until-the-page-has-finished-loading/
-        // console.log(document.readyState)
+        // Maybe there is an event listener for when an option in a select box is selected, then can disable other options
 
 
-        // if (document.readyState === 'loading') {
-        //     console.log('Hello Ben')
-        // }
 
 // // 16. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
 // REMOVED AS WE WON'T USE THIS PAGE TO FILTER THE DATE WHEN UPLOADING TO UNLEASHED
