@@ -278,9 +278,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
         labelCheckbox = document.querySelectorAll('.label-checkbox:not([disabled="disabled"])')
 
         for(let i=0; i < partSelect.length; i++){     
-            partSelect[i].addEventListener('change', disableOther);     
-            //partSelect[i].addEventListener('blur', enableOther);
-            
+            partSelect[i].addEventListener('change', disableOther);                
         }
     // Disables the other dropdowns
         function disableOther(){
@@ -291,21 +289,6 @@ let filterInput= document.querySelector('.po-filter #sku-input');
                 }       
             }
         }
-    // // Re-enables the other dropdowns when you click out of the clicked dropdown
-    //     function enableOther(){
-    //         for(let i=0; i < partSelect.length; i++){ 
-    //             if(this != partSelect[i]){
-    //                 partSelect[i].removeAttribute('disabled', 'disabled')
-    //                 labelCheckbox[i].removeAttribute('disabled', 'disabled')
-    //             }    
-    //         }
-    //     }
-
-    // Need to disable mouse clicks when the page is loading
-        // Maybe there is an event listener for when an option in a select box is selected, then can disable other options
-        // Maybe use a change event
-        // Could use the Select Eventlistener then might not need the reenable function
-
 
 // // 16. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
 // REMOVED AS WE WON'T USE THIS PAGE TO FILTER THE DATE WHEN UPLOADING TO UNLEASHED
