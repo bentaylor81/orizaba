@@ -278,7 +278,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
         labelCheckbox = document.querySelectorAll('.label-checkbox:not([disabled="disabled"])')
 
         for(let i=0; i < partSelect.length; i++){     
-            partSelect[i].addEventListener('focus', disableOther);     
+            partSelect[i].addEventListener('change', disableOther);     
             partSelect[i].addEventListener('blur', enableOther);
             
         }
@@ -303,7 +303,8 @@ let filterInput= document.querySelector('.po-filter #sku-input');
 
     // Need to disable mouse clicks when the page is loading
         // Maybe there is an event listener for when an option in a select box is selected, then can disable other options
-
+        // Maybe use a change event
+        // Could use the Select Eventlistener then might not need the reenable function
 
 
 // // 16. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
