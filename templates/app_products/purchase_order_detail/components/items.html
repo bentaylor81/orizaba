@@ -73,7 +73,7 @@
                     <td class="col-60 part-outstanding">{{ item.instance.outstanding_qty }}<span></span></td>
                     <td class="col-60 received-select">
                         {{ item.label }}
-                        <select disabled class="part-select " type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"  onchange="this.form.submit()">
+                        <select class="part-select " type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"  onchange="this.form.submit()">
                         {% with ''|center:item.instance.outstanding_qty as range %}
                             <option class="blank-option" name="item" value="0">--</option>
                             {% for _ in range %}

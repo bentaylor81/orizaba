@@ -148,7 +148,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
                         pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
                         # SEND TO PRINTNODE
-                        payload = '{"printerId": ' +str(settings.PRINTNODE_LABEL_PRINTER)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"##https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
+                        payload = '{"printerId": ' +str(settings.PRINTNODE_LABEL_PRINTER)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
                         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
                         print(response.text.encode('utf8'))
                 return HttpResponseRedirect(self.get_success_url())
