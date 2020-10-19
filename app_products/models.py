@@ -17,7 +17,7 @@ class StockMovement(models.Model):
     # Make a stock total added boolean field so that only future stats are counted in the stock value
 
     def __str__(self):
-        return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type)
+        return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type) + ' | ' + str(self.purchaseorder)
 
     class Meta:
         ordering = ["-date_added"]
