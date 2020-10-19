@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'app_apis',
     'app_users',
     'app_orders', 
+    'app_utils', 
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,6 @@ TEMPLATES = [
                 'app_products.context_processors.stock_movement_order', # CREATES A ROW IN STOCK MOVEMENT TABLE WHEN AN ORDER ITEM IS PURCHASED
                 
                 ### TEMPORARY RESET FUNCTIONS ###
-                #'app_products.context_processors.orizaba_stock_qty', # SETS ORIZABA_STOCK_QTY TO STOCK_QTY PULLED FROM UNLEASHED TO RESET STOCK TO SYNC WITH UNLEASHED
-                #'app_products.context_processors.current_stock_qty_null', # SETS THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO NULL
                 #'app_products.context_processors.update_stock_movement_date', # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
                 #'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
             ],
@@ -114,9 +113,9 @@ DATABASES = {
     }
 }
 
-# # Comment out when pushing to production / Uncomment to use Live DB locally
-# HEROKU_DB_KEY = config('HEROKU_DB_KEY')
-# DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
+# Comment out when pushing to production / Uncomment to use Live DB locally
+HEROKU_DB_KEY = config('HEROKU_DB_KEY')
+DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
 # # Comment out when pushing to production / Uncomment to use the Local DB
 # db_from_env = dj_database_url.config(conn_max_age=600)

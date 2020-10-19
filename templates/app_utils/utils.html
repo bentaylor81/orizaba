@@ -1,0 +1,33 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="utils" data-page="utils""> 
+    <div class="top-bar">
+        <h1>Utilities</h1>
+    </div>
+    <div class="content">
+        <div class="pod">
+            <div class="function">
+                <h3>Product Details Page > Quantity in Stock > Orizaba Stock Qty</h3>
+                <ul>
+                    <li>Sets the stock quantity on Orizaba to the quantity in Unleashed.</li>
+                    <li>Used to reset the stock figure to Unleashed if any errors in stock calculation has been fixed.</li>
+                </ul>
+                <a href="{% url 'orizaba-stock-reset' %}"><button>Submit</button></a>
+            </div>
+            <div class="function">
+                <h3>Product Details Page > Stock Movement Table > Stock Qty to Null</h3>
+                <ul>
+                    <li>Sets the running Stock Quantity column in the Stock Movement table in the products page all to null.</li>
+                    <li>This is when you need to reset the Orizaba stock qty above and start again with no running total.</li>
+                </ul>
+                <a href="{% url 'current-stock-qty-null' %}"><button>Submit</button></a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -29,23 +29,7 @@ def stock_movement_order(request):
         orderitem.save()
     return ()
 
-# RESET FUNCTION - RUN THIS FUNCTION TO SET THE STOCK IN ORIZABA TO THE STOCK IN UNLEASHED
-# ORIZABA_INITIAL_STOCK_QTY = STOCK_QTY - FUNCTION TO SET THIS, CAN BE TURNED OFF ONCE RAN INITIALLY
-def orizaba_stock_qty(request):
-    products = Product.objects.all()
-    for product in products:
-        product.orizaba_stock_qty = product.stock_qty
-        product.save()
-    return ()
-
-# RESET FUNCTION - RUN THIS FUNCTION TO SET THE CURRENT STOCK QUANTITY IN THE STOCK MOVEMENT TABLE TO NULL
-def current_stock_qty_null(request):
-    stock_movement = StockMovement.objects.all()
-    for product in stock_movement:
-        product.current_stock_qty = None
-        product.save()
-    return ()
-
+# RESET FUNCTIONS #
 # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
 def update_stock_movement_date(request):
     stock_movement = StockMovement.objects.all()
