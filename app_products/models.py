@@ -15,7 +15,7 @@ class StockMovement(models.Model):
     adjustment_qty = models.IntegerField(blank=True, default=0) # Related to the quantity delivered, like in PurchaseOrderItem table
     movement_type = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, null=True)
     unleashed_status = models.CharField(max_length=200, choices=UNLEASHED_STATUS_CHOICES, default='Pending', blank=True, null=True)
-    date_added = models.DateTimeField(auto_now_add=True) 
+    date_added = models.DateTimeField() 
     purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
     order_id = models.ForeignKey('app_orders.order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
     current_stock_qty = models.IntegerField(default=0, blank=True, null=True)

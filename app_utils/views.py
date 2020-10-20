@@ -37,3 +37,13 @@ def update_stock_descrepancy_stats(request):
             product.stock_balances = True
         product.save()
     return HttpResponseRedirect('/stock')
+
+# UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
+# Function won't be needed in future when the date_added will be the order date
+def update_stock_movement_date(request):
+    stock_movement = StockMovement.objects.all()
+    for product in stock_movement:
+        if product.order_id:
+            product.date_added = product.order_id.date
+            product.save()
+    return render(request, 'app_utils/utils.html')
