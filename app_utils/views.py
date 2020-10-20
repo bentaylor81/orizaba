@@ -40,8 +40,9 @@ def update_stock_descrepancy_stats(request):
 
 # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
 # Function won't be needed in future when the date_added will be the order date
+# Times out so needs a filter on there before running again. 
 def update_stock_movement_date(request):
-    stock_movement = StockMovement.objects.all()
+    stock_movement = StockMovement.objects.filter(movement_type="Online Sale")
     for product in stock_movement:
         if product.order_id:
             product.date_added = product.order_id.date
