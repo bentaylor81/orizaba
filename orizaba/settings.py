@@ -83,7 +83,6 @@ TEMPLATES = [
                 'app_products.context_processors.stock_movement_order', # CREATES A ROW IN STOCK MOVEMENT TABLE WHEN AN ORDER ITEM IS PURCHASED
                 
                 ### TEMPORARY RESET FUNCTIONS ###
-                #'app_products.context_processors.update_stock_movement_date', # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
                 #'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
             ],
         },

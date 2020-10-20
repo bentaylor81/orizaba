@@ -17,6 +17,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.forms import formset_factory
 from .forms import *
+from datetime import datetime  
 import requests
 import json
 import pdfkit
@@ -135,12 +136,13 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                 for form in po_item_form:
                     sku = form['product_sku'].value()
                     qty = form['delivery_qty'].value()  
-                    product_id = int(form['product'].value())       
+                    product_id = int(form['product'].value())  
+                    now = datetime.now()     
                     # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
                     if (qty and int(qty) != 0):
                         product_inst = Product.objects.get(pk=product_id)
                         current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) # Adds the current stock qty (Product table) to purchase order qty
-                        StockMovement.objects.create(product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) # Sets the rolling stock value in the Stock Movement row
+                        StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) # Sets the rolling stock value in the Stock Movement row
                         Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   # Sets the stock value in the product table
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
                     if (form['label'].value()==True):
