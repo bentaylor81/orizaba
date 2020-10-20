@@ -332,6 +332,9 @@
     #stock .balances { background-color: #1c8c0573; font-weight: bold; }
     #stock .not-balance { background-color: #ff000082; font-weight: bold; }
 
+    /* Unleashed Stock Reconciliation */
+    #unleashed .grid { grid-template-columns: 4fr 1fr; }
+
 /*** APP_UTILS CSS ***/
     #utils .content .function { border-bottom: 1px solid #ddd; padding-bottom: 20px; }
     
