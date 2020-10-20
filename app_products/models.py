@@ -7,9 +7,14 @@ class StockMovement(models.Model):
         ('Purchase Order Receipt', 'Purchase Order Receipt'),
         ('Manual Adjustment', 'Manual Adjustment'),      
     ]
+    UNLEASHED_STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Unleashed Updated', 'Unleashed Updated'), 
+    ]
     product_id = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
     adjustment_qty = models.IntegerField(blank=True, default=0) # Related to the quantity delivered, like in PurchaseOrderItem table
     movement_type = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, null=True)
+    unleashed_status = models.CharField(max_length=200, choices=UNLEASHED_STATUS_CHOICES, default='Pending', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True) 
     purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
     order_id = models.ForeignKey('app_orders.order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
@@ -99,6 +104,8 @@ class Product(models.Model):
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 
     orizaba_stock_qty = models.IntegerField(blank=True, default=0)
+    stock_discrepancy = models.IntegerField(blank=True, default=0)  # Used in the Stock tab to highlight any differences between stock_qty (Unleashed) and orizaba_stock_qty (generated value).
+    stock_balances = models.BooleanField(default=True)  # Set by stock_discrepancy above
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
@@ -124,20 +131,27 @@ class Product(models.Model):
 
     @property
     def product_calcs(self, *args, **kwargs):
-        if self.buy_value != (self.buy_price * self.stock_qty):
-            self.buy_value = (self.buy_price * self.stock_qty)
-            self.sell_value = (self.sell_price * self.stock_qty)
-            self.item_profit = (self.sell_price - self.buy_price)
-            self.stock_profit = (self.item_profit * self.stock_qty)
-            if self.sell_price != 0:
-                profit = ((self.item_profit / self.sell_price) * 100)
-                profit = round(profit, 0)
-                self.profit_margin = profit
-            else:
-                self.profit_margin = 0
-            super(Product, self).save(*args, **kwargs)
+        # Check that Unleased stock and Orizaba calculated stock balances
+        # This can also be calculated on in bulk using update_stock_descrepancy_stats in utils
+        self.stock_discrepancy = (self.stock_qty - self.orizaba_stock_qty)  
+        if self.stock_discrepancy != 0:
+            self.stock_balances = False
+        else:
+            self.stock_balances = True
+        # Calculate - Buy Value, Sell Value, Profit Per Item, Total Stock Profit
+        self.buy_value = (self.buy_price * self.stock_qty)
+        self.sell_value = (self.sell_price * self.stock_qty)
+        self.item_profit = (self.sell_price - self.buy_price)
+        self.stock_profit = (self.sell_value - self.buy_value)
+        # Calculate the Profit Margin on the item
+        if self.sell_price != 0:
+            profit = ((self.item_profit / self.sell_price) * 100) 
+            self.profit_margin = round(profit, 0)
+        else:
+            self.profit_margin = 0
+        super(Product, self).save(*args, **kwargs)
         return ''
-
+    
 class Supplier(models.Model):
     supplier = models.CharField(max_length=200, primary_key=True)
     path = models.CharField(max_length=200, blank=True)

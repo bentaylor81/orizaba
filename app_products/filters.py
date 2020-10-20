@@ -2,12 +2,10 @@ from django_filters import rest_framework as filters
 from .models import *
 
 class ProductFilter(filters.FilterSet):
-
     Product = filters.CharFilter(field_name='product_name', label='Product', lookup_expr='icontains')
     Sku = filters.CharFilter(field_name='sku', label='SKU', lookup_expr='icontains')
     # stock_qty = filters.ChoiceFilter(choices=STOCK_CHOICES, label='Out of Stock')
     o = filters.OrderingFilter(
-
         choices=(
             ('brand', 'Brand'),
             ('-brand', 'Brand (desc)'),
@@ -28,24 +26,37 @@ class ProductFilter(filters.FilterSet):
         ),
         label='',
     )
-
     class Meta:
         model = Product
         fields = ['Product', 'Sku', 'brand', 'supplier', 'stock_qty']
         
 class PurchaseOrderFilter(filters.FilterSet):
-    
     class Meta:
         model = PurchaseOrder
         fields = ['reference', 'supplier', 'status']
 
-
 class SupplierProductFilter(filters.FilterSet):
-    
     class Meta:
         model = Product
         fields = {
             'product_name' : ['icontains'], 
             'sku' : ['icontains'],
             'brand': ['exact'],
+        }
+
+class StockControlFilter(filters.FilterSet):
+    class Meta:
+        model = Product
+        fields = {
+            'sku' : ['icontains'],
+            'stock_discrepancy': ['exact'],
+            'stock_balances': ['exact'],
+        }
+        
+class UnleashedReconcileFilter(filters.FilterSet):
+    class Meta:
+        model = StockMovement
+        fields = {
+            'movement_type': ['exact'],
+            'unleashed_status': ['exact'],
         }

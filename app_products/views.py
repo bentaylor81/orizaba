@@ -158,10 +158,13 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})        
 
-class StockList(LoginRequiredMixin, ListView):
+class StockList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/stock-list.html'
     model = Product
+    paginate_by = 50
+    filterset_class = StockControlFilter
+    ordering = ['stock_balances', '-stock_discrepancy']
 
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'
@@ -178,9 +181,16 @@ class CustomerList(LoginRequiredMixin, ListView):
     template_name = 'app_products/customer-list.html'
     model = Customer
 
+class UnleashedReconcile(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_products/unleashed-reconcile.html'
+    model = StockMovement
+    paginate_by = 100
+    ordering = ['unleashed_status', '-date_added']
+    filterset_class = UnleashedReconcileFilter
+
 # This Function creates the file which renders the PDF
 def generate_label(request, id):
-    
     context = { 
             'product': Product.objects.get(sku=id),
         }
