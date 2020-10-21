@@ -57,6 +57,5 @@ class UnleashedFilter(filters.FilterSet):
     class Meta:
         model = StockMovement
         fields = {
-            'movement_type': ['exact'],
             'unleashed_status': ['exact'],
         }

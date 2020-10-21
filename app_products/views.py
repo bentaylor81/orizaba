@@ -168,6 +168,7 @@ class Unleashed(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/unleashed.html'
     model = StockMovement
+    queryset = StockMovement.objects.all()
     paginate_by = 100
     ordering = ['unleashed_status', '-date_added']
     filterset_class = UnleashedFilter
