@@ -335,6 +335,7 @@
     /* Unleashed Stock Reconciliation */
     #unleashed .grid { grid-template-columns: 4fr 1fr; }
     #unleashed .unleashed-status { display: none; }
+    #unleashed button { width: 80px; }
 
 /*** APP_UTILS CSS ***/
     #utils .content .function { border-bottom: 1px solid #ddd; padding-bottom: 20px; }

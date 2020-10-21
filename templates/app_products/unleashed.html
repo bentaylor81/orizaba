@@ -28,9 +28,8 @@
                             <th>Purchase Order</th>
                             <th>Product SKU</th>
                             <th>Delivered Qty</th>
-                            <th>Comments</th>                         
-                            <th>Status</th>
-                            <th></th>
+                            <th class="col-300">Comments</th>                         
+                            <th class="col-100">Status</th>
                         </tr>
                     </thead>
                     <tbody>                  
@@ -54,13 +53,12 @@
                             </td> 
                             <td>
                                 <span class="unleashed-status">{{ stock_item.unleashed_status }}</span>
-                                <select type="text" name="unleashed_status" >
+                                <select type="text" name="unleashed_status" onchange="this.form.submit()">
                                     <option selected disabled hidden>{{ stock_item.unleashed_status }}</option>
                                     <option name="unleashed_status" value="Unleashed Updated">Unleashed Updated</option>
                                     <option name="unleashed_status" value="Pending">Pending</option>
                                 </select>
                             </td>
-                            <td><button name="unleashed" type="submit">Submit</button>
                         </tr>
                     </form>
                     {% endfor %}
