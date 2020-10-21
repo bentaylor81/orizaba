@@ -8,7 +8,7 @@
     <div class="top-bar">
         <h1>Unleashed Stock Reconciliation</h1>
     </div>
-    <div class="content">
+    <div class="content grid">
         <div class="pod">
             <h2>Purchase Order Receipts</h2>
             <div class="filter">
@@ -19,7 +19,7 @@
             </div>
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination-cbv.html' %}
-            <div class="table grid">     
+            <div class="table">     
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
@@ -42,7 +42,7 @@
                             <td>{{ stock_item.product_id.product_name }}</td>
                             <td>{{ stock_item.purchaseorder.reference }}</td>
                             <td>{{ stock_item.product_id.sku }}</td> 
-                            <td>{{ stock_item.adjustment_qty }}</td>
+                            <td><b>{{ stock_item.adjustment_qty }}</b></td>
                             <td>
                                 {% if stock_item.comments %}
                                     {{ stock_item.comments }}
