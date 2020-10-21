@@ -53,7 +53,7 @@ class StockControlFilter(filters.FilterSet):
             'stock_balances': ['exact'],
         }
         
-class UnleashedReconcileFilter(filters.FilterSet):
+class UnleashedFilter(filters.FilterSet):
     class Meta:
         model = StockMovement
         fields = {

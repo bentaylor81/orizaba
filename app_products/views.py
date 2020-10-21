@@ -137,13 +137,17 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                     sku = form['product_sku'].value()
                     qty = form['delivery_qty'].value()  
                     product_id = int(form['product'].value())  
+                    comments = form['comments'].value()
                     now = datetime.now()     
                     # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
                     if (qty and int(qty) != 0):
                         product_inst = Product.objects.get(pk=product_id)
-                        current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) # Adds the current stock qty (Product table) to purchase order qty
-                        StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) # Sets the rolling stock value in the Stock Movement row
-                        Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   # Sets the stock value in the product table
+                        # Adds the current stock qty (Product table) to purchase order qty
+                        current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) 
+                        # Sets the rolling stock value in the Stock Movement row
+                        StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty, comments=comments) 
+                        # Sets the stock value in the product table
+                        Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
                     if (form['label'].value()==True):
                         # GENERATE A PDF FILE IN STATIC
@@ -158,7 +162,23 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                 return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})        
+        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})   
+
+class Unleashed(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_products/unleashed.html'
+    model = StockMovement
+    paginate_by = 100
+    ordering = ['unleashed_status', '-date_added']
+    filterset_class = UnleashedFilter
+
+    def post(self, request, *args, **kwargs):
+        id = request.POST.get('id')
+        instance = StockMovement.objects.get(id=id)
+        form = UnleashedForm(request.POST or None, instance=instance)
+        if form.is_valid():
+            form.save()
+        return redirect('/unleashed?movement_type=Purchase+Order+Receipt')     
 
 class StockList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
@@ -183,20 +203,13 @@ class CustomerList(LoginRequiredMixin, ListView):
     template_name = 'app_products/customer-list.html'
     model = Customer
 
-class UnleashedReconcile(LoginRequiredMixin, FilterView):
-    login_url = '/login/'
-    template_name = 'app_products/unleashed-reconcile.html'
-    model = StockMovement
-    paginate_by = 100
-    ordering = ['unleashed_status', '-date_added']
-    filterset_class = UnleashedReconcileFilter
-
 # This Function creates the file which renders the PDF
 def generate_label(request, id):
     context = { 
             'product': Product.objects.get(sku=id),
         }
     return render(request, 'app_products/product_list/pdfs/label-create.html', context )
+
 
 
 

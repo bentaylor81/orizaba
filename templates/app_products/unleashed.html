@@ -1,0 +1,74 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="unleashed" data-page="products" data-sub-page="unleashed"> 
+    <div class="top-bar">
+        <h1>Unleashed Stock Reconciliation</h1>
+    </div>
+    <div class="content">
+        <div class="pod">
+            <div class="filter">
+                <form method="get">
+                    {{ filter.form }}
+                    <button type="submit">Search</button>                
+                </form>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination-cbv.html' %}
+            <div class="table">     
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date Added</th>  
+                            <th>Movement Type</th>
+                            <th>Product Name</th>
+                            <th>Purchase Order</th>
+                            <th>Product SKU</th>
+                            <th>Delivered Qty</th>
+                            <th>Comments</th>                         
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                  
+                    {% for stock_item in object_list %}	
+                    <form class="form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ stock_item.id }}">        
+                        <tr class="{% cycle 'row1' 'row2' %} unleashed-row">
+                            <td class="first-col">{{ stock_item.date_added }}</td>
+                            <td>{{ stock_item.movement_type }}</td>
+                            <td>{{ stock_item.product_id.product_name }}</td>
+                            <td>{{ stock_item.purchaseorder.reference }}</td>
+                            <td>{{ stock_item.product_id.sku }}</td> 
+                            <td>{{ stock_item.adjustment_qty }}</td>
+                            <td>
+                                {% if stock_item.comments %}
+                                    {{ stock_item.comments }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td> 
+                            <td>
+                                <span class="unleashed-status">{{ stock_item.unleashed_status }}</span>
+                                <select type="text" name="unleashed_status" >
+                                    <option selected disabled hidden>{{ stock_item.unleashed_status }}</option>
+                                    <option name="unleashed_status" value="Unleashed Updated">Unleashed Updated</option>
+                                    <option name="unleashed_status" value="Pending">Pending</option>
+                                </select>
+                            </td>
+                            <td><button name="unleashed" type="submit">Submit</button>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="{% static 'js/unleashed.js' %}"></script>
+{% endblock %}

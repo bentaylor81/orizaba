@@ -15,11 +15,11 @@ class StockMovement(models.Model):
     adjustment_qty = models.IntegerField(blank=True, default=0) # Related to the quantity delivered, like in PurchaseOrderItem table
     movement_type = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, null=True)
     unleashed_status = models.CharField(max_length=200, choices=UNLEASHED_STATUS_CHOICES, default='Pending', blank=True, null=True)
-    date_added = models.DateTimeField() 
+    date_added = models.DateTimeField(blank=True, null=True) 
     purchaseorder = models.ForeignKey('purchaseorder', on_delete=models.CASCADE, null=True, blank=True)
     order_id = models.ForeignKey('app_orders.order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
     current_stock_qty = models.IntegerField(default=0, blank=True, null=True)
-    # Make a stock total added boolean field so that only future stats are counted in the stock value
+    comments = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type) + ' | ' + str(self.purchaseorder)

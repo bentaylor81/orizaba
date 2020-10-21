@@ -39,4 +39,8 @@ PoItemFormset = inlineformset_factory(
         'label' : forms.CheckboxInput (attrs={'class': 'label-checkbox' }), 
         }
     )
-    
+
+class UnleashedForm(forms.ModelForm):
+    class Meta:
+        model = StockMovement
+        fields = ['id', 'unleashed_status']
