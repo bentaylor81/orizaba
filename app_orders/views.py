@@ -56,6 +56,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         order_id = self.object.order_id
+        order_no = self.object.order_no
         form_order_id = Order.objects.get(pk=order_id)
 
         if 'add-shipment' in request.POST:
@@ -99,27 +100,23 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 return self.form_invalid(form)
 
         elif 'invoice' in request.POST:
-            order_no = 'Ben Taylor'
             projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id 
             # SELECT THE ACTION AFTER GENERATION        
             inv_action = request.POST.get('invoice-action')
             if(inv_action == 'download'): 
                 pdf = pdfkit.from_url(projectUrl, False, configuration=settings.WKHTMLTOPDF_CONFIG)
                 response = HttpResponse(pdf, content_type='application/pdf')
-                response['Content-Disposition'] = "attachment; filename=invoice-%s.pdf" % order_id
+                response['Content-Disposition'] = "attachment; filename=invoice-%s.pdf" % order_no
                 return response
             elif(inv_action == 'print'):
                 # SEND TO PRINTNODE
-                pdfkit.from_url(projectUrl, "static/pdf/invoices/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
-                payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_HOME)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoices/invoices.pdf", "source": "GTS Order Invoice"}'
+                pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+                payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_HOME)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
                 response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
                 print(response.text.encode('utf8'))
-                messages.success(self.request, 'Invoice Being Printed')
+                messages.success(self.request, 'Printing Invoice')
             else:
                 print('Email Action')
-            print(inv_action)
-
-
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
