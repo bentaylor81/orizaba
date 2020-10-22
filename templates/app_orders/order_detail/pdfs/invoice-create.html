@@ -65,8 +65,8 @@
                     <thead>
                         <tr>
                             <th class="prod-name">Product</th>
-                            <th class="center">Item Price</th>
-                            <th class="center">Qty</th>
+                            <th>Item Price</th>
+                            <th>Qty</th>
                             <th>Total Price</th>
                         </tr>
                     </thead>
@@ -74,8 +74,8 @@
                         {% for order_item in order.orderitem_set.all %}
                         <tr class="item-row">
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
-                            <td class="center">£{{ order_item.item_price }}</td>
-                            <td class="center">{{ order_item.item_qty }}</td>
+                            <td>£{{ order_item.item_price }}</td>
+                            <td>{{ order_item.item_qty }}</td>
                             <td class="last-col">£{{ order_item.total_price }}</td>
                         </tr>
                         {% endfor %}
