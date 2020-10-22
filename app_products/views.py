@@ -164,12 +164,11 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})   
 
-class Unleashed(LoginRequiredMixin, FilterView):
+class Unleashed(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'app_products/unleashed.html'
-    model = StockMovement
     queryset = StockMovement.objects.filter(movement_type='Purchase Order Receipt')
-    paginate_by = 100
+    paginate_by = 10
     ordering = ['unleashed_status', '-date_added']
     filterset_class = UnleashedFilter
 
@@ -179,7 +178,7 @@ class Unleashed(LoginRequiredMixin, FilterView):
         form = UnleashedForm(request.POST or None, instance=instance)
         if form.is_valid():
             form.save()
-        return redirect('/unleashed?movement_type=Purchase+Order+Receipt')     
+        return redirect('/unleashed')     
 
 class StockList(LoginRequiredMixin, FilterView):
     login_url = '/login/'

@@ -210,6 +210,9 @@
     #order .content .delivery-modal .modal-container td { border: 0px;  }
     #order .content .google-map-modal .modal-container { width: 800px; }
     #order .content .postcode-valid img { width: 12px; margin-left: 8px; position: relative; top: 1px; cursor: pointer; }
+    #order .content .other-actions .item { display: flex; align-items: center; }
+    #order .content .other-actions .item .title { width: 100px; font-weight: bold; align-items: center; }
+    #order .content .other-actions .item .action button { width: 70px; }
 
 /*** APP_PRODUCTS CSS ***/
 

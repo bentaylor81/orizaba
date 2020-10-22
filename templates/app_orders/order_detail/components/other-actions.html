@@ -1,0 +1,19 @@
+<h2>Other Actions</h2>
+<div class="other-actions">
+    <div class="item">
+        <div class="title">
+            Invoice:
+        </div>
+        <div class="action">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <select name="invoice-action">
+                    <option value="download">Download Invoice</option>
+                    <option value="print">Print Invoice</option>
+                    <option value="email">Email Invoice</opion>
+                </select>
+                <button name="invoice" type="submit" >Select</button>
+            </form>
+        </div>
+    </div>                  
+</div>
