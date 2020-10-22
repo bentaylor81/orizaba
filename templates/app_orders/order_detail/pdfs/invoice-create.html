@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie-edge">  
         <style type="text/css" media="all">
-            body { zoom: 72%;}
+            body { zoom: 70%;}
             @page { 
                 size: A4 portrait; 
             }
@@ -78,7 +78,7 @@
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
                             <td>£{{ order_item.item_price }}</td>
                             <td>{{ order_item.item_qty }}</td>
-                            <td>£{{ order_item.total_price }}</td>
+                            <td class="last-col">£{{ order_item.total_price }}</td>
                         </tr>
                         {% endfor %}
                         <tr class="row_dark_2">
