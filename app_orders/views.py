@@ -100,8 +100,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 return self.form_invalid(form)
 
         elif 'invoice' in request.POST:
-            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id 
-            # SELECT THE ACTION AFTER GENERATION        
+            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id     
             inv_action = request.POST.get('invoice-action')
             if(inv_action == 'download'): 
                 pdf = pdfkit.from_url(projectUrl, False, configuration=settings.WKHTMLTOPDF_CONFIG)
@@ -109,8 +108,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 response['Content-Disposition'] = "attachment; filename=invoice-%s.pdf" % order_no
                 return response
             elif(inv_action == 'print'):
-                # SEND TO PRINTNODE
+                # GENERATE PDF
                 pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+                # SEND TO PRINTNODE
                 payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_HOME)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
                 response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
                 print(response.text.encode('utf8'))
