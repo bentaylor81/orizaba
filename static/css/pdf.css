@@ -15,4 +15,5 @@
 #invoice .invoice-items table tr td { border: 0px; }
 #invoice .invoice-items table tr th:last-child { text-align: right; }
 #invoice .invoice-items table tr td:last-child { text-align: right; }
+#invoice .invoice-items .center { text-align: center; }
 #invoice .footer { position: fixed; padding: 15px 20px; font-size: 14px; width: 100%; bottom: 0px; background: #ddd; }

@@ -66,8 +66,8 @@
                         <tr>
                             <th>#</th>
                             <th class="prod-name">Product</th>
-                            <th>Item Price</th>
-                            <th>Qty</th>
+                            <th class="center">Item Price</th>
+                            <th class="center">Qty</th>
                             <th>Total Price</th>
                         </tr>
                     </thead>
@@ -76,8 +76,8 @@
                         <tr class="item-row">
                             <td>{{ forloop.counter }}</td>
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
-                            <td>£{{ order_item.item_price }}</td>
-                            <td>{{ order_item.item_qty }}</td>
+                            <td class="center">£{{ order_item.item_price }}</td>
+                            <td class="center">{{ order_item.item_qty }}</td>
                             <td class="last-col">£{{ order_item.total_price }}</td>
                         </tr>
                         {% endfor %}
