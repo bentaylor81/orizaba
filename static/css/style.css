@@ -58,7 +58,7 @@
     /* Forms */
     form input, form input#date, input.date-input { font: 13px 'Roboto'; }
     textarea { padding: 5px; font: 12px 'Roboto'; }
-    select { height: 29px; padding-right: 10px;  }
+    select { height: 29px; padding-right: 10px; font-size: 13px; }
 
     /* Tables */
     table { width: 100%; }
