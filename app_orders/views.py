@@ -111,7 +111,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 # GENERATE PDF
                 pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
                 # SEND TO PRINTNODE
-                payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_HOME)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
+                payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
                 response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
                 print(response.text.encode('utf8'))
                 messages.success(self.request, 'Printing Invoice')
