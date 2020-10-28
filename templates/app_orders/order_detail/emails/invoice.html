@@ -1,0 +1,35 @@
+<table cellpadding="0" cellspacing="0" style="width: 800px; background-color: #ffffff; font-family:'Roboto Condensed',arial">
+    <tbody>
+        <tr>
+            <td cellpadding="0" cellspacing="0" style="width: 100%; text-align: center; background-color: #3c3c3b; padding: 10px;">
+                <table>
+                    <tr>
+                        <td style="padding: 0px 10px 0px 0px;"">
+                            <img border="0" style="border:0px; display: block;" src="https://www.gardentractorspares.co.uk/skin/frontend/smartwave/porto/images/80-GTS-logo.png">
+                        </td>
+                        <td>
+                            <strong style="color:#fff; font-size:26px;">Invoice for Order {{ order.order_no }}</strong>
+                        </td>
+                    </tr>
+                </table>           
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #eeeeee; padding: 10px; ">
+                <table style="width : 100%">
+                    <tr>
+                        <td id="email-custom-message" style="font-weight: normal; background-color: #ffffff; padding: 10px; width: 100%">
+                            Dear {{ order.billing_name }},
+                            <br><br>
+                            Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+                            <br><br>
+                            Kind regards,
+                            <br><br>
+                            <b>Garden Tractor Spares</b>             
+                        </td>
+                    </tr>
+                </table>
+            </td>
+    </tbody>
+</table>
+

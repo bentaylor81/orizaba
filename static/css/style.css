@@ -34,7 +34,7 @@
     h1, h2 { padding: 0px; margin: 0px; }
     a {	color: #1c71bb; text-decoration: none; font-weight: bold; }
     hr { border-top: 1px solid #ccc; border-bottom: 0px; }
-    button { width: 140px; padding: 5px 0px; cursor: pointer; }
+    button { font-size: 12px; width: 140px; padding: 5px 0px; cursor: pointer; }
     .button a { padding: 10px 5px; display: block; background: #232f3e; color: #fff; text-align: center; cursor: pointer; }
     .alt-button a { color: #fff; border-radius: 0px; margin-bottom: 5px; padding: 8px 0px; display: block; width: 100%; text-align: center; }
     .pod h2 { margin-bottom: 20px; }
@@ -199,7 +199,7 @@
     #order .content .shipment .fa-warehouse { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-truck { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-check-square { color: #38a938; font-size: 40px; margin: 0px 0px 10px 0px; }
-    #order .content .modal-container h1  { margin: 0px 0px 20px 0px; }
+    #order .content .modal-container h1  { margin: 0px 0px 30px 0px; }
     #order .content .modal-container div { padding: 0px; margin: 0px; border: 0px;  }
     #order .content .delivery-modal .modal-container { width: 400px; }
     #order .content .delivery-modal .modal-container input { padding: 5px; width: calc(100% - 13px); }
@@ -212,7 +212,20 @@
     #order .content .postcode-valid img { width: 12px; margin-left: 8px; position: relative; top: 1px; cursor: pointer; }
     #order .content .other-actions .item { display: flex; align-items: center; }
     #order .content .other-actions .item .title { width: 100px; font-weight: bold; align-items: center; }
-    #order .content .other-actions .item .action button { width: 70px; }
+    #order .content .other-actions .item .action button { width: 80px; margin-right: 5px; }
+    #order .content .other-actions .modal .modal-container { width: 716px; }
+    #order .content .other-actions .modal-content .email-fields { display: flex; align-items: center; margin-bottom: 10px; }
+    #order .content .other-actions .modal-content .email-fields .field-1 { width: 100px; }
+    #order .content .other-actions .modal-content .email-fields .field-2 { width: 300px; }
+    #order .content .other-actions .modal-content .email-fields.message { align-items: flex-start; }
+    #order .content .other-actions .modal-content .email-fields.message .field-1 { padding: 5px 0px 0px 0px; }
+    #order .content .other-actions .modal-content .button { display: flex; justify-content: flex-end; }
+    #order .content .other-actions .modal .modal-container input { width: 300px; }
+    #order .content .other-actions .modal .modal-container tr { margin-bottom: 10px; }
+    #order .content .other-actions .modal .modal-container tr td { padding: 0px; margin-bottom: 10px; }
+    #order .content .other-actions .modal .modal-container textarea { width: 600px; height: 200px; white-space: pre-line; }
+    #order .content .other-actions #submitted-textarea { display: none; }
+    #order .content .other-actions #email-template { display: none; }
 
 /*** APP_PRODUCTS CSS ***/
 

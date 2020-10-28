@@ -58,7 +58,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         order_id = self.object.order_id
         order_no = self.object.order_no
         form_order_id = Order.objects.get(pk=order_id)
-
+        
         if 'add-shipment' in request.POST:
             form_class = self.get_form_class()
             form = self.get_form(form_class)
@@ -99,24 +99,41 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             else:
                 return self.form_invalid(form)
 
-        elif 'invoice' in request.POST:
-            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id     
-            inv_action = request.POST.get('invoice-action')
-            if(inv_action == 'download'): 
-                pdf = pdfkit.from_url(projectUrl, False, configuration=settings.WKHTMLTOPDF_CONFIG)
-                response = HttpResponse(pdf, content_type='application/pdf')
-                response['Content-Disposition'] = "attachment; filename=invoice-%s.pdf" % order_no
-                return response
-            elif(inv_action == 'print'):
-                # GENERATE PDF
-                pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
-                # SEND TO PRINTNODE
-                payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
-                response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+        elif 'download-invoice' in request.POST:
+            # GENERATE AND DOWNLOAD PDF
+            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id    
+            pdf = pdfkit.from_url(projectUrl, False, configuration=settings.WKHTMLTOPDF_CONFIG)
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = "attachment; filename=Invoice-%s.pdf" % order_no
+            return response
+
+        elif 'print-invoice' in request.POST:
+            # GENERATE PDF
+            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id  
+            pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+            # SEND TO PRINTNODE
+            payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
+            response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+            print(response.text.encode('utf8'))
+            messages.success(self.request, 'Printing Invoice')
+
+        elif 'email-invoice' in request.POST:
+            # GENERATE PDF
+            projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id
+            pdfkit.from_url(projectUrl, "static/pdf/GTS-Invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+            # SEND EMAIL VIA MAILGUN
+            form = EmailInvoiceForm(self.request.POST)
+            to_email = form.data['to_email']
+            if form.is_valid():
+                data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'cc': settings.MAILGUN_CC, 'subject': form.data['subject'], 'html': form.data['message']}
+                files = [('attachment', open('static/pdf/GTS-Invoice.pdf','rb'))]
+                response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
                 print(response.text.encode('utf8'))
-                messages.success(self.request, 'Printing Invoice')
-            else:
-                print('Email Action')
+                messages.success(self.request, 'Invoice has been emailed to ' + to_email)
+            else: 
+                print(form.errors)
+                messages.error(self.request, 'Invoice not sent as the form has errors')
+
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

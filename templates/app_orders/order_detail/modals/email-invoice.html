@@ -1,0 +1,51 @@
+<div id="modal" class="modal small-modal">
+    <div class="modal-container">
+        <div class="modal-close">&times;</div>
+        <div class="modal-content">
+            <h1>Email Invoice</h1>
+            <form class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="email-fields">
+                    <div class="field-1">
+                        Email: 
+                    </div>
+                    <div class="field-2">
+                        <input type="text" name="to_email" value="{{ order.billing_email.billing_email }}">
+                    </div>
+                </div>
+                <div class="email-fields">
+                    <div class="field-1">
+                        Subject:
+                    </div>
+                    <div class="field-2">
+                        <input type="text" name="subject" value="Your Invoice is Attached">
+                    </div>
+                </div>
+                <div class="email-fields message">
+                    <div class="field-1">
+                        Message:
+                    </div>
+                    <div class="field-2">
+                        <!-- 1. User types a message -->
+                        <textarea id="custom-message-textarea" placeholder="Dear {{ order.billing_name }},
+
+                        Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+                        
+                        Kind regards,
+                        
+                        Garden Tractor Spares"></textarea>   
+                        <!-- 2. Javascript adds the message to the email template -->
+                        <div id="email-template">
+                            {% include 'app_orders/order_detail/emails/invoice.html' %} 
+                        </div>
+                        <!-- 3. Whole email template html including customer message is added to submitted textarea below -->
+                        <textarea id="submitted-textarea" name="message"></textarea>
+                    </div>
+                </div>
+                <div class="button">
+                    <button name="email-invoice" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

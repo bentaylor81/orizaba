@@ -33,3 +33,9 @@ OrderItemFormset = inlineformset_factory(
         'product_id' : forms.TextInput(attrs={'type': 'hidden'})
         }
     )
+
+class EmailInvoiceForm(forms.Form):
+    to_email = forms.EmailField(max_length=254) 
+    subject = forms.CharField(max_length=200)
+    message = forms.CharField()
+
