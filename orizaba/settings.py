@@ -214,7 +214,7 @@ PRINTNODE_HEADERS = {'Content-Type': 'application/json', 'Authorization': PRINTN
 MAILGUN_URL = config('MAILGUN_URL')
 MAILGUN_AUTH = config('MAILGUN_AUTH')
 MAILGUN_FROM = config('MAILGUN_FROM')
-MAILGUN_CC = config('MAILGUN_CC')
+MAILGUN_BCC = config('MAILGUN_BCC')
 MAILGUN_HEADERS = { 'Authorization': MAILGUN_AUTH }
 
 # PARCELHUB
