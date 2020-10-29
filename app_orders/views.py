@@ -124,9 +124,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             # SEND EMAIL VIA MAILGUN
             form = EmailInvoiceForm(self.request.POST)
             to_email = form.data['to_email']
-            # 'bcc': settings.MAILGUN_BCC,
             if form.is_valid():
-                data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'subject': form.data['subject'], 'html': form.data['message']}
+                data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'bcc': settings.MAILGUN_BCC, 'subject': form.data['subject'], 'html': form.data['message']}
                 files = [('attachment', open('static/pdf/GTS-Invoice.pdf','rb'))]
                 response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
                 print(response.text.encode('utf8'))
