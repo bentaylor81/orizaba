@@ -27,13 +27,14 @@
                     </div>
                     <div class="field-2">
                         <!-- 1. User types a message -->
-                        <textarea id="custom-message-textarea" placeholder="Dear {{ order.billing_name }},
-
-                        Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+                        <textarea id="custom-message-textarea">Dear {{ order.billing_name }},
+                            
+Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
                         
-                        Kind regards,
+Kind regards,
                         
-                        Garden Tractor Spares"></textarea>   
+Garden Tractor Spares
+                        </textarea>   
                         <!-- 2. Javascript adds the message to the email template -->
                         <div id="email-template">
                             {% include 'app_orders/order_detail/emails/invoice.html' %} 
