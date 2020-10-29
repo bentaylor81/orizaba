@@ -16,20 +16,14 @@
             </td>
         </tr>
         <tr>
-            <td style="background-color: #eeeeee; padding: 10px; ">
-                <table style="width : 100%">
-                    <tr>
-                        <td id="email-custom-message" style="font-weight: normal; background-color: #ffffff; padding: 20px; width: 100%">
-                            Dear {{ order.billing_name }},
-                            <br><br>
-                            Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
-                            <br><br>
-                            Kind regards,
-                            <br><br>
-                            <b>Garden Tractor Spares</b>             
-                        </td>
-                    </tr>
-                </table>
+            <td id="email-custom-message" style="font-weight: normal; background-color: #eeeeee; padding: 20px; width: 100%">
+                Dear {{ order.billing_name }},
+                <br><br>
+                Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+                <br><br>
+                Kind regards,
+                <br><br>
+                <b>Garden Tractor Spares</b>             
             </td>
         </tr>
         <tr>
