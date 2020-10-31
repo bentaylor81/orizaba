@@ -244,6 +244,7 @@
     #products .extra-content { display: none; border: 1px solid #bbb; border-top: 0px; width: calc(100% - 22px); background-color: #eee; padding: 10px 10px 8px 10px; }
     #products .extra-content img { width: 300px; }
     #products form select.print-label { width: 50px; height: 30px; }
+    #products i.arrow { cursor: pointer; }
 
     /* Product Detail Page */
     #product .col-2 { display: grid; grid-template-columns: 1.3fr 1fr; grid-gap: 50px; }
@@ -262,7 +263,17 @@
     #product .stock-movement td.stock-qty { text-align: center; font-weight: bold; }
     #product .edit-image i { cursor: pointer; }
     .product-image-form img { width: 100px; }
-
+    #product .stock-movement .add-adj-block { display: none; background: #ddd; padding: 10px; margin: -5px 0px 10px 0px; }
+    #product .stock-movement .manual-adj { display: flex; }
+    #product .stock-movement .manual-adj div { margin: 0px 10px 5px 0px; font-weight: bold; }
+    #product .stock-movement .manual-adj input { width: 50px; height: 23px; }
+    #product .stock-movement .manual-adj .date input { width: 140px; }
+    #product .stock-movement .manual-adj .reason select { width: 200px; }
+    #product .stock-movement .manual-adj .submit button { width: 80px; }
+    #product .stock-movement .manual-adj #close-adj-icon { margin: 0px 0px 0px auto; }
+    #product .stock-movement .manual-adj #close-adj-icon i { font-size: 22px; }
+    #product .stock-movement i { cursor: pointer; }
+    
     /* Purchase Order List Page */
     #purchase-orders .status { padding: 6px 0px; width: 120px; text-align: center; display: inline-block; font-weight: bold; background-color: #bbb; }
     #purchase-orders .add-po { margin-bottom: 15px; }

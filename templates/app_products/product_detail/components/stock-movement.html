@@ -1,5 +1,37 @@
 <div class="table stock-movement">
-    <h2>Stock Movement</h2>
+    <h2>Stock Movement&nbsp;&nbsp;&nbsp;<i id="add-adj-icon" class="far fa-plus-square"></i></h2>
+    <!-- EXPANDABLE SECTION FOR ADDING A MANUAL STOCK ADJUSTMENT -->
+        <!-- GENERATED VIA THE jS PURCHASE-ORDER-DETAIL.JS LINE 125 -->   
+    <div class="add-adj-block">
+        <form id="stock-adj-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="manual-adj">
+                <input name="product_id" type="hidden" value="{{ product.product_id }}">
+                <input name="movement_type" type="hidden" value="Manual Adjustment">
+                <div class="date">
+                    <div class="title">Date:</div>
+                    <input name="date_added" type="date" value="{% now 'Y-m-d' %}">
+                </div>
+                <div class="reason">
+                    <div class="title">Reason:</div>
+                    <select name="comments">
+                        <option value="Stock Count">Stock Count</option>
+                        <option value="Extra Sent by Supplier">Extra Sent by Supplier</option>
+                    </select>
+                </div>
+                <div class="quantity">
+                    <div class="title">Quantity:</div>
+                    <input name="adjustment_qty" type="number" value="1">
+                </div>
+                <div class="submit">
+                    <div class="title">&nbsp;</div>
+                    <button>Submit</button>
+                </div>
+                <div id="close-adj-icon"><i class="far fa-window-close"></i></div>
+            </div>
+        </form>
+    </div> 
+    <!-- STOCK MOVEMENT TABLE -->
     {% if stock_movement %}
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -20,7 +52,9 @@
                     {% if item.purchaseorder %}
                         <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
                     {% elif item.order_id %}
-                    <a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a>
+                        <a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a>
+                    {% elif item.movement_type == 'Manual Adjustment' %}
+                        {{ item.comments }}
                     {% endif %}
                 </td>
                 <td>{{ item.adjustment_qty }}</td>

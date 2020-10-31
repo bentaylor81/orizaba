@@ -72,6 +72,23 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Product Updated')
         return reverse('product-detail', kwargs={'pk': self.object.pk})     
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()   
+        # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
+        form = ManualStockAdjustForm(self.request.POST)
+        adjustment_qty = form['adjustment_qty'].value()
+        if form.is_valid():  
+            # Save the form but don't commit
+            event = form.save(commit=False)
+            # Update the current_stock_qty from the orizaba_stock_qty in the product table
+            current_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
+            event.current_stock_qty = current_stock_qty
+            event.save()
+            # Sets the stock value in the product table
+            Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
+            messages.success(request, 'Manual Stock Adjustment Added')
+            return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
+
 class PurchaseOrderList(LoginRequiredMixin, FormMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/purchase_order_list/purchase-order-list.html'
