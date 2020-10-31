@@ -265,10 +265,9 @@
     .product-image-form img { width: 100px; }
     #product .stock-movement .icons { text-align: center; padding: 0px 10px; }
     #product .stock-movement .icons i { font-size: 18px; }
-    #product .stock-movement .icons .fa-money-bill { color: #e08a1f }
+    #product .stock-movement .icons .fa-money-bill { color: #D4AF37 }
     #product .stock-movement .icons .fa-receipt { color: #1c71bb; }
     #product .stock-movement .icons .fa-sliders-h { color: #f783ac }
-
     #product .stock-movement .add-adj-block { display: none; background: #ddd; padding: 10px; margin: -5px 0px 10px 0px; }
     #product .stock-movement .manual-adj { display: flex; }
     #product .stock-movement .manual-adj div { margin: 0px 10px 5px 0px; font-weight: bold; }
