@@ -25,7 +25,7 @@ class StockMovement(models.Model):
         return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type) + ' | ' + str(self.purchaseorder)
 
     class Meta:
-        ordering = ["-pk"]
+        ordering = ["-date_added", "-pk"]
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
