@@ -17,6 +17,10 @@
                     <select name="comments">
                         <option value="Stock Count">Stock Count</option>
                         <option value="Extra Sent by Supplier">Extra Sent by Supplier</option>
+                        <option value="Non Website Sale">Non Website Sale</option>
+                        <option value="Website Sale">Website Sale</option>
+                        <option value="Item Returned">Item Returned</option>
+                        <option value="Old Purchase Order">Old Purhase Order</option>
                     </select>
                 </div>
                 <div class="quantity">
@@ -36,6 +40,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Type</th>
                 <th>Reference</th>
@@ -46,6 +51,15 @@
         <tbody>
             {% for item in stock_movement %}
             <tr class="{% cycle 'row1' 'row2' %}">
+                <td class="icons">
+                {% if item.movement_type == 'Online Sale' %}
+                    <i class="fas fa-money-bill"></i>
+                {% elif item.movement_type == 'Purchase Order Receipt' %}
+                    <i class="fas fa-receipt"></i>
+                {% else %}
+                    <i class="fas fa-sliders-h"></i>
+                {% endif %}               
+                </td>
                 <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
                 <td>{{ item.movement_type }}</td>
                 <td>
