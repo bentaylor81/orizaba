@@ -200,7 +200,7 @@ class Unleashed(LoginRequiredMixin, FilterView):
 class StockList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_products/stock-list.html'
-    model = Product
+    queryset = Product.objects.filter(stock_balances=False)
     paginate_by = 50
     filterset_class = StockControlFilter
     ordering = ['stock_balances', '-stock_discrepancy']

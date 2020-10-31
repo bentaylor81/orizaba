@@ -50,7 +50,6 @@ class StockControlFilter(filters.FilterSet):
         fields = {
             'sku' : ['icontains'],
             'stock_discrepancy': ['exact'],
-            'stock_balances': ['exact'],
         }
         
 class UnleashedFilter(filters.FilterSet):
