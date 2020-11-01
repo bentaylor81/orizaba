@@ -44,7 +44,7 @@
                             {% endif %}               
                             </td>
                             <td class="first-col">{{ stock_item.date_added|date:'D d M Y' }}</td>
-                            <td>{{ stock_item.product_id.product_name }}</td>
+                            <td><a href="{% url 'product-detail' stock_item.product_id.product_id %}">{{ stock_item.product_id.product_name }}</a></td>
                             <td>{{ stock_item.product_id.sku }}</td> 
                             <td>{{ stock_item.movement_type }}</td>
                             <td>
