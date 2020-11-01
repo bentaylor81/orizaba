@@ -2,7 +2,7 @@
 <nav>
     <ul>
         <li class="menu-item" data-menu="orders">
-            <div>
+            <div class="has-dropdown">
                 <a href="{% url 'order-list' %}">Orders</a>
                 <span><i class="fas fa-angle-down"></i></span>
             </div>
@@ -16,7 +16,7 @@
             </ul>
         </li>
         <li class="menu-item" data-menu="products">
-            <div>
+            <div class="has-dropdown">
                 <a href="{% url 'product-list' %}">Products</a>
                 <span><i class="fas fa-angle-down"></i></span>
             </div>
@@ -38,17 +38,29 @@
         <li class="menu-item" data-menu="suppliers">
             <div>
                 <a href="{% url 'supplier-list' %}">Suppliers</a>
+                <span></span>
             </div>
+            <ul class="dropdown">
+            </ul>
         </li>
         <li class="menu-item" data-menu="customers">
             <div>
                 <a href="{% url 'customer-list' %}">Customers</a>
+                <span></span>
             </div>
+            <ul class="dropdown">
+            </ul>
         </li>
         <li class="menu-item" data-menu="utils">
-            <div>
+            <div class="has-dropdown">
                 <a href="{% url 'utils-list' %}">Utilities</a>
+                <span><i class="fas fa-angle-down"></i></span>
             </div>
+            <ul class="dropdown">
+                <a href="{% url 'stock-reconcile' %}">
+                    <li data-sub-menu="stock-reconcile">Stock Reconcile</li>
+                </a>
+            </ul>
         </li>
     </ul>
 </nav>

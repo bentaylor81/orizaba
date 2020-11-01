@@ -64,13 +64,13 @@
                 <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
                 <td>{{ item.movement_type }}</td>
                 <td>
-                    {% if item.purchaseorder %}
-                        <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
-                    {% elif item.order_id %}
-                        <a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a>
-                    {% elif item.movement_type == 'Manual Adjustment' %}
-                        {{ item.comments }}
-                    {% endif %}
+                {% if item.purchaseorder %}
+                    <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
+                {% elif item.order_id %}
+                    <a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a>
+                {% elif item.movement_type == 'Manual Adjustment' %}
+                    {{ item.comments }}
+                {% endif %}
                 </td>
                 <td>{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>

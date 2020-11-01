@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from app_products.models import *
 from app_orders.models import *
+from .filters import *
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django_filters.views import FilterView
 
 
 def utils(request): 
@@ -48,3 +51,13 @@ def update_stock_movement_date(request):
             product.date_added = product.order_id.date
             product.save()
     return render(request, 'app_utils/utils.html')
+
+# STOCK MOVEMENT TABLE
+class StockMovementList(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_utils/stock-reconcile.html'
+    queryset = StockMovement.objects.all()
+    model = StockMovement
+    paginate_by = 50
+    ordering = ['unleashed_status', '-date_added']
+    filterset_class = StockMovementFilter

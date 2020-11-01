@@ -370,5 +370,14 @@
     #unleashed button { width: 80px; }
 
 /*** APP_UTILS CSS ***/
+
+    /* Utils Page */
     #utils .content .function { border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+
+    /* Stock Reconcile Page */
+    #stock-reconcile .icons { text-align: center; padding: 0px 10px; }
+    #stock-reconcile .icons i { font-size: 18px; }
+    #stock-reconcile .icons .fa-money-bill { color: #D4AF37 }
+    #stock-reconcile .icons .fa-receipt { color: #1c71bb; }
+    #stock-reconcile .icons .fa-sliders-h { color: #f783ac }
     
