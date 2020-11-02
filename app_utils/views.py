@@ -39,7 +39,7 @@ def update_stock_descrepancy_stats(request):
         else:
             product.stock_balances = True
         product.save()
-    return HttpResponseRedirect('/stock-sync')
+    return HttpResponseRedirect('/utils/stock-sync')
 
 # UPDATE THE DATE IN STOCK MOVEMENT WITH THE ORDER DATE
 # Function won't be needed in future when the date_added will be the order date
