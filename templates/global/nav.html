@@ -23,10 +23,7 @@
             <ul class="dropdown">
                 <a href="{% url 'purchase-order-list' %}">
                     <li data-sub-menu="purchase-orders">Purchase Orders</li>
-                </a>
-                <a href="{% url 'stock-list' %}">
-                    <li data-sub-menu="stock">Stock</li>
-                </a>     
+                </a>  
                 <a href="{% url 'unleashed' %}">
                     <li data-sub-menu="unleashed">Unleashed</li>
                 </a> 
@@ -60,6 +57,9 @@
                 <a href="{% url 'stock-reconcile' %}">
                     <li data-sub-menu="stock-reconcile">Stock Reconcile</li>
                 </a>
+                <a href="{% url 'stock-sync' %}">
+                    <li data-sub-menu="stock-sync">Stock Sync</li>
+                </a>   
             </ul>
         </li>
     </ul>

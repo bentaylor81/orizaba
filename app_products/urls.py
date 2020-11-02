@@ -11,8 +11,7 @@ urlpatterns = [
     path('purchase-orders/<pk>', PurchaseOrderDetail.as_view(), name='purchase-order-detail'),
     path('suppliers', SupplierList.as_view(), name='supplier-list'),
     path('customers', CustomerList.as_view(), name='customer-list'),
-    path('brands', BrandList.as_view(), name='brand-list'),
-    path('stock', StockList.as_view(), name='stock-list'),    
+    path('brands', BrandList.as_view(), name='brand-list'),  
     path('unleashed', Unleashed.as_view(), name='unleashed'),
 
     path('suppliers/<path>', views.supplier_view, name='supplier-detail'), 

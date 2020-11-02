@@ -52,7 +52,8 @@ def update_stock_movement_date(request):
             product.save()
     return render(request, 'app_utils/utils.html')
 
-# STOCK MOVEMENT TABLE
+### STOCK RECONCILE PAGE ###
+# LIST ALL STOCK MOVEMENTS - ORDERS, POS AND MANUAL ADJUSTMENTS
 class StockMovementList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_utils/stock-reconcile.html'
@@ -61,3 +62,13 @@ class StockMovementList(LoginRequiredMixin, FilterView):
     paginate_by = 50
     ordering = ['unleashed_status', '-date_added']
     filterset_class = StockMovementFilter
+
+### STOCK SYNC PAGE ###
+# CHECK THE STOCK SYNCRONIZATION BETWEEN MAGENTO AND ORIZABA
+class StockSync(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_utils/stock-sync.html'
+    queryset = Product.objects.filter(stock_balances=False)
+    paginate_by = 50
+    filterset_class = StockSyncFilter
+    ordering = ['stock_balances', '-stock_discrepancy']

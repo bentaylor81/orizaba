@@ -43,14 +43,6 @@ class SupplierProductFilter(filters.FilterSet):
             'sku' : ['icontains'],
             'brand': ['exact'],
         }
-
-class StockControlFilter(filters.FilterSet):
-    class Meta:
-        model = Product
-        fields = {
-            'sku' : ['icontains'],
-            'stock_discrepancy': ['exact'],
-        }
         
 class UnleashedFilter(filters.FilterSet):
     class Meta:

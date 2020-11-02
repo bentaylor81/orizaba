@@ -197,14 +197,6 @@ class Unleashed(LoginRequiredMixin, FilterView):
             form.save()
         return redirect('/unleashed')     
 
-class StockList(LoginRequiredMixin, FilterView):
-    login_url = '/login/'
-    template_name = 'app_products/stock-list.html'
-    queryset = Product.objects.filter(stock_balances=False)
-    paginate_by = 50
-    filterset_class = StockControlFilter
-    ordering = ['stock_balances', '-stock_discrepancy']
-
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'app_products/supplier-list.html'
