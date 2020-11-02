@@ -48,13 +48,13 @@
                             <td>{{ stock_item.product_id.sku }}</td> 
                             <td>{{ stock_item.movement_type }}</td>
                             <td>
-                                {% if stock_item.movement_type == 'Online Sale' %}
-                                    {{ stock_item.order_id.order_no }}
-                                {% elif stock_item.movement_type == 'Purchase Order Receipt' %}
-                                    {{ stock_item.purchaseorder.reference }}
-                                {% elif stock_item.movement_type == 'Manual Adjustment' %}
-                                    {{ stock_item.comments }}
-                                {% endif %}
+                            {% if stock_item.movement_type == 'Online Sale' %}
+                                {{ stock_item.order_id.order_no }} - {{ stock_item.order_id.billing_name }}
+                            {% elif stock_item.movement_type == 'Purchase Order Receipt' %}
+                                {{ stock_item.purchaseorder.reference }}
+                            {% elif stock_item.movement_type == 'Manual Adjustment' %}
+                                {{ stock_item.comments }}
+                            {% endif %}
                             </td>
 
                             <td><b>{{ stock_item.adjustment_qty }}</b></td>
