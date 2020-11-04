@@ -12,7 +12,6 @@ for(let i=0; i < menuItem.length; i++){
     if (menuItemCurrent == pageName) { 
         menuItemActive[i].classList.add("menu-item-active");       
         if (menuItemDropdown[i]) { // Check if the main menu has a dropdown
-            console.log(menuItemDropdown[i])
             menuItemDropdown[i].classList.add('expanded'); // Expand the sub list dropdowns
         }
     }

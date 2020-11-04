@@ -35,12 +35,7 @@
         <!-- JAVASCRIPT FILTER OF THE LIST -->
         <!-- HIDDEN WHEN THE ADD PURCHASE ORDER SECTION IS OPEN --> 
         <div class="po-filter">
-            <b>SKU Filter: </b><input id="sku-input" type="text" value="" />&nbsp;&nbsp;&nbsp;
-            <!-- Removed the data filter as going to now add the purchase order to Unleashed using an separate Unleashed table -->
-            <!-- <b>Date Received Filter: </b>
-            <select id="date-select" type="date" value="" />
-                <option></option>
-            </select> -->
+            <b>SKU Filter: </b><input id="sku-input" type="text" value="" />
         </div>
         <!-- MAIN TABLE DISPLAYING ALL ADDED PARTS -->    
         <table cellpadding="0" cellspacing="0">                         
@@ -60,7 +55,7 @@
             </thead>
             <tbody>       
                 {% for item in po_item_form %}
-                <tr class="part-row {% cycle 'row1' 'row2' %}">
+                <tr class="part-row {% cycle 'row1' 'row2' %}" onclick="closeAddBlock()">
                     {% for hidden in item.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}   
@@ -73,7 +68,7 @@
                     <td class="col-60 part-outstanding">{{ item.instance.outstanding_qty }}<span></span></td>
                     <td class="col-60 received-select">
                         {{ item.label }}
-                        <select class="part-select " type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" onchange="this.form.submit()">
+                        <select class="part-select" type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" onchange="this.form.submit()">
                         {% with ''|center:item.instance.outstanding_qty as range %}
                             <option class="blank-option" name="item" value="0">--</option>
                             {% for _ in range %}
@@ -106,7 +101,31 @@
                 <tr>
                     <!-- APPENDS extra-image CLASS TO THE BELOW DIV WHEN THE ROW IS SELECTED -->
                     <td class="product-image" colspan=10>
-
+                        <div class="extra-content">                 
+                            <div class="extra-image">
+                                {% if item.instance.product.product_image == 'img/no-image.png' %}
+                                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
+                                {% else %}
+                                     <img src="/static/media/{{ item.instance.product.product_image }}">
+                                {% endif %}
+                            </div>  
+                            <!-- FURTHER ACTIONS SECTION -->
+                            <div class="further-actions">
+                                <h3>Further Actions</h3>
+                                <div>
+                                    <span class="title">Edit Order Qty:</span>
+                                    <span class="edit-qty">{{ item.order_qty }}<button>Edit</button></span>
+                                    {% if item.instance.received_qty != 0 %}  
+                                        <span class="title">Reset Receipt Qty:</span>
+                                        <span class="reset-receipt"><input hidden disabled value="-{{ item.instance.received_qty }}" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"><button type="submit">Reset</button></span>  
+                                    {% endif %}
+                                    {% if item.instance.received_qty == 0 %}             
+                                        <span class="title">Delete Part from PO:</span>
+                                        <span class="delete-part">{{ item.DELETE }}<button>Delete</button></span>
+                                    {% endif %}
+                                </div>
+                            </div>   
+                        </div>
                     </td>
                 </tr>
                 {% empty %}
@@ -118,24 +137,5 @@
                 {% endfor %}            
             </tbody>
         </table>
-        <!-- ADD THE IMAGE TO BELOW THE TABLE TR USING APPEND CHILD -->
-        {% for item in po_item_form %}  
-        <div class="extra-content">                 
-            <div class="extra-image">
-                {% if item.instance.product.product_image == 'img/no-image.png' %}
-                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
-                {% else %}
-                     <img src="/static/media/{{ item.instance.product.product_image }}">
-                {% endif %}
-            </div>
-            <div class="further-actions">
-                <h3>Further Actions</h3>
-                <div>
-                    <span class="edit">{{ item.order_qty }}</span><button>+ Order Qty</button>
-                    <span class="delete-checkbox">{{ item.DELETE }}</span><button class="delete-part">Delete Part</button>
-                </div>
-            </div>           
-        </div>
-        {% endfor %}      
     </form>
 </div>

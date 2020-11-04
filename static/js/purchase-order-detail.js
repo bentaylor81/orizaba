@@ -15,7 +15,10 @@
 // 13. CLOSE THE ADD PART BLOCK
 // 14. SKU FILTER BOX
 // 15. PRODUCT ADD BLANK OTHER DROPDOWNS
-// 16. DATE RECEIVED FILTERING - ** REMOVED **
+// 16. RESET RECEIPT
+// 17. DELETE PART CHECKBOX
+// --. DATE RECEIVED FILTERING - ** REMOVED **
+
 
 //// JAVASCRIPT ////
 
@@ -109,8 +112,8 @@ for(let i=0; i < partsOrderedQtyInput.length; i++) {
     partsOrderedQtyInput[i].setAttribute('min', partsReceivedQty[i].innerHTML);
 
     if(partsReceivedQty[i].innerHTML > 0){
-        document.querySelectorAll('.delete-checkbox input')[i].setAttribute('disabled', 'disabled')
-        document.querySelectorAll('.delete-part')[i].setAttribute('disabled', 'disabled')
+        document.querySelectorAll('.delete-part input')[i].setAttribute('disabled', 'disabled')
+        document.querySelectorAll('.delete-part button')[i].setAttribute('disabled', 'disabled')
     }
 }
 
@@ -138,7 +141,6 @@ for(let i=0; i < row.length; i++){
     function expandContent(){     
         extra[i].classList.toggle("expanded-grid");
         row[i].classList.toggle("icon-down");
-        document.querySelectorAll('.product-image')[i].appendChild(extra[i]);
     }
 }  
 
@@ -169,7 +171,6 @@ let rowCount = document.querySelectorAll('.part-row').length;
 
     // Adding a new row - the value of totForms needs to be one greater than the row count 
         // This is incremented when the Product SKU dropdown is clicked
-
     document.querySelector('.po-item-product input').addEventListener('input', setTotForms);  
 
         function setTotForms(){
@@ -193,15 +194,20 @@ function openAddBlock() {
 
     // When this block is open the input fields in the main row are disabled
     for(let i=0; i < receivedSelect.length; i++ ){
+
+        // Disable the Label / Add dropdowns
         document.querySelectorAll('.received-select select')[i].setAttribute('disabled', 'disabled');
-        document.querySelectorAll('.comments .edit input')[i].setAttribute('disabled', 'disabled');
-        document.querySelectorAll('.comments .edit button')[i].setAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions button')[i].setAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions .delete-part')[i].setAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions input')[i].setAttribute('disabled', 'disabled');
         document.querySelectorAll('.label-checkbox')[i].setAttribute('disabled','disabled');
+        document.querySelectorAll('#purchase-order .extra-content')[i].classList.remove('.expanded-grid');
+
+        // Removes the extra content block
+        let extraContent = document.querySelectorAll('#purchase-order .extra-content')
+            for(let j=0; j < extraContent.length; j++ ){
+                document.querySelectorAll('.extra-content')[j].classList.remove('expanded-grid');
+                document.querySelectorAll('#purchase-order .icon-right')[j].classList.remove('icon-down');
+            }
+        }
     }
-}
 
 // 13. CLOSE THE ADD PART BLOCK
     // Also set the total number of forms back to number of rows, so that the formset can be edited.     
@@ -217,9 +223,6 @@ function closeAddBlock(){
         document.querySelectorAll('.received-select select')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.comments .edit input')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.comments .edit button')[i].removeAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions button')[i].removeAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions .delete-part')[i].removeAttribute('disabled', 'disabled');
-        document.querySelectorAll('.further-actions input')[i].removeAttribute('disabled', 'disabled');
         document.querySelectorAll('.label-checkbox')[i].removeAttribute('disabled','disabled');
 
         // This makes sure it doesn't re-enable the checkbox for the already completed row.
@@ -255,7 +258,7 @@ let filterInput= document.querySelector('.po-filter #sku-input');
         }            
     });
 
-    // GET LOCAL STORAGE AND POPULATE THE INPUT BOX
+    // GET LOCAL STORAGE AND POPULATE THE INPUT
     const skuFilter = document.querySelector('.po-filter input');
         
         skuFilter.value = localStorage.getItem('poFilterSku')
@@ -289,7 +292,33 @@ let filterInput= document.querySelector('.po-filter #sku-input');
             }
         }
 
-// // 16. DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
+// 16. RESET RECEIPT - IF ITEMS ARE RECEIPTED BY MISTAKE THIS WILL REVERSE THE RECEIPT
+// Delivered quantity will be set to minus the received quantity 
+    let resetInput = document.querySelectorAll('.reset-receipt input')
+        resetButton = document.querySelectorAll('.reset-receipt button')
+
+        for(let i=0; i < resetInput.length; i++){
+            resetButton[i].addEventListener('click', e => {
+                resetInput[i].removeAttribute('disabled', 'disabled')
+            });
+        }
+
+// 17. DELETE PART CHECKBOX
+// Sets the delete checkbox to checked when the delete button is clicked
+// Allows the delete checkbox to be hidden
+    let deleteCheckbox = document.querySelectorAll('.delete-part input')
+        deleteButton = document.querySelectorAll('.delete-part button')
+
+        for(let i=0; i < deleteCheckbox.length; i++){
+            deleteButton[i].addEventListener('click', e => {
+                deleteCheckbox[i].setAttribute('checked', 'checked')
+            });
+        }
+
+
+
+
+// // DATE RECEIVED FILTERING - SHOW THE DATE RECEIVED FILTER WITH A DROPDOWN OF THE DATES
 // REMOVED AS WE WON'T USE THIS PAGE TO FILTER THE DATE WHEN UPLOADING TO UNLEASHED
 // let dateFilterSelect = document.querySelector('.po-filter #date-select');
 //     dateReceived = document.querySelectorAll('#purchase-order .date-received');
