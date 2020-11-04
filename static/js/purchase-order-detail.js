@@ -198,6 +198,8 @@ function openAddBlock() {
         // Disable the Label / Add dropdowns
         document.querySelectorAll('.received-select select')[i].setAttribute('disabled', 'disabled');
         document.querySelectorAll('.label-checkbox')[i].setAttribute('disabled','disabled');
+        document.querySelectorAll('.comments .edit')[i].style.display = 'none';
+        document.querySelectorAll('.comments .show')[i].style.display = 'block';
         document.querySelectorAll('#purchase-order .extra-content')[i].classList.remove('.expanded-grid');
 
         // Removes the extra content block
