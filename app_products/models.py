@@ -76,10 +76,10 @@ class PurchaseOrderItem(models.Model):
 
 class PurchaseOrder(models.Model):
     PO_CHOICES = [
-        ("Pending", 'Pending'),
-        ("Part Receipt", 'Part Receipt'),
-        ("Unleashed", 'Unleashed'),
-        ("Complete", 'Complete'),
+        ('Pending', 'Pending'),
+        ('Part Receipt', 'Part Receipt'),
+        ('Unleashed', 'Unleashed'),
+        ('Complete', 'Complete'),
     ]
     po_id = models.AutoField(primary_key=True)
     reference = models.CharField(max_length=200, blank=True)	

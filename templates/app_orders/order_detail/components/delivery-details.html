@@ -4,7 +4,7 @@
     <table id="non-form" cellpadding="0" cellspacing="0">
         <tr>
             <th>Name:</th>
-            <td>{{ order.delivery_name }}</td>
+            <td>{{ order.delivery_firstname }} {{ order.delivery_lastname }}</td>
         </tr>
         <tr>
             <th>Address:</th>
@@ -34,26 +34,6 @@
         <tr>
             <th>Email:</th>
             <td>{{ order.delivery_email }}</td>
-        </tr>
-        <tr>
-            <th>Delivery:</th>
-            <td>
-                {% if order.delivery_method %}                   
-                    {{ order.delivery_method }}
-                {% else %}
-                    Not Set
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <th>Send Date:</th>
-            <td>
-                {% if order.date_sent %}                   
-                    {{ order.date_sent|date:'D d M Y' }}
-                {% else %}
-                    Not Set
-                {% endif %}
-            </td>
         </tr>
     </table>
 </div>

@@ -58,7 +58,7 @@
     /* Forms */
     form input, form input#date, input.date-input { font: 13px 'Roboto'; }
     textarea { padding: 5px; font: 12px 'Roboto'; }
-    select { height: 29px; padding-right: 10px; font-size: 13px; }
+    select { height: 29px; padding-right: 10px; font-size: 12px; }
 
     /* Tables */
     table { width: 100%; }
@@ -107,18 +107,6 @@
     .table-2 table tr.separator { border-top: 1px solid #bbb; margin-top: 10px; padding-top: 10px; }
     .table-2 table td.qty-highlight { margin-bottom: 3px; }
     .table-2 table td.qty-highlight span { padding: 8px 0px; width: 60px; text-align: center; background: #ddd; display: inline-block; font-size: 18px; font-weight: bold; }
-
-    /* Modals */
-    .modal-container h1  { margin: 0px 0px 20px 0px; }
-    .modal-container div { padding: 0px; margin: 0px; border: 0px;  }
-    .small-modal .modal-container { width: 400px; }
-    .small-modal .modal-container input { padding: 5px; width: calc(100% - 13px); }
-    .small-modal .modal-container input#date { width: calc(100% - 15px); }
-    .small-modal .modal-container select { padding: 5px; width: 100%; }
-    .small-modal .modal-container button { float: right; }
-    .small-modal .modal-container th { width: 140px; }
-    .small-modal .modal-container td { border: 0px;  }
-    .small-modal .required-notice { display: none; background: #e99595; color: #fff; padding: 15px; margin-bottom: 20px; font-weight: normal; }
 
     /* Navigation */
     nav { background: #191919; padding: 20px 0px; color: #fff;}
@@ -180,7 +168,6 @@
     #order .content .details .header { display: grid; grid-template-columns: 1fr 1fr; }
     #order .content .details .header span { justify-self: end; }
     #order .content table { width: 100% }
-    #order .content .actions div { padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #ccc; }
     #order .content .notes { width: 100%; }
     #order .content .notes-form textarea { width: 100%; }
     #order .content .note { border-bottom: 1px solid #ccc; width: 100%; margin-bottom: 10px; padding-bottom: 10px;  }
@@ -193,37 +180,17 @@
     #order .content .details .send_qty { text-align: center; }
     #order .content .details .send_qty input { width: 25px; text-align: center; }
     #order .content input.send_qty { width: 30px; }
+    #order .content .actions { display: flex; flex-direction: column; justify-content: space-between; }
     #order .content .shipment h3 { padding: 0px; margin: 0px 0px 20px 0px; }
     #order .content .shipment .col-2 { display: inline-grid; grid-template-columns: auto auto; grid-gap: 10px; }
     #order .content .shipment .status { text-align: center; font-size: 18px; }
     #order .content .shipment .fa-warehouse { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-truck { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-check-square { color: #38a938; font-size: 40px; margin: 0px 0px 10px 0px; }
-    #order .content .modal-container h1  { margin: 0px 0px 30px 0px; }
-    #order .content .modal-container div { padding: 0px; margin: 0px; border: 0px;  }
-    #order .content .delivery-modal .modal-container { width: 400px; }
-    #order .content .delivery-modal .modal-container input { padding: 5px; width: calc(100% - 13px); }
-    #order .content .delivery-modal .modal-container input#date { width: calc(100% - 15px); }
-    #order .content .delivery-modal .modal-container select { padding: 5px; width: 100%; }
-    #order .content .delivery-modal .modal-container button { float: right; }
-    #order .content .delivery-modal .modal-container th { width: 80px; }
-    #order .content .delivery-modal .modal-container td { border: 0px;  }
-    #order .content .google-map-modal .modal-container { width: 800px; }
     #order .content .postcode-valid img { width: 12px; margin-left: 8px; position: relative; top: 1px; cursor: pointer; }
     #order .content .other-actions .item { display: flex; align-items: center; }
     #order .content .other-actions .item .title { width: 100px; font-weight: bold; align-items: center; }
     #order .content .other-actions .item .action button { width: 80px; margin-right: 5px; }
-    #order .content .other-actions .modal .modal-container { width: 716px; }
-    #order .content .other-actions .modal-content .email-fields { display: flex; align-items: center; margin-bottom: 10px; }
-    #order .content .other-actions .modal-content .email-fields .field-1 { width: 100px; }
-    #order .content .other-actions .modal-content .email-fields .field-2 { width: 300px; }
-    #order .content .other-actions .modal-content .email-fields.message { align-items: flex-start; }
-    #order .content .other-actions .modal-content .email-fields.message .field-1 { padding: 5px 0px 0px 0px; }
-    #order .content .other-actions .modal-content .button { display: flex; justify-content: flex-end; }
-    #order .content .other-actions .modal .modal-container input { width: 300px; }
-    #order .content .other-actions .modal .modal-container tr { margin-bottom: 10px; }
-    #order .content .other-actions .modal .modal-container tr td { padding: 0px; margin-bottom: 10px; }
-    #order .content .other-actions .modal .modal-container textarea { width: 600px; height: 200px; white-space: pre-line; }
     #order .content .other-actions #submitted-textarea { display: none; }
     #order .content .other-actions #email-template { display: none; }
 

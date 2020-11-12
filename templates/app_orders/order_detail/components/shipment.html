@@ -15,7 +15,7 @@
     {% for shipment in object.ordershipment_set.all %}
         <tr class="{% cycle 'row1' 'row2' %}">           
             <td>
-                {{ shipment.delivery_name }}<br />
+                {{ shipment.delivery_firstname }} {{ shipment.delivery_lastname }}<br />
                 {{ shipment.delivery_address_1 }},<br />
                 {{ shipment.delivery_address_2 }},<br />
                 {{ shipment.delivery_city }},<br />
@@ -29,10 +29,10 @@
             <td>
                 <h3>{{ shipment.delivery_method }}</h3>
                 <div class="col-2">
+                    <div><b>Shipping Ref:</b></div>
+                    <div>{{ shipment.shipping_ref }}</div>
                     <div><b>Tracking:</b></div>
                     <div>{{ shipment.tracking_code }}</div>
-                    <div><b>Reference:</b></div>
-                    <div>{{ shipment.tracking_ref }}</div>
                 </div>
             </td>
             <td>

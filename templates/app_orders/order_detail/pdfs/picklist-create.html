@@ -16,7 +16,11 @@
     </head>
     <body>
         <section id="picklist">
-            <h1>{{ order.delivery_method }}</h1>
+            <h1>{{ shipments.service_id.delivery_method }}</h1>
+
+                
+                <!-- Now add in the Date Sent -->
+
             <h2>Order&nbsp;&nbsp;#&nbsp;&nbsp;{{ order.order_no }}</h2>
             <div class="details">   
                 {{ order.delivery_name }}<br />

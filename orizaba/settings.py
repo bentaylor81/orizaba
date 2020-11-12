@@ -84,6 +84,7 @@ TEMPLATES = [
                 
                 ### TEMPORARY RESET FUNCTIONS ###
                 #'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
+                'app_orders.context_processors.split_name',
             ],
         },
     },
@@ -201,7 +202,7 @@ WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 WKHTMLTOPDF_CONFIG = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
 WKHTMLTOPDF_OPTIONS = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
 
-# PRINTNOTE
+# PRINTNODE
 PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
@@ -227,6 +228,13 @@ PH_HEADERS = {
 PH_VERSION = '<?xml version=\"1.0\" encoding=\"utf-8\"?><Shipment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://api.parcelhub.net/schemas/api/parcelhub-api-v0.4.xsd\">'
 PH_ACCOUNT = config('PH_ACCOUNT')
 
+# SHIPTHEORY
+ST_URL = config('ST_URL')
+ST_HEADERS = {
+        'Accept': 'application/json',     
+        'Content-Type': 'application/json',
+        'Authorization': config('ST_AUTH')
+        }
 
 # AMAZON S3 BUCKET CONFIG
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')

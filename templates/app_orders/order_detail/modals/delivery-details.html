@@ -7,8 +7,12 @@
                 {% csrf_token %}
                 <table class="form" cellpadding="0" cellspacing="0">
                     <tr>
-                        <th>Name:</th>
-                        <td><input type="text" name="delivery_name" value="{{ order.delivery_name }}"></td>
+                        <th>First Name:</th>
+                        <td><input type="text" name="delivery_firstname" value="{{ order.delivery_firstname }}"></td>
+                    </tr>
+                    <tr>
+                        <th>Last Name:</th>
+                        <td><input type="text" name="delivery_lastname" value="{{ order.delivery_lastname }}"></td>
                     </tr>
                     <tr>
                         <th>Address:</th>

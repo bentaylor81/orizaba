@@ -45,8 +45,12 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     model = Order
 
     def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        order_id = self.object.order_id
         context = super().get_context_data(**kwargs)
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
+        context['order_items'] = OrderItem.objects.filter(order_id=order_id)
+
         return context
 
     def get_object(self):
@@ -59,25 +63,54 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         order_no = self.object.order_no
         form_order_id = Order.objects.get(pk=order_id)
         
-        if 'add-shipment' in request.POST:
+        if 'add-shipment' in request.POST:  
             form_class = self.get_form_class()
             form = self.get_form(form_class)
- 
+            # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
+            picklist = form['picklist'].value()
+            if picklist == True:
+                orderitem = request.POST.getlist('orderitem_id')
+                send_qty = request.POST.getlist('send_qty')
+                # UPDATE THE SEND QTY IN THE PICKLIST
+                for oi, sq in [(orderitem, send_qty)]:
+                    i=0
+                    while (i < len(oi)):
+                        instance = OrderItem.objects.get(orderitem_id=oi[i])
+                        instance.send_qty = sq[i]
+                        instance.save()
+                        i+=1
+                # PASS THE SEND QTY INTO THE PDF GENERATOR
+                self.print_picklist(self.request)                              
+            # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
+            shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
+            if shipment_no != 0:
+                reference = str(order_no) + '/' + str(shipment_no)
+            else: 
+                reference = str(order_no)
+            # SUBMIT THE FORM
             if form.is_valid():
                 form.instance.order_id = form_order_id
+                form.instance.shipping_ref = reference
+                firstname = form['delivery_firstname'].value()
+                lastname = form['delivery_lastname'].value()
+                address_1 = form['delivery_address_1'].value()
+                address_2 = form['delivery_address_2'].value()
+                city = form['delivery_city'].value()
+                postcode = form['delivery_postcode'].value()
+                phone = form['delivery_phone'].value()
+                email = form['delivery_email'].value()
+                total_price = form['total_price_ex_vat'].value()  
+                weight = form['weight'].value()  
+                service_id = form['service_id'].value() 
                 form.save()
-                url = settings.PH_URL
-                headers = settings.PH_HEADERS
-                version = str(settings.PH_VERSION)
-                account = str(settings.PH_ACCOUNT)
-                service_info = str('<ServiceInfo><ServiceId>'+str(self.object.delivery_method.service_id)+'</ServiceId><ServiceCustomerUID>'+str(self.object.delivery_method.service_provider_uid)+'</ServiceCustomerUID><ServiceProviderId>'+str(self.object.delivery_method.service_provider_id)+'</ServiceProviderId></ServiceInfo>')
-                delivery_address = str('<DeliveryAddress><ContactName>'+self.object.delivery_name+'</ContactName><Email>'+self.object.delivery_email+'</Email><Phone>'+self.object.delivery_phone+'</Phone><Address1>'+self.object.delivery_address_1+'</Address1><Address2>'+self.object.delivery_address_2+'</Address2><City>'+self.object.delivery_city+'</City><Postcode>'+self.object.delivery_postcode+'</Postcode><Country>GB</Country><AddressType>Business</AddressType></DeliveryAddress>')
-                reference = '<Reference1>'+str(self.object.order_no)+'</Reference1><ContentsDescription>Machine Spare Parts</ContentsDescription><Packages><Package><PackageType>Parcel</PackageType><Value Currency=\"GBP\">'+str(self.object.total_price_inc_vat)+'</Value><Contents>Machine Spare Parts</Contents><Dimensions><Length>20</Length><Width>20</Width><Height>20</Height></Dimensions><Weight>2</Weight></Package></Packages>'
-                payload = version + account + service_info + delivery_address + reference + '</Shipment>'
-                response = requests.request("POST", url, headers=headers, data = payload)
-                print(response.text.encode('utf8'))
-                messages.success(self.request, 'Shipment Created and Label Processing')        
+                # Save delivery method and send date into Orders.
+                # CREATE SHIPTHEORY SHIPMENT
+                payload='{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
+                response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
+                print(response.text)
+                messages.success(self.request, 'Shipment Created and Label Processing') 
             else:
+                print(form.errors)
                 return self.form_invalid(form)
 
         elif 'add-note' in request.POST:
@@ -139,6 +172,18 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
+    def print_picklist(self, request):
+        # GENERATE THE PDF PICKLIST
+        order_id = self.object.order_id
+        order_no = self.object.order_no
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+        # SEND TO PRINTNODE
+        payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_HOME)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+        print(response.text.encode('utf8'))
+        return 
+
 class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = '/login/'
     template_name = 'app_orders/order_detail/order-detail.html'
@@ -193,6 +238,7 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 def picklist_create(request, id):
     context = { 
             'order': Order.objects.get(order_id=id),
+            'shipments': OrderShipment.objects.filter(order_id=id).latest('pk'),
         }
     return render(request, 'app_orders/order_detail/pdfs/picklist-create.html', context )
 
