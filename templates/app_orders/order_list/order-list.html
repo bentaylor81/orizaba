@@ -45,12 +45,12 @@
                             </td>
                             <td><a href="{% url 'order-detail' order.pk %}">{{ order.order_no }}</a></td>
                             <td>
-                                <b><a href="{% url 'customer-detail' order.billing_email.pk %}">{{ order.billing_name }}</a></b><br />
+                                <b><a href="{% url 'customer-detail' order.billing_email.pk %}">{{ order.billing_firstname }} {{ order.billing_lastname }}</a></b><br />
                                 {{ order.billing_phone }}<br />
                                 {{ order.billing_email.billing_email }}
                             </td>	
                             <td>
-                                {{ order.delivery_name }}<br />
+                                {{ order.delivery_firstname }} {{ order.delivery_lastname }}<br />
                                 {{ order.delivery_address_1 }}<br />
                                 {{ order.delivery_address_2 }}, 
                                 {{ order.delivery_city }}<br />
