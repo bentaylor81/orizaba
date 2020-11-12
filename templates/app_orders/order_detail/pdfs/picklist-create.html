@@ -16,12 +16,10 @@
     </head>
     <body>
         <section id="picklist">
-            <h1>{{ shipments.service_id.delivery_method }}</h1>
-
-                
-                <!-- Now add in the Date Sent -->
-
-            <h2>Order&nbsp;&nbsp;#&nbsp;&nbsp;{{ order.order_no }}</h2>
+        {% if shipment != 'null' %}
+            <h1>{{ shipment.service_id.delivery_method }}</h1>
+            <h2>Order: {{ order.order_no }}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Dispatch: {{ shipment.date_sent|date:"D d M Y"}}</h2>
+        {% endif %}
             <div class="details">   
                 {{ order.delivery_name }}<br />
                 {{ order.delivery_address_1 }}<br />

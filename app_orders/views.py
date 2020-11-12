@@ -17,6 +17,7 @@ from django.views.generic.edit import FormMixin, CreateView
 from django_filters.views import FilterView
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
+from django.core.exceptions import ObjectDoesNotExist
 import requests
 import json
 import pdfkit
@@ -236,9 +237,14 @@ class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
 def picklist_create(request, id):
+    try: 
+        shipment = OrderShipment.objects.filter(order_id=id).latest('pk')
+    except ObjectDoesNotExist: 
+        shipment = 'null'
+
     context = { 
             'order': Order.objects.get(order_id=id),
-            'shipments': OrderShipment.objects.filter(order_id=id).latest('pk'),
+            'shipment': shipment,
         }
     return render(request, 'app_orders/order_detail/pdfs/picklist-create.html', context )
 
