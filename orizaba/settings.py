@@ -84,7 +84,7 @@ TEMPLATES = [
                 
                 ### TEMPORARY RESET FUNCTIONS ###
                 #'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
-                'app_orders.context_processors.split_name',
+                #'app_orders.context_processors.split_name', # SPLIT THE NAMES AND ADD TO FIRSTNAME / LASTNAME FOR DELIVERY AND BILLING NAMES
             ],
         },
     },
