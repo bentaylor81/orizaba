@@ -34,20 +34,3 @@ def invoice_pdf(request):
         pdf = pdfkit.from_url(projectUrl, 'static/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)   # Change this to upload to S3
     return ()
 
-# SEPARATE NAME AND SPLIT TO FIRST NAME / LAST NAME
-def split_name(request):
-    orders = Order.objects.all()
-
-    for order in orders:
-        billing_name_split = order.billing_name.split()
-        order.billing_firstname = billing_name_split[0]
-        if len(billing_name_split) > 1:  
-            order.billing_lastname = billing_name_split[1]
-
-        delivery_name_split = order.delivery_name.split()
-        order.delivery_firstname = delivery_name_split[0]
-        if len(delivery_name_split) > 1:      
-            order.delivery_lastname = delivery_name_split[1]
-            
-        order.save()
-    return()

@@ -52,6 +52,24 @@ def update_stock_movement_date(request):
             product.save()
     return render(request, 'app_utils/utils.html')
 
+# SEPARATE NAME AND SPLIT TO FIRST NAME / LAST NAME
+def set_firstname_lastname(request):
+    orders = Order.objects.all()
+
+    for order in orders:
+        billing_name_split = order.billing_name.split()
+        order.billing_firstname = billing_name_split[0]
+        if len(billing_name_split) > 1:  
+            order.billing_lastname = billing_name_split[1]
+
+        delivery_name_split = order.delivery_name.split()
+        order.delivery_firstname = delivery_name_split[0]
+        if len(delivery_name_split) > 1:      
+            order.delivery_lastname = delivery_name_split[1]
+            
+        order.save()
+    return render(request, 'app_utils/utils.html')
+
 ### STOCK RECONCILE PAGE ###
 # LIST ALL STOCK MOVEMENTS - ORDERS, POS AND MANUAL ADJUSTMENTS
 class StockMovementList(LoginRequiredMixin, FilterView):
@@ -72,3 +90,4 @@ class StockSync(LoginRequiredMixin, FilterView):
     paginate_by = 50
     filterset_class = StockSyncFilter
     ordering = ['stock_balances', '-stock_discrepancy']
+
