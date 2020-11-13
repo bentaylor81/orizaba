@@ -91,6 +91,7 @@ class Order(models.Model):
     delivery_country = models.CharField(max_length=200, blank=True)
     delivery_email = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
+    delivery_type = models.CharField(max_length=200, blank=True)
     delivery_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     items_total_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     item_qty = models.IntegerField(blank=True, default=0)

@@ -64,24 +64,25 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         order_no = self.object.order_no
         form_order_id = Order.objects.get(pk=order_id)
         
-        if 'add-shipment' in request.POST:  
+        if 'print-picklist' in request.POST:
+            # UPDATED WITHOUT USING A FORM IN FORMS.PY
+            orderitem = request.POST.getlist('orderitem_id')
+            send_qty = request.POST.getlist('send_qty')
+            # UPDATE THE SEND QTY IN THE PICKLIST
+            for oi, sq in [(orderitem, send_qty)]:
+                i=0
+                while (i < len(oi)):
+                    instance = OrderItem.objects.get(orderitem_id=oi[i])
+                    instance.send_qty = sq[i]
+                    instance.save()
+                    i+=1
+            # PASS THE SEND QTY INTO THE PDF GENERATOR
+            self.print_picklist(self.request)   
+            messages.success(self.request, 'Picklist is Printing') 
+
+        elif 'add-shipment' in request.POST:  
             form_class = self.get_form_class()
-            form = self.get_form(form_class)
-            # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
-            picklist = form['picklist'].value()
-            if picklist == True:
-                orderitem = request.POST.getlist('orderitem_id')
-                send_qty = request.POST.getlist('send_qty')
-                # UPDATE THE SEND QTY IN THE PICKLIST
-                for oi, sq in [(orderitem, send_qty)]:
-                    i=0
-                    while (i < len(oi)):
-                        instance = OrderItem.objects.get(orderitem_id=oi[i])
-                        instance.send_qty = sq[i]
-                        instance.save()
-                        i+=1
-                # PASS THE SEND QTY INTO THE PDF GENERATOR
-                self.print_picklist(self.request)                              
+            form = self.get_form(form_class)                          
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             if shipment_no != 0:
@@ -104,14 +105,27 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 weight = form['weight'].value()  
                 service_id = form['service_id'].value() 
                 form.save()
-                # Save delivery method and send date into Orders.
                 # CREATE SHIPTHEORY SHIPMENT
                 payload='{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
                 response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
-                print(response.text)
-                messages.success(self.request, 'Shipment Created and Label Processing') 
+                print(response.text)  
+                # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
+                picklist = form['picklist'].value()
+                if picklist == True:
+                    orderitem = request.POST.getlist('orderitem_id')
+                    send_qty = request.POST.getlist('send_qty')
+                    # UPDATE THE SEND QTY IN THE PICKLIST
+                    for oi, sq in [(orderitem, send_qty)]:
+                        i=0
+                        while (i < len(oi)):
+                            instance = OrderItem.objects.get(orderitem_id=oi[i])
+                            instance.send_qty = sq[i]
+                            instance.save()
+                            i+=1
+                    # PASS THE SEND QTY INTO THE PDF GENERATOR
+                    self.print_picklist(self.request)   
+                messages.success(self.request, 'Shipment Created and Label Processing')  
             else:
-                print(form.errors)
                 return self.form_invalid(form)
 
         elif 'add-note' in request.POST:
@@ -185,56 +199,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         print(response.text.encode('utf8'))
         return 
 
-class OrderPicklistEdit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    login_url = '/login/'
-    template_name = 'app_orders/order_detail/order-detail.html'
-    model = Order
-    form_class = OrderForm
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        order_item_form = OrderItemFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form, order_item_form=order_item_form))
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        order_item_form = OrderItemFormset(self.request.POST, instance=self.object)
-        if (order_item_form.is_valid() and form.is_valid()):
-            return self.form_valid(form, order_item_form)
-        else:
-            return HttpResponse('Form Invalid')
-
-    def form_valid(self, form, order_item_form):
-        order_item_form.save()
-        self.print_picklist(self.request)
-        messages.success(self.request, 'Picking List Printed')
-        return HttpResponseRedirect(self.get_success_url())
-
-    def print_picklist(self, request):
-        # GENERATE THE PDF PICKLIST
-        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
-        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
-        order_id = self.object.order_id
-        order_no = self.object.order_no
-        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
-        # SEND TO PRINTNODE
-        url = settings.PRINTNODE_URL
-        auth = settings.PRINTNODE_AUTH
-        printer = settings.PRINTNODE_DESKTOP_PRINTER
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
-        headers = {'Content-Type': 'application/json', 'Authorization': auth, }
-        response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text.encode('utf8'))
-        return 
-
-    def get_success_url(self):
-        return reverse('order-detail', kwargs={'pk': self.object.pk})
-
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
 def picklist_create(request, id):
     try: 
@@ -244,6 +208,7 @@ def picklist_create(request, id):
 
     context = { 
             'order': Order.objects.get(order_id=id),
+            'order_items': OrderItem.objects.filter(order_id=id).order_by('-send_qty', 'product_id__location'),
             'shipment': shipment,
         }
     return render(request, 'app_orders/order_detail/pdfs/picklist-create.html', context )

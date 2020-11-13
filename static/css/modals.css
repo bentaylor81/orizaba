@@ -23,12 +23,12 @@ section #modal.modal .modal-close { color: #000; text-align: right; position: in
 
 /* Large Modal */
 section #modal.large-modal .modal-container { padding: 0px; }
-section #modal.large-modal .modal-close { font-size: 40px; line-height: 26px; }
+section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 .large-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
-.large-modal .modal-top-bar h1 { font-size: 22px; margin: 0px; }
+.large-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
 .large-modal .modal-top-bar span { float: right; }
 .large-modal .modal-container { padding: 0px; }
-.large-modal .modal-content { padding: 20px; display: flex; }
+.large-modal .modal-content { padding: 20px; }
 .large-modal h2 { font-size: 18px;}
 .large-modal .modal-container input[type=text] { padding: 5px; width: calc(100% - 5px); }
 .large-modal .modal-container input[type=date] { padding: 5px; width: calc(100% - 5px); }
@@ -39,8 +39,20 @@ section #modal.large-modal .modal-close { font-size: 40px; line-height: 26px; }
 
 /* INDIVIDUAL MODAL STYLES */
 
+/* DELIVERY DETAILS MODAL */
+#delivery-details-modal.modal-container { width: 400px;  }
+#delivery-details-modal .modal-content { min-height: 500px; display: flex; flex-direction: column; justify-content: space-between; }
+#delivery-details-modal td { border: 0px; }
+
+/* PICKLIST MODAL */
+#picklist-modal.modal-container { width: 800px;  }
+#picklist-modal .modal-content { min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; }
+#picklist-modal .modal-content .table { margin-bottom: 20px; }
+#picklist-modal .product-name { white-space: nowrap; }
+
 /* CREATE-SHIPMENT.HTML */
-#create-shipment .modal-container { width: 1200px; }
+#create-shipment.modal-container { width: 1200px; }
+#create-shipment .modal-content { display: flex; }
 #create-shipment .modal-col-1 { width: 25%; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px; }
 #create-shipment .modal-col-2 { width: 75%; display: flex; flex-direction: column; justify-content: space-between; }
 #create-shipment .modal-col-2 .table { flex: 1; }
@@ -60,6 +72,9 @@ section #modal.large-modal .modal-close { font-size: 40px; line-height: 26px; }
 #create-shipment .shipping-table td { border: 0px; padding: 6px 0px; font-size: 20px; }
 #create-shipment .shipment-actions { display: flex; justify-content: flex-end; align-items: center; }
 #create-shipment .shipment-actions input { margin-right: 20px; }
+
+
+
 
 /* Temporarily Wind this down */
 .modal-container h1  { margin: 0px 0px 30px 0px; }

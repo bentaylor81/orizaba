@@ -19,15 +19,15 @@
         {% if shipment != 'null' %}
             <h1>{{ shipment.service_id.delivery_method }}</h1>
             <h2>Order: {{ order.order_no }}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Dispatch: {{ shipment.date_sent|date:"D d M Y"}}</h2>
-        {% endif %}
             <div class="details">   
-                {{ order.delivery_name }}<br />
-                {{ order.delivery_address_1 }}<br />
-                {{ order.delivery_address_2 }}<br />
-                {{ order.delivery_city }}<br />
-                {{ order.delivery_postcode }}<br />
-                {{ order.delivery_country }}<br />     
+                {{ shipment.delivery_firstname }} {{ shipment.delivery_lastname }}<br />
+                {{ shipment.delivery_address_1 }}<br />
+                {{ shipment.delivery_address_2 }}<br />
+                {{ shipment.delivery_city }}<br />
+                {{ shipment.delivery_postcode }}<br />
+                {{ shipment.delivery_country }}<br />     
             </div>
+        {% endif %}
             <div class="picklist">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for order_item in order.orderitem_set.all %}
+                    {% for order_item in order_items %}
                         {% if order_item.send_qty > 0 %}
                         <tr>
                             <td>{{ forloop.counter }}</td>

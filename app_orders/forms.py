@@ -23,18 +23,6 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = []
 
-OrderItemFormset = inlineformset_factory(
-    Order, 
-    OrderItem, 
-    extra=0, 
-    can_delete=False,
-    fields=('order_id', 'item_qty', 'send_qty', 'product_id' ),
-    widgets={
-        'send_qty' : forms.NumberInput(attrs={'class':'send_qty', 'min': '0' }), 
-        'product_id' : forms.TextInput(attrs={'type': 'hidden'})
-        }
-    )
-
 class EmailInvoiceForm(forms.Form):
     to_email = forms.EmailField(max_length=254) 
     subject = forms.CharField(max_length=200)
