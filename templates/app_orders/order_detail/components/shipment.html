@@ -27,7 +27,7 @@
                 {{ shipment.delivery_email }}
             </td>
             <td>
-                <h3>{{ shipment.delivery_method }}</h3>
+                <h3>{{ shipment.service_id.delivery_method }}</h3>
                 <div class="col-2">
                     <div><b>Shipping Ref:</b></div>
                     <div>{{ shipment.shipping_ref }}</div>
@@ -38,13 +38,13 @@
             <td>
                 <div class="col-2">
                     <div>
-                        <b>Created:</b>
+                        <b>Ordered:</b>
                     </div>
                     <div>
                         {{ shipment.date_created }}
                     </div>
                     <div>
-                        <b>Sent:</b>
+                        <b>Dispatched:</b>
                     </div>
                     <div>
                         {% if shipment.date_sent %}
