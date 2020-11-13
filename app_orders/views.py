@@ -76,6 +76,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                     instance.send_qty = sq[i]
                     instance.save()
                     i+=1
+            # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
+            order_inst = Order.objects.get(order_id=order_id)
+            picklist_inst = OrderStatusType.objects.get(pk=25)
+            OrderStatusHistory.objects.create(order_id=order_inst, status_type=picklist_inst) # PICKLIST STATUS
             # PASS THE SEND QTY INTO THE PDF GENERATOR
             self.print_picklist(self.request)   
             messages.success(self.request, 'Picklist is Printing') 
@@ -105,6 +109,12 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 weight = form['weight'].value()  
                 service_id = form['service_id'].value() 
                 form.save()
+                # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
+                order_inst = Order.objects.get(order_id=order_id)
+                type_inst = OrderStatusType.objects.get(pk=20)
+                picklist_inst = OrderStatusType.objects.get(pk=25)
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst) # SHIPMENT STATUS
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=picklist_inst) # PICKLIST STATUS
                 # CREATE SHIPTHEORY SHIPMENT
                 payload='{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
                 response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
