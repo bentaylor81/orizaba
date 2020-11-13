@@ -54,7 +54,7 @@ def update_stock_movement_date(request):
 
 # SEPARATE NAME AND SPLIT TO FIRST NAME / LAST NAME
 def set_firstname_lastname(request):
-    orders = Order.objects.all()
+    orders = Order.objects.filter(billing_firstname__isnull=True)
 
     for order in orders:
         billing_name_split = order.billing_name.split()
