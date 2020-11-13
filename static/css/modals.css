@@ -41,8 +41,9 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 
 /* DELIVERY DETAILS MODAL */
 #delivery-details-modal.modal-container { width: 400px;  }
-#delivery-details-modal .modal-content { min-height: 500px; display: flex; flex-direction: column; justify-content: space-between; }
+#delivery-details-modal .modal-content { min-height: 550px; display: flex; flex-direction: column; justify-content: space-between; }
 #delivery-details-modal td { border: 0px; }
+#delivery-details-modal select { width: 104%; }
 
 /* PICKLIST MODAL */
 #picklist-modal.modal-container { width: 800px;  }

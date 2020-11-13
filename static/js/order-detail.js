@@ -58,6 +58,15 @@ let customMessage = document.querySelector('#custom-message-textarea')
         submittedTextarea.innerHTML = emailTemplate.innerHTML    
     });
 
+// DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
+let deliveryType = document.querySelector('.delivery-type').innerHTML
+    createShipmentButton = document.querySelector('.create-shipment button')
+
+    console.log(deliveryType)
+    if(deliveryType == 'Collection' || deliveryType == 'Combine with Another Order') {
+        createShipmentButton.setAttribute('disabled', 'disabled');
+    }
+
 // CREATE SHIPMENT - MODAL 
 let itemRow = document.querySelectorAll('.item-table .item-row')
     weight = document.querySelectorAll('.item-table .weight')
@@ -142,3 +151,20 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
         dateSent.addEventListener('change', () => {
             localStorage.setItem('sentDate', dateSent.value);
         } )
+
+    // HIGHLIGHT THE INPUT BOX WHEN SEND_QTY IS CHANGED
+    let sendQtyInput = document.querySelectorAll('input.send-qty')
+        itemQtyInput = document.querySelectorAll('.item-qty')
+
+        for(let i=0; i < sendQtyInput.length; i++){
+
+            sendQtyInput[i].addEventListener('change', () => {
+                console.log(itemQtyInput[i].innerHTML)
+                if(sendQtyInput[i].value < parseInt(itemQtyInput[i].innerHTML)){
+                    sendQtyInput[i].style.backgroundColor = '#1c89062e';
+                }     
+                else {
+                    sendQtyInput[i].style.backgroundColor = '#ffffff';
+                }          
+            });
+        }
