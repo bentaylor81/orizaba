@@ -76,16 +76,16 @@ def set_firstname_lastname(request):
 def shiptheory_token(request):
     # Generate the Auth Token
     url = "https://api.shiptheory.com/v1/token"
-    payload="{\r\n\"email\": \"bentaylor81@gmail.com\",\r\n\"password\": \"Theturtle1$\"\r\n}"
+    payload="{\r\n\"email\": \"\",\r\n\"password\": \""
     headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': 'Basic YmVudGF5bG9yODFAZ21haWwuY29tOlRoZXR1cnRsZTEk'
+    'Authorization': 'Basic '
     }
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
     # Update Heroku with Config Vars
-    url = "https://api.heroku.com/apps/orizaba/config-vars"
+    url = "https://api.heroku.com/apps//config-vars"
 
     payload="{\n  \"Name\": \"Ben Taylor\",\n  \"Wife\": \"Bee Wu\"\n}"
     headers = {
