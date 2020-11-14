@@ -186,6 +186,9 @@ MEDIA_ROOT = 'static/media'
 
 ### 3RD PARTY API CREDENTIALS ###
 
+# HEROKU 
+HEROKU_URL_CONFIG_VARS = config('HEROKU_URL_CONFIG_VARS')
+
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 
@@ -209,15 +212,14 @@ MAILGUN_URL = config('MAILGUN_URL')
 MAILGUN_AUTH = config('MAILGUN_AUTH')
 MAILGUN_FROM = config('MAILGUN_FROM')
 MAILGUN_BCC = config('MAILGUN_BCC')
-MAILGUN_HEADERS = { 'Authorization': MAILGUN_AUTH }
+MAILGUN_HEADERS = {'Authorization': MAILGUN_AUTH }
 
 # SHIPTHEORY
 ST_URL = config('ST_URL')
-ST_HEADERS = {
-        'Accept': 'application/json',     
-        'Content-Type': 'application/json',
-        'Authorization': config('ST_AUTH')
-        }
+ST_URL_TOKEN = config('ST_URL_TOKEN')
+ST_USERNAME = config('ST_USERNAME')
+ST_PASSWORD = config('ST_PASSWORD')
+ST_HEADERS = {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': config('ST_AUTH')}
 
 # AMAZON S3 BUCKET CONFIG
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')

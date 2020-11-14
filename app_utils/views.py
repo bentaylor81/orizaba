@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from app_products.models import *
 from app_orders.models import *
@@ -6,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 import requests
+import json
 
 
 def utils(request): 
@@ -75,29 +77,16 @@ def set_firstname_lastname(request):
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token(request):
     # Generate the Auth Token
-    url = "https://api.shiptheory.com/v1/token"
-    payload="{\r\n\"email\": \"\",\r\n\"password\": \""
-    headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Basic '
-    }
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
+    url = settings.ST_URL_TOKEN
+    payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
+    response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
+    token = json.loads(response.text)['data']['token']
+    heroku_token = 'Bearer ' + token
     # Update Heroku with Config Vars
-    url = "https://api.heroku.com/apps//config-vars"
-
-    payload="{\n  \"Name\": \"Ben Taylor\",\n  \"Wife\": \"Bee Wu\"\n}"
-    headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/vnd.heroku+json; version=3'
-    }
-
+    url = settings.HEROKU_URL_CONFIG_VARS
+    payload='{"ST_AUTH":"'+heroku_token+'"}'
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3'}
     response = requests.request("PATCH", url, headers=headers, data=payload)
-
-    print(response.text)
-
-
     return render(request, 'app_utils/utils.html')
 
 ### STOCK RECONCILE PAGE ###
