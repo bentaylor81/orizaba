@@ -116,8 +116,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst) # SHIPMENT STATUS
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=picklist_inst) # PICKLIST STATUS
                 # CREATE SHIPTHEORY SHIPMENT
-                payload='{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
+                payload = '{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
                 response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
+                print(payload)
                 print(response.text)  
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()
