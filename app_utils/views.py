@@ -83,7 +83,7 @@ def shiptheory_token(request):
     token = json.loads(response.text)['data']['token']
     heroku_token = 'Bearer ' + token
     # Update Heroku with Config Vars
-    url = settings.HEROKU_URL_CONFIG_VARS
+    url = 'https://api.heroku.com/apps/orizaba/config-vars'
     payload='{"ST_AUTH":"'+heroku_token+'"}'
     headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3'}
     response = requests.request("PATCH", url, headers=headers, data=payload)
