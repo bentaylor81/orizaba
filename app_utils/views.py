@@ -5,6 +5,7 @@ from .filters import *
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
+import requests
 
 
 def utils(request): 
@@ -70,6 +71,35 @@ def set_firstname_lastname(request):
         order.save()
     return render(request, 'app_utils/utils.html')
 
+### SHIPTHEORY TOKEN ###
+# REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
+def shiptheory_token(request):
+    # Generate the Auth Token
+    url = "https://api.shiptheory.com/v1/token"
+    payload="{\r\n\"email\": \"bentaylor81@gmail.com\",\r\n\"password\": \"Theturtle1$\"\r\n}"
+    headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic YmVudGF5bG9yODFAZ21haWwuY29tOlRoZXR1cnRsZTEk'
+    }
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+    # Update Heroku with Config Vars
+    url = "https://api.heroku.com/apps/orizaba/config-vars"
+
+    payload="{\n  \"Name\": \"Ben Taylor\",\n  \"Wife\": \"Bee Wu\"\n}"
+    headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.heroku+json; version=3'
+    }
+
+    response = requests.request("PATCH", url, headers=headers, data=payload)
+
+    print(response.text)
+
+
+    return render(request, 'app_utils/utils.html')
+
 ### STOCK RECONCILE PAGE ###
 # LIST ALL STOCK MOVEMENTS - ORDERS, POS AND MANUAL ADJUSTMENTS
 class StockMovementList(LoginRequiredMixin, FilterView):
@@ -90,4 +120,6 @@ class StockSync(LoginRequiredMixin, FilterView):
     paginate_by = 50
     filterset_class = StockSyncFilter
     ordering = ['stock_balances', '-stock_discrepancy']
+
+
 

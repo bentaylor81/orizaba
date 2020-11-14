@@ -185,12 +185,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = 'static/media'
 
 ### 3RD PARTY API CREDENTIALS ###
-#
-# PRINTNODE - PHASE THIS OUT SO EACH LABEL OR PDF GENERATION HAS IT'S OWN BLOCK
-PRINTNODE_URL = config('PRINTNODE_URL')
-PRINTNODE_AUTH = config('PRINTNODE_AUTH')
-PRINTNODE_LABEL_PRINTER = config('PRINTNODE_LABEL_PRINTER')
-PRINTNODE_DESKTOP_PRINTER = config('PRINTNODE_DESKTOP_PRINTER')
 
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
@@ -216,17 +210,6 @@ MAILGUN_AUTH = config('MAILGUN_AUTH')
 MAILGUN_FROM = config('MAILGUN_FROM')
 MAILGUN_BCC = config('MAILGUN_BCC')
 MAILGUN_HEADERS = { 'Authorization': MAILGUN_AUTH }
-
-# PARCELHUB
-PH_URL = config('PH_URL')
-PH_HEADERS = {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/xml; charset=utf-8',
-        'Accept': '*/*',
-        'Authorization': config('PH_BEARER')
-        }
-PH_VERSION = '<?xml version=\"1.0\" encoding=\"utf-8\"?><Shipment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://api.parcelhub.net/schemas/api/parcelhub-api-v0.4.xsd\">'
-PH_ACCOUNT = config('PH_ACCOUNT')
 
 # SHIPTHEORY
 ST_URL = config('ST_URL')

@@ -39,6 +39,14 @@
                 </ul>
                 <a href="{% url 'set-firstname-lastname' %}"><button>Submit</button></a>
             </div>
+            <div class="function">
+                <h3>Refresh ShipTheory Bearer Token</h3>
+                <ul>
+                    <li>Generate a new bearer token for the ShipTheory API.</li>
+                    <li>Add the bearer token to the config vars in Heroku.</li>
+                </ul>
+                <a href="{% url 'shiptheory-token' %}"><button>Submit</button></a>
+            </div>
         </div>
     </div>
 </section>
