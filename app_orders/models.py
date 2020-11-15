@@ -34,7 +34,7 @@ class OrderShipment(models.Model):
     date_delivered = models.DateTimeField(null=True) 
 
     def __str__(self):
-        return str(self.order_id) + ' | ' + self.delivery_firstname + ' | ' + self.delivery_lastname + ' | ' + str(self.service_id)
+        return str(self.order_id) + ' | ' + str(self.service_id)
 
     class Meta:
         ordering = ["-date_created"]
@@ -105,7 +105,7 @@ class Order(models.Model):
     invoice_created = models.BooleanField(default=True) 
 
     def __str__(self):
-        return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_name) + ' | ' + str(self.total_price_inc_vat)
+        return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_firstname) + ' | ' + str(self.billing_lastname) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
         ordering = ["-date"]
