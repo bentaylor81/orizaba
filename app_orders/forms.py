@@ -5,7 +5,7 @@ from django.forms import inlineformset_factory
 class OrderDeliveryDetailsForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ["delivery_name", "delivery_firstname", "delivery_lastname", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email", "delivery_type"]
+        fields = ["delivery_firstname", "delivery_lastname", "delivery_address_1", "delivery_address_2", "delivery_city", "delivery_postcode", "delivery_country", "delivery_phone", "delivery_email", "delivery_type"]
 
 class OrderShipmentForm(forms.ModelForm):
     picklist = forms.BooleanField(required=False)

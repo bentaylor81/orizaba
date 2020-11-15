@@ -71,7 +71,6 @@ class OrderItem(models.Model):
 class Order(models.Model):
     order_id = models.IntegerField(primary_key=True)
     order_no = models.IntegerField(blank=True)
-    billing_name = models.CharField(max_length=200, blank=True) 
     billing_firstname = models.CharField(max_length=200, blank=True)  
     billing_lastname = models.CharField(max_length=200, blank=True)  
     billing_address_1 = models.CharField(max_length=200, blank=True)
@@ -81,7 +80,6 @@ class Order(models.Model):
     billing_country = models.CharField(max_length=200, blank=True)
     billing_email = models.ForeignKey('app_products.customer', to_field='billing_email', db_column='billing_email', on_delete=models.CASCADE, blank=True, null=True)
     billing_phone = models.CharField(max_length=200, blank=True)
-    delivery_name = models.CharField(max_length=200, blank=True)
     delivery_firstname = models.CharField(max_length=200, blank=True) 
     delivery_lastname = models.CharField(max_length=200, blank=True) 
     delivery_address_1 = models.CharField(max_length=200, blank=True)
