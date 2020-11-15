@@ -51,7 +51,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
-
         return context
 
     def get_object(self):
@@ -86,7 +85,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
         elif 'add-shipment' in request.POST:  
             form_class = self.get_form_class()
-            form = self.get_form(form_class)                          
+            form = self.get_form(form_class) 
+            # REFRESH THE SHIP THEORY BEARER TOKEN
+            self.shiptheory_token(self.request)                          
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             if shipment_no != 0:
@@ -209,6 +210,21 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))
         return 
+
+    def shiptheory_token(self, request):
+        # Generate the Auth Token
+        url = settings.ST_URL_TOKEN
+        payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
+        response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
+        token = json.loads(response.text)['data']['token']
+        heroku_token = 'Bearer ' + token
+        # Update Heroku with Config Vars
+        url = settings.HEROKU_URL_CONFIG_VARS
+        auth = settings.HEROKU_BEARER_TOKEN
+        payload='{"ST_AUTH":"'+heroku_token+'"}'
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
+        response = requests.request("PATCH", url, headers=headers, data=payload)
+        return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
 def picklist_create(request, id):
