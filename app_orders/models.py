@@ -34,7 +34,7 @@ class OrderShipment(models.Model):
     date_delivered = models.DateTimeField(null=True) 
 
     def __str__(self):
-        return str(self.order_id) + ' | ' + self.delivery_firstname + ' | ' + self.delivery_lastname + ' | ' + self.service_id
+        return str(self.order_id) + ' | ' + self.delivery_firstname + ' | ' + self.delivery_lastname + ' | ' + str(self.service_id)
 
     class Meta:
         ordering = ["-date_created"]
