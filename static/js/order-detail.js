@@ -59,14 +59,26 @@ let customMessage = document.querySelector('#custom-message-textarea')
     });
 
 // DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
-let deliveryType = document.querySelector('.delivery-type').innerHTML
+let deliveryType = document.querySelector('.delivery-type')
+    deliveryTypeSelected =document.querySelector('.delivery-type-selected') 
     createShipmentButton = document.querySelector('.create-shipment button')
 
-    console.log(deliveryType)
-    if(deliveryType == 'Collection' || deliveryType == 'Combine with Another Order') {
-        createShipmentButton.setAttribute('disabled', 'disabled');
+    // If Delivery Type is flatrate, change the text to Collection from Warehouse
+    if(deliveryType.innerHTML == 'flatrate') {
+        deliveryType.innerHTML = 'Collection from Warehouse'
+        deliveryTypeSelected.innerHTML = 'Collection from Warehouse'
+    }
+    // If Delivery Type is Courier, change the text to Courier Delivery
+    else if (deliveryType.innerHTML == 'Courier'){
+        deliveryType.innerHTML = 'Courier Delivery'
+        deliveryTypeSelected.innerHTML = 'Courier Delivery'
     }
 
+    // Disable the Create Shipment button if Delivery Type is Collection or Combine Order
+    if(deliveryType.innerHTML == 'Collection from Warehouse' || deliveryType.innerHTML == 'Combine with Another Order') {
+        createShipmentButton.setAttribute('disabled', 'disabled');
+    }
+    
 // CREATE SHIPMENT - MODAL 
 let itemRow = document.querySelectorAll('.item-table .item-row')
     weight = document.querySelectorAll('.item-table .weight')
