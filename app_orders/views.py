@@ -87,7 +87,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             form_class = self.get_form_class()
             form = self.get_form(form_class) 
             # REFRESH THE SHIP THEORY BEARER TOKEN
-            self.shiptheory_token(self.request)                          
+            # self.shiptheory_token(self.request)   # Move to ASync task                       
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             if shipment_no != 0:
