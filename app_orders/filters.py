@@ -12,4 +12,4 @@ class OrderFilter(filters.FilterSet):
 
     class Meta:
         model = Order
-        fields = ['Order', 'billing_lastname', 'status_current', 'start_date', 'end_date']
+        fields = ['order', 'billing_lastname', 'status_current', 'start_date', 'end_date']
