@@ -1,26 +1,12 @@
+### CELERY SERVER ### 
 
-Mike Notes
+- Setup using this YouTube video - https://www.youtube.com/watch?v=b-6mEAr1m-A&t=19s
 
-# Add in the item_qty into the Order Table from the OrderItem table
-# 'Time' field added to Order table. Needs to sync to Magento order time - time = models.TimeField(auto_now=False, auto_now_add=False, default='00:00:00')
-# Renamed change Date to a FK which now needs to show the date in 2020-06-23 - YYYY-MM-DD format. Previously this was a date time. 
-# Month and year from the Order table has been removed so can be unlinked from Magento.
-
+- Start the SERVER
+celery -A orizaba worker -l info
 
 
+### Django Q ###
 
-### DONE ###
-
-
-
-# Add filters for day to speed up query
-
-
-
-# Regarding the updating when required. Could have a 'last updated' field in the date table. 
-# Then say if latest order date time is > last updated field run the function (could be costly updating every field).
-# Or could make an update stats table, which inserts a field with a datetime everytime the stats are run.
-# Install debug toolbar
-
-# Might be easier to use a class based view
-# Setup 3 new tables - Date2, Month2 and Year2
+- Start the SERVER
+python manage.py qcluster

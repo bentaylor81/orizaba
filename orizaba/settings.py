@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+os.environ.setdefault('FORKED_BY_MULTIPROCESSING', '1') # Related to Celery
 import django_heroku
 from decouple import config
 import dj_database_url
 import pdfkit
 import wkhtmltopdf
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'wkhtmltopdf',
     'django_filters',
     'mathfilters',
+    'django_q',
     'storages',
     'app_products',
     'app_apis',
@@ -183,6 +187,24 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media Files # 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'static/media'
+
+# DJANGO Q - ASYNQ TASKS
+Q_CLUSTER = {
+    'name': 'orizaba',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': config('REDIS_HOST'),
+        'password': config('REDIS_PASSWORD'),
+        'port': config('REDIS_PORT'),
+        'db': config('REDIS_DB'), }
+}
 
 ### 3RD PARTY API CREDENTIALS ###
 

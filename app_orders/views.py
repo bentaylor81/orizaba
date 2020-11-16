@@ -22,6 +22,7 @@ import requests
 import json
 import pdfkit
 import wkhtmltopdf
+from django_q.tasks import async_task
 
 from django.core import serializers
 
@@ -51,6 +52,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
+        # REFRESHES THE SHIPTHEORY TOKEN ASYNCRONOUSLY
+        async_task("app_utils.services.shiptheory_token_task", 5, hook="app_utils.services.hook_after_sleeping")
         return context
 
     def get_object(self):

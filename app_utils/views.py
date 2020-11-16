@@ -3,12 +3,12 @@ from django.shortcuts import render
 from app_products.models import *
 from app_orders.models import *
 from .filters import *
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 import requests
 import json
-
+from django_q.tasks import async_task
 
 def utils(request): 
     return render(request, 'app_utils/utils.html')
