@@ -115,7 +115,7 @@ class OrderStatusType(models.Model):
     icon_color = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return str(self.status) + ' | ' + str(self.name)
+        return str(self.name)
 
     class Meta:
         ordering = ["status"]

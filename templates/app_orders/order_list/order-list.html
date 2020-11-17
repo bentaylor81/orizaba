@@ -70,14 +70,7 @@
                                 </div>
                             </td>
                             <td class="status">
-                            {% for status in order.orderstatushistory_set.all %}
-                                {% if forloop.counter == 1 %}
-                                <div class="item">
-                                    <i style="color: {{ status.status_type.icon_color }}" class="fas {{ status.status_type.icon }}"></i>
-                                    <span>{{ status.status_type.name }}</span>
-                                </div> 
-                                {% endif %}
-                            {% endfor %} 
+                                {{ order.status_current.name }}
                             </td>
                         </tr>
                         {% empty %}

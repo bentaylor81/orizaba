@@ -84,9 +84,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
         elif 'add-shipment' in request.POST:  
             form_class = self.get_form_class()
-            form = self.get_form(form_class) 
-            # REFRESH THE SHIP THEORY BEARER TOKEN
-            # self.shiptheory_token(self.request)   # Move to ASync task                       
+            form = self.get_form(form_class)                   
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             if shipment_no != 0:
@@ -113,8 +111,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 order_inst = Order.objects.get(order_id=order_id)
                 type_inst = OrderStatusType.objects.get(pk=20)
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst) # SHIPMENT STATUS
+                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
+                order_inst.status_current = type_inst
+                order_inst.save()
                 # CREATE SHIPTHEORY SHIPMENT
-                payload = '{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
+                payload = '{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","increment":"1","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
                 response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
                 print(payload)
                 print(response.text)  
