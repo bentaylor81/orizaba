@@ -6,7 +6,7 @@ class OrderStatusHistory(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.order_id.order_id) + ' | ' + str(self.order_id.billing_name) + ' | ' + str(self.status_type.name) + ' | ' + str(self.date)
+        return str(self.order_id) + ' | ' + str(self.status_type.name) + ' | ' + str(self.date)
 
     class Meta:
         ordering = ["-date"]
