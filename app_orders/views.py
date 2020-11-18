@@ -197,14 +197,16 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
-    def print_picklist(self, request):
-        order_id = self.object.order_id
+    def print_picklist(self, request):    
         ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
         # async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
         ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
+        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
+        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+        order_id = self.object.order_id
         order_no = self.object.order_no
         projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # SEND TO PRINTNODE
         payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
@@ -232,12 +234,5 @@ def invoice_create(request, id):
             'order': Order.objects.get(order_id=id),
         }
     return render(request, 'app_orders/order_detail/pdfs/invoice-create.html', context )
-
-
-def funb(self):
-    value1, value2 = OrderDetail.funa(self)
-    print(value1)
-    print(value2)
-    return HttpResponse ('Done')
 
 

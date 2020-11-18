@@ -8,7 +8,5 @@ urlpatterns = [
     path('orders/<pk>', OrderDetail.as_view(), name='order-detail'),
     path('orders/<id>/picklist', views.picklist_create, name='order-picklist'), 
     path('orders/<id>/invoice', views.invoice_create, name='order-invoice'), 
-
-    path('test-variable', views.funb, name='test_variable'), 
 ]
 
