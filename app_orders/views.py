@@ -199,17 +199,16 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def print_picklist(self, request):
         order_id = self.object.order_id
-        # RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY
+        ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
         # async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
-        # GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK
-        # order_id = self.object.order_id
-        # order_no = self.object.order_no
-        # projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
-        # pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
-        # # SEND TO PRINTNODE
-        # payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
-        # response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
-        # print(response.text.encode('utf8'))       
+        ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
+        order_no = self.object.order_no
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+        # SEND TO PRINTNODE
+        payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+        print(response.text.encode('utf8'))       
         return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
