@@ -199,8 +199,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def print_picklist(self, request):
         order_id = self.object.order_id
-        # REFRESHES THE SHIPTHEORY TOKEN ASYNCRONOUSLY
-        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
+        # RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY
+        # async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
         # GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK
         # order_id = self.object.order_id
         # order_no = self.object.order_no
