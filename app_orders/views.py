@@ -198,30 +198,18 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
     def print_picklist(self, request):
-        # GENERATE THE PDF PICKLIST
         order_id = self.object.order_id
-        order_no = self.object.order_no
-        projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
-        # SEND TO PRINTNODE
-        payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
-        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
-        print(response.text.encode('utf8'))
-        return 
-
-    def shiptheory_token(self, request):
-        # Generate the Auth Token
-        url = settings.ST_URL_TOKEN
-        payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
-        response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
-        token = json.loads(response.text)['data']['token']
-        heroku_token = 'Bearer ' + token
-        # Update Heroku with Config Vars
-        url = settings.HEROKU_URL_CONFIG_VARS
-        auth = settings.HEROKU_BEARER_TOKEN
-        payload='{"ST_AUTH":"'+heroku_token+'"}'
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
-        response = requests.request("PATCH", url, headers=headers, data=payload)
+        # REFRESHES THE SHIPTHEORY TOKEN ASYNCRONOUSLY
+        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
+        # GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK
+        # order_id = self.object.order_id
+        # order_no = self.object.order_no
+        # projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
+        # pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+        # # SEND TO PRINTNODE
+        # payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        # response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+        # print(response.text.encode('utf8'))       
         return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
@@ -240,8 +228,17 @@ def picklist_create(request, id):
 
 # FUNCTION TO CREATE THE INVOICE PDF FROM INVOICE HTML FILE
 def invoice_create(request, id):
+
     context = { 
             'order': Order.objects.get(order_id=id),
         }
     return render(request, 'app_orders/order_detail/pdfs/invoice-create.html', context )
-    
+
+
+def funb(self):
+    value1, value2 = OrderDetail.funa(self)
+    print(value1)
+    print(value2)
+    return HttpResponse ('Done')
+
+

@@ -206,6 +206,8 @@ Q_CLUSTER = {
         'db': config('REDIS_DB'), }
 }
 
+HOST_URL = config('HOST_URL')
+
 ### 3RD PARTY API CREDENTIALS ###
 
 # HEROKU 
