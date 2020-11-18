@@ -26,6 +26,7 @@ def shiptheory_token_task(request):
 def hook_after_sleeping(task):
     print(task.result)
 
+### CURRENTLY NOT ACTIVE ###
 def print_picklist_task(order_id):
     order = Order.objects.get(order_id=order_id)
     order_no = order.order_no

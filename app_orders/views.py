@@ -108,6 +108,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 service_id = form['service_id'].value() 
                 form.save()
                 # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
+                # Could put this into a task later on.
                 order_inst = Order.objects.get(order_id=order_id)
                 type_inst = OrderStatusType.objects.get(pk=20)
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst) # SHIPMENT STATUS
@@ -199,11 +200,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def print_picklist(self, request):    
         ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
-        order_id = self.object.order_id
         #async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
         ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+        order_id = self.object.order_id
         order_no = self.object.order_no
         projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
