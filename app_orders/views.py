@@ -199,8 +199,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         return reverse('order-detail', kwargs={'pk': self.object.pk})
 
     def print_picklist(self, request):    
-        ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
-        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
         ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
@@ -211,7 +209,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         # SEND TO PRINTNODE
         payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
-        print(response.text.encode('utf8'))       
+        print(response.text.encode('utf8'))  
+        ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
+        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")     
         return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE

@@ -32,7 +32,7 @@ def print_picklist_task(order_id):
     order_no = order.order_no
     print('######')
     print(order_id)
-    print(order_no)
+    print(order.order_no)
     # # GENERATE THE PDF PICKLIST
     # wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
     # config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
