@@ -10,3 +10,8 @@ celery -A orizaba worker -l info
 
 - Start the SERVER
 python manage.py qcluster
+
+- Run the logs
+heroku logs -t
+
+https://www.valentinog.com/blog/django-q/
