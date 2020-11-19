@@ -200,7 +200,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def print_picklist(self, request):    
         ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
-        #async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
+        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")
         ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)

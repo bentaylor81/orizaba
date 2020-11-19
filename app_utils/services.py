@@ -30,13 +30,17 @@ def hook_after_sleeping(task):
 def print_picklist_task(order_id):
     order = Order.objects.get(order_id=order_id)
     order_no = order.order_no
-    # GENERATE THE PDF PICKLIST
-    wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
-    config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
-    projectUrl = settings.HOST_URL + '/orders/%s/picklist' % order_id
-    pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
-    # SEND TO PRINTNODE
-    payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
-    response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
-    print(response.text.encode('utf8'))
+    print('######')
+    print(order_id)
+    print(order_no)
+    # # GENERATE THE PDF PICKLIST
+    # wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
+    # config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+    # projectUrl = settings.HOST_URL + '/orders/%s/picklist' % order_id
+    # pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
+    # # SEND TO PRINTNODE
+    # payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+    # response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+    # print(response.text.encode('utf8'))
     print('Print PDF Task Complete')
+    print('######')
