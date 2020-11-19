@@ -209,7 +209,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
         # SEND TO PRINTNODE
-        payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))       
         return
