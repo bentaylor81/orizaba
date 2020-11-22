@@ -74,6 +74,8 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 #create-shipment .shipment-actions { display: flex; justify-content: flex-end; align-items: center; }
 #create-shipment .shipment-actions input { margin-right: 20px; }
 
+/* EMAIL MODAL */
+
 
 
 
@@ -95,7 +97,5 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 .other-actions .modal-content .email-fields.message { align-items: flex-start; }
 .other-actions .modal-content .email-fields.message .field-1 { padding: 5px 0px 0px 0px; }
 .other-actions .modal-content .button { display: flex; justify-content: flex-end; }
-.other-actions .modal .modal-container input { width: 300px; }
 .other-actions .modal .modal-container tr { margin-bottom: 10px; }
-.other-actions .modal .modal-container tr td { padding: 0px; margin-bottom: 10px; }
 .other-actions .modal .modal-container textarea { width: 600px; height: 200px; white-space: pre-line; }

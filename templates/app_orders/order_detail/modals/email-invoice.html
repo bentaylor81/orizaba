@@ -1,9 +1,11 @@
-<div id="modal" class="modal small-modal">
-    <div class="modal-container">
-        <div class="modal-close">&times;</div>
-        <div class="modal-content">
+<div id="modal" class="modal large-modal">
+    <div id="email-invoice-modal" class="modal-container">
+        <div class="modal-top-bar">
             <h1>Email Invoice</h1>
-            <form class="form" method="post" enctype="multipart/form-data">
+            <span class="modal-close">&times;</span>
+        </div>
+        <form class="form" method="post" enctype="multipart/form-data">
+            <div class="modal-content">
                 {% csrf_token %}
                 <div class="email-fields">
                     <div class="field-1">
@@ -29,11 +31,11 @@
                         <!-- 1. User types a message -->
                         <textarea id="custom-message-textarea">Dear {{ order.billing_name }},
                             
-Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+    Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
                         
-Kind regards,
+    Kind regards,
                         
-Garden Tractor Spares
+    Garden Tractor Spares
                         </textarea>   
                         <!-- 2. Javascript adds the message to the email template -->
                         <div id="email-template">
@@ -46,7 +48,7 @@ Garden Tractor Spares
                 <div class="button">
                     <button name="email-invoice" type="submit">Send</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
