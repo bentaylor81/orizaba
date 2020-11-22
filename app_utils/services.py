@@ -21,18 +21,17 @@ def shiptheory_token_task(request):
     payload='{"ST_AUTH":"'+heroku_token+'"}'
     headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
     response = requests.request("PATCH", url, headers=headers, data=payload)
+    print('######')
     print("ShipTheory Bearer Token Task Complete")
+    print('######')
 
-def hook_after_sleeping(task):
+def shiptheory_token_task_hook(task):
     print(task.result)
 
 ### CURRENTLY NOT ACTIVE ###
 def print_picklist_task(order_id):
     order = Order.objects.get(order_id=order_id)
-    order_no = order.order_no
-    print('######')
-    print(order_id)
-    print(order.order_no)
+    order_no = order.order_no    
     # # GENERATE THE PDF PICKLIST
     # wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
     # config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
@@ -42,5 +41,13 @@ def print_picklist_task(order_id):
     # payload = '{"printerId": ' +str(settings.PRINTNODE_PRINT_TO_PDF)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
     # response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
     # print(response.text.encode('utf8'))
+    print(order_id)
+    print(order.order_no)
     print('Print PDF Task Complete')
     print('######')
+    print('Add Shipment Status')
+
+def print_picklist_task_hook(task):
+    print(task.result)
+
+

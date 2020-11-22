@@ -87,6 +87,7 @@ class Order(models.Model):
     delivery_city = models.CharField(max_length=200, blank=True)
     delivery_postcode = models.CharField(max_length=200, blank=True)
     delivery_country = models.CharField(max_length=200, blank=True)
+    delivery_country_code = models.CharField(max_length=5, blank=True)
     delivery_email = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
     delivery_type = models.CharField(max_length=200, blank=True)

@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_products.models import *
+from app_utils.models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
 from app_users.decorators import unauthenticated_user, allowed_users
@@ -53,7 +54,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
         # REFRESHES THE SHIPTHEORY TOKEN ASYNCRONOUSLY
-        async_task("app_utils.services.shiptheory_token_task", 5, hook="app_utils.services.hook_after_sleeping")
+        async_task("app_utils.services.shiptheory_token_task", 5, hook="app_utils.services.shiptheory_token_task_hook")
         return context
 
     def get_object(self):
@@ -107,18 +108,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 weight = form['weight'].value()  
                 service_id = form['service_id'].value() 
                 form.save()
-                # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
-                # Could put this into a task later on.
-                order_inst = Order.objects.get(order_id=order_id)
-                type_inst = OrderStatusType.objects.get(pk=20)
-                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst) # SHIPMENT STATUS
-                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
-                order_inst.status_current = type_inst
-                order_inst.save()
                 # CREATE SHIPTHEORY SHIPMENT
                 payload = '{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","increment":"1","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
                 response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
-                print(payload)
                 print(response.text)  
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()
@@ -134,8 +126,15 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                             instance.save()
                             i+=1
                     # PASS THE SEND QTY INTO THE PDF GENERATOR
-                    self.print_picklist(self.request)   
-                messages.success(self.request, 'Shipment Created and Label Processing')  
+                    self.print_picklist(self.request)  
+                # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
+                order_inst = Order.objects.get(order_id=order_id)
+                type_inst = OrderStatusType.objects.get(pk=20)
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
+                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
+                order_inst.status_current = type_inst
+                order_inst.save()               
+                messages.success(self.request, 'Shipment Created and Label Processing')     
             else:
                 return self.form_invalid(form)
 
@@ -170,8 +169,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             # GENERATE PDF
             projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id  
             pdfkit.from_url(projectUrl, "static/pdf/invoice.pdf", configuration=settings.WKHTMLTOPDF_CONFIG)
+            # SELECT THE PRINTER
+            process = PrintProcess.objects.get(process_id=2)
+            printer_id = process.process_printer.printnode_id
             # SEND TO PRINTNODE
-            payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
+            payload = '{"printerId": '+str(printer_id)+', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
             response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
             print(response.text.encode('utf8'))
             messages.success(self.request, 'Printing Invoice')
@@ -200,18 +202,20 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
     def print_picklist(self, request):    
         ### GENERATE THE PDF PICKLIST - UNCOMMENT BELOW IF YOU DON'T WANT TO USE THE TASK ###
+        order_id = self.object.order_id
+        order_no = self.object.order_no 
+        # GENERATE THE PDF
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
-        order_id = self.object.order_id
-        order_no = self.object.order_no
         projectUrl = 'http://' + request.get_host() + '/orders/%s/picklist' % order_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/picklist.pdf", configuration=config)
+        # SELECT THE PRINTER
+        process = PrintProcess.objects.get(process_id=1)
+        printer_id = process.process_printer.printnode_id
         # SEND TO PRINTNODE
-        payload = '{"printerId": ' +str(settings.PRINTNODE_DESKTOP_PRINTER_OFFICE)+ ', "title": "Picking List for: ' +str(order_no)+ '", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        payload = '{"printerId": '+str(printer_id)+', "title": "Picking List for: '+str(order_no)+'", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
-        print(response.text.encode('utf8'))  
-        ### RUNS THE PRINT PICKLIST TASK ASYNCRONOUSLY ###
-        async_task("app_utils.services.print_picklist_task", order_id, hook="app_utils.services.hook_after_sleeping")     
+        print(response.text.encode('utf8'))      
         return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE

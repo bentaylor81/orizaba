@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_products.models import *
 from app_orders.models import *
+from app_utils.models import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,14 +43,13 @@ class ProductList(LoginRequiredMixin, FilterView):
         options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
         # GENERATE A PDF FILE IN STATIC
         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)        
+        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)   
+        # SELECT THE PRINTER
+        process = PrintProcess.objects.get(process_id=3)
+        printer_id = process.process_printer.printnode_id     
         # SEND TO PRINTNODE
-        url = settings.PRINTNODE_URL
-        auth = settings.PRINTNODE_AUTH
-        printer = settings.PRINTNODE_LABEL_PRINTER
-        payload = '{"printerId": ' +str(printer)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
-        headers = {'Content-Type': 'application/json', 'Authorization': auth, }
-        response = requests.request("POST", url, headers=headers, data=payload)
+        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
+        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))
         messages.success(self.request, 'Processing Product Label')
         return HttpResponseRedirect(path)
@@ -170,8 +170,11 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                         # GENERATE A PDF FILE IN STATIC
                         projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
                         pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
+                        # SELECT THE PRINTER
+                        process = PrintProcess.objects.get(process_id=3)
+                        printer_id = process.process_printer.printnode_id
                         # SEND TO PRINTNODE
-                        payload = '{"printerId": ' +str(settings.PRINTNODE_LABEL_PRINTER)+ ', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
+                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
                         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
                         print(response.text.encode('utf8'))
                 return HttpResponseRedirect(self.get_success_url())
