@@ -52,7 +52,6 @@ def print_picklist_task_hook(task):
     print(task.result)
 
 def create_shiptheory_shipment_task(shipping_ref):
-    print('Hello')
     shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
     # EXTRACT THE SHIPMENT VARIABLES
     service_id = shipment.service_id.service_id 
