@@ -88,10 +88,13 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             form = self.get_form(form_class)                   
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
+            global shipping_ref
             if shipment_no != 0:
                 shipping_ref = str(order_no) + '/' + str(shipment_no)
             else: 
                 shipping_ref = str(order_no)
+
+
             # SUBMIT THE FORM
             if form.is_valid():
                 form.instance.order_id = form_order_id
