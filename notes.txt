@@ -11,6 +11,9 @@ celery -A orizaba worker -l info
 - Start the SERVER
 python manage.py qcluster
 
+- Monitor
+python manage.py qmonitor
+
 - Run the logs
 heroku logs -t
 

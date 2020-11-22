@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render
 from app_orders.views import *
+import rollbar
 import requests
 import json
 import pdfkit
@@ -50,4 +51,28 @@ def print_picklist_task(order_id):
 def print_picklist_task_hook(task):
     print(task.result)
 
+def create_shiptheory_shipment(shipping_ref):
+    print('Hello')
+    shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
+    # EXTRACT THE SHIPMENT VARIABLES
+    service_id = shipment.service_id.service_id 
+    firstname = shipment.delivery_firstname
+    lastname = shipment.delivery_lastname
+    address_1 = shipment.delivery_address_1
+    address_2 = shipment.delivery_address_2
+    city = shipment.delivery_city
+    postcode = shipment.delivery_postcode
+    phone = shipment.delivery_phone
+    email = shipment.delivery_email
+    total_price = shipment.total_price_ex_vat
+    weight = shipment.weight
+    # CREATE SHIPTHEORY SHIPMENT
+    payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
+    response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
+    print('### CREATE SHIPTHEORY SHIPMENT TASK START ###')
+    print(payload)
+    print(response.text)  
+    print('### CREATE SHIPTHEORY SHIPMENT TASK END ###') 
 
+def create_shiptheory_shipment_hook(task):
+    print(task.result)

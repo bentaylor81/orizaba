@@ -24,7 +24,7 @@ import json
 import pdfkit
 import wkhtmltopdf
 from django_q.tasks import async_task
-
+import rollbar
 from django.core import serializers
 
 class OrderList(LoginRequiredMixin, FilterView):
@@ -89,29 +89,25 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             if shipment_no != 0:
-                reference = str(order_no) + '/' + str(shipment_no)
+                shipping_ref = str(order_no) + '/' + str(shipment_no)
             else: 
-                reference = str(order_no)
+                shipping_ref = str(order_no)
             # SUBMIT THE FORM
             if form.is_valid():
                 form.instance.order_id = form_order_id
-                form.instance.shipping_ref = reference
-                firstname = form['delivery_firstname'].value()
-                lastname = form['delivery_lastname'].value()
-                address_1 = form['delivery_address_1'].value()
-                address_2 = form['delivery_address_2'].value()
-                city = form['delivery_city'].value()
-                postcode = form['delivery_postcode'].value()
-                phone = form['delivery_phone'].value()
-                email = form['delivery_email'].value()
-                total_price = form['total_price_ex_vat'].value()  
-                weight = form['weight'].value()  
-                service_id = form['service_id'].value() 
+                form.instance.shipping_ref = shipping_ref
+                # firstname = form['delivery_firstname'].value()
+                # lastname = form['delivery_lastname'].value()
+                # address_1 = form['delivery_address_1'].value()
+                # address_2 = form['delivery_address_2'].value()
+                # city = form['delivery_city'].value()
+                # postcode = form['delivery_postcode'].value()
+                # phone = form['delivery_phone'].value()
+                # email = form['delivery_email'].value()
+                # total_price = form['total_price_ex_vat'].value()  
+                # weight = form['weight'].value()  
+                # service_id = form['service_id'].value() 
                 form.save()
-                # CREATE SHIPTHEORY SHIPMENT
-                payload = '{"reference":"'+str(reference)+'","reference2":"GTS","delivery_service":"'+service_id+'","increment":"1","shipment_detail":{"weight":"'+weight+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
-                response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
-                print(response.text)  
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()
                 if picklist == True:
@@ -133,8 +129,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
                 # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
                 order_inst.status_current = type_inst
-                order_inst.save()               
-                messages.success(self.request, 'Shipment Created and Label Processing')     
+                order_inst.save()      
+                # CREATE SHIPTHEORY SHIPMENT TASK   
+                async_task("app_utils.services.create_shiptheory_shipment", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")     
+                messages.success(self.request, 'Shipment Created and Label Processing')  
             else:
                 return self.form_invalid(form)
 
