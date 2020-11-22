@@ -93,23 +93,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 shipping_ref = str(order_no) + '/' + str(shipment_no)
             else: 
                 shipping_ref = str(order_no)
-
-
             # SUBMIT THE FORM
             if form.is_valid():
                 form.instance.order_id = form_order_id
                 form.instance.shipping_ref = shipping_ref
-                # firstname = form['delivery_firstname'].value()
-                # lastname = form['delivery_lastname'].value()
-                # address_1 = form['delivery_address_1'].value()
-                # address_2 = form['delivery_address_2'].value()
-                # city = form['delivery_city'].value()
-                # postcode = form['delivery_postcode'].value()
-                # phone = form['delivery_phone'].value()
-                # email = form['delivery_email'].value()
-                # total_price = form['total_price_ex_vat'].value()  
-                # weight = form['weight'].value()  
-                # service_id = form['service_id'].value() 
                 form.save()
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()

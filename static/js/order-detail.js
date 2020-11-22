@@ -77,6 +77,8 @@ let deliveryType = document.querySelector('.delivery-type')
     // Disable the Create Shipment button if Delivery Type is Collection or Combine Order
     if(deliveryType.innerHTML == 'Collection from Warehouse' || deliveryType.innerHTML == 'Combine with Another Order') {
         createShipmentButton.setAttribute('disabled', 'disabled');
+        deliveryType.style.backgroundColor = '#1c89062e';
+        deliveryType.style.padding = '5px';
     }
     
 // CREATE SHIPMENT - MODAL 
