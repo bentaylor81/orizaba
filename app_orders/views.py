@@ -129,9 +129,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
                 # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
                 order_inst.status_current = type_inst
-                order_inst.save()      
-                # CREATE SHIPTHEORY SHIPMENT TASK   
-                async_task("app_utils.services.create_shiptheory_shipment", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")     
+                order_inst.save()  
+                # SEND TO CREATE SHIPTHEORY SHIPMENT METHOD
+                self.create_shipment_shipment(self.request)       
                 messages.success(self.request, 'Shipment Created and Label Processing')  
             else:
                 return self.form_invalid(form)
@@ -214,6 +214,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         payload = '{"printerId": '+str(printer_id)+', "title": "Picking List for: '+str(order_no)+'", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))      
+        return
+
+    def create_shipment_shipment(self, request):
+        # CREATE SHIPTHEORY SHIPMENT TASK   
+        async_task("app_utils.services.create_shiptheory_shipment_task", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")  
         return
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
