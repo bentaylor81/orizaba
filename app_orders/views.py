@@ -199,7 +199,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         process = PrintProcess.objects.get(process_id=1)
         printer_id = process.process_printer.printnode_id
         # SEND TO PRINTNODE
-        payload = '{"printerId": '+str(printer_id)+', "title": "Picking List for: '+str(order_no)+'", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf"}'
+        payload = '{"printerId": '+str(printer_id)+', "title": "Picking List for: '+str(order_no)+'", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf", "source": "GTS Picking List"}'
         response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))      
         return
