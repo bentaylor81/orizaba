@@ -53,8 +53,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
-        # REFRESHES THE SHIPTHEORY TOKEN ASYNCRONOUSLY
-        async_task("app_utils.services.shiptheory_token_task", 5, hook="app_utils.services.shiptheory_token_task_hook")
         return context
 
     def get_object(self):
