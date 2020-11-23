@@ -241,8 +241,6 @@ MAILGUN_BCC = config('MAILGUN_BCC')
 MAILGUN_HEADERS = {'Authorization': MAILGUN_AUTH }
 
 # SHIPTHEORY
-ST_URL = config('ST_URL')
-ST_URL_TOKEN = config('ST_URL_TOKEN')
 ST_USERNAME = config('ST_USERNAME')
 ST_PASSWORD = config('ST_PASSWORD')
 ST_HEADERS = {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': config('ST_AUTH')}
