@@ -230,7 +230,6 @@ WKHTMLTOPDF_CONFIG = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
 WKHTMLTOPDF_OPTIONS = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
 
 # PRINTNODE
-PRINTNODE_URL = config('PRINTNODE_URL')
 PRINTNODE_AUTH = config('PRINTNODE_AUTH')
 PRINTNODE_HEADERS = {'Content-Type': 'application/json', 'Authorization': PRINTNODE_AUTH, }
 

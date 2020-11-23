@@ -49,7 +49,7 @@ class ProductList(LoginRequiredMixin, FilterView):
         printer_id = process.process_printer.printnode_id     
         # SEND TO PRINTNODE
         payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
-        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+        response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))
         messages.success(self.request, 'Processing Product Label')
         return HttpResponseRedirect(path)
@@ -175,7 +175,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                         printer_id = process.process_printer.printnode_id
                         # SEND TO PRINTNODE
                         payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
-                        response = requests.request("POST", settings.PRINTNODE_URL, headers=settings.PRINTNODE_HEADERS, data=payload)
+                        response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
                         print(response.text.encode('utf8'))
                 return HttpResponseRedirect(self.get_success_url())
             else:
