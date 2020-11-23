@@ -216,12 +216,13 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         address_2 = shipment.delivery_address_2
         city = shipment.delivery_city
         postcode = shipment.delivery_postcode
+        country = shipment.delivery_country_code
         phone = shipment.delivery_phone
         email = shipment.delivery_email
         total_price = shipment.total_price_ex_vat
         weight = shipment.weight
         # CREATE SHIPTHEORY SHIPMENT
-        payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"GB","telephone":"'+phone+'","email":"'+email+'"}}'
+        payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"}}'
         response = requests.request("POST", settings.ST_URL, headers=settings.ST_HEADERS, data=payload)
         print('### CREATE SHIPTHEORY SHIPMENT TASK START ###')
         print(payload)
