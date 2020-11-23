@@ -11,9 +11,8 @@ import wkhtmltopdf
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token_task(request):
     # Generate the Auth Token
-    url = settings.ST_URL_TOKEN
     payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
-    response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
+    response = requests.request("POST", "https://api.shiptheory.com/v1/token", headers=settings.ST_HEADERS, data=payload)
     token = json.loads(response.text)['data']['token']
     heroku_token = 'Bearer ' + token
     # Update Heroku with Config Vars
