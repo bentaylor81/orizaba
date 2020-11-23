@@ -21,6 +21,7 @@ class OrderShipment(models.Model):
     delivery_city = models.CharField(max_length=200, blank=True)
     delivery_postcode = models.CharField(max_length=200, blank=True)
     delivery_country = models.CharField(max_length=200, blank=True)
+    delivery_country_code = models.CharField(max_length=200, blank=True)
     delivery_phone = models.CharField(max_length=200, blank=True)
     delivery_email = models.CharField(max_length=200, blank=True)
     service_id = models.ForeignKey('OrderDeliveryMethod', db_column='service_id', to_field='service_id', on_delete=models.CASCADE, null=True, blank=True)
