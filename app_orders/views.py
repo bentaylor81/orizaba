@@ -50,9 +50,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         order_id = self.object.order_id
-        context = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)  
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
+        context['order_status_type'] = OrderStatusType.objects.all()
         return context
 
     def get_object(self):
@@ -180,6 +181,22 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             else: 
                 print(form.errors)
                 messages.error(self.request, 'Invoice not sent as the form has errors')
+
+        elif 'status_type' in request.POST:
+            form = OrderStatusHistoryForm(request.POST or None)
+            if form.is_valid():
+                # SET THE CURRENT STATUS IN THE ORDER TABLE TO NEW STATUS
+                new_status = request.POST.get('status_type')
+                type_inst = OrderStatusType.objects.get(pk=new_status) 
+                order_inst = Order.objects.get(order_id=order_id)
+                order_inst.status_current = type_inst
+                order_inst.save()  
+                # ADD STATUS ENTRY TO ORDERSTATUSHISTORYTABLE
+                form.instance.order_id = form_order_id
+                form.save()
+                messages.success(request, 'Status has been Updated')
+            else:
+                return self.form_invalid(form)
 
         return HttpResponseRedirect(self.get_success_url())
 

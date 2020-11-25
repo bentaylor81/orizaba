@@ -64,7 +64,7 @@
     table { width: 100%; }
     table tr.last td { border: 0px; }
     table tr td.sub-cat { background: #555; color: #fff; }
-    table tr td { padding: 10px 8px; border-right: 1px solid #bbb; }
+    table tr td { padding: 8px; border-right: 1px solid #bbb; }
     table tr td:first-child { border-left: 1px solid #bbb; }
     table tr.row1 { background-color: #eee;  border-radius: 5px 5px 0px 0px;}
     table tr.row2 { background-color: #d8d8d8; }
@@ -150,9 +150,9 @@
 
     /* Order Statuses */
     .status .item { background: #eee; padding: 8px; margin: 6px 0px; position: relative; }
-    .status span { font-size: 22px; position: absolute; top: 13px;  }
+    .status span { font-size: 18px; position: absolute; top: 13px;  }
     .status span.date { right: 0; padding-right: 10px; font-size: 14px; top: 18px;  }
-    .status i.fas { font-size: 35px; color: #546ce2; margin-right: 10px; }
+    .status i.fas { font-size: 30px; color: #546ce2; margin-right: 10px; }
     .status i.fa-times-circle, #order .status i.fa-clock { font-size: 32px; margin-top: 2px; }
 
     /* Orders Page */
@@ -194,6 +194,8 @@
     #order .content .other-actions .item .action button { width: 80px; margin-right: 5px; }
     #order .content .other-actions #submitted-textarea { display: none; }
     #order .content .other-actions #email-template { display: none; }
+    #order .content .status_header { display: flex; }
+    #order .content .status_header h2 { flex: 1;}
 
 /*** APP_PRODUCTS CSS ***/
 

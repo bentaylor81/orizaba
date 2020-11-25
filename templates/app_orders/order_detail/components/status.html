@@ -1,4 +1,17 @@
-<h2>Order Status</h2>
+<div class="status_header">
+    <h2>Order Status</h2>
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <select name="status_type" value="{{ status_type.status }}" onchange="this.form.submit()">
+                <option hidden>Select Status...</option>
+                {% for status_type in order_status_type %}
+                    <option value="{{ status_type.status }}">{{ status_type.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
 <div class="status">
     {% for status in object.orderstatushistory_set.all %}
     <div class="item">

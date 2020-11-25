@@ -18,6 +18,11 @@ class OrderNoteForm(forms.ModelForm):
         model = OrderNote
         fields = ["note"]
 
+class OrderStatusHistoryForm(forms.ModelForm):
+    class Meta:
+        model = OrderStatusHistory
+        fields = ["order_id", "status_type"]
+
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
