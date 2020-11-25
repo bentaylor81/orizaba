@@ -10,7 +10,7 @@ var orderStatus = document.querySelectorAll('.status span');
         console.log(orderStatus[i].innerHTML)
         if(orderStatus[i].innerHTML == 'Shipment Created'){
             console.log('Hello')
-            tableRow[i].style.backgroundColor = '#21770547';
+            tableRow[i].style.backgroundColor = '#21770536';
         }
     }
 
