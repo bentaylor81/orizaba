@@ -9,8 +9,7 @@ var orderStatus = document.querySelectorAll('.status span');
     for(let i=0; i < tableRow.length; i++){
         console.log(orderStatus[i].innerHTML)
         if(orderStatus[i].innerHTML == 'Shipment Created'){
-            console.log('Hello')
-            tableRow[i].classList.add('shipment-created');
+            tableRow[i].style.backgroundColor = '#21770536';
         }
     }
 
