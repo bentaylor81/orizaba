@@ -134,7 +134,7 @@ DATABASES = {
 #     'HOST': config('LOCAL_DB_HOST'),
 #     'PORT': config('LOCAL_DB_PORT'),
 #     }
-}
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
