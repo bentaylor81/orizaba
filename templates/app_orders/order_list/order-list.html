@@ -38,7 +38,7 @@
                     </thead>
                     <tbody>
                         {% for order in object_list %}
-                        <tr class="{% cycle 'row1' 'row2' %}">
+                        <tr id="order-row" class="{% cycle 'row1' 'row2' %}">
                             <td class="first-col">
                                 {{ order.date }}<br>
                                 {{ order.time }}
@@ -84,12 +84,10 @@
                     </tbody>
                 </table>
             </div>
-
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination.html' %}
-
         </div>
     </div>
 </section>
-
+<script type="text/javascript" src="{% static 'js/order-list.js' %}"></script>
 {% endblock %}
