@@ -162,6 +162,7 @@
     #orders table td:nth-child(n+3):nth-child(-n+5) { width: 15%; }
     #orders .status .item { background: none; }
     #orders .delivery-type { padding: 5px; background: #1c89062e }
+    #orders tr.shipment-created td { background: #2177052e; }
 
     /* Order View Page */
     #order .content { display: grid; grid-template-columns: 1.8fr 1fr; grid-gap: 30px;  }
