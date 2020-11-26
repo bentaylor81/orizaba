@@ -239,10 +239,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         # CREATE SHIPTHEORY SHIPMENT
         payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"}}'
         response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
-        print('### CREATE SHIPTHEORY SHIPMENT TASK START ###')
-        print(payload)
-        print(response.text)  
-        print('### CREATE SHIPTHEORY SHIPMENT TASK END ###') 
+        # GET THE TRACKING CODE FROM RESULT AND SAVE
+        tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
+        if tracking_code:
+            shipment.tracking_code = tracking_code
+            shipment.save()
         # CREATE SHIPTHEORY SHIPMENT TASK   
         #async_task("app_utils.services.create_shiptheory_shipment_task", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")  
         return

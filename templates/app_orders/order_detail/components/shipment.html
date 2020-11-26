@@ -32,7 +32,14 @@
                     <div><b>Shipping Ref:</b></div>
                     <div>{{ shipment.shipping_ref }}</div>
                     <div><b>Tracking:</b></div>
-                    <div>{{ shipment.tracking_code }}</div>
+                    <div>
+                    <!-- TRACKING LINK - SHOW A DIFFERENT LINK IF DPD OR APC -->
+                    {% if shipment.service_id.courier == 'DPD' %}
+                        <a target="blank" href="https://track.aftership.com/trackings?courier=dpd-uk&tracking-numbers={{ shipment.tracking_code }}">{{ shipment.tracking_code }}</a>
+                    {% elif shipment.service_id.courier == 'APC' %}
+                        <a target="blank" href="https://track.aftership.com/trackings?courier=apc-overnight-connum&tracking-numbers={{ shipment.tracking_code }}&tracking_postal_code={{ shipment.delivery_postcode }}">{{ shipment.tracking_code }}</a>
+                    {% endif %}
+                </div>
                 </div>
             </td>
             <td>
@@ -81,3 +88,5 @@
     {% endfor %}
     </tbody>
 </table>
+
+

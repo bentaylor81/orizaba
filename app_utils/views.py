@@ -73,6 +73,34 @@ def set_firstname_lastname(request):
         order.save()
     return render(request, 'app_utils/utils.html')
 
+# GET THE TRACKING CODE FROM SHIPTHEORY
+def shiptheory_tracking_code(request):
+    url = "https://api.shiptheory.com/v1/shipments/search?created_from=2020-11-25&created_to=2020-11-26"
+    payload={}
+    response = requests.request("GET", url, headers=settings.ST_HEADERS, data=payload)
+    #print(response.text)
+    shipment_list = json.loads(response.text)
+    # i = 0
+    # while (i < len(shipment_list['shipments'])):
+    #     print(shipment_list['shipments'][i]['delivery_address']['firstname'])
+    #     print(shipment_list['shipments'][i]['delivery_address']['lastname'])
+    #     print(shipment_list['shipments'][i]['courier']['couriername'])
+    #     print(shipment_list['shipments'][i]['shipment_detail']['tracking_number'])
+    #     print('################')
+    #     i+=1
+    order_shipment = OrderShipment.objects.filter(tracking_code='')
+    print(order_shipment)
+
+    for shipment in shipment_list['shipments']:
+        if shipment['channel_reference_id'] == '308816':
+            delivery_name = shipment['delivery_address']['firstname'] + ' ' + shipment['delivery_address']['lastname']
+            tracking_no = shipment['shipment_detail']['tracking_number']
+            print(delivery_name + ' ' + tracking_no)
+
+    return HttpResponse(response.text)
+
+
+
 ### SHIPTHEORY TOKEN ###
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token(request):
@@ -110,6 +138,5 @@ class StockSync(LoginRequiredMixin, FilterView):
     paginate_by = 50
     filterset_class = StockSyncFilter
     ordering = ['stock_balances', '-stock_discrepancy']
-
 
 
