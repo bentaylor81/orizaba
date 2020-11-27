@@ -69,15 +69,7 @@ class OrderItem(models.Model):
     class Meta:
         ordering = ["-order_id__date", "orderitem_id", "-send_qty"]
 
-class OrderFlag(models.Model):
-    invoice_created = models.BooleanField(default=True)
-
 class Order(models.Model):
-    CHOICES = [
-        ('Order Received', 'Order Recevied'),
-        ('Shipement Created', 'Shipment Created'),
-        ('Order Delivered', 'Order Delivered'),
-    ]
     order_id = models.IntegerField(primary_key=True)
     order_no = models.IntegerField(blank=True)
     billing_firstname = models.CharField(max_length=200, blank=True)  
@@ -108,8 +100,7 @@ class Order(models.Model):
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
-    order_status = models.CharField(choices=CHOICES, max_length=200, blank=True, default='Order Received')
-    status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)  # This is needed for order filtering, status to be updated everytime order state changes.
+    status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True, default='60') 
     # BOOLEAN FLAG FIELDS
     status_updated = models.BooleanField(default=False) # Used to update the initial status
     invoice_created = models.BooleanField(default=True) 
@@ -127,7 +118,7 @@ class OrderStatusType(models.Model):
     icon_color = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.status) + ' | ' + str(self.name)
 
     class Meta:
         ordering = ["status"]
