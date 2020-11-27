@@ -19,3 +19,4 @@ https://www.valentinog.com/blog/django-q/
 ### RETURNS
 
 - Return statuses separate from order statuses
+- ReturnStatusType

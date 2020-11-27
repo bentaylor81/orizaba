@@ -5,7 +5,7 @@ from .models import *
 class OrderFilter(filters.FilterSet):
 
     STATUS_CHOICES = [
-        (10, 'Order Recevied'),
+        (10, 'Order Received'),
         (20, 'Shipment Created'),
         (40, 'Order Delivered'),
     ]
