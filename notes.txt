@@ -1,12 +1,4 @@
-### CELERY SERVER ### 
-
-- Setup using this YouTube video - https://www.youtube.com/watch?v=b-6mEAr1m-A&t=19s
-
-- Start the SERVER
-celery -A orizaba worker -l info
-
-
-### Django Q ###
+### DJANGO Q ###
 
 - Start the SERVER
 python manage.py qcluster
@@ -18,3 +10,12 @@ python manage.py qmonitor
 heroku logs -t
 
 https://www.valentinog.com/blog/django-q/
+
+### XERO 
+
+- OrderFlag table
+- Bearer token task
+
+### RETURNS
+
+- Return statuses separate from order statuses

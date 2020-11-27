@@ -185,7 +185,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         elif 'status_type' in request.POST:
             form = OrderStatusHistoryForm(request.POST or None)
             if form.is_valid():
-                # SET THE CURRENT STATUS IN THE ORDER TABLE TO NEW STATUS
+                # SET THE CURRENT STATUS IN THE ORDER TABLE TO NEW STATUS - if new_status  = order related
                 new_status = request.POST.get('status_type')
                 type_inst = OrderStatusType.objects.get(pk=new_status) 
                 order_inst = Order.objects.get(order_id=order_id)

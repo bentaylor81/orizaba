@@ -2,7 +2,7 @@ from django.db import models
 
 class OrderStatusHistory(models.Model):
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
-    status_type = models.ForeignKey('orderstatustype', db_column='status_type', on_delete=models.CASCADE, null=True, blank=True)
+    status_type = models.ForeignKey('orderstatustype', db_column='status_type', on_delete=models.CASCADE, null=True, blank=True)   
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -69,7 +69,15 @@ class OrderItem(models.Model):
     class Meta:
         ordering = ["-order_id__date", "orderitem_id", "-send_qty"]
 
+class OrderFlag(models.Model):
+    invoice_created = models.BooleanField(default=True)
+
 class Order(models.Model):
+    CHOICES = [
+        ('Order Received', 'Order Recevied'),
+        ('Shipement Created', 'Shipment Created'),
+        ('Order Delivered', 'Order Delivered'),
+    ]
     order_id = models.IntegerField(primary_key=True)
     order_no = models.IntegerField(blank=True)
     billing_firstname = models.CharField(max_length=200, blank=True)  
@@ -100,8 +108,10 @@ class Order(models.Model):
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
+    order_status = models.CharField(choices=CHOICES, max_length=200, blank=True, default='Order Received')
     status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True)  # This is needed for order filtering, status to be updated everytime order state changes.
-    status_updated = models.BooleanField(default=False)
+    # BOOLEAN FLAG FIELDS
+    status_updated = models.BooleanField(default=False) # Used to update the initial status
     invoice_created = models.BooleanField(default=True) 
 
     def __str__(self):
