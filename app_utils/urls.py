@@ -18,5 +18,6 @@ urlpatterns = [
     path('utils/set-firstname-lastname', views.set_firstname_lastname, name='set-firstname-lastname'),      # Set the firstname and lastname for billing and delivery address
     path('utils/shiptheory-token', views.shiptheory_token, name='shiptheory-token'),  
     path('utils/shiptheory-tracking-code', views.shiptheory_tracking_code, name='shiptheory-tracking-code'),  
-    path('utils/xero-token', views.xero_token, name='xero-token'),  
+    path('utils/xero-token', views.xero_token, name='xero-token'),
+    path('utils/redis-creds', views.redis_creds, name='redis-creds'),    
 ]

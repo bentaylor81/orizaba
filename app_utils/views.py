@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 import requests
 import json
+import os
+import redis
 from django_q.tasks import async_task
 
 def utils(request): 
@@ -99,8 +101,6 @@ def shiptheory_tracking_code(request):
 
     return HttpResponse(response.text)
 
-
-
 ### SHIPTHEORY TOKEN ###
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token(request):
@@ -134,7 +134,11 @@ def xero_token(request):
     headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
     response = requests.request("PATCH", url, headers=headers, data=payload)
     return render(request, 'app_utils/utils.html')
-## Add all of this to Services
+
+### REDIS CREDENTIALS ###
+def redis_creds(request):
+    return render(request, 'app_utils/utils.html')
+
     
 ### STOCK RECONCILE PAGE ###
 # LIST ALL STOCK MOVEMENTS - ORDERS, POS AND MANUAL ADJUSTMENTS

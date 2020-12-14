@@ -211,6 +211,8 @@ Q_CLUSTER = {
     }
 }
 
+# REDIS 
+
 HOST_URL = config('HOST_URL')
 
 ### 3RD PARTY API CREDENTIALS ###
