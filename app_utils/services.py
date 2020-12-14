@@ -36,11 +36,12 @@ def xero_token_task(request):
     payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
     response = requests.request("POST", url, data=payload)
     token = json.loads(response.text)['id_token']
+    refresh_token = json.loads(response.text)['refresh_token']
     xero_token = 'Bearer ' + token
     # Update Heroku with Config Vars
     url = settings.HEROKU_URL_CONFIG_VARS
     auth = settings.HEROKU_BEARER_TOKEN
-    payload='{"XERO_AUTH":"'+xero_token+'"}'
+    payload='{"XERO_AUTH":"'+xero_token+'", "XERO_REFRESH_TOKEN":"'+refresh_token+'"}'
     headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
     response = requests.request("PATCH", url, headers=headers, data=payload)
     print('######')

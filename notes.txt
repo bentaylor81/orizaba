@@ -21,3 +21,5 @@ https://www.valentinog.com/blog/django-q/
 - Return statuses separate from order statuses
 - ReturnStatusType
 
+##### XERO BEARER TOKEN REFRESH #####
+- After the bearer token has been refreshed, a new refresh token is also created and then uploaded to Heroku
