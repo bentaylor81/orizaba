@@ -105,8 +105,8 @@ def shiptheory_tracking_code(request):
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token(request):
     # Generate the Auth Token
-    payload='{"email": "https://api.shiptheory.com/v1/token", "password": "'+settings.ST_PASSWORD+'"}'
-    response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
+    payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
+    response = requests.request("POST", "https://api.shiptheory.com/v1/token", headers=settings.ST_HEADERS, data=payload)
     token = json.loads(response.text)['data']['token']
     heroku_token = 'Bearer ' + token
     # Update Heroku with Config Vars
