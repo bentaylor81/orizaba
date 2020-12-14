@@ -22,13 +22,6 @@
                 {% include 'app_orders/order_detail/components/actions.html' %}
             <!-- END -->
             </div>
-            <!-- PICKLIST COMPONENT -->
-            {% if 'picklist' in request.get_full_path %}
-            <div class="pod table details">
-                {% include 'app_orders/order_detail/components/picklist.html' %}
-            </div>   
-            {% endif %} 
-            <!-- END -->
             <!-- SHIPMENT COMPONENT -->
             {% if object.ordershipment_set.all %}
             <div class="pod table shipment">
@@ -48,6 +41,13 @@
                 {% include 'app_orders/order_detail/components/other-actions.html' %}
             </div>
             <!-- END -->
+            <!-- REFUND COMPONENT -->
+            {% if object.amount_refunded > 1 %}
+            <div class="pod">
+                {% include 'app_orders/order_detail/components/refunds.html' %}
+            </div>
+            {% endif %}
+            <!-- END -->
             <!-- STATUS COMPONENT -->
             <div class="pod">
                 {% include 'app_orders/order_detail/components/status.html' %}
@@ -61,6 +61,7 @@
         </div>
     </div>
 </section>
-<script type="text/javascript" src="{% static 'js/order-detail.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/order_detail/order-detail.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/order_detail/modal-refund-order.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/apis/postcode.js' %}"></script>
 {% endblock %}

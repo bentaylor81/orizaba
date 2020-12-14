@@ -67,7 +67,7 @@
     table tr td { padding: 8px; border-right: 1px solid #bbb; }
     table tr td:first-child { border-left: 1px solid #bbb; }
     table tr.row1 { background-color: #eee;  border-radius: 5px 5px 0px 0px;}
-    table tr.row2 { background-color: #d8d8d8; }
+    table tr.row2 { background-color: #f7f7f7; }
     table tr.row_dark td { background-color: #444; color: #fff; border: 0px; font-weight: bold; }
     table tr.row_dark_2 td { background-color: #aaa; font-weight: bold; border: 0px; }
     table tr .col-10 { width: 10px; }
@@ -183,6 +183,14 @@
     #order .content .details .send_qty input { width: 25px; text-align: center; }
     #order .content input.send_qty { width: 30px; }
     #order .content .actions > div { margin-bottom: 20px; }
+    #order .content .refunds .item { display: flex; background: #eee; padding: 10px; margin-bottom: 10px; }
+    #order .content .refunds .item h3 { margin: 0px 0px 10px 0px; }
+    #order .content .refunds .item .desc { display: grid; grid-template-columns: 50px 1fr; grid-gap: 5px; } 
+    #order .content .refunds .item .lines { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; margin-bottom: 10px; }
+    #order .content .refunds .item li { padding: 2px 0px; }
+    #order .content .refunds .item .fas { color: #546ce2; font-size: 30px; margin-right: 10px; }
+    #order .content .refunds .item a { float: right; }
+    #order .content .refunds .item div { flex: 1; }
     #order .content .shipment h3 { padding: 0px; margin: 0px 0px 20px 0px; }
     #order .content .shipment .col-2 { display: inline-grid; grid-template-columns: auto auto; grid-gap: 10px; }
     #order .content .shipment .status { text-align: center; font-size: 18px; }
@@ -192,11 +200,18 @@
     #order .content .postcode-valid img { width: 12px; margin-left: 8px; position: relative; top: 1px; cursor: pointer; }
     #order .content .other-actions .item { display: flex; align-items: center; margin-bottom: 15px; }
     #order .content .other-actions .item .title { width: 100px; font-weight: bold; align-items: center; }
-    #order .content .other-actions .item .action button { width: 80px; margin-right: 5px; }
+    #order .content .other-actions .item .action button { width: 100px; margin-right: 5px; }
     #order .content .other-actions #submitted-textarea { display: none; }
     #order .content .other-actions #email-template { display: none; }
     #order .content .status_header { display: flex; }
     #order .content .status_header h2 { flex: 1;}
+
+    /* Returns List Page */
+    #returns .fa-check { font-size: 14px; color: green;}
+
+    /* Refunds List Page */
+    #refunds ul { margin: 0px; padding: 0px 20px; }
+    
 
 /*** APP_PRODUCTS CSS ***/
 

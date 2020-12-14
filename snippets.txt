@@ -1,0 +1,20 @@
+### TEMPLATE CODE ###
+
+|date:'D - d M Y' - Just show date and not the time
+
+class RefundOrder(models.Model):
+    order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
+    refund_amount = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
+    auth_code = models.CharField(max_length=200, blank=True)  
+    date_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.order_id)
+
+    class Meta:
+        ordering = ["-date_time"]
+
+class RefundOrderForm(forms.ModelForm):
+    class Meta: 
+        model = RefundOrder
+        fields = ["order_id", "refund_amount"]

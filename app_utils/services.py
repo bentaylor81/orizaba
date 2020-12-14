@@ -28,6 +28,28 @@ def shiptheory_token_task(request):
 def shiptheory_token_task_hook(task):
     print(task.result)
 
+### XERO TOKEN ###
+# REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS
+def xero_token_task(request):
+    # Refresh the Xero Access Token
+    url = "https://identity.xero.com/connect/token?="
+    payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
+    response = requests.request("POST", url, data=payload)
+    token = json.loads(response.text)['id_token']
+    xero_token = 'Bearer ' + token
+    # Update Heroku with Config Vars
+    url = settings.HEROKU_URL_CONFIG_VARS
+    auth = settings.HEROKU_BEARER_TOKEN
+    payload='{"XERO_AUTH":"'+xero_token+'"}'
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
+    response = requests.request("PATCH", url, headers=headers, data=payload)
+    print('######')
+    print("Xero Token Task Complete")
+    print('######')
+
+
+
+
 ### CURRENTLY NOT ACTIVE ###
 def print_picklist_task(order_id):
     order = Order.objects.get(order_id=order_id)

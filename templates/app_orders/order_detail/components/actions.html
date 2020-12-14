@@ -1,7 +1,4 @@
 <div class="actions">    
-{% if 'edit' in request.get_full_path %}
-    &nbsp;
-{% else %}
     <h2>Send Parcel</h2>
     <div>
         <button class="modal-button">Set Delivery Details</button>
@@ -11,25 +8,4 @@
         <button class="modal-button">Create Shipment</button>
         {% include 'app_orders/order_detail/modals/create-shipment.html' %}
     </div>
-    <!-- Removed below as we have the Create Shipment modal -->
-    <!-- <div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="delivery_name" value="{{ order.delivery_name }}">
-            <input type="hidden" name="delivery_firstname" value="{{ order.delivery_firstname }}">
-            <input type="hidden" name="delivery_lastname" value="{{ order.delivery_lastname }}">
-            <input type="hidden" name="delivery_address_1" value="{{ order.delivery_address_1 }}">
-            <input type="hidden" name="delivery_address_2" value="{{ order.delivery_address_2 }}">
-            <input type="hidden" name="delivery_city" value="{{ order.delivery_city }}">
-            <input type="hidden" name="delivery_postcode" value="{{ order.delivery_postcode }}">
-            <input type="hidden" name="delivery_country" value="{{ order.delivery_country }}">
-            <input type="hidden" name="delivery_phone" value="{{ order.delivery_phone }}">
-            <input type="hidden" name="delivery_email" value="{{ order.delivery_email }}">
-            <input type="hidden" name="total_price_ex_vat" value="{{ order.total_price_ex_vat }}">
-            <input type="hidden" name="delivery_method" value="{{ order.delivery_method }}">
-            <input type="hidden" name="date_sent" value="{{ order.date_sent|date:'Y-m-d' }}">
-            <button name="add-shipment" type="submit" id="button-ship">Create Shipment 2</button> 
-        </form>
-    </div> -->
-{% endif %}
 </div>

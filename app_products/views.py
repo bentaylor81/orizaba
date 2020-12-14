@@ -78,13 +78,13 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
         form = ManualStockAdjustForm(self.request.POST)
         adjustment_qty = form['adjustment_qty'].value()
         if form.is_valid():  
-            # Save the form but don't commit
+            # SAVE THE FORM BUT DON'T COMMIT
             event = form.save(commit=False)
-            # Update the current_stock_qty from the orizaba_stock_qty in the product table
+            # UPDATE THE CURRENT_STOCK_QTY FROM THE ORIZABA_STOCK_QTY IN THE PRODUCT TABLE
             current_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
             event.current_stock_qty = current_stock_qty
             event.save()
-            # Sets the stock value in the product table
+            # SETS THE STOCK VALUE IN THE PRODUCT TABLE
             Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
             messages.success(request, 'Manual Stock Adjustment Added')
             return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
@@ -159,11 +159,11 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                     # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
                     if (qty and int(qty) != 0):
                         product_inst = Product.objects.get(pk=product_id)
-                        # Adds the current stock qty (Product table) to purchase order qty
+                        # ADDS THE CURRENT STOCK QTY (PRODUCT TABLE) TO PURCHASE ORDER QTY
                         current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) 
-                        # Sets the rolling stock value in the Stock Movement row
+                        # SETS THE ROLLING STOCK VALUE IN THE STOCK MOVEMENT ROW
                         StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty, comments=comments) 
-                        # Sets the stock value in the product table
+                        # SETS THE STOCK VALUE IN THE PRODUCT TABLE
                         Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
                     if (form['label'].value()==True):

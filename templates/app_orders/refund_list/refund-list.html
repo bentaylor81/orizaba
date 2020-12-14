@@ -1,0 +1,88 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="refunds" data-page="orders" data-sub-page="refunds"> 
+    <div class="top-bar">
+        <h1>Refunds</h1>
+    </div>
+    <div class="content">
+        <div class="pod">
+            <div class="filter">
+                <form method="get">
+                    {{ filter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        
+            <!-- ORDERS PAGINATION -->
+            {% include 'global/pagination-cbv.html' %}
+
+            <div class="table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Refund Date</th>
+                            <th>Order Date</th>
+                            <th>Order Number</th>
+                            <th>Billing Name</th>
+                            <th>Order Total (£)</th>
+                            <th>Refund Amount (£)</th>
+                            <th>Items Refunded</th>
+                            <th>Refund Reason and Notes</th>           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for refund in object_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="first-col">
+                                {{ refund.date_time|date:'D - d M Y' }}
+                            </td>
+                            <td>
+                                {{ refund.order_id.date|date:'D - d M Y' }}
+                            </td>
+                            <td>
+                                <a href="{% url 'order-detail' refund.order_id.pk %}">{{ refund.order_id.order_no }}</a>
+                            </td>	
+                            <td>
+                                <a href="{% url 'customer-detail' refund.order_id.billing_email.pk %}">{{ refund.order_id.billing_firstname }} {{ refund.order_id.billing_lastname }}</a>
+                            </td>
+                            <td>
+                                £{{ refund.order_id.total_price_inc_vat }}
+                            </td>
+                            <td>
+                                £{{ refund.refund_amount }}
+                            </td>
+                            <td>
+                                <ul>
+                                {% for item in refund.refundorderitem_set.all %}
+                                    <li>{{ item.item_qty }} x {{ item.line_description }}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>  
+                            <td>
+                                <b>{{ refund.refund_reason }}</b><br>
+                                {% if refund.refund_note %}
+                                    {{ refund.refund_note }}
+                                {% endif %}
+                            </td>   
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td class="empty" colspan="8">
+                                There are no orders to display. 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination.html' %}
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="{% static 'js/return-list.js' %}"></script>
+{% endblock %}

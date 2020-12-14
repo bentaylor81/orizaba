@@ -23,6 +23,11 @@ class OrderStatusHistoryForm(forms.ModelForm):
         model = OrderStatusHistory
         fields = ["order_id", "status_type"]
 
+class RefundOrderForm(forms.ModelForm):
+    class Meta: 
+        model = RefundOrder
+        fields = ["order_id", "refund_amount", "xero_credit_note", "sagepay_refund", "email_customer", "refund_reason", "refund_note"]
+
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order

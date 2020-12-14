@@ -19,3 +19,22 @@ class OrderFilter(filters.FilterSet):
     class Meta:
         model = Order
         fields = ['order', 'billing_lastname', 'order_status', 'start_date', 'end_date']
+
+class RefundFilter(filters.FilterSet):
+
+    order = filters.CharFilter(field_name='order_id__order_no', label='Order Number', lookup_expr='icontains')
+    billing_lastname = filters.CharFilter(field_name='billing_lastname', label='Billing Surname', lookup_expr='icontains')   
+
+    class Meta:
+        model = RefundOrder
+        fields = ['order', 'billing_lastname']
+
+class ReturnFilter(filters.FilterSet):
+
+    order = filters.CharFilter(field_name='order_no', label='Order Number', lookup_expr='icontains')
+    billing_lastname = filters.CharFilter(field_name='billing_lastname', label='Billing Surname', lookup_expr='icontains')   
+
+    class Meta:
+        model = RefundOrder
+        fields = ['order', 'billing_lastname']
+        

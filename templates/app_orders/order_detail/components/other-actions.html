@@ -2,6 +2,15 @@
 <div class="other-actions">
     <div class="item">
         <div class="title">
+            Picklist:
+        </div>
+        <div class="action">
+            <button class="modal-button">Print</button>  
+            {% include 'app_orders/order_detail/modals/picklist.html' %}
+        </div>
+    </div> 
+    <div class="item">
+        <div class="title">
             Invoicing:
         </div>
         <div class="action">
@@ -9,18 +18,18 @@
                 {% csrf_token %}
                 <button name="download-invoice" type="submit">Download</button>
                 <button name="print-invoice" type="submit">Print</button>
-                <button class="modal-button" id="email-invoice" name="email">Email</button>
+                <button name="email" class="modal-button" id="email-invoice">Email</button>
                 {% include 'app_orders/order_detail/modals/email-invoice.html' %} <!-- Opens the modal showing Google maps -->
             </form>
         </div>
     </div>       
     <div class="item">
         <div class="title">
-            Picklist:
+            Returns:
         </div>
         <div class="action">
-            <button class="modal-button">Print</button>  
-            {% include 'app_orders/order_detail/modals/picklist.html' %}
+                <button name="refund-order" class="refundOrderButton modal-button">Refund Order</button>
+                {% include 'app_orders/order_detail/modals/refund-order.html' %}
         </div>
-    </div>              
+    </div>            
 </div>

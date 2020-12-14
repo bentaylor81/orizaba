@@ -1,0 +1,194 @@
+{% load mathfilters %}
+<div id="modal" class="modal large-modal">
+    <div id="refund-order" class="modal-container">
+        <div class="modal-top-bar">
+            <h1>Refund Order</h1>
+            <span class="modal-close">&times;</span>
+        </div>
+        <form class="form" method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                {% csrf_token %}  
+                <div class="table">
+                    <table class="item-table" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>  
+                                <th></th>
+                                <th>SKU</th>
+                                <th>Product Name</th>
+                                <th class="number">Item Price</th>
+                                <th class="number">Order Qty</th>
+                                <th class="number">Refund Qty</th>
+                                <th class="number">Cost ex vat</th>
+                                <th class="number">VAT</th>
+                                <th class="number">Cost inc vat</th>   
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <!-- TABLE ORDER ITEMS -->
+                            {% for item in order_items %}  
+                            <!-- Hidden Fields for Order Items -->
+                            <input hidden name="orderitem_id" value="{{ item.orderitem_id }}">
+                            <input hidden name="order_id" value="{{ item.order_id.order_id }}">
+                            <input hidden name="item_price" value="{{ item.item_price }}">      
+                            <input hidden name="refund_type" value="Order Item Refund">
+                            <input hidden name="line_description" value="{{ item.product_id.product_name }}"> 
+                            <input hidden name="xero_line_item" value="200">
+                            <input hidden name="ref_item_check" class="refCheckInput" value="on"><!-- Set using JS --> 
+                            <!-- End of Hidden Fields -->  
+                            <tr class="{% cycle 'row1' 'row2' %} refItemRow">
+                                <td class="input">
+                                    <input class="refItemCheckbox" checked type="checkbox">
+                                </td>
+                                <td>
+                                    {{ item.product_id.sku }}
+                                </td>
+                                <td>
+                                    {{ item.product_id.product_name }}
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemPrice">{{ item.item_price|floatformat:2 }}</span>
+                                </td>   
+                                <td class="number quantities">
+                                    <span class="refItemOrderedQty">{{ item.item_qty }}</span>
+                                    {% if item.refunded_qty != 0 %}
+                                        <span class="alreadyRefundedQty already-refunded-qty">{{ item.refunded_qty }}</span>
+                                    {% else %}
+                                        <span class="alreadyRefundedQty"></span>
+                                    {% endif %}
+                                </td> 
+                                <td class="number" class="qty">
+                                    <input name="item_qty" class="refItemQty" type="number" min="0" max="{{ item.item_qty }}"><!-- VALUE IN MODAL-REFUND_ORDER.JS -->
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemExVat">{{ item.total_price }}</span>
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemVat"><!-- SET IN MODAL-REFUND_ORDER.JS --></span>
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemIncVat"><!-- SET IN MODAL-REFUND_ORDER.JS --></span>
+                                </td>
+                            </tr>       
+                            {% endfor %}
+                            <!-- POSTAGE ITEMS -->
+                            <tr class="postage refItemRow row2">
+                                <!-- Hidden Fields for Postage -->
+                                <input hidden name="orderitem_id" value="1">
+                                <input hidden name="order_id" value="{{ order.order_id }}">
+                                <input hidden name="item_price" value="{{ order.delivery_price }}"> 
+                                <input hidden name="refund_type" value="Postage Refund"> 
+                                <input hidden name="line_description" value="Postage and Packing"> 
+                                <input hidden name="xero_line_item" value="210">
+                                <input hidden name="ref_item_check" class="refCheckInput" value="on"><!-- Set using JS --> 
+                                <!-- End of Hidden Fields -->  
+                                <td class="input">
+                                    <input class="refItemCheckbox" checked type="checkbox">
+                                </td>
+                                <td>
+                                    --
+                                </td>
+                                <td>
+                                    Postage and Packing
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemPrice">{{ order.delivery_price }}</span>
+                                </td>
+                                <td class="number quantities">
+                                    <span class="refItemOrderedQty">1</span>
+                                    {% if postage_already_refunded == True %}
+                                        <span class="alreadyRefundedQty already-refunded-qty">1</span>      
+                                    {% else %}       
+                                        <span class="alreadyRefundedQty"></span>
+                                    {% endif %}                           
+                                </td> 
+                                <td class="number" class="qty">
+                                    <input name="item_qty" class="refItemQty" type="number" min="0" max="1">
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemExVat">{{ order.delivery_price }}</span>
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemVat"><!-- SET IN ORDER-DETAIL.JS --></span>
+                                </td>
+                                <td class="number">
+                                    £<span class="refItemIncVat"><!-- SET IN ORDER-DETAIL.JS --></span>
+                                </td>
+                            </tr>
+                            <!-- TABLE TOTALS -->
+                            <tr class="row_dark_2">
+                                <td colspan="8" class="ref-total">
+                                    Selected Total:
+                                </td>
+                                <td class="number">
+                                    <b>£<span class="selectedTotal">{{ order.total_price_inc_vat }}</span></b>
+                                </td>
+                            </tr>
+                            <tr class="row_dark">
+                                <td colspan="8" class="ref-total">
+                                    Order Total:
+                                </td>
+                                <td class="number">
+                                    <b>£<span class="orderTotalPrice">{{ order.total_price_inc_vat }}</span></b>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+                <div class="refund-options">
+                    <div class="reason">
+                        <h4>Refund Reason</h4>
+                        <select name="refund_reason">
+                            <option hidden value="Other Reason">Select Reason...</option>                
+                            <option value="Customer Returned Order">Customer Returned Order</option>
+                            <option value="Incorrect Part Sent">Incorrect Part Sent</option>
+                            <option value="Faulty Part Refund">Faulty Part Refund</option>
+                            <option value="Cancelled Order Refund">Cancelled Order Refund</option>
+                            <option value="Duplicate Order Refund">Duplicate Order Refund</option>
+                            <option value="Postage Refund Orders Combined">Postage Refund Orders Combined</option>
+                            <option value="Postage Refund Other">Postage Refund Other</option>
+                            <option value="Other Reason">Other Reason</option>
+                        </select>
+                        <h4>Refund Notes</h4>
+                        <textarea name="refund_note"></textarea>
+                    </div>
+                    <div>
+                        <!-- Display the Previous Refunds if there are any -->
+                        {% if refunds %}
+                        <div class="previous-refunds">
+                            <h3>Previous Refunds</h3>
+                            {% for refund in refunds %}
+                                <span>{{ refund.date_time|date:'d M Y' }} - <b>£{{ refund.refund_amount }}</b></span><br>
+                            {% endfor %}
+                            <span class="total-refunded">Total Refunded: <b>£<span class="totalRefunded">{{ order.amount_refunded }}<span></b></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="refund-amount">
+                        {% if manual_refund_processed == True %}
+                            <span hidden class="manualRefundCheck">True</span>
+                        {% else %}
+                            <span hidden class="manualRefundCheck">False</span>
+                        {% endif %}  
+                    <label><b>Amount to Refund:</b> £ <input name="refund_amount" class="refTotalPrice" type="number" min="0" step=".01"></label>                          
+                    <!-- Manual Refund Section if parts and postage are not needed to be refunded -->
+                    <div class="manualLineDesc manual-line-desc">
+                        <label><b>Manual Line Description: </b><input name="line_description" value="Manual Refund"></label>
+                        <!-- Hidden Fields for Manual Line -->
+                        <input hidden name="refund_type" value="Manual Refund Amount"> 
+                        <input hidden name="orderitem_id" value="2">
+                        <input hidden name="order_id" value="{{ order.order_id }}">
+                        <input hidden name="item_price" class="manualLinePrice"> 
+                        <input hidden name="item_qty" class="manualLineItemQty" value="0"> 
+                        <input hidden name="total_price" class="manualLinePrice"> 
+                        <input hidden name="xero_line_item" value="200">
+                        <!-- End of Hidden Fields -->  
+                    </div>
+                </div>               
+                <div class="refund-actions">
+                    <button type="submit" name="process-refund">Process Refund</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

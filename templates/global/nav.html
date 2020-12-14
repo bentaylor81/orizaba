@@ -7,8 +7,11 @@
                 <span><i class="fas fa-angle-down"></i></span>
             </div>
             <ul class="dropdown">
-                <a href="{% url 'order-list' %}">
+                <a href="{% url 'return-list' %}">
                     <li data-sub-menu="returns">Returns</li>
+                </a>
+                <a href="{% url 'refund-list' %}">
+                    <li data-sub-menu="refunds">Refunds</li>
                 </a>
                 <a sub="tracking" href="{% url 'order-list' %}">
                     <li data-sub-menu="tracking">Tracking</li>

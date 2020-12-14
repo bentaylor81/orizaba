@@ -244,6 +244,18 @@ ST_USERNAME = config('ST_USERNAME')
 ST_PASSWORD = config('ST_PASSWORD')
 ST_HEADERS = {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': config('ST_AUTH')}
 
+# SAGEPAY
+SAGEPAY_INTEGRATION_KEY = config('SAGEPAY_INTEGRATION_KEY')
+SAGEPAY_PASSWORD = config('SAGEPAY_PASSWORD')
+SAGEPAY_VENDOR_NAME = config('SAGEPAY_VENDOR_NAME')
+SAGEPAY_HEADERS = { 'Content-Type': 'application/json', 'Authorization': config('SAGEPAY_TOKEN'), }
+
+# XERO
+XERO_REFRESH_TOKEN = config('XERO_REFRESH_TOKEN')
+XERO_CLIENT_ID = config('XERO_CLIENT_ID')
+XERO_CLIENT_SECRET = config('XERO_CLIENT_SECRET')
+XERO_HEADERS = {'Content-Type': 'application/json', 'Accept': 'application/json', 'xero-tenant-id': config('XERO_TENANT_ID'), 'Authorization': config('XERO_AUTH'), }
+
 # AMAZON S3 BUCKET CONFIG
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')

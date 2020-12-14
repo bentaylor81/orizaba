@@ -1,4 +1,18 @@
-// BILLING DETAILS
+//// CONTENTS - ORDER DETAIL ////
+
+// 1. BILLING DETAILS
+// 2. CREATE PICKLIST 
+// 3. EMAIL INVOICE - OPEN MODAL
+// 4. EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
+// 5. DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
+// 6. CREATE SHIPMENT - MODAL 
+
+//// JAVASCRIPT ////
+
+var query = document.querySelector.bind(document);
+var queryAll = document.querySelectorAll.bind(document);
+
+// 1. BILLING DETAILS
     // Convert the purchased on website code to readable format
 let purchased = document.querySelector('#purchased-on').innerHTML;
 
@@ -16,10 +30,12 @@ let purchased = document.querySelector('#purchased-on').innerHTML;
         site = 'hayterspares.co.uk'
     } else if (purchased.includes('BRIG')) {
         site = 'briggsandstrattonparts.co.uk' 
-    } 
+    } else {
+        site = 'None'
+    }
     document.querySelector('#purchased-on').innerHTML = site  
 
-// CREATE PICKLIST 
+// 2. CREATE PICKLIST 
     //Limit the Send Qty !> Item Qty
     // Set the initial Send Qty = Item Qty
 let sendQty = document.querySelectorAll('#send-qty input');
@@ -30,7 +46,7 @@ for(let i=0; i < sendQty.length; i++){
     sendQty[i].setAttribute("value", itemQty[i].innerHTML);
 }
 
-// EMAIL INVOICE - OPEN MODAL
+// 3. EMAIL INVOICE - OPEN MODAL
 let emailButton = document.querySelector('#email-invoice');
     emailButton.addEventListener('click', emailInvoice)
 
@@ -38,7 +54,7 @@ function emailInvoice(event) {
     event.preventDefault()   
 }
 
-// EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
+// 4. EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
 let customMessage = document.querySelector('#custom-message-textarea')
     emailTemplate = document.querySelector('#email-template')
     emailTemplateCustom = document.querySelector('#email-custom-message')
@@ -58,7 +74,7 @@ let customMessage = document.querySelector('#custom-message-textarea')
         submittedTextarea.innerHTML = emailTemplate.innerHTML    
     });
 
-// DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
+// 5. DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
 let deliveryType = document.querySelector('.delivery-type')
     deliveryTypeSelected =document.querySelector('.delivery-type-selected') 
     createShipmentButton = document.querySelector('.create-shipment button')
@@ -81,7 +97,7 @@ let deliveryType = document.querySelector('.delivery-type')
         deliveryType.style.padding = '5px';
     }
     
-// CREATE SHIPMENT - MODAL 
+// 6. CREATE SHIPMENT - MODAL 
 let itemRow = document.querySelectorAll('.item-table .item-row')
     weight = document.querySelectorAll('.item-table .weight')
     price = document.querySelectorAll('.item-table .price')
@@ -182,3 +198,5 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
                 }          
             });
         }
+
+

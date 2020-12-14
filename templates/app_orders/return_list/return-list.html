@@ -1,0 +1,97 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="returns" data-page="orders" data-sub-page="returns"> 
+    <div class="top-bar">
+        <h1>Returns</h1>
+    </div>
+    <div class="content">
+        <div class="pod">
+            <div class="filter">
+                <form method="get">
+                    {{ filter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <!-- PAGINATION -->
+            {% include 'global/pagination-cbv.html' %}
+
+            <div class="table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Order Date</th>
+                            <th>Order Number</th>
+                            <th>Billing Name</th>
+                            <th>Item(s) Received</th>
+                            <th>Inspection Passed</th>
+                            <th>Item(s) Refunded</th>
+                            <th>Order Amount</th>
+                            <th>Amount Refunded</th>           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for return in object_list %}
+                        <tr id="order-row" class="returnRow">
+                            <td class="first-col">
+                                {{ return.date }}<br>
+                                {{ return.time }}
+                            </td>
+                            <td>
+                                <a href="{% url 'order-detail' return.pk %}">{{ return.order_no }}</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'customer-detail' return.billing_email.pk %}">{{ return.billing_firstname }} {{ return.billing_lastname }}</a>
+                            </td>	
+                            <td class="receivedCell">
+                                {% if return.item_received == True %}
+                                    <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{ return.item_received_date|date:'D - d M Y' }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>	
+                            <td class="inspectionPassed">
+                                {% if return.inspection_passed == True %}
+                                    <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span>{{ return.inspection_passed_date|date:'D - d M Y' }}</span>
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
+                            <td class="itemRefunded">
+                                {% if return.item_refunded == True %}
+                                    <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{ return.item_refunded_date|date:'D - d M Y' }}
+                                {% else %}
+                                    --
+                                {% endif %} 
+                            </td>
+                            <td>
+                                £{{ return.total_price_inc_vat }}
+                            </td>
+                            <td>
+                                £{{ return.amount_refunded }}
+                            </td>    
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td class="empty" colspan="6">
+                                There are no orders to display. 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination.html' %}
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="{% static 'js/return-list.js' %}"></script>
+{% endblock %}

@@ -51,7 +51,34 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 #picklist-modal .modal-content .table { margin-bottom: 20px; }
 #picklist-modal .product-name { white-space: nowrap; }
 
-/* CREATE-SHIPMENT.HTML */
+/* REFUND ORDER MODAL */
+#refund-order.modal-container { width: 1000px; }
+#refund-order .modal-content { display: flex; flex-direction: column; }
+#refund-order .modal-content .table { margin-bottom: 20px;}
+#refund-order .modal-content .input { text-align: center; }
+#refund-order .modal-content .postage td { border-top: 1px solid #bbb; border-bottom: 1px solid #bbb; }
+#refund-order .modal-content .table .number { width: 70px; text-align: center; }
+#refund-order .modal-content .table input[type=number] { width: 40px; }
+#refund-order .modal-content .table .ref-total { text-align: right; }
+#refund-order .modal-content .table .quantities { position: relative; }
+#refund-order .modal-content .table .already-refunded-qty { display: block; background: #546ce2; color: #fff; padding: 2px; font-size: 10px; font-weight: bold; position: absolute; line-height: 16px; width: 16px; height: 16px; text-align: center; border-radius: 50%; top: 30%; left: 67%; }
+#refund-order .modal-content .refund-options { display: flex; width: 100%; margin-bottom: 15px; border-bottom: 1px solid #ddd; } 
+#refund-order .modal-content .refund-options .reason { flex: 1; }
+#refund-order .modal-content .refund-options .reason h4 { margin: 0px 0px 10px 0px; }
+#refund-order .modal-content .refund-options .reason select { margin-bottom: 10px; width: 400px; }
+#refund-order .modal-content .refund-options .reason textarea { width: 389px; height: 60px; margin-bottom: 10px; }
+#refund-order .modal-content .refund-options .check { text-align: right; margin-bottom: 15px; }
+#refund-order .modal-content .refund-options .previous-refunds { text-align: right; margin-bottom: 10px; background: #eee; padding: 8px; }
+#refund-order .modal-content .refund-options .previous-refunds h3 { margin-top: 0px; }
+#refund-order .modal-content .refund-options .previous-refunds span { margin-bottom: 5px; display: inline-block; }
+#refund-order .modal-content .refund-options .previous-refunds .total-refunded { border-top: 1px solid #ddd; padding-top: 10px; margin-top: 5px; width: 100%;  }
+#refund-order .modal-content .refund-amount { margin-bottom: 20px; text-align: right; }
+#refund-order .modal-content .refund-amount input { width: 70px; }
+#refund-order .modal-content .refund-amount .manual-line-desc { display: none; margin-top: 10px; }
+#refund-order .modal-content .refund-amount .manual-line-desc input { padding: 5px; width: 200px; }
+#refund-order .modal-content .refund-actions button { margin-right: 0px !important; }
+
+/* CREATE SHIPMENT MODAL */
 #create-shipment.modal-container { width: 1200px; }
 #create-shipment .modal-content { display: flex; }
 #create-shipment .modal-col-1 { width: 25%; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px; }

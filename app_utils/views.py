@@ -105,8 +105,7 @@ def shiptheory_tracking_code(request):
 # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
 def shiptheory_token(request):
     # Generate the Auth Token
-    url = settings.ST_URL_TOKEN
-    payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
+    payload='{"email": "https://api.shiptheory.com/v1/token", "password": "'+settings.ST_PASSWORD+'"}'
     response = requests.request("POST", url, headers=settings.ST_HEADERS, data=payload)
     token = json.loads(response.text)['data']['token']
     heroku_token = 'Bearer ' + token
@@ -114,6 +113,23 @@ def shiptheory_token(request):
     url = settings.HEROKU_URL_CONFIG_VARS
     auth = settings.HEROKU_BEARER_TOKEN
     payload='{"ST_AUTH":"'+heroku_token+'"}'
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
+    response = requests.request("PATCH", url, headers=headers, data=payload)
+    return render(request, 'app_utils/utils.html')
+
+### XERO TOKEN ###
+# REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS
+def xero_token(request):
+    # Refresh the Xero Access Token
+    url = "https://identity.xero.com/connect/token?="
+    payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
+    response = requests.request("POST", url, data=payload)
+    token = json.loads(response.text)['id_token']
+    xero_token = 'Bearer ' + token
+    # Update Heroku with Config Vars
+    url = settings.HEROKU_URL_CONFIG_VARS
+    auth = settings.HEROKU_BEARER_TOKEN
+    payload='{"XERO_AUTH":"'+xero_token+'"}'
     headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
     response = requests.request("PATCH", url, headers=headers, data=payload)
     return render(request, 'app_utils/utils.html')

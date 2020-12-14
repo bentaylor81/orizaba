@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
+from django.db.models import Q, Subquery, OuterRef, DecimalField, IntegerField, Sum, Count
 from app_products.models import *
 from app_utils.models import *
 from .filters import *
@@ -19,6 +19,7 @@ from django_filters.views import FilterView
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from django.core.exceptions import ObjectDoesNotExist
+import datetime
 import requests
 import json
 import pdfkit
@@ -54,6 +55,9 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         context['delivery_methods'] = OrderDeliveryMethod.objects.all()
         context['order_items'] = OrderItem.objects.filter(order_id=order_id)
         context['order_status_type'] = OrderStatusType.objects.all()
+        context['refunds'] = RefundOrder.objects.filter(order_id=order_id)
+        context['postage_already_refunded'] = RefundOrderItem.objects.filter(Q(order_id=order_id) & Q(refund_type='Postage Refund')).exists()
+        context['manual_refund_processed'] = RefundOrderItem.objects.filter(Q(order_id=order_id) & Q(refund_type='Manual Refund Amount')).exists()
         return context
 
     def get_object(self):
@@ -182,19 +186,133 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 print(form.errors)
                 messages.error(self.request, 'Invoice not sent as the form has errors')
 
+        elif 'process-refund' in request.POST:
+            form = RefundOrderForm(request.POST or None)   
+            if form.is_valid():
+                # ADDS A ROW TO THE REFUNDORDER TABLE
+                form.instance.order_id = form_order_id
+                form.save()
+                # ADD ROW TO REFUNDORDERITEM TABLE CORRESPONDING TO REFUNDED ITEMS
+                orderitem_id = request.POST.getlist('orderitem_id')
+                item_price = request.POST.getlist('item_price')
+                item_qty = request.POST.getlist('item_qty')
+                refund_type = request.POST.getlist('refund_type')
+                line_description = request.POST.getlist('line_description')
+                xero_line_item = request.POST.getlist('xero_line_item')
+                refundorder_id = RefundOrder.objects.latest('id')
+                # ITERATE OVER THE FORM LISTS
+                for orderitem_id, item_price, item_qty, refund_type, line_description, xero_line_item in zip(orderitem_id, item_price, item_qty, refund_type, line_description, xero_line_item):
+                    if int(item_qty) > 0:
+                        total_price = float(item_price) * int(item_qty)
+                        # CREATE A ROW IN REFUNDORDERITEM
+                        RefundOrderItem.objects.create(
+                            refund_type=refund_type,
+                            orderitem_id=orderitem_id,
+                            order_id=form_order_id,
+                            refundorder=refundorder_id,
+                            item_price=item_price,
+                            item_qty=item_qty,
+                            total_price = total_price,
+                            line_description = line_description,
+                            xero_line_item = xero_line_item
+                            )
+                        # UPDATE ORDERITEM TABLE WITH THE REFUNDED_QTY
+                        try:
+                            orderitem_form = OrderItem.objects.get(orderitem_id=orderitem_id)
+                            already_refunded_qty = RefundOrderItem.objects.filter(orderitem_id=orderitem_id).aggregate(Sum('item_qty'))['item_qty__sum'] or 0.00    
+                            orderitem_form.refunded_qty = already_refunded_qty
+                            orderitem_form.save()
+                        except:
+                            print('Last item not valid')
+                # UPDATE ORDER TABLE WITH THE AMOUNT REFUNDED
+                order_table = Order.objects.get(order_id=order_id)
+                refund_amount = RefundOrder.objects.filter(order_id=order_id).aggregate(Sum('refund_amount'))['refund_amount__sum'] or 0.00
+                order_table.amount_refunded = refund_amount
+                order_table.save()
+                # ADD THE ORDER REFUNDED STATUS TO ORDER STATUS HISTORY TABLE
+                order_inst = Order.objects.get(order_id=order_id)
+                type_inst = OrderStatusType.objects.get(pk=80)
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
+                # SET VARIABLES FOR SAGEPAY REFUND AND XERO CREDITNOTE
+                refundorder = RefundOrder.objects.filter(order_id=order_id).order_by('-pk')[0]  
+                ref_count = RefundOrder.objects.filter(order_id=order_id).count()
+                billing_name = order_inst.billing_firstname + ' ' + order_inst.billing_lastname
+                if ref_count > 1:
+                    ref_txcode = 'Refund-' + str(order_no) + '-' + str(ref_count)
+                    ref_cn_number = 'CN-' + str(order_no) + '-' + str(ref_count)
+                else:
+                    ref_txcode = 'Refund-' + str(order_no)
+                    ref_cn_number = 'CN-' + str(order_no)
+                now = datetime.datetime.now()
+                # PROCESS REFUND IN SAGEPAY
+                url = "https://pi-live.sagepay.com/api/v1/transactions"
+                refund_amount = int(refundorder.refund_amount * 100)
+                sagepay_tx_code = self.object.sagepay_tx_code     
+                sagepay_payload = '{"transactionType":"Refund","referenceTransactionId":"'+str(sagepay_tx_code)+'","vendorTxCode":"'+str(ref_txcode)+'","amount":'+str(refund_amount)+',"description":"'+str(refundorder.refund_reason)+'"}'
+                response = requests.request("POST", url, headers=settings.SAGEPAY_HEADERS, data=sagepay_payload)
+                print(response.text)
+                # CREATE A CREDITNOTE IN XERO
+                url = "https://api.xero.com/api.xro/2.0/CreditNotes" 
+                refundorderitems = RefundOrderItem.objects.filter(refundorder_id=refundorder).order_by('date_time')
+                line_items = []
+                for item in refundorderitems:
+                    line = {"Description": str(item.line_description) , "Quantity": str(item.item_qty) , "UnitAmount": str(item.total_price) , "AccountCode": str(item.xero_line_item) }
+                    line_items.append(line)
+                xero_payload = '{"Type":"ACCRECCREDIT","Status":"AUTHORISED","Contact":{"Name": "'+str(billing_name)+'"},"CreditNoteNumber":"'+str(ref_cn_number)+'","Reference":"'+str(ref_cn_number)+'","Date":"'+str(now)+'","LineAmountTypes":"Exclusive","LineItems":'+str(line_items)+'}'
+                response = requests.request("POST", url, headers=settings.XERO_HEADERS, data=xero_payload)
+                print(response.text)
+                # UPDATE THE STOCK VALUE FOR THE PRODUCTS
+                stockitems = RefundOrderItem.objects.filter(refundorder_id=refundorder) 
+                for stockitem in stockitems: 
+                    if(stockitem.refund_type == 'Order Item Refund'):
+                        orderitem_inst = OrderItem.objects.get(orderitem_id=stockitem.orderitem_id)  
+                        product_id = orderitem_inst.product_id
+                        adjustment_qty = stockitem.item_qty
+                        orizaba_stock_qty = orderitem_inst.product_id.orizaba_stock_qty
+                        comments = stockitem.refundorder.refund_reason
+                        # GETS NEW ROLLING STOCK QTY VALUE IN STOCKMOVEMENT TABLE
+                        current_stock_qty = int(orizaba_stock_qty) + int(stockitem.item_qty) 
+                        # CREATE ROW IN STOCKMOVEMENT TABLE     
+                        StockMovement.objects.create(date_added=now, product_id=product_id, adjustment_qty=adjustment_qty, movement_type="Return from Customer", current_stock_qty=current_stock_qty, comments=comments) 
+                        # ADDS NEW STOCK QTY TO QTY IN PRODUCT TABLE
+                        Product.objects.filter(pk=product_id.pk).update(orizaba_stock_qty=current_stock_qty)            
+
+                messages.success(request, 'Refund has been Processed')
+            else:
+                return self.form_invalid(form)
+
         elif 'status_type' in request.POST:
             form = OrderStatusHistoryForm(request.POST or None)
             if form.is_valid():
                 new_status = int(request.POST.get('status_type'))
+                order_inst = Order.objects.get(order_id=order_id)
+                now = datetime.datetime.now()
                 # ADD STATUS ENTRY TO ORDERSTATUSHISTORYTABLE
                 form.instance.order_id = form_order_id
                 form.save()
-                # SET ORDER TABLE STATUS_CURRENT TO NEW STATUS FOR MAIN ORDER STATUSES ONLY
+                ### UPDATE ORDERS TABLE BASED ON STATUS TYPES
+                # MAIN ORDER STATUSES - SET ORDER TABLE STATUS_CURRENT TO NEW STATUS
                 if new_status in range(0, 45):
                     type_inst = OrderStatusType.objects.get(pk=new_status) 
-                    order_inst = Order.objects.get(order_id=order_id)
                     order_inst.status_current = type_inst
-                    order_inst.save()             
+                # RETURN PENDING STATUS - SET RETURN_ORDER FLAG TO TRUE
+                elif new_status in range(50, 85):
+                    order_inst.return_order = True  
+                    # SET THE STATUS FLAGS AND DATES TO SHOW IN THE RETURNS TABLE 
+                    if new_status == 60:
+                        order_inst.item_received = True
+                        order_inst.item_received_date = now   
+                    elif new_status == 70:
+                        order_inst.inspection_passed = True
+                        order_inst.inspection_passed_date = now
+                    elif new_status == 80:
+                        order_inst.item_refunded = True
+                        order_inst.item_refunded_date = now              
+                # RETURN CANCELLED STATUS - SET RETURN_ORDER FLAG TO FALSE
+                elif new_status == 90:
+                    order_inst.return_order = False
+      
+                order_inst.save()
                 messages.success(request, 'Status has been Updated')
             else:
                 return self.form_invalid(form)
@@ -248,6 +366,26 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         # CREATE SHIPTHEORY SHIPMENT TASK   
         #async_task("app_utils.services.create_shiptheory_shipment_task", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")  
         return
+
+class ReturnList(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_orders/return_list/return-list.html'
+    model = Order
+    queryset = Order.objects.filter(return_order=True)
+    paginate_by = 20
+    filterset_class = ReturnFilter
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_path'] = self.request.get_full_path()
+        return context
+
+class RefundList(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_orders/refund_list/refund-list.html'
+    model = RefundOrder
+    paginate_by = 20
+    filterset_class = RefundFilter
 
 # FUNCTION TO CREATE THE PICKLIST PDF FROM PICKLIST HTML FILE
 def picklist_create(request, id):
