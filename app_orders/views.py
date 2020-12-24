@@ -189,8 +189,20 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         elif 'process-refund' in request.POST:
             form = RefundOrderForm(request.POST or None)   
             if form.is_valid():
+                # SET VARIABLES FOR SAGEPAY REFUND, XERO CREDITNOTE AND PDF CREDITNOTE
+                order_inst = Order.objects.get(order_id=order_id)     
+                ref_count = RefundOrder.objects.filter(order_id=order_id).count()
+                billing_name = order_inst.billing_firstname + ' ' + order_inst.billing_lastname
+                if ref_count > 0:
+                    ref_txcode = 'Refund-' + str(order_no) + '-' + str(ref_count)
+                    ref_cn_number = 'CN-' + str(order_no) + '-' + str(ref_count)
+                else:
+                    ref_txcode = 'Refund-' + str(order_no)
+                    ref_cn_number = 'CN-' + str(order_no)
+                now = datetime.datetime.now()
                 # ADDS A ROW TO THE REFUNDORDER TABLE
                 form.instance.order_id = form_order_id
+                form.instance.credit_note_number = ref_cn_number
                 form.save()
                 # ADD ROW TO REFUNDORDERITEM TABLE CORRESPONDING TO REFUNDED ITEMS
                 orderitem_id = request.POST.getlist('orderitem_id')
@@ -230,21 +242,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 order_table.amount_refunded = refund_amount
                 order_table.save()
                 # ADD THE ORDER REFUNDED STATUS TO ORDER STATUS HISTORY TABLE
-                order_inst = Order.objects.get(order_id=order_id)
                 type_inst = OrderStatusType.objects.get(pk=80)
                 OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
-                # SET VARIABLES FOR SAGEPAY REFUND AND XERO CREDITNOTE
-                refundorder = RefundOrder.objects.filter(order_id=order_id).order_by('-pk')[0]  
-                ref_count = RefundOrder.objects.filter(order_id=order_id).count()
-                billing_name = order_inst.billing_firstname + ' ' + order_inst.billing_lastname
-                if ref_count > 1:
-                    ref_txcode = 'Refund-' + str(order_no) + '-' + str(ref_count)
-                    ref_cn_number = 'CN-' + str(order_no) + '-' + str(ref_count)
-                else:
-                    ref_txcode = 'Refund-' + str(order_no)
-                    ref_cn_number = 'CN-' + str(order_no)
-                now = datetime.datetime.now()
                 # PROCESS REFUND IN SAGEPAY
+                refundorder = RefundOrder.objects.filter(order_id=order_id).order_by('-pk')[0]  
                 url = "https://pi-live.sagepay.com/api/v1/transactions"
                 refund_amount = int(refundorder.refund_amount * 100)
                 sagepay_tx_code = self.object.sagepay_tx_code     
@@ -261,6 +262,18 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 xero_payload = '{"Type":"ACCRECCREDIT","Status":"AUTHORISED","Contact":{"Name": "'+str(billing_name)+'"},"CreditNoteNumber":"'+str(ref_cn_number)+'","Reference":"'+str(ref_cn_number)+'","Date":"'+str(now)+'","LineAmountTypes":"Exclusive","LineItems":'+str(line_items)+'}'
                 response = requests.request("POST", url, headers=settings.XERO_HEADERS, data=xero_payload)
                 print(response.text)
+                # GENERATE CREDITNOTE PDF
+                projectUrl = 'http://' + request.get_host() + '/orders/%s/credit-note' % order_id
+                pdfkit.from_url(projectUrl, "static/pdf/credit-notes/%s.pdf" % ref_cn_number, configuration=settings.WKHTMLTOPDF_CONFIG)
+                # EMAIL CREDITNOTE TO THE CUSTOMER
+                to_email = order_inst.billing_email.billing_email
+                attachment = 'static/pdf/credit-notes/%s.pdf' % ref_cn_number
+                subject = 'Your Credit Note is Attached'
+                html = request.POST.get('email-html')
+                data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'bcc': settings.MAILGUN_BCC, 'subject': subject, 'html': html}
+                files = [('attachment', open(attachment,'rb'))]
+                response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
+                print(response.text.encode('utf8'))
                 # UPDATE THE STOCK VALUE FOR THE PRODUCTS
                 stockitems = RefundOrderItem.objects.filter(refundorder_id=refundorder) 
                 for stockitem in stockitems: 
@@ -273,7 +286,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                         # GETS NEW ROLLING STOCK QTY VALUE IN STOCKMOVEMENT TABLE
                         current_stock_qty = int(orizaba_stock_qty) + int(stockitem.item_qty) 
                         # CREATE ROW IN STOCKMOVEMENT TABLE     
-                        StockMovement.objects.create(date_added=now, product_id=product_id, adjustment_qty=adjustment_qty, movement_type="Return from Customer", current_stock_qty=current_stock_qty, comments=comments) 
+                        StockMovement.objects.create(date_added=now, product_id=product_id, adjustment_qty=adjustment_qty, movement_type="Returned Item", order_id=order_inst, current_stock_qty=current_stock_qty, comments=comments) 
                         # ADDS NEW STOCK QTY TO QTY IN PRODUCT TABLE
                         Product.objects.filter(pk=product_id.pk).update(orizaba_stock_qty=current_stock_qty)            
 
@@ -408,5 +421,19 @@ def invoice_create(request, id):
             'order': Order.objects.get(order_id=id),
         }
     return render(request, 'app_orders/order_detail/pdfs/invoice-create.html', context )
+
+# FUNCTION TO CREATE THE INVOICE PDF FROM INVOICE HTML FILE
+def credit_note_create(request, id):
+
+    refundorder_id = RefundOrder.objects.filter(order_id=id)[0]
+    items_total = RefundOrderItem.objects.filter(refundorder_id=refundorder_id).aggregate(Sum('total_price'))['total_price__sum'] or 0.00
+    vat = float(items_total) * 0.2
+
+    context = { 
+            'refundorder': RefundOrder.objects.filter(order_id=id)[0],
+            'items_total': items_total,
+            'vat' : vat,
+        }
+    return render(request, 'app_orders/order_detail/pdfs/credit-note-create.html', context )
 
 

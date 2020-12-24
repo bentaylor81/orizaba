@@ -53,7 +53,6 @@ class OrderNote(models.Model):
     class Meta:
         ordering = ["-date"]
 
-
 class RefundOrderItem(models.Model):
     CHOICES = [
         ('Order Item Refund', 'Order Item Refund'),
@@ -92,6 +91,7 @@ class RefundOrder(models.Model):
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
     refund_amount = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2) 
     date_time = models.DateTimeField(auto_now_add=True)
+    credit_note_number = models.CharField(max_length=200, blank=True)
     xero_credit_note = models.BooleanField(default=True) 
     sagepay_refund = models.BooleanField(default=True) 
     email_customer = models.BooleanField(default=True) 
@@ -154,6 +154,7 @@ class Order(models.Model):
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
     sagepay_tx_code = models.CharField(max_length=200, blank=True)
+    sagepay_tx_id = models.CharField(max_length=200, blank=True)
     status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True, default='10') 
     # BOOLEAN FLAG AND RETURN FIELDS
     initial_status_added = models.BooleanField(default=False) # Used to update the initial status
@@ -172,7 +173,7 @@ class Order(models.Model):
         return str(self.date) + ' | ' + str(self.order_no) + ' | ' + str(self.billing_firstname) + ' ' + str(self.billing_lastname) +  ' | ' + str(self.billing_email) + ' | ' + str(self.total_price_inc_vat)
 
     class Meta:
-        ordering = ["-date"]
+        ordering = ["-pk"]
 
 class OrderStatusType(models.Model):
     status = models.IntegerField(primary_key=True)

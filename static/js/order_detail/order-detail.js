@@ -6,6 +6,7 @@
 // 4. EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
 // 5. DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
 // 6. CREATE SHIPMENT - MODAL 
+// 7. REFUNDS COMPONENT 
 
 //// JAVASCRIPT ////
 
@@ -189,7 +190,6 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
         for(let i=0; i < sendQtyInput.length; i++){
 
             sendQtyInput[i].addEventListener('change', () => {
-                console.log(itemQtyInput[i].innerHTML)
                 if(sendQtyInput[i].value < parseInt(itemQtyInput[i].innerHTML)){
                     sendQtyInput[i].style.backgroundColor = '#1c89062e';
                 }     
@@ -199,4 +199,10 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
             });
         }
 
+// REFUND COMPONENT - CALCULATE ITEM PRICE INC VAT
+    let refItemAmount = document.querySelectorAll('.refItemAmount')
+        refItemAmountIncVat = document.querySelectorAll('.refItemAmountIncVat')
 
+        for(let i=0; i < refItemAmount.length; i++){
+         refItemAmountIncVat[i].innerHTML = parseFloat(refItemAmount[i].innerHTML * 1.2).toFixed(2)
+        }

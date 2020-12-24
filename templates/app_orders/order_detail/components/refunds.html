@@ -1,24 +1,27 @@
-{% load mathfilters %}
+{% load static %}
 <h2>Refunds</h2>
 <div class="refunds">
     {% for refund in refunds %}
     <div class="item">
         <i class="fas fa-sticky-note"></i>
         <div>
-            <h3>{{ refund.date_time|date:'D d M Y' }} - £{{ refund.refund_amount|mul:1.2|floatformat:2 }}</h3>
+            <h3>{{ refund.date_time|date:'D d M Y' }} - £{{ refund.refund_amount}}</h3>
             <div class="lines">
                 <ul>
                     {% for item in refund.refundorderitem_set.all %}
-                    <li><b>{{ item.item_qty }}</b> x {{ item.line_description }} - <b>£{{ item.total_price|mul:1.2|floatformat:2 }}</b></li>
+                    <span hidden class="refItemAmount">{{ item.total_price }}</span>
+                    <li><b>{{ item.item_qty }}</b> x {{ item.line_description }} - <b>£<span class="refItemAmountIncVat"></span></b></li>
                     {% endfor %}
                 </ul>
             </div>
-
             <div class="desc">
                 <span><b>Reason: </b></span><span>{{ refund.refund_reason }}</span>
                 {% if refund.refund_note %}
                 <span><b>Notes: </b></span><span>{{ refund.refund_note }}</span>
                 {% endif %}
+            </div>
+            <div class="download-cn">
+                <a target="blank" href="/static/pdf/credit-notes/{{ refund.credit_note_number }}.pdf">Download Credit Note</a>
             </div>
         </div>
     </div>

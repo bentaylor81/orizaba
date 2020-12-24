@@ -1,0 +1,21 @@
+{% load static %}
+<table cellpadding="0" cellspacing="0" style="font-family:'Roboto Condensed',arial">
+    <tbody>
+        <tr>
+            <td style="font-weight: normal; width: 100%;">
+                Dear {{ order.billing_firstname }},
+                <br><br>
+                We have processed a refund for your order {{ order.order_no }} made on {{ order.date|date:'d M Y' }}. This will reach your account within 3 - 5 working days. 
+                <br><br>
+                Your credit note is attached showing a breakdown of the amount refunded. 
+                <br><br>
+                Kind regards,
+                <br><br>
+                Garden Tractor Spares
+                <br><br>          
+                <img style="border:0px; display: block;" src="https://orizaba.co.uk/static/img/gts-logo-80.png">  
+            </td>
+        </tr>   
+    </tbody>
+</table>
+

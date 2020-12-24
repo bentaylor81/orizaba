@@ -33,25 +33,29 @@
                         </td>
                         <td class="invoice-details">
                             <div class="table-2">
-                                <h1>Sales Invoice</h1>
+                                <h1>Credit Note</h1>
                                 <table>
                                     <tr>
-                                        <td>Invoice Date:</td>
-                                        <td>{{ order.date|date:'d M Y' }}</td>
+                                        <td>Credit Note Date:</td>
+                                        <td>{{ refundorder.date_time|date:'d M Y' }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Invoice #:</td>
-                                        <td>{{ order.order_no }}</td>
+                                        <td>Credit Note #:</td>
+                                        <td>{{ refundorder.credit_note_number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Original Order #:</td>
+                                        <td>{{ refundorder.order_id.order_no }}</td>
                                     </tr>
                                     <tr>
                                         <td valign="top">Customer Info:</td>
                                         <td>   
-                                            {{ order.billing_firstname }} {{ order.billing_lastname }}<br />
-                                            {{ order.billing_address_1 }}<br />
-                                            {{ order.billing_address_2 }}<br />
-                                            {{ order.billing_city }}<br />
-                                            {{ order.billing_postcode }}<br />
-                                            {{ order.billing_country }}<br />    
+                                            {{ refundorder.order_id.billing_firstname }} {{ refundorder.order_id.billing_lastname }}<br />
+                                            {{ refundorder.order_id.billing_address_1 }}<br />
+                                            {{ refundorder.order_id.billing_address_2 }}<br />
+                                            {{ refundorder.order_id.billing_city }}<br />
+                                            {{ refundorder.order_id.billing_postcode }}<br />
+                                            {{ refundorder.order_id.billing_country }}<br />    
                                         </td>
                                     </tr>
                                 </table> 
@@ -71,37 +75,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for order_item in order.orderitem_set.all %}
+                        {% for item in refundorder.refundorderitem_set.all %}
                         <tr class="item-row">
-                            <td class="prod-name">{{ order_item.product_id.product_name }}</td>
-                            <td class="center">£{{ order_item.item_price }}</td>
-                            <td class="center">{{ order_item.item_qty }}</td>
-                            <td class="last-col">£{{ order_item.total_price }}</td>
+                            <td class="prod-name">{{ item.line_description }}</td>
+                            <td class="center">£{{ item.item_price }}</td>
+                            <td class="center">{{ item.item_qty }}</td>
+                            <td class="last-col">£{{ item.total_price }}</td>
                         </tr>
                         {% endfor %}
                         <tr class="row_dark_2">
                             <td class="totals" colspan="3">Items Total:</td>
-                            <td>£{{ order.items_total_price }}</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td class="totals" colspan="2">Postage:</td>
-                            <td>£{{ order.delivery_price }}</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td class="totals" colspan="2">Total Ex. Vat:</td>
-                            <td>£{{ order.total_price_ex_vat }}</td>
+                            <td>£{{ items_total }}</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td class="totals" colspan="2">VAT:</td>
-                            <td>£{{ order.vat|floatformat:2 }}</td>
+                            <td>£{{ vat|floatformat:2 }}</td>
                         </tr>
                         <tr class="row_dark last">
                             <td>&nbsp;</td>
                             <td class="totals" colspan="2"><b>Total Inc. VAT:</b></td>
-                            <td><b>£{{ order.total_price_inc_vat }}</b></td>
+                            <td><b>£{{ refundorder.refund_amount }}</b></td>
                         </tr>
                     </tbody>
                 </table>

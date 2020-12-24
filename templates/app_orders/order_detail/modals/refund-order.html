@@ -186,6 +186,8 @@
                     </div>
                 </div>               
                 <div class="refund-actions">
+                    # Add the HTML tempalte in here using Javascript
+                    <textarea hidden id="submittedEmailHTML" name="email-html">{% include 'app_orders/order_detail/emails/credit-note.html' %}</textarea>
                     <button type="submit" name="process-refund">Process Refund</button>
                 </div>
             </div>

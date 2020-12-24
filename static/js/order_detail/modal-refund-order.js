@@ -132,9 +132,9 @@ if(manualRefundCheck.innerHTML == 'True'){
 
 // 4. DISABLE THE REFUND BUTTON IF AMOUNT TO REFUND IF 0
 // Uncomment the if statement when putting feature live.
-// if(refTotalPrice.value == 0){
+if(refTotalPrice.value == 0){
     refundOrderButton.setAttribute('disabled', 'disabled')
-// }
+}
 
 
 

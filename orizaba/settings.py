@@ -202,7 +202,9 @@ Q_CLUSTER = {
         'host': config('REDIS_HOST'),
         'password': config('REDIS_PASSWORD'),
         'port': config('REDIS_PORT'),
-        'db': config('REDIS_DB'), },
+        'db': config('REDIS_DB'),
+        # 'redis' : config('REDIS_URL'), 
+    },
     'error_reporter': {
         'rollbar': {
             'access_token': '',

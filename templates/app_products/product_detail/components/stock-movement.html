@@ -50,32 +50,43 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in stock_movement %}
+        {% for item in stock_movement %}
             <tr class="{% cycle 'row1' 'row2' %}">
-                <td class="icons">
-                {% if item.movement_type == 'Online Sale' %}
-                    <i class="fas fa-money-bill"></i>
-                {% elif item.movement_type == 'Purchase Order Receipt' %}
-                    <i class="fas fa-receipt"></i>
-                {% else %}
-                    <i class="fas fa-sliders-h"></i>
-                {% endif %}               
-                </td>
-                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+            <!-- ONLINE SALE -->
+            {% if item.movement_type == 'Online Sale' %}
+                <td class="icons"><i class="fas fa-money-bill"></i></td>
                 <td>{{ item.movement_type }}</td>
-                <td>
-                {% if item.purchaseorder %}
-                    <a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
-                {% elif item.order_id %}
-                    <a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a>
-                {% elif item.movement_type == 'Manual Adjustment' %}
-                    {{ item.comments }}
-                {% endif %}
-                </td>
+                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+                <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
                 <td>{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            <!-- PURCHASE ORDER RECEIPT -->
+            {% elif item.movement_type == 'Purchase Order Receipt' %}
+                <td class="icons"><i class="fas fa-receipt"></i></td>
+                <td>{{ item.movement_type }}</td>
+                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+                <td><a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
+                <td>{{ item.adjustment_qty }}</td>
+                <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            <!-- RETURN FROM CUSTOMER -->
+            {% elif item.movement_type == 'Returned Item' %}  
+                <td class="icons"><i class="fas fa-chevron-circle-left"></i></td>
+                <td>{{ item.movement_type }} - {{ item.comments }}</td>
+                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+                <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
+                <td>{{ item.adjustment_qty }}</td>
+                <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            <!-- MANUAL ADJUSTMENT -->
+            {% else %}
+                <td class="icons"><i class="fas fa-sliders-h"></i></td>
+                <td>{{ item.movement_type }} - {{ item.comments }}</td>
+                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+                <td>--</td>
+                <td>{{ item.adjustment_qty }}</td>
+                <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            {% endif %}
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
     {% else %}
