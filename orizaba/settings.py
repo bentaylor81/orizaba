@@ -199,11 +199,11 @@ Q_CLUSTER = {
     # 'cpu_affinity': 1,
     # 'label': 'Django Q',
     'redis': {
-        'host': config('REDIS_HOST'),
-        'password': config('REDIS_PASSWORD'),
-        'port': config('REDIS_PORT'),
-        'db': config('REDIS_DB'),
-        # 'redis' : config('REDIS_URL'), 
+        # 'host': config('REDIS_HOST'),
+        # 'password': config('REDIS_PASSWORD'),
+        # 'port': config('REDIS_PORT'),
+        # 'db': config('REDIS_DB'),
+        'redis' : config('REDIS_URL'), 
     },
     'error_reporter': {
         'rollbar': {
