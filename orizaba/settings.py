@@ -190,6 +190,8 @@ MEDIA_ROOT = 'static/media'
 # DJANGO Q - ASYNQ TASKS
 Q_CLUSTER = {
     'name': 'orizaba',
+    'label': 'Django Q',
+    'redis' : config('REDIS_URL'),
     # 'workers': 8,
     # 'recycle': 500,
     # 'timeout': 60,
@@ -198,13 +200,13 @@ Q_CLUSTER = {
     # 'queue_limit': 500,
     # 'cpu_affinity': 1,
     # 'label': 'Django Q',
-    'redis': {
+    
+    # 'redis': {
         # 'host': config('REDIS_HOST'),
         # 'password': config('REDIS_PASSWORD'),
         # 'port': config('REDIS_PORT'),
-        # 'db': config('REDIS_DB'),
-        'redis' : config('REDIS_URL'), 
-    },
+        # 'db': config('REDIS_DB'),   
+    # },
     'error_reporter': {
         'rollbar': {
             'access_token': '',
