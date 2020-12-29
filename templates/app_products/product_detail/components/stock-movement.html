@@ -74,7 +74,7 @@
             <!-- RETURN FROM CUSTOMER -->
             {% elif item.movement_type == 'Returned Item' %}  
                 <td class="icons"><i class="fas fa-chevron-circle-left"></i></td>
-                <td>{{ item.movement_type }} - {{ item.comments }}</td>
+                <td >{{ item.movement_type }} - {{ item.comments }}</td>
                 <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
                 <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
                 <td class="change-qty">{{ item.adjustment_qty }}</td>

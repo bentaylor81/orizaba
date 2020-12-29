@@ -13,24 +13,29 @@
     {% include 'global/messages.html' %}
     <!-- END -->  
     <div class="content">
-        <div class="pod col-3">
-            <!-- PRODUCT AND STOCK COMPONENT -->
-            {% include 'app_products/product_detail/components/details.html' %}
-            <!-- END -->    
-            <!-- IMAGE COMPONENT -->
-            {% include 'app_products/product_detail/components/image.html' %}
-            <!-- END -->  
-            <!-- FINANCIALS COMPONENT -->
-            {% include 'app_products/product_detail/components/financials.html' %}
-            <!-- END -->             
+        <div>
+            <div class="pod col-2">
+                <!-- PRODUCT AND STOCK COMPONENT -->
+                {% include 'app_products/product_detail/components/details.html' %}
+                <!-- END -->    
+                <!-- IMAGE COMPONENT -->
+                {% include 'app_products/product_detail/components/image.html' %}
+                <!-- END -->  
+                <!-- FINANCIALS COMPONENT -->
+                {% include 'app_products/product_detail/components/financials.html' %}
+                <!-- END -->             
+            </div>
+            
         </div>
-        <div class="pod col-2">
-            <!-- STOCK MOVEMENT COMPONENT -->
-            {% include 'app_products/product_detail/components/stock-movement.html' %}
-            <!-- END -->   
-            <!-- PREVIOUS ORDERS COMPONENT -->
-            <!-- {% include 'app_products/product_detail/components/previous-orders.html' %} -->
-            <!-- END    -->
+        <div>
+            <div class="pod">
+                <!-- STOCK MOVEMENT COMPONENT -->
+                {% include 'app_products/product_detail/components/stock-movement.html' %}
+                <!-- END -->   
+                <!-- PREVIOUS ORDERS COMPONENT -->
+                <!-- {% include 'app_products/product_detail/components/previous-orders.html' %} -->
+                <!-- END    -->
+            </div>
         </div>
     </div>
 </section>

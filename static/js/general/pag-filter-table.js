@@ -13,7 +13,7 @@ let tableRow = Array.from(queryAll('.tableRow')) // All rows in the table
     dropDownFilter = query('.dropDownFilter')
     noItems = query('.noItems')
     // PAGINATION VARIABLES
-    rowsPerPage = 10
+    rowsPerPage = 20
     currentPage = 1
     totalPages = Math.ceil(tableRow.length/rowsPerPage)
     pageNext = query('.pageNext')
@@ -128,15 +128,16 @@ let tableRow = Array.from(queryAll('.tableRow')) // All rows in the table
 PaginateRows(currentPage)
 
 //// EVENT LISTENERS ////
-    // TEXT FILTER
-    textFilter.addEventListener('keyup', () => {
-        currentPage = 1
-        filterRows()          
-    })
     // DROPDOWN FILTER
     dropDownFilter.addEventListener('change', () => {
         currentPage = 1
         filterRows()
+    })
+    // TEXT FILTER
+    textFilter.addEventListener('keyup', (event) => {
+        scrollWin()
+        currentPage = 1
+        filterRows()          
     })
     // SET THE SELECTED OPTION BASED ON THE PAGE NUMBER
     pageSelect.addEventListener('change', () => {

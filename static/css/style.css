@@ -233,6 +233,7 @@
     #products i.arrow { cursor: pointer; }
 
     /* Product Detail Page */
+    #product .content { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px;  }
     #product .col-2 { display: grid; grid-template-columns: 1.6fr 1fr; grid-gap: 50px; }
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
     #product .table-2 table th { width: 150px; }
@@ -263,8 +264,9 @@
     #product .stock-movement .manual-adj .submit button { width: 80px; }
     #product .stock-movement .manual-adj #close-adj-icon { margin: 0px 0px 0px auto; }
     #product .stock-movement .manual-adj #close-adj-icon i { font-size: 22px; }
-    #product .stock-movement table td:first-child { width: 40px; }
-    #product .stock-movement table td:nth-child(n+3):nth-last-child(n+3) { width: 130px; }
+    #product .stock-movement table td:first-child { width: 20px; }
+    #product .stock-movement table td:nth-child(n+3) { width: 110px; }
+    #product .stock-movement table td:nth-child(n+4) { width: 90px; }
     #product .stock-movement table td:nth-child(n+5) { width: 70px; }
     #product .stock-movement table tr.no-items { display: none; }
     #product .stock-movement .change-qty { text-align: center; }
