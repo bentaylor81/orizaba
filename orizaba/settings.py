@@ -199,8 +199,7 @@ Q_CLUSTER = {
     # 'save_limit': 250,
     # 'queue_limit': 500,
     # 'cpu_affinity': 1,
-    # 'label': 'Django Q',
-    
+    # 'label': 'Django Q',   
     # 'redis': {
         # 'host': config('REDIS_HOST'),
         # 'password': config('REDIS_PASSWORD'),

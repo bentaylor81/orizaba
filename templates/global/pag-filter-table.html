@@ -1,0 +1,28 @@
+<!-- FILTERING - USES COMPONENTS.CSS -->
+<div class="js-filter">
+    <label>
+        Filter by: 
+        <select class="dropDownFilter movementTypeFilter">
+            <option selected></option>
+            <option>Online Sale</option>
+            <option>Purchase Order Receipt</option>
+            <option>Returned Item</option>
+            <option>Manual Adjustment</option>
+        </select>
+    </label>
+    <label>Search Reference: <input class="textFilter movementRefFilter" type="text"></label>  
+</div>
+<!-- PAGINATION - USES COMPONENTS.CSS AND PAGINATION.JS -->
+<div class="js-pagination">
+    <div class="page-stats">
+        Total: <span class="totalRows"></span><br>
+        Showing: <span class="startRowDisplayed"></span> of <span class="endRowDisplayed"></span>
+    </div>
+    <div class="page-controls">
+        <button class="pagePrev">Previous</button>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <select class="pageSelect"></select>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <button class="pageNext">Next</button>
+    </div>
+</div>

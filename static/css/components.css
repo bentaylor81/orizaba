@@ -1,0 +1,19 @@
+/* JS FILTERING COMPONENT */
+.js-filter { margin-bottom: 20px; }
+.js-filter label { font-weight: bold; margin-right: 20px; }
+.js-filter input{ font: 13px 'Roboto'; height: 26px; line-height: 26px; padding: 0px 5px; }
+.js-filter select { padding: 0px 5px; }
+
+/* JS PAGINATION COMPONENT */
+.js-pagination { margin-bottom: 10px; display: flex; align-items: center; }
+.js-pagination .page-stats { flex: 1; }
+.js-pagination .page-stats span { line-height: 20px; font-weight: bold; }
+.js-pagination .page-controls button { font: 13px 'Roboto'; background-color: #368cd7; color: #fff; border: 0px; border-radius: 3px; width: 70px; padding: 7px 0px; }
+.js-pagination .page-controls button:disabled, .js-pagination .page-controls select:disabled { opacity: 0.5; cursor: no-drop; }
+
+/* JS PAGINATION CLASSES */
+.tableRow { display: none; }
+.curPageRow { display: table-row; }
+.nonCurPageRow { display: none; }
+.noItems { display: none; }
+

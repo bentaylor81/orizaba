@@ -2,13 +2,19 @@
 
 // 1. STOCK QUANTITY SET CLASS
 // 2. STOCK MOVEMENT TABLE - SET THE STOCK QTY FORMAT IF IT IS NONE
-// 3. OPEN AND CLOSE THE ADD MANUAL STOCK ADJUSTMENT BLOCK
+    // 2A. - SET THE STOCK QTY FORMAT IF IT IS NONE
+    // 2B. OPEN AND CLOSE THE ADD MANUAL STOCK ADJUSTMENT BLOCK
+    // 2C. FILTER TABLE ITEMS FROM TEXT SEARCH AND DROPDOWN
 
 //// JAVASCRIPT ////
 
+var query = document.querySelector.bind(document);
+var queryAll = document.querySelectorAll.bind(document);
+var cn = console.log.bind(document);
+
 // 1. STOCK QUANTITY SET CLASS
     // Style the Stock Quantity class depending on the quantity
-    let stock = document.querySelectorAll('.stock span');
+    let stock = queryAll('.stock span');
 
     for(let i=0; i < stock.length; i++){
         let value = stock[i].innerHTML;
@@ -21,9 +27,9 @@
         }
     } 
     
-// 2. STOCK MOVEMENT TABLE - SET THE STOCK QTY FORMAT IF IT IS NONE
-    let stockQty = document.querySelectorAll('.stock-movement .stock-qty')
-
+// 2. STOCK MOVEMENT TABLE
+    // 2A. - SET THE STOCK QTY FORMAT IF IT IS NONE
+    let stockQty = queryAll('.stock-movement .stock-qty')
     for(let i=0; i < stockQty.length; i++){
         let value = stockQty[i].innerHTML;
         if (value == 'None') {
@@ -31,13 +37,14 @@
         }
     } 
 
-// 3. OPEN AND CLOSE THE ADD MANUAL STOCK ADJUSTMENT BLOCK
-    let openAdjAdd = document.querySelector('#add-adj-icon'); 
+    // 2B. OPEN AND CLOSE THE ADD MANUAL STOCK ADJUSTMENT BLOCK
+    let openAdjAdd = query('#add-adj-icon'); 
         openAdjAdd.addEventListener('click', function(){
-            document.querySelector('.add-adj-block').style.display = 'block';
+            query('.add-adj-block').style.display = 'block';
+        });
+    let closeAdjAdd = query('#close-adj-icon'); 
+        closeAdjAdd.addEventListener('click', function(){
+            query('.add-adj-block').style.display = 'none';
         });
 
-    let closeAdjAdd = document.querySelector('#close-adj-icon'); 
-        closeAdjAdd.addEventListener('click', function(){
-            document.querySelector('.add-adj-block').style.display = 'none';
-        });
+    
