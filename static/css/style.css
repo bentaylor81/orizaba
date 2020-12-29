@@ -233,14 +233,15 @@
     #products i.arrow { cursor: pointer; }
 
     /* Product Detail Page */
-    #product .content { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px;  }
-    #product .col-2 { display: grid; grid-template-columns: 1.6fr 1fr; grid-gap: 50px; }
+    #product .content { display: grid; grid-template-columns: 1.2fr 1fr; grid-gap: 20px;  }
+    #product .pod-1 { display: flex; justify-content: space-between; }
+    #product .pod-2 { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 50px; }
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
-    #product .table-2 table th { width: 150px; }
-    #product .stock-status-bar { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;  }
-    #product .stock {  width: 40%; font-size: 30px; background-color: #eee; padding: 15px 10px;}
+    #product .table-2 table th { width: 120px; }
+    #product .stock-status-bar { width: 400px; }
+    #product .stock { font-size: 30px; background-color: #eee; padding: 15px 10px; margin-bottom: 20px; }
     #product .stock span { font-weight: bold;  padding: 5px 15px;   }
-    #product .on-purchase-order {  width: 50%; display: flex; background-color: #eee; padding: 15px 10px; }
+    #product .on-purchase-order {  display: flex; background-color: #eee; padding: 15px 10px; }
     #product .on-purchase-order span { font-weight: bold; font-size: 30px; padding: 5px 15px; background: #1c71bb54; }
     #product .on-purchase-order .qty { width: 25%; }
     #product .on-purchase-order .po-details { width: 70%; line-height: 16px; }

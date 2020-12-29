@@ -13,7 +13,7 @@ let tableRow = Array.from(queryAll('.tableRow')) // All rows in the table
     dropDownFilter = query('.dropDownFilter')
     noItems = query('.noItems')
     // PAGINATION VARIABLES
-    rowsPerPage = 20
+    rowsPerPage = 10
     currentPage = 1
     totalPages = Math.ceil(tableRow.length/rowsPerPage)
     pageNext = query('.pageNext')

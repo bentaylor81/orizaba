@@ -14,27 +14,28 @@
     <!-- END -->  
     <div class="content">
         <div>
-            <div class="pod col-2">
+            <div class="pod pod-1">
+                <!-- IMAGE COMPONENT -->
+                {% include 'app_products/product_detail/components/image.html' %}
+                <!-- END --> 
+                <!-- STOCK STATUS COMPONENT -->
+                {% include 'app_products/product_detail/components/stock-status.html' %}
+                <!-- END -->   
+            </div>
+            <div class="pod pod-2">
                 <!-- PRODUCT AND STOCK COMPONENT -->
                 {% include 'app_products/product_detail/components/details.html' %}
                 <!-- END -->    
-                <!-- IMAGE COMPONENT -->
-                {% include 'app_products/product_detail/components/image.html' %}
-                <!-- END -->  
                 <!-- FINANCIALS COMPONENT -->
                 {% include 'app_products/product_detail/components/financials.html' %}
                 <!-- END -->             
-            </div>
-            
+            </div>   
         </div>
         <div>
             <div class="pod">
                 <!-- STOCK MOVEMENT COMPONENT -->
                 {% include 'app_products/product_detail/components/stock-movement.html' %}
                 <!-- END -->   
-                <!-- PREVIOUS ORDERS COMPONENT -->
-                <!-- {% include 'app_products/product_detail/components/previous-orders.html' %} -->
-                <!-- END    -->
             </div>
         </div>
     </div>
