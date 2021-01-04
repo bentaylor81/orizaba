@@ -8,6 +8,19 @@ var cn = console.log.bind(document);
 let bigCities = cities.filter(city => city.population > 3000000);
 console.log(bigCities);
 
+// EVENT LISTENERS
+myClass.addEventListener('change', () => {
+})
+
+// PREVENT DEFAULT
+todayButton.addEventListener('click', (event) => {
+    event.preventDefault()
+})
+
+// GET TODAY IN INPUT DATE FORMAT
+today = new Date();
+date = today.getFullYear()+'-'+('0'+(today.getMonth()+1)).slice(-2)+'-'+('0'+today.getDate()).slice(-2);
+
 
 
 

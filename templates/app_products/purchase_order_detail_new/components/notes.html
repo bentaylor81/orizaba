@@ -1,0 +1,21 @@
+<div class="notes">
+    <h2>
+        Notes
+        <span id="edit-note-icon" class="edit"><i class="fas fa-edit"></i></span>
+    </h2>
+    <div class="display-note">
+        {{ object.notes }}
+    </div>
+    <div class="edit-note"> 
+        <form id="po_form" class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+            <input type="hidden" name="reference" value="{{ object.reference }}">
+            <input type="hidden" name="supplier_reference" value="{{ object.supplier_reference }}">
+            <input type="hidden" name="supplier" value="{{ object.supplier }}">
+            <input type="hidden" name="status" value="{{ object.status }}">
+            <input type="hidden" name="date_ordered" value="{{ object.date_ordered|date:'Y-m-d' }}">
+            <textarea name="notes" rows="4">{{ object.notes }}</textarea><br>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>    
+</div>

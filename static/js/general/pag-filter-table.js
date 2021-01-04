@@ -13,7 +13,7 @@ let tableRow = Array.from(queryAll('.tableRow')) // All rows in the table
     dropDownFilter = query('.dropDownFilter')
     noItems = query('.noItems')
     // PAGINATION VARIABLES
-    rowsPerPage = 10
+    rowsPerPage = 30
     currentPage = 1
     totalPages = Math.ceil(tableRow.length/rowsPerPage)
     pageNext = query('.pageNext')
@@ -135,7 +135,6 @@ PaginateRows(currentPage)
     })
     // TEXT FILTER
     textFilter.addEventListener('keyup', (event) => {
-        scrollWin()
         currentPage = 1
         filterRows()          
     })

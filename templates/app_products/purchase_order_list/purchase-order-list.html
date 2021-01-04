@@ -42,11 +42,15 @@
                         {% for purchase_order in object_list %}	
                         <tr class="main-row {% cycle 'row1' 'row2' %}">
                             <td>{{ purchase_order.po_id }}</td>	
-                            <td><a href="{% url 'purchase-order-detail' purchase_order.pk %}">{{ purchase_order.reference }}</a></td>	
+                            <td>
+                                <a href="{% url 'purchase-order-detail' purchase_order.pk %}">{{ purchase_order.reference }}</a>
+                            </td>	
                             <td>{{ purchase_order.supplier }}</td>	
                             <td>{{ purchase_order.date_added|date:'D - d M Y'}}</td>
                             <td>{{ purchase_order.date_ordered|date:'D - d M Y'}}</td>	
-                            <td><span class="status">{{ purchase_order.status }}</span></td>
+                            <td><span class="status">{{ purchase_order.status }}</span>
+                                <a href="{% url 'purchase-order-detail-new' purchase_order.pk %}">x</a><!-- Temporary until live -->
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>

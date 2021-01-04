@@ -100,21 +100,20 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             if form.is_valid():
                 form.instance.order_id = form_order_id
                 form.instance.shipping_ref = shipping_ref
-                form.save()
+                form.save()          
+                # UPDATE THE SEND QTY FOR THE PICKLIST
+                orderitem = request.POST.getlist('orderitem_id')
+                send_qty = request.POST.getlist('send_qty')
+                for oi, sq in [(orderitem, send_qty)]:
+                    i=0
+                    while (i < len(oi)):
+                        instance = OrderItem.objects.get(orderitem_id=oi[i])
+                        instance.send_qty = sq[i]
+                        instance.save()
+                        i+=1
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()
                 if picklist == True:
-                    orderitem = request.POST.getlist('orderitem_id')
-                    send_qty = request.POST.getlist('send_qty')
-                    # UPDATE THE SEND QTY IN THE PICKLIST
-                    for oi, sq in [(orderitem, send_qty)]:
-                        i=0
-                        while (i < len(oi)):
-                            instance = OrderItem.objects.get(orderitem_id=oi[i])
-                            instance.send_qty = sq[i]
-                            instance.save()
-                            i+=1
-                    # PASS THE SEND QTY INTO THE PDF GENERATOR
                     self.print_picklist(self.request)  
                 # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
                 order_inst = Order.objects.get(order_id=order_id)
@@ -123,8 +122,39 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
                 order_inst.status_current = type_inst
                 order_inst.save()  
-                # SEND TO CREATE SHIPTHEORY SHIPMENT METHOD
-                self.create_shipment_shipment(self.request)       
+                # CREATE SHIPTHEORY SHIPMENT METHOD
+                shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
+                service_id = shipment.service_id.service_id 
+                firstname = shipment.delivery_firstname
+                lastname = shipment.delivery_lastname
+                address_1 = shipment.delivery_address_1
+                address_2 = shipment.delivery_address_2
+                city = shipment.delivery_city
+                postcode = shipment.delivery_postcode
+                country = shipment.delivery_country_code
+                phone = shipment.delivery_phone
+                email = shipment.delivery_email
+                total_price = shipment.total_price_ex_vat
+                weight = shipment.weight
+                # GET PRODUCT INFORMATION
+                shipment_products = OrderItem.objects.filter(order_id=order_inst)
+                product_lines = []
+                for product in shipment_products:
+                    if product.send_qty > 0:
+                        product_price = product.send_qty * product.item_price
+                        line = {'sku': str(product.product_id.sku),"name": str(product.product_id.product_name),"value":float(product_price),"commodity_code":"84329000","commodity_description":"Parts", "commodity_manucountry":"GB","commodity_composition":"Metal and Plastic"}
+                        product_lines.append(line)
+                product_lines = json.dumps(product_lines)
+                # CREATE SHIPTHEORY SHIPMENT
+                payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"},"products":'+str(product_lines)+'}'
+                response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
+                print(payload)
+                print(response.text)
+                # GET THE TRACKING CODE FROM RESULT AND SAVE
+                tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
+                if tracking_code:
+                    shipment.tracking_code = tracking_code
+                    shipment.save() 
                 messages.success(self.request, 'Shipment Created and Label Processing')  
             else:
                 return self.form_invalid(form)
@@ -261,6 +291,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                     line_items.append(line)
                 xero_payload = '{"Type":"ACCRECCREDIT","Status":"AUTHORISED","Contact":{"Name": "'+str(billing_name)+'"},"CreditNoteNumber":"'+str(ref_cn_number)+'","Reference":"'+str(ref_cn_number)+'","Date":"'+str(now)+'","LineAmountTypes":"Exclusive","LineItems":'+str(line_items)+'}'
                 response = requests.request("POST", url, headers=settings.XERO_HEADERS, data=xero_payload)
+                print(xero_payload)
+                print('############')
                 print(response.text)
                 # GENERATE CREDITNOTE PDF
                 projectUrl = 'http://' + request.get_host() + '/orders/%s/credit-note' % order_id
@@ -351,33 +383,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
         payload = '{"printerId": '+str(printer_id)+', "title": "Picking List for: '+str(order_no)+'", "color": "true", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/picklist.pdf", "source": "GTS Picking List"}'
         response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
         print(response.text.encode('utf8'))      
-        return
-
-    def create_shipment_shipment(self, request):
-        shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
-        # EXTRACT THE SHIPMENT VARIABLES
-        service_id = shipment.service_id.service_id 
-        firstname = shipment.delivery_firstname
-        lastname = shipment.delivery_lastname
-        address_1 = shipment.delivery_address_1
-        address_2 = shipment.delivery_address_2
-        city = shipment.delivery_city
-        postcode = shipment.delivery_postcode
-        country = shipment.delivery_country_code
-        phone = shipment.delivery_phone
-        email = shipment.delivery_email
-        total_price = shipment.total_price_ex_vat
-        weight = shipment.weight
-        # CREATE SHIPTHEORY SHIPMENT
-        payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"}}'
-        response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
-        # GET THE TRACKING CODE FROM RESULT AND SAVE
-        tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
-        if tracking_code:
-            shipment.tracking_code = tracking_code
-            shipment.save()
-        # CREATE SHIPTHEORY SHIPMENT TASK   
-        #async_task("app_utils.services.create_shiptheory_shipment_task", shipping_ref, hook="app_utils.services.create_shiptheory_shipment_hook")  
         return
 
 class ReturnList(LoginRequiredMixin, FilterView):

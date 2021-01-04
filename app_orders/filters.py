@@ -13,8 +13,8 @@ class OrderFilter(filters.FilterSet):
     order = filters.CharFilter(field_name='order_no', label='Order Number', lookup_expr='icontains')
     billing_lastname = filters.CharFilter(field_name='billing_lastname', label='Billing Surname', lookup_expr='icontains')       
     order_status = filters.ChoiceFilter(field_name='status_current', label='Order Status', choices=STATUS_CHOICES)  
-    start_date = filters.DateFilter(field_name='date', lookup_expr=('gt'), label='Date From', widget=forms.DateInput(attrs={'type': 'date', 'class': 'date-input'}))
-    end_date = filters.DateFilter(field_name='date', lookup_expr=('lt'), label='to', widget=forms.DateInput(attrs={'type': 'date', 'class': 'date-input'}))
+    start_date = filters.DateFilter(field_name='date', lookup_expr=('gt'), label='Date From', widget=forms.DateInput(attrs={'type': 'date', 'class': 'date-input', 'id':'dateFromInput'}))
+    end_date = filters.DateFilter(field_name='date', lookup_expr=('lt'), label='to', widget=forms.DateInput(attrs={'type': 'date', 'class': 'date-input', 'id':'dateToInput'}))
 
     class Meta:
         model = Order

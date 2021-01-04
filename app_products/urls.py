@@ -9,6 +9,7 @@ urlpatterns = [
     path('products/<pk>', ProductDetail.as_view(), name='product-detail'),
     path('purchase-orders', PurchaseOrderList.as_view(), name='purchase-order-list'),
     path('purchase-orders/<pk>', PurchaseOrderDetail.as_view(), name='purchase-order-detail'),
+    path('purchase-orders-new/<pk>', PurchaseOrderDetailNew.as_view(), name='purchase-order-detail-new'),
     path('suppliers', SupplierList.as_view(), name='supplier-list'),
     path('customers', CustomerList.as_view(), name='customer-list'),
     path('brands', BrandList.as_view(), name='brand-list'),  
