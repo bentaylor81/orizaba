@@ -3,7 +3,7 @@
 
 #invoice { font: 16px 'Arial'; line-height: 20px; }
 #invoice .header { display: inline-block; margin-bottom: 50px; width: 100%; }
-#invoice h1 { display: inline-block; font-size: 30px; background: #222; color: #fff; padding: 15px 20px; margin: 0px 0px 40px 0px; }
+#invoice h1 { display: inline-block; font-size: 28px; background: #222; color: #fff; padding: 15px 20px; margin: 0px 0px 40px 0px; }
 #invoice .company-details { float: left; display: block; }
 #invoice .company-details img { width: 150px; margin-bottom: 40px; }
 #invoice .invoice-details { text-align: right; }
