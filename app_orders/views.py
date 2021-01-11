@@ -297,15 +297,15 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 # GENERATE CREDITNOTE PDF
                 projectUrl = 'http://' + request.get_host() + '/orders/%s/credit-note' % order_id
                 pdfkit.from_url(projectUrl, "static/pdf/credit-notes/%s.pdf" % ref_cn_number, configuration=settings.WKHTMLTOPDF_CONFIG)
-                # EMAIL CREDITNOTE TO THE CUSTOMER
-                to_email = order_inst.billing_email.billing_email
-                attachment = 'static/pdf/credit-notes/%s.pdf' % ref_cn_number
-                subject = 'Your Credit Note is Attached'
-                html = request.POST.get('email-html')
-                data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'bcc': settings.MAILGUN_BCC, 'subject': subject, 'html': html}
-                files = [('attachment', open(attachment,'rb'))]
-                response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
-                print(response.text.encode('utf8'))
+                # # EMAIL CREDITNOTE TO THE CUSTOMER
+                # to_email = order_inst.billing_email.billing_email
+                # attachment = 'static/pdf/credit-notes/%s.pdf' % ref_cn_number
+                # subject = 'Your Credit Note is Attached'
+                # html = request.POST.get('email-html')
+                # data = {'from': settings.MAILGUN_FROM, 'to': to_email, 'bcc': settings.MAILGUN_BCC, 'subject': subject, 'html': html}
+                # files = [('attachment', open(attachment,'rb'))]
+                # response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
+                # print(response.text.encode('utf8'))
                 # UPDATE THE STOCK VALUE FOR THE PRODUCTS
                 stockitems = RefundOrderItem.objects.filter(refundorder_id=refundorder) 
                 for stockitem in stockitems: 
