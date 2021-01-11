@@ -6,7 +6,7 @@ class PrintProcess(models.Model):
     process_printer = models.ForeignKey('printer', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return str(self. process_name) + ' | ' + str(self.process_printer)
+        return str(self.process_name) + ' | ' + str(self.process_printer)
 
 class Printer(models.Model):
     CHOICES = [
@@ -25,3 +25,10 @@ class Printer(models.Model):
 
     class Meta:
         ordering = ["computer_control", "printer_name"]
+    
+class apiLog(models.Model):
+    api = models.CharField(max_length=200, blank=True, null=True) 
+    response = models.CharField(max_length=5000, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.id) + ' | ' + str(self.response)

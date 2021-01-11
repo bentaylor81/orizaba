@@ -287,7 +287,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 refundorderitems = RefundOrderItem.objects.filter(refundorder_id=refundorder).order_by('date_time')
                 line_items = []
                 for item in refundorderitems:
-                    line = {"Description": str(item.line_description) , "Quantity": str(item.item_qty) , "UnitAmount": str(item.total_price) , "AccountCode": str(item.xero_line_item) }
+                    line = {"Description": str(item.line_description) , "Quantity": str(item.item_qty) , "UnitAmount": str(item.item_price) , "AccountCode": str(item.xero_line_item) }
                     line_items.append(line)
                 xero_payload = '{"Type":"ACCRECCREDIT","Status":"AUTHORISED","Contact":{"Name": "'+str(billing_name)+'"},"CreditNoteNumber":"'+str(ref_cn_number)+'","Reference":"'+str(ref_cn_number)+'","Date":"'+str(now)+'","LineAmountTypes":"Exclusive","LineItems":'+str(line_items)+'}'
                 response = requests.request("POST", url, headers=settings.XERO_HEADERS, data=xero_payload)

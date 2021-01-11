@@ -35,9 +35,9 @@ def xero_token_task(request):
     url = "https://identity.xero.com/connect/token?="
     payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
     response = requests.request("POST", url, data=payload)
-    token = json.loads(response.text)['id_token']
+    access_token = json.loads(response.text)['access_token']
     refresh_token = json.loads(response.text)['refresh_token']
-    xero_token = 'Bearer ' + token
+    xero_token = 'Bearer ' + access_token
     # Update Heroku with Config Vars
     url = settings.HEROKU_URL_CONFIG_VARS
     auth = settings.HEROKU_BEARER_TOKEN
