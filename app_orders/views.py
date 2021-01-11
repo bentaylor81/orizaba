@@ -278,8 +278,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 refundorder = RefundOrder.objects.filter(order_id=order_id).order_by('-pk')[0]  
                 url = "https://pi-live.sagepay.com/api/v1/transactions"
                 refund_amount = int(refundorder.refund_amount * 100)
-                sagepay_tx_code = self.object.sagepay_tx_code     
-                sagepay_payload = '{"transactionType":"Refund","referenceTransactionId":"'+str(sagepay_tx_code)+'","vendorTxCode":"'+str(ref_txcode)+'","amount":'+str(refund_amount)+',"description":"'+str(refundorder.refund_reason)+'"}'
+                sagepay_tx_id = self.object.sagepay_tx_id     
+                sagepay_payload = '{"transactionType":"Refund","referenceTransactionId":"'+str(sagepay_tx_id)+'","vendorTxCode":"'+str(ref_txcode)+'","amount":'+str(refund_amount)+',"description":"'+str(refundorder.refund_reason)+'"}'
                 response = requests.request("POST", url, headers=settings.SAGEPAY_HEADERS, data=sagepay_payload)
                 print(response.text)
                 # CREATE A CREDITNOTE IN XERO

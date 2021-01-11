@@ -157,8 +157,9 @@
 
     /* Orders Page */
     #orders .content table { width: 100%; }
-    #orders .sub-button { width: 50px; padding: 1px; }
     #orders .filter input { width: 140px; }
+    #orders .filter a { cursor: pointer; }
+    #orders .filter button { margin-left: 30px; }
     #orders table td:first-child { width: 15%; }
     #orders table td:nth-child(2) { width: 15%; }
     #orders table td:nth-child(n+3):nth-child(-n+5) { width: 15%; }
