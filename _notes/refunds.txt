@@ -1,0 +1,12 @@
+Refund Tables Updated on Refund
+
+1. Order Table => amount_refunded
+2. Orderitem Table => refunded_qty
+3. Refundorder => whole line
+4. Refundorderitem => whole line
+5. Orderstatushisotry => whole line
+
+Plus there is stock to update as well
+
+
+WHERE app_orders_orderitem.order_id = 40564

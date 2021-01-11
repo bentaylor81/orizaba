@@ -32,6 +32,9 @@ let refItemRow = queryAll('.refItemRow')
     totalRefunded = query('.totalRefunded')
     manualRefundCheck = query('.manualRefundCheck')
 
+    console.log('hello')
+    console.log()
+
 // 1. MAIN LOOP - CALCULATE TOTALS
 for(let i=0; i < refItemRow.length; i++){
     // SET THE REFUNDQTY VALUE TO refItemOrderedQty - alreadyRefundedQty
@@ -75,7 +78,9 @@ for(let i=0; i < refItemRow.length; i++){
     });      
     
     // 1C. FUNCTION TO CALCULATE ALL OF THE TOTALS
-    function calculateTotals() {      
+    function calculateTotals() {  
+        // COUNT NUMBER OF CHECKBOXES CURRENTLY CHECKED  
+        refItemCheckboxChecked = queryAll('.refItemCheckbox:checked')  
         // CALCULATE THE VAT AND TOTAL FIGURES
         refItemExVat[i].innerHTML = (refItemQty[i].value * (parseFloat(refItemPrice[i].innerHTML))).toFixed(2)
         refItemVat[i].innerHTML = ((parseFloat(refItemExVat[i].innerHTML) * 0.2).toFixed(2))
@@ -86,8 +91,14 @@ for(let i=0; i < refItemRow.length; i++){
         for(let j=0; j < refItemRow.length; j++) { 
             tableTotal += parseFloat(refItemIncVat[j].innerHTML)
         }
+            
         // SET THE SELECTED TOTAL TO TABLE TOTAL SET ABOVE
-        selectedTotal.innerHTML = tableTotal.toFixed(2)
+        // DUE TO MAGENTO ROUNDING ERROR, TOTALS ARE NOT CALCULATED BY JS IF ALL CHECKBOXES ARE CHECKED
+        if(refItemCheckbox.length == refItemCheckboxChecked.length) {
+            selectedTotal.innerHTML = parseFloat(orderTotalPrice)
+        } else {
+            selectedTotal.innerHTML = tableTotal.toFixed(2)
+        }
         // SET AMOUNT TO REFUND FIELD TO THE SELECTED TOTAL AND MAX AMOUNT
         refTotalPrice.value = selectedTotal.innerHTML
         refTotalPrice.setAttribute('max', refTotalPrice.value)
@@ -112,7 +123,6 @@ refTotalPrice.addEventListener('keyup', () => {
 }); 
 
 // 3. MANUAL REFUND NOT ALLOW FURTHER ITEM REFUNDS - CHECK IF THERE ARE FURTHER ITEMS
-console.log(manualRefundCheck.innerHTML)
 if(manualRefundCheck.innerHTML == 'True'){
     
     // SET THE TOTAL PRICE BOX
