@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import render
 from app_products.models import *
 from app_orders.models import *
+from app_utils.models import *
 from .filters import *
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -163,4 +164,9 @@ class StockSync(LoginRequiredMixin, FilterView):
     filterset_class = StockSyncFilter
     ordering = ['stock_balances', '-stock_discrepancy']
 
-
+### API LOG ###
+class ApiLogList(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_utils/api-log-list.html'
+    model = ApiLog
+    paginate_by = 50

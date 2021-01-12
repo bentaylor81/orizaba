@@ -150,6 +150,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
                 print(payload)
                 print(response.text)
+                ApiLog.objects.create(process='Create Shipment', api_service='Ship Theory', response_code=response, response_text=response.text) # LOG RESULT  
                 # GET THE TRACKING CODE FROM RESULT AND SAVE
                 tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
                 if tracking_code:
@@ -197,6 +198,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             payload = '{"printerId": '+str(printer_id)+', "title": "Invoice for: ' +str(order_no)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/invoice.pdf", "source": "GTS Order Invoice"}'
             response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
             print(response.text.encode('utf8'))
+            ApiLog.objects.create(process='Print Invoice', api_service='PrintNode', response_code=response, response_text=response.text) # LOG RESULT  
             messages.success(self.request, 'Printing Invoice')
 
         elif 'email-invoice' in request.POST:
@@ -211,6 +213,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 files = [('attachment', open('static/pdf/GTS-Invoice.pdf','rb'))]
                 response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
                 print(response.text.encode('utf8'))
+                ApiLog.objects.create(process='Email Invoice', api_service='Mailgun', response_code=response, response_text=response.text) # LOG RESULT  
                 messages.success(self.request, 'Invoice has been emailed to ' + to_email)
             else: 
                 print(form.errors)
@@ -282,6 +285,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 sagepay_payload = '{"transactionType":"Refund","referenceTransactionId":"'+str(sagepay_tx_id)+'","vendorTxCode":"'+str(ref_txcode)+'","amount":'+str(refund_amount)+',"description":"'+str(refundorder.refund_reason)+'"}'
                 response = requests.request("POST", url, headers=settings.SAGEPAY_HEADERS, data=sagepay_payload)
                 print(response.text)
+                ApiLog.objects.create(process='Process Refund', api_service='Sagepay', response_code=response, response_text=response.text) # LOG RESULT                
                 # CREATE A CREDITNOTE IN XERO
                 url = "https://api.xero.com/api.xro/2.0/CreditNotes" 
                 refundorderitems = RefundOrderItem.objects.filter(refundorder_id=refundorder).order_by('date_time')
@@ -294,6 +298,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 print(xero_payload)
                 print('############')
                 print(response.text)
+                ApiLog.objects.create(process='Process Refund', api_service='Xero', response_code=response, response_text=response.text) # LOG RESULT  
                 # GENERATE CREDITNOTE PDF
                 projectUrl = 'http://' + request.get_host() + '/orders/%s/credit-note' % order_id
                 pdfkit.from_url(projectUrl, "static/pdf/credit-notes/%s.pdf" % ref_cn_number, configuration=settings.WKHTMLTOPDF_CONFIG)
@@ -306,6 +311,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 files = [('attachment', open(attachment,'rb'))]
                 response = requests.request("POST", settings.MAILGUN_URL, headers=settings.MAILGUN_HEADERS, data=data, files=files)
                 print(response.text.encode('utf8'))
+                ApiLog.objects.create(process='Process Refund', api_service='Mailgun', response_code=response, response_text=response.text) # LOG RESULT  
                 # UPDATE THE STOCK VALUE FOR THE PRODUCTS
                 stockitems = RefundOrderItem.objects.filter(refundorder_id=refundorder) 
                 for stockitem in stockitems: 

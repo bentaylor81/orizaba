@@ -9,6 +9,7 @@ urlpatterns = [
     # INDIVIDUAL PAGES 
     path('utils/stock-reconcile', StockMovementList.as_view(), name='stock-reconcile'),
     path('utils/stock-sync', StockSync.as_view(), name='stock-sync'),  
+    path('utils/api-log-list', ApiLogList.as_view(), name='api-log-list'),  
     # SEPARATE FUNCTIONS
     path('utils', views.utils, name='utils-list'),
     path('utils/orizaba-stock-reset', views.orizaba_stock_reset, name='orizaba-stock-reset'),   

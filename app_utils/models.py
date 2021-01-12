@@ -26,9 +26,15 @@ class Printer(models.Model):
     class Meta:
         ordering = ["computer_control", "printer_name"]
     
-class apiLog(models.Model):
-    api = models.CharField(max_length=200, blank=True, null=True) 
-    response = models.CharField(max_length=5000, blank=True, null=True)
+class ApiLog(models.Model):
+    api_service = models.CharField(max_length=200, blank=True, null=True) 
+    response_code = models.CharField(max_length=200, blank=True, null=True)
+    response_text = models.CharField(max_length=5000, blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+    process = models.CharField(max_length=200, blank=True, null=True) 
 
     def __str__(self):
         return str(self.id) + ' | ' + str(self.response)
+
+    class Meta:
+        ordering = ["-id"]
