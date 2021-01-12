@@ -142,7 +142,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 for product in shipment_products:
                     if product.send_qty > 0:
                         product_price = product.send_qty * product.item_price
-                        line = {'sku': str(product.product_id.sku),"name": str(product.product_id.product_name),"value":float(product_price),"weight":float(product.product_id.weight),"commodity_code":"84329000","commodity_description":"Parts", "commodity_manucountry":"GB","commodity_composition":"Metal and Plastic"}
+                        line = {'sku': str(product.product_id.sku),"name": str(product.product_id.product_name),"value":float(product_price),"weight":float(product.product_id.weight),"commodity_code":"84329000","commodity_description":"Parts for Garden Machinery","commodity_manucountry":"GB","commodity_composition":"Metal and Plastic"}
                         product_lines.append(line)
                 product_lines = json.dumps(product_lines)
                 # CREATE SHIPTHEORY SHIPMENT
