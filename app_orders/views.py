@@ -142,7 +142,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 for product in shipment_products:
                     if product.send_qty > 0:
                         product_price = product.send_qty * product.item_price
-                        line = {'sku': str(product.product_id.sku),"name": str(product.product_id.product_name),"value":float(product_price),"commodity_code":"84329000","commodity_description":"Parts", "commodity_manucountry":"GB","commodity_composition":"Metal and Plastic"}
+                        line = {'sku': str(product.product_id.sku),"name": str(product.product_id.product_name),"value":float(product_price),"weight":float(product.product_id.weight),"commodity_code":"84329000","commodity_description":"Parts", "commodity_manucountry":"GB","commodity_composition":"Metal and Plastic"}
                         product_lines.append(line)
                 product_lines = json.dumps(product_lines)
                 # CREATE SHIPTHEORY SHIPMENT
@@ -327,7 +327,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                         StockMovement.objects.create(date_added=now, product_id=product_id, adjustment_qty=adjustment_qty, movement_type="Returned Item", order_id=order_inst, current_stock_qty=current_stock_qty, comments=comments) 
                         # ADDS NEW STOCK QTY TO QTY IN PRODUCT TABLE
                         Product.objects.filter(pk=product_id.pk).update(orizaba_stock_qty=current_stock_qty)            
-
                 messages.success(request, 'Refund has been Processed')
             else:
                 return self.form_invalid(form)
