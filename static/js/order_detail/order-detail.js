@@ -198,6 +198,19 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
                 }          
             });
         }
+    // CHECK IF SHIPMENT HAS ALREADY BEEN CREATED
+    let submitShipment = query('.submitShipment')
+        trackedShipment = queryAll('.trackedShipment')
+        confirmShipment = query('.confirmShipment')
+        
+        submitShipment.addEventListener('click', (e) => {
+            if(trackedShipment.length > 0) {
+                e.preventDefault()
+                confirmShipment.style.display = 'block'
+                submitShipment.setAttribute('disabled', 'disabled')
+            }
+        })
+        
 
 // REFUND COMPONENT - CALCULATE ITEM PRICE INC VAT
     let refItemAmount = document.querySelectorAll('.refItemAmount')

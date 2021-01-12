@@ -32,9 +32,6 @@ let refItemRow = queryAll('.refItemRow')
     totalRefunded = query('.totalRefunded')
     manualRefundCheck = query('.manualRefundCheck')
 
-    console.log('hello')
-    console.log()
-
 // 1. MAIN LOOP - CALCULATE TOTALS
 for(let i=0; i < refItemRow.length; i++){
     // SET THE REFUNDQTY VALUE TO refItemOrderedQty - alreadyRefundedQty
