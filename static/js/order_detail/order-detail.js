@@ -158,6 +158,7 @@ let itemRow = document.querySelectorAll('.item-table .item-row')
         // DISABLE THE BUTTON IF NO METHOD IS SELECTED
         // SET THE COLOUR OF THE DELIVERY METHOD LABEL
         deliveryMethodSelect.addEventListener('change', function(){
+            confirmShipment.style.display = 'none'
             if(deliveryMethodSelect.value == 'Select Delivery Method') {
                 deliveryMethodDiv.style.backgroundColor = '#1c89062e'
                 shippingActionsButton.setAttribute('disabled', 'disabled')
