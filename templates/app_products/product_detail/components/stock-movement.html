@@ -30,7 +30,7 @@
                 </div>
                 <div class="submit">
                     <div class="title">&nbsp;</div>
-                    <button>Submit</button>
+                    <button name="stock-movement">Submit</button>
                 </div>
                 <div id="close-adj-icon"><i class="far fa-window-close"></i></div>
             </div>
@@ -63,6 +63,14 @@
                 <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
                 <td class="change-qty">{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            <!-- RETURN FROM CUSTOMER -->
+            {% elif item.movement_type == 'Returned Item' %}  
+                <td class="icons"><i class="reversal fas fa-money-bill"></i></td>
+                <td >{{ item.movement_type }} - {{ item.comments }}</td>
+                <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
+                <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
+                <td class="change-qty">{{ item.adjustment_qty }}</td>
+                <td class="stock-qty">{{ item.current_stock_qty }}</td>
             <!-- PURCHASE ORDER RECEIPT -->
             {% elif item.movement_type == 'Purchase Order Receipt' %}
                 <td class="icons"><i class="fas fa-receipt"></i></td>
@@ -71,12 +79,12 @@
                 <td><a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
                 <td class="change-qty">{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>
-            <!-- RETURN FROM CUSTOMER -->
-            {% elif item.movement_type == 'Returned Item' %}  
-                <td class="icons"><i class="fas fa-chevron-circle-left"></i></td>
-                <td >{{ item.movement_type }} - {{ item.comments }}</td>
+            <!-- PURCHASE ORDER RECEIPT - REVERSAL-->
+            {% elif item.movement_type == 'Purchase Order Receipt - Reversal' %}
+                <td class="icons"><i class="reversal fas fa-receipt"></i></td>
+                <td>{{ item.movement_type }}</td>
                 <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
-                <td><a href="{% url 'order-detail' item.order_id.order_id %}">{{ item.order_id.order_no }}</a></td>
+                <td><a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
                 <td class="change-qty">{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>
             <!-- MANUAL ADJUSTMENT -->

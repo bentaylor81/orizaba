@@ -9,16 +9,12 @@
                     <tr>
                         <td colspan="2">
                             <input type="file" value="{{ object.product_image }}" name="product_image"><br><br>
-                            {% if object.product_image == 'img/no-image.png' %}
-                                <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ object.image }}" />
-                            {% else %}
-                                <img src="{{ object.product_image.url }}">
-                            {% endif %}
+                            <img src="{{ object.product_image.url }}">
                         </td>
                     </tr>
                     <tr>
                         <th></th>
-                        <td><button id="submit-button" name="submit-image" type="submit">Submit</button></td>
+                        <td><button id="submit-button" name="product-details" type="submit">Submit</button></td>
                     </tr>
                 </table>
             </form>

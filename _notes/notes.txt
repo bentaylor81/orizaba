@@ -1,0 +1,21 @@
+### FORMS ###
+
+# Log Errors - print((form.errors.as_data())
+
+### MODALS ###
+
+1. Insert below the modal button
+
+    {% include 'app_products/product_detail/modals/view-image.html' %}<!-- Opens the Modal -->
+
+2. Add modal class into modal button
+
+    <i class="fas fa-images modal-button"></i>
+    
+3. Create the file in modals folder by copying one of the current modals
+
+4. Edit CCS in modal.css and add a new class for specific modal. e.g. .confirm-modal
+
+
+
+    

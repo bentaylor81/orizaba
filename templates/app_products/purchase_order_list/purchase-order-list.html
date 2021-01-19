@@ -30,27 +30,38 @@
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>PO #</th>
-                            <th>Reference</th>
+                            <th>Reference</th>  
                             <th>Supplier</th>
                             <th>Date Added</th>
                             <th>Date Ordered</th>
-                            <th>Status</th>
+                            <th>Total Lines</th>
+                            <th>Total Parts</th>
+                            <th>Received</th>
+                            <th>Outstanding</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         {% for purchase_order in object_list %}	
                         <tr class="main-row {% cycle 'row1' 'row2' %}">
+                            <td class="status">{{ purchase_order.status }}</td>
                             <td>{{ purchase_order.po_id }}</td>	
-                            <td>
-                                <a href="{% url 'purchase-order-detail' purchase_order.pk %}">{{ purchase_order.reference }}</a>
-                            </td>	
+                            <td><a href="{% url 'purchase-order-detail' purchase_order.pk %}">{{ purchase_order.reference }}</a></td>	
                             <td>{{ purchase_order.supplier }}</td>	
                             <td>{{ purchase_order.date_added|date:'D - d M Y'}}</td>
-                            <td>{{ purchase_order.date_ordered|date:'D - d M Y'}}</td>	
-                            <td><span class="status">{{ purchase_order.status }}</span>
-                                <a href="{% url 'purchase-order-detail-new' purchase_order.pk %}">x</a><!-- Temporary until live -->
+                            <td>
+                                {% if purchase_order.date_ordered %}
+                                    {{ purchase_order.date_ordered|date:'D - d M Y'}}</td>	
+                                {% else %}
+                                    --
+                                {% endif %}
                             </td>
+                            <td>{{ purchase_order.total_lines }}</td>
+                            <td>{{ purchase_order.order_qty }}</td>
+                            <td>{{ purchase_order.received_qty }}</td>
+                            <td>{{ purchase_order.outstanding_qty }}</td>
                         </tr>
                         {% empty %}
                         <tr>

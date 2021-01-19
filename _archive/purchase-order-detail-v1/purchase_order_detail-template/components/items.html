@@ -11,7 +11,7 @@
             <input class="po-item-id" type="hidden">
             <input class="po-item-product" type="hidden">
             <input class="po-item-product-sku" type="hidden">
-            <div class="po-item-product">
+            <div class="po-item-product autocomplete">
                 <b>Product SKU:</b>
                 <div>
                     <input type="text">
@@ -54,19 +54,22 @@
                 </tr>
             </thead>
             <tbody>       
-                {% for item in po_items %}
+                {% for item in po_item_form %}
                 <tr class="part-row {% cycle 'row1' 'row2' %}" onclick="closeAddBlock()">
+                    {% for hidden in item.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}   
                     <td class="icon-right">&nbsp;</td>
                     <td class="col-40 part-count"><b>{{ forloop.counter }}</b></td>
-                    <td class="col-80 part-sku">{{ item.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
-                    <td class="col-300"><a href="{% url 'product-detail' item.product.pk %}">{{ item.product.product_name }}</a></td>
-                    <td class="col-60 part-ordered">{{ item.order_qty }}</td>
-                    <td class="col-60 part-received">{{ item.received_qty }}</td>
-                    <td class="col-60 part-outstanding">{{ item.outstanding_qty }}<span></span></td>
+                    <td class="col-80 part-sku">{{ item.instance.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
+                    <td class="col-300"><a href="{% url 'product-detail' item.instance.product.pk %}">{{ item.instance.product.product_name }}</a></td>
+                    <td class="col-60 part-ordered">{{ item.instance.order_qty }}</td>
+                    <td class="col-60 part-received">{{ item.instance.received_qty }}</td>
+                    <td class="col-60 part-outstanding">{{ item.instance.outstanding_qty }}<span></span></td>
                     <td class="col-60 received-select">
                         {{ item.label }}
                         <select class="part-select" type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" onchange="this.form.submit()">
-                        {% with ''|center:item.outstanding_qty as range %}
+                        {% with ''|center:item.instance.outstanding_qty as range %}
                             <option class="blank-option" name="item" value="0">--</option>
                             {% for _ in range %}
                             <option name="item" value="{{ forloop.counter }}">{{ forloop.counter }}</option>
@@ -77,16 +80,16 @@
                     <td class="col-40 stock"><span>{{ item.instance.product.stock_qty }}</span></td>                    
                     <td class="comments">
                         <div class="show">
-                            {% if item.comments %}
-                                {{ item.comments}} 
+                            {% if item.instance.comments %}
+                                {{ item.instance.comments}} 
                             {% else %}
                                 <i class="fas fa-edit"></i>
                             {% endif %}
                             <span>
-                                {% if item.date_updated %}
-                                    <i><b>{{ item.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;
+                                {% if item.instance.date_updated %}
+                                    <i><b>{{ item.instance.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;
                                 {% endif %}
-                                    <span class="date-received">{{ item.date_updated|date:'D d M Y' }}</span></i>
+                                    <span class="date-received">{{ item.instance.date_updated|date:'D d M Y' }}</span></i>
                             </span>
                         </div>
                         <div class="edit">
@@ -103,7 +106,7 @@
                                 {% if item.instance.product.product_image == 'img/no-image.png' %}
                                     <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
                                 {% else %}
-                                     <img src="/static/media/{{ item.product.product_image }}">
+                                     <img src="/static/media/{{ item.instance.product.product_image }}">
                                 {% endif %}
                             </div>  
                             <!-- FURTHER ACTIONS SECTION -->
@@ -112,11 +115,11 @@
                                 <div>
                                     <span class="title">Edit Order Qty:</span>
                                     <span class="edit-qty">{{ item.order_qty }}<button>Edit</button></span>
-                                    {% if item.received_qty != 0 %}  
+                                    {% if item.instance.received_qty != 0 %}  
                                         <span class="title">Reset Receipt Qty:</span>
                                         <span class="reset-receipt"><input hidden disabled value="-{{ item.instance.received_qty }}" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"><button type="submit">Reset</button></span>  
                                     {% endif %}
-                                    {% if item.received_qty == 0 %}             
+                                    {% if item.instance.received_qty == 0 %}             
                                         <span class="title">Delete Part from PO:</span>
                                         <span class="delete-part">{{ item.DELETE }}<button>Delete</button></span>
                                     {% endif %}

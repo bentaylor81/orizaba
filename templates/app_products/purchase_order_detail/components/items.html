@@ -1,44 +1,33 @@
 {% load static %}
 <div>
-    <h2>Purchase Order Items&nbsp;&nbsp;&nbsp;<i id="open-part-add" class="far fa-plus-square"></i></h2>
-    <form id="po_item_form" method="post" enctype="multipart/form-data">
+    <h2>Purchase Order Items&nbsp;&nbsp;&nbsp;<i class="openPartAdd open-part-add far fa-plus-square"></i></h2>   
+    <!-- ADD PART FORM - EXPANDABLE BLOCK -->
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ po_item_form.management_form }}
-        <!-- EXPANDABLE SECTION FOR ADDING A PART -->
-        <!-- GENERATED VIA THE jS PURCHASE-ORDER-DETAIL.JS LINE 125 -->
-        <div class="add-po-item">
-            <input class="po-id" type="hidden" value="1">
-            <input class="po-item-id" type="hidden">
-            <input class="po-item-product" type="hidden">
-            <input class="po-item-product-sku" type="hidden">
-            <div class="po-item-product">
-                <b>Product SKU:</b>
-                <div>
-                    <input type="text">
-                    <div id="match-list"></div>
+        <div class="addPoItem add-item">
+            <div class="add-container">
+                <input name="product_id" class="po-item-product" hidden>
+                <div class="autocomplete add-product">
+                    <label>Product SKU:<br><input type="text"><div id="match-list"></div></label>   
                 </div>
-            </div>
-            <div class="po-item-qty">
-                <b>Qty:</b>
-                <div>
-                    <input type="number" value="1" min="1">
+                <div class="add-qty">
+                    <label>Qty:<br><input name="order_qty" type="number" value="1" min="1"></label>
                 </div>
-            </div>
-            <div class="po-item-button">
-                &nbsp;
-                <div>
-                    <button>Add Part</button>
+                <div class="add-button">
+                    <br><button disabled class="addPartButton" name="add-part" type="submit">Add Part</button>
                 </div>
+                <div class="closePartAdd close-part-add"><i class="far fa-window-close"></i></div>
             </div>
-            <div id="close-part-add" onclick="closeAddBlock()"><i class="far fa-window-close"></i></div>
-        </div>    
-        <!-- JAVASCRIPT FILTER OF THE LIST -->
-        <!-- HIDDEN WHEN THE ADD PURCHASE ORDER SECTION IS OPEN --> 
-        <div class="po-filter">
-            <b>SKU Filter: </b><input id="sku-input" type="text" value="" />
-        </div>
-        <!-- MAIN TABLE DISPLAYING ALL ADDED PARTS -->    
-        <table cellpadding="0" cellspacing="0">                         
+        </div> 
+    </form>   
+    <!-- JAVASCRIPT FILTER OF THE LIST -->
+    <div class="poFilter po-filter">
+        <b>SKU Filter: </b><input class="filterInput" type="text" />
+    </div>
+    <!-- UPDATE PART QUANTITIES FORM  -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        <table class="poTable" cellpadding="0" cellspacing="0">                         
             <thead>
                 <tr>
                     <th></th>
@@ -51,90 +40,86 @@
                     <th>Label / Add</th>
                     <th>Stock</th>
                     <th>Comments</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>       
-                {% for item in po_item_form %}
-                <tr class="part-row {% cycle 'row1' 'row2' %}" onclick="closeAddBlock()">
-                    {% for hidden in item.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}   
-                    <td class="icon-right">&nbsp;</td>
-                    <td class="col-40 part-count"><b>{{ forloop.counter }}</b></td>
-                    <td class="col-80 part-sku">{{ item.instance.product.sku }}{{ item.product }}{{ item.product_sku }}</td>
-                    <td class="col-300"><a href="{% url 'product-detail' item.instance.product.pk %}">{{ item.instance.product.product_name }}</a></td>
-                    <td class="col-60 part-ordered">{{ item.instance.order_qty }}</td>
-                    <td class="col-60 part-received">{{ item.instance.received_qty }}</td>
-                    <td class="col-60 part-outstanding">{{ item.instance.outstanding_qty }}<span></span></td>
-                    <td class="col-60 received-select">
-                        {{ item.label }}
-                        <select class="part-select" type="number" data="select" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" onchange="this.form.submit()">
-                        {% with ''|center:item.instance.outstanding_qty as range %}
-                            <option class="blank-option" name="item" value="0">--</option>
+                {% for item in po_items %}
+                <tr class="partRow part-row {% cycle 'row1' 'row2' %}">
+                    <!-- HIDDEN PURCHASE ORDER ITEMS - FORM DATA -->
+                    <input hidden name="poitem_id" type="text" value="{{ item.id }}">
+                    <input hidden name="product_id" type="text" value="{{ item.product.product_id }}">
+                    <input hidden name="print_label" type="text" class="printLabel">            
+                    <!-- END -->
+                    <td class="rowArrowIcon icon-right">&nbsp;</td>
+                    <td class="number partCount">{{ forloop.counter }}</td>
+                    <td class="partSku">{{ item.product }}</td>
+                    <td><a href="{% url 'product-detail' item.product.pk %}">{{ item.product.product_name }}</a></td>
+                    <td class="number">{{ item.order_qty }}</td>
+                    <td class="receivedQty number">{{ item.received_qty }}</td>
+                    <td class="number">{{ item.outstanding_qty }}</td>
+                    <td class="receivedSelect received-select">
+                        <!-- printLabelCheck VALUE ASSIGNED to printLabel ABOVE -->
+                        <input class="printLabelCheck" type="checkbox">
+                        <select class="deliveryQty" name="delivery_qty" type="number" onchange="this.form.submit()">
+                        {% with ''|center:item.outstanding_qty as range %}
+                            <option value="0">--</option>
                             {% for _ in range %}
-                            <option name="item" value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
                             {% endfor %}
                         {% endwith %}
-                        </select>     
+                        </select>    
                     </td>
-                    <td class="col-40 stock"><span>{{ item.instance.product.stock_qty }}</span></td>                    
+                    <td class="stock"><span>{{ item.product.stock_qty }}</span></td>                    
                     <td class="comments">
-                        <div class="show">
-                            {% if item.instance.comments %}
-                                {{ item.instance.comments}} 
-                            {% else %}
-                                <i class="fas fa-edit"></i>
-                            {% endif %}
-                            <span>
-                                {% if item.instance.date_updated %}
-                                    <i><b>{{ item.instance.received_status }}</b>&nbsp;&nbsp;-&nbsp;&nbsp;
-                                {% endif %}
-                                    <span class="date-received">{{ item.instance.date_updated|date:'D d M Y' }}</span></i>
-                            </span>
+                        <div class="show showComment">
+                            {{ item.comments}} 
                         </div>
-                        <div class="edit">
-                            {{ item.comments }}<button type="submit"><i class="fas fa-check"></i></button>
-                            <input class="date_updated" type="hidden" name="purchaseorderitem_set-{{ forloop.counter0 }}-date_updated" value="{{ item.instance.date_updated|date:'Y-m-d' }}" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-date_updated">
+                        <div class="edit editComment">
+                            <input class="editCommentInput" name="comments" type="text" value="{{ item.comments }}">
+                            <button type="submit"><i class="fas fa-check"></i></button>
                         </div>
+                    </td>
+                    <td class="receivedStatus received-status">
+                        {{ item.received_status }} 
+                        {% if item.date_updated %}
+                            on {{ item.date_updated|date:'D d M Y' }}
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <!-- APPENDS extra-image CLASS TO THE BELOW DIV WHEN THE ROW IS SELECTED -->
-                    <td class="product-image" colspan=10>
-                        <div class="extra-content">                 
+                    <td class="further-row" colspan="11">
+                        <div class="extraContent extra-content">                 
                             <div class="extra-image">
                                 {% if item.instance.product.product_image == 'img/no-image.png' %}
                                     <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
                                 {% else %}
-                                     <img src="/static/media/{{ item.instance.product.product_image }}">
+                                     <img src="/static/media/{{ item.product.product_image }}">
                                 {% endif %}
                             </div>  
                             <!-- FURTHER ACTIONS SECTION -->
                             <div class="further-actions">
                                 <h3>Further Actions</h3>
                                 <div>
-                                    <span class="title">Edit Order Qty:</span>
-                                    <span class="edit-qty">{{ item.order_qty }}<button>Edit</button></span>
-                                    {% if item.instance.received_qty != 0 %}  
-                                        <span class="title">Reset Receipt Qty:</span>
-                                        <span class="reset-receipt"><input hidden disabled value="-{{ item.instance.received_qty }}" name="purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty" id="id_purchaseorderitem_set-{{ forloop.counter0 }}-delivery_qty"><button type="submit">Reset</button></span>  
-                                    {% endif %}
-                                    {% if item.instance.received_qty == 0 %}             
-                                        <span class="title">Delete Part from PO:</span>
-                                        <span class="delete-part">{{ item.DELETE }}<button>Delete</button></span>
-                                    {% endif %}
+                                    <label>Reset Receipt Qty:</label>
+                                    <button class="resetButton modal-button" onclick="event.preventDefault()">Reset</button>
+                                    {% include 'app_products/purchase_order_detail/modals/confirm-reset.html' %}
+                                    <label>Delete Part from PO:</label>
+                                    <button class="deleteButton modal-button" onclick="event.preventDefault()">Delete</button>
+                                    {% include 'app_products/purchase_order_detail/modals/confirm-delete.html' %}
                                 </div>
                             </div>   
                         </div>
                     </td>
                 </tr>
-                {% empty %}
-                <tr>
-                    <td class="empty" colspan="10">
+                {% endfor %}   
+                <!-- DISPLAY IF NO PARTS ADDED -->
+                <tr hidden class="emptyRow">
+                    <td class="empty" colspan="11">
                         There are no purchase order items to display. 
                     </td>
-                </tr>
-                {% endfor %}            
+                </tr>              
             </tbody>
         </table>
     </form>

@@ -1,4 +1,4 @@
-const search = document.querySelector('.po-item-product input')
+const search = document.querySelector('.autocomplete input')
 const matchList = document.querySelector('#match-list')
 const matchItem = document.querySelectorAll('#match-list .match-item')
 

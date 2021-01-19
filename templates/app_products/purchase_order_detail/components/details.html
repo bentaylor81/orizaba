@@ -1,59 +1,64 @@
-<div class="table-2">
-    <table cellpadding="0" cellspacing="0">  
-        <tr class="po-status">
-            <th>PO Status:</th>
-            <td>
-                <div class="edit-status">
-                    <form id="po_form" class="form" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <select id="po_form" name="status" onchange="this.form.submit()">
-                            <option value="{{ object.status }}" selected hidden>{{ object.status }}</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Part Receipt">Part Receipt</option>
-                            <option value="Unleashed">Unleashed</option>
-                            <option value="Complete">Complete</option>
-                        </select>
-                        <input type="hidden" name="reference" value="{{ object.reference }}">
-                        <input type="hidden" name="supplier_reference" value="{{ object.supplier_reference }}">
-                        <input type="hidden" name="supplier" value="{{ object.supplier }}">
-                        <input type="hidden" name="date_ordered" value="{{ object.date_ordered|date:'Y-m-d' }}">
-                        <input type="hidden" name="notes" value="{{ object.notes }}">
-                    </form> 
-                </div>    
-                <div class="display-status">
-                    <span class="status">{{ object.status }}</span>
-                    <span id="edit-status-icon" class="edit"><i class="fas fa-edit"></i><span>
-                </div>
-            </td>
-    </tr>
-        <tr>
-            <th>PO Number:</th>
-            <td id="po-id">{{ object.pk }}</a></td>
-        </tr>
-        <tr>
-            <th>GTS Ref:</th>
-            <td>{{ object.reference }}</td>
-        </tr>
-        <tr>
-            <th>Supplier Ref:</th>
-            <td>{{ object.supplier_reference }}</td>
-        </tr>
-        <tr>
-            <th>Supplier:</th>
-            <td>{{ object.supplier }}</td>
-        </tr>
-        <tr>
-            <th>Date Added:</th>
-            <td>{{ object.date_added|date:'D - d M Y' }}</td>
-        </tr><tr>
-            <th>Date Ordered:</th>
-            <td>
-                {% if object.date_ordered %}
-                    {{ object.date_ordered|date:'D - d M Y' }}
-                {% else %}
-                    --
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+<!-- DETAILS SECTION -->
+<div class="po-details">           
+    <span class="poStatus po-status">{{ object.status }}</span>
+    <label>PO Number:</label>
+    <span class="poNumber">{{ object.pk }}</span>
+    <label>GTS Ref:</label>
+    <span>{{ object.reference }}</span>
+    <label>Supplier Ref:</label>
+    <span>{{ object.supplier_reference }}</span>
+    <label>Supplier:</label>
+    <span>{{ object.supplier }}</span>
+    <label>Date Added:</label>
+    <span>{{ object.date_added|date:'D - d M Y' }}</span>
+    <label>Date Ordered:</label>
+    <span>
+        {% if object.date_ordered %}
+            {{ object.date_ordered|date:'D - d M Y' }}
+        {% else %}
+            --
+        {% endif %}
+    </span>
 </div>
+<!-- TOTALS SECTION -->
+<div class="po-totals">
+    <div>
+        <label>Total Lines:</label>
+        <span class="qty">{{ object.total_lines }}</span>
+    </div>
+    <div>
+        <label>Parts Received:</label>
+        <span class="totalReceived qty">{{ object.received_qty }}</span>
+    </div>
+    <div>
+        <label>Total Parts:</label>
+        <span class="qty">{{ object.order_qty }}</span>
+    </div>
+    <div>
+        <label>Parts Outstanding:</label>
+        <span class="totalOutstanding qty">{{ object.outstanding_qty }}</span>
+    </div>
+</div>
+<!-- NOTES SECTION -->
+<div class="notes">
+    <h2>
+        Notes
+        <span class="editNoteIcon edit"><i class="fas fa-edit"></i></span>
+    </h2>
+    <div class="displayNote display-note">
+        {{ object.notes }}
+    </div>
+    <div class="editNote edit-note"> 
+        <form class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+            <!-- FORM INPUTS -->
+            <input type="hidden" name="reference" value="{{ object.reference }}">
+            <input type="hidden" name="supplier_reference" value="{{ object.supplier_reference }}">
+            <input type="hidden" name="supplier" value="{{ object.supplier }}">
+            <input type="hidden" name="date_ordered" value="{{ object.date_ordered|date:'Y-m-d' }}">
+            <textarea name="notes" rows="4">{{ object.notes }}</textarea><br>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>    
+</div>
+

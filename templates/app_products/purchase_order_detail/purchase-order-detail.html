@@ -12,24 +12,18 @@
     {% include 'global/messages.html' %}
     <!-- END -->
     <div class="content">
-        <div class="pod col-4"> 
+        <div class="pod po-grid"> 
             <!-- DETAILS COMPONENT -->
             {% include 'app_products/purchase_order_detail/components/details.html' %} 
-            <!-- END -->  
-            <!-- TOTALS COMPONENT -->
-            {% include 'app_products/purchase_order_detail/components/totals.html' %} 
-            <!-- END -->  
-            <!-- NOTES COMPONENT -->
-            {% include 'app_products/purchase_order_detail/components/notes.html' %} 
-            <!-- END -->           
+            <!-- END -->     
         </div>
         <div class="pod table">
-            <!-- NOTES COMPONENT -->
+            <!-- ITEMS COMPONENT -->
             {% include 'app_products/purchase_order_detail/components/items.html' %} 
             <!-- END -->             
         </div>
     </div> 
 </section>
-<script type="text/javascript" src="{% static 'js/purchase-order-detail.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/autocomplete.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/purchase_order_detail/purchase-order-detail.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/purchase_order_detail/autocomplete.js' %}"></script>
 {% endblock %}

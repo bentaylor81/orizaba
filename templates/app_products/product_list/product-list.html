@@ -25,6 +25,7 @@
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
+                            <th></th>
                             <th data-order="product_name">Product Name<i class="arrow">&nbsp;</i></th>
                             <th data-order="sku" class="col-100">SKU<i class="arrow">&nbsp;</i></th>
                             <th data-order="weight" class="col-100">Weight<i class="arrow">&nbsp;</i></th>
@@ -39,6 +40,14 @@
                     <tbody>
                         {% for product in object_list %}	
                         <tr class="main-row {% cycle 'row1' 'row2' %}">
+                            <td class="product-image">
+                                {% if product.product_image %}
+                                    <img class="modal-button pointer" src="{{ product.product_image.url }}">
+                                    {% include 'app_products/product_detail/modals/view-image.html' %}<!-- Opens the Modal -->
+                                {% else %}
+                                    <img src="{% static 'img/no-image.png' %}">
+                                {% endif %}
+                            </td>
                             <td class="first-col"><a href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	

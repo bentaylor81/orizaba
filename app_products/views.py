@@ -19,6 +19,8 @@ from django.views import View
 from django.forms import formset_factory
 from .forms import *
 from datetime import datetime  
+from django.utils import timezone
+import datetime
 import requests
 import json
 import pdfkit
@@ -64,8 +66,10 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['stock_movement'] = StockMovement.objects.filter(product_id__product_id=self.object.pk)
         context['previous_orders'] = OrderItem.objects.filter(product_id__product_id=self.object.pk)
-        context['purchase_order_item'] = PurchaseOrderItem.objects.filter(product__product_id=self.object.pk)
-        context['parts_outstanding'] = context['purchase_order_item'].aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
+        # PURCHASE ORDER ITEMS IN STOCK-STATUS.HTML
+        purchase_order_item = PurchaseOrderItem.objects.filter(product__product_id=self.object.pk)
+        context['parts_outstanding'] = purchase_order_item.aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
+        context['parts_outstanding_po'] = purchase_order_item.values('purchaseorder', 'purchaseorder__reference', 'purchaseorder__date_ordered').annotate(outstanding=Sum('outstanding_qty')).order_by('-purchaseorder')
         return context
 
     def get_success_url(self):
@@ -74,20 +78,31 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()   
-        # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
-        form = ManualStockAdjustForm(self.request.POST)
-        adjustment_qty = form['adjustment_qty'].value()
-        if form.is_valid():  
-            # SAVE THE FORM BUT DON'T COMMIT
-            event = form.save(commit=False)
-            # UPDATE THE CURRENT_STOCK_QTY FROM THE ORIZABA_STOCK_QTY IN THE PRODUCT TABLE
-            current_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
-            event.current_stock_qty = current_stock_qty
-            event.save()
-            # SETS THE STOCK VALUE IN THE PRODUCT TABLE
-            Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
-            messages.success(request, 'Manual Stock Adjustment Added')
-            return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
+        if 'product-details' in request.POST:
+            form = ProductDetailForm(self.request.POST, instance=self.object)  
+            if form.is_valid(): 
+                form.save()
+                return HttpResponseRedirect(self.get_success_url())
+            else:
+                return self.form_invalid(form)
+
+        if 'stock-movement' in request.POST:
+            # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
+            form = ManualStockAdjustForm(self.request.POST)
+            adjustment_qty = form['adjustment_qty'].value()
+            if form.is_valid():  
+                # SAVE THE FORM BUT DON'T COMMIT
+                event = form.save(commit=False)
+                # UPDATE THE CURRENT_STOCK_QTY FROM THE ORIZABA_STOCK_QTY IN THE PRODUCT TABLE
+                current_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
+                event.current_stock_qty = current_stock_qty
+                event.save()
+                # SETS THE STOCK VALUE IN THE PRODUCT TABLE
+                Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
+                messages.success(request, 'Manual Stock Adjustment Added')
+                return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
+        
+        return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
 class PurchaseOrderList(LoginRequiredMixin, FormMixin, FilterView):
     login_url = '/login/'
@@ -115,97 +130,26 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
     model = PurchaseOrder
     form_class = PurchaseOrderForm
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        po_item_form = PoItemFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form, po_item_form=po_item_form))
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # EDIT DETAILS MODAL
         context['suppliers'] = Supplier.objects.all()
+        # PURCHASE ORDER DETAILS
         po_item = PurchaseOrderItem.objects.filter(purchaseorder__po_id=self.object.pk)
-        context['total_lines'] = po_item.count or 0 
-        context['parts_ordered'] = po_item.aggregate(Sum('order_qty'))['order_qty__sum'] or 0
-        context['parts_received'] = po_item.aggregate(Sum('received_qty'))['received_qty__sum'] or 0
-        context['parts_outstanding'] = context['parts_ordered'] - context['parts_received'] or 0
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object() 
-        po_id = self.object.po_id
-
-        if 'status' in request.POST or 'notes' in request.POST or 'edit-po' in request.POST:
-            form = PurchaseOrderForm(self.request.POST, instance=self.object)  
-            if form.is_valid(): 
-                form.save()
-                messages.success(request, 'Purchase Order Saved')
-                return HttpResponseRedirect(self.get_success_url())
-            else:
-                return self.form_invalid(form)
+        # SET THE TOTALS
+        self.object.total_lines = po_item.count() or 0
+        self.object.order_qty = po_item.aggregate(Sum('order_qty'))['order_qty__sum'] or 0
+        self.object.received_qty = po_item.aggregate(Sum('received_qty'))['received_qty__sum'] or 0
+        self.object.outstanding_qty = po_item.aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
+        # SET THE STATUS
+        if(self.object.outstanding_qty == 0 ):
+            self.object.status = 'Complete'
+        elif(self.object.received_qty == 0 ):
+            self.object.status = 'Pending'
         else:
-            form_class = self.get_form_class()
-            form = self.get_form(form_class)
-            po_item_form = PoItemFormset(self.request.POST, instance=self.object)
-            if (po_item_form.is_valid() and form.is_valid()):
-                po_item_form.save()
-                for form in po_item_form:
-                    sku = form['product_sku'].value()
-                    qty = form['delivery_qty'].value()  
-                    product_id = int(form['product'].value())  
-                    comments = form['comments'].value()
-                    now = datetime.now()     
-                    # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
-                    if (qty and int(qty) != 0):
-                        product_inst = Product.objects.get(pk=product_id)
-                        # ADDS THE CURRENT STOCK QTY (PRODUCT TABLE) TO PURCHASE ORDER QTY
-                        current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) 
-                        # SETS THE ROLLING STOCK VALUE IN THE STOCK MOVEMENT ROW
-                        StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty, comments=comments) 
-                        # SETS THE STOCK VALUE IN THE PRODUCT TABLE
-                        Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
-                    # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
-                    if (form['label'].value()==True):
-                        # GENERATE A PDF FILE IN STATIC
-                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
-                        pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
-                        # SELECT THE PRINTER
-                        process = PrintProcess.objects.get(process_id=3)
-                        printer_id = process.process_printer.printnode_id
-                        # SEND TO PRINTNODE
-                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
-                        response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
-                        print(response.text.encode('utf8'))
-                return HttpResponseRedirect(self.get_success_url())
-            else:
-                return HttpResponseRedirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})   
-
-class PurchaseOrderDetailNew(LoginRequiredMixin, UpdateView):
-    login_url = '/login/'
-    template_name = 'app_products/purchase_order_detail_new/purchase-order-detail.html'
-    model = PurchaseOrder
-    form_class = PurchaseOrderForm
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        po_item_form = PoItemFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form, po_item_form=po_item_form))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['suppliers'] = Supplier.objects.all()
-        po_item = PurchaseOrderItem.objects.filter(purchaseorder__po_id=self.object.pk)
-        context['total_lines'] = po_item.count or 0 
-        context['parts_ordered'] = po_item.aggregate(Sum('order_qty'))['order_qty__sum'] or 0
-        context['parts_received'] = po_item.aggregate(Sum('received_qty'))['received_qty__sum'] or 0
-        context['parts_outstanding'] = context['parts_ordered'] - context['parts_received'] or 0
-
+            self.object.status = 'Part Receipt'
+        self.object.save()
+        # PURCHASE ORDER ITEMS
         context['po_items'] = PurchaseOrderItem.objects.filter(purchaseorder__po_id=self.object.pk)
         return context
 
@@ -221,63 +165,90 @@ class PurchaseOrderDetailNew(LoginRequiredMixin, UpdateView):
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 return self.form_invalid(form)
+        elif 'add-part' in request.POST:
+            # GET FORM ATTRIBUTES
+            product_id = request.POST.get('product_id')
+            order_qty = request.POST.get('order_qty')
+            # ADD PART ROW TO THE TABLE
+            PurchaseOrderItem.objects.create(product_id=product_id, order_qty=order_qty, outstanding_qty=order_qty, purchaseorder_id=po_id)
+            return HttpResponseRedirect(self.get_success_url())
+        elif 'reset_part' in request.POST:
+            reset_part = request.POST.getlist('reset_part')
+            product_id = request.POST.getlist('product_id')
+            now = datetime.datetime.now(tz=timezone.utc)
+            # UPDATE THE RECEIVED AND OUTSTANDING QTY
+            for reset_part, product_id in zip(reset_part, product_id):
+                part = PurchaseOrderItem.objects.get(id=reset_part)
+                # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
+                product_inst = Product.objects.get(pk=product_id)
+                current_stock_qty = int(product_inst.orizaba_stock_qty) - int(part.received_qty) 
+                StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=-part.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
+                # PRODUCT TABLE - UPDATE THE STOCK VALUE
+                Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)  
+                # PURCHASEORDERITEM TABLE - RESET THE RECEIVED QTY
+                part.received_qty=0
+                part.outstanding_qty=part.order_qty
+                part.received_status='Order Pending'
+                part.save() 
+            return HttpResponseRedirect(self.get_success_url())
+        elif 'delete_part' in request.POST:
+            delete_part = request.POST.getlist('delete_part')
+            # DELETE THE ROW IN PURCHASEORDERITEM
+            for delete_part in delete_part:
+                PurchaseOrderItem.objects.get(id=delete_part).delete()
+            return HttpResponseRedirect(self.get_success_url())
         else:
-            # Use the refund process in Order table
-            form_class = self.get_form_class()
-            form = self.get_form(form_class)
-            po_item_form = PoItemFormset(self.request.POST, instance=self.object)
-            if (po_item_form.is_valid() and form.is_valid()):
-                po_item_form.save()
-                for form in po_item_form:
-                    sku = form['product_sku'].value()
-                    qty = form['delivery_qty'].value()  
-                    product_id = int(form['product'].value())  
-                    comments = form['comments'].value()
-                    now = datetime.now()     
-                    # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
-                    if (qty and int(qty) != 0):
-                        product_inst = Product.objects.get(pk=product_id)
-                        # ADDS THE CURRENT STOCK QTY (PRODUCT TABLE) TO PURCHASE ORDER QTY
-                        current_stock_qty = int(product_inst.orizaba_stock_qty) + int(qty) 
-                        # SETS THE ROLLING STOCK VALUE IN THE STOCK MOVEMENT ROW
-                        StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty, comments=comments) 
-                        # SETS THE STOCK VALUE IN THE PRODUCT TABLE
-                        Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
-                    # PRODUCT LABEL - GENERATE LABEL BASED ON THE CHECKBOX
-                    if (form['label'].value()==True):
+            # GET LIST OF FORM ATTRIBUTES
+            poitem_id = request.POST.getlist('poitem_id')
+            product_id = request.POST.getlist('product_id')
+            delivery_qty = request.POST.getlist('delivery_qty')
+            comments = request.POST.getlist('comments')
+            print_label = request.POST.getlist('print_label')
+            now = datetime.datetime.now(tz=timezone.utc)
+            count = 0
+            # ITERATE OVER THE FORM LISTS
+            for poitem_id, product_id, delivery_qty, comments, print_label in zip(poitem_id, product_id, delivery_qty, comments, print_label):
+                # CALCULATE OUTSTANDING AND RECEIVED QUANTITES
+                item = PurchaseOrderItem.objects.get(id=poitem_id)
+                received_qty = item.received_qty + int(delivery_qty)
+                outstanding_qty = item.order_qty - received_qty
+                # SET THE STATUS BASED ON THE OUTSTANDING QUANTITY
+                if(outstanding_qty == 0):
+                    received_status = 'Full Receipt'
+                elif(outstanding_qty != 0 and outstanding_qty < item.order_qty):
+                    received_status = 'Partial Receipt'
+                else:
+                    received_status = 'Order Pending'
+                # UPDATE THE COMMENTS FIELD IN PURCHASEORDERITEM
+                if(comments != item.comments):
+                    PurchaseOrderItem.objects.filter(id=poitem_id).update(comments=comments)                
+                # UPDATE THE TABLES FOR EACH ITEM
+                if(int(delivery_qty) > 0):  
+                    # PURCHASEORDERITEM - UPDATE ROW FOR POITEM_ID
+                    PurchaseOrderItem.objects.filter(id=poitem_id).update(product_id=product_id, received_qty=received_qty, outstanding_qty=outstanding_qty, received_status=received_status, date_updated=now)
+                    # STOCKMOVEMENT TABLE - ADD DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW   
+                    product_inst = Product.objects.get(pk=product_id)
+                    current_stock_qty = int(product_inst.orizaba_stock_qty) + int(delivery_qty) 
+                    StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
+                    # PRODUCT TABLE - UPDATE THE STOCK VALUE
+                    Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
+                    # PRODUCT LABEL - GENERATE LABEL BASED ON THE LABEL CHECKBOX
+                    if(print_label == 'true'):
                         # GENERATE A PDF FILE IN STATIC
-                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % product_inst.sku
                         pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
                         # SELECT THE PRINTER
                         process = PrintProcess.objects.get(process_id=3)
                         printer_id = process.process_printer.printnode_id
                         # SEND TO PRINTNODE
-                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
+                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(product_inst.sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(delivery_qty)+ '}}'
                         response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
                         print(response.text.encode('utf8'))
-                return HttpResponseRedirect(self.get_success_url())
-            else:
-                return HttpResponseRedirect(self.get_success_url())
+            
+            return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})   
-
-
-class Unleashed(LoginRequiredMixin, FilterView):
-    login_url = '/login/'
-    template_name = 'app_products/unleashed.html'
-    queryset = StockMovement.objects.filter(movement_type='Purchase Order Receipt')
-    paginate_by = 50
-    ordering = ['unleashed_status', '-date_added']
-    filterset_class = UnleashedFilter
-
-    def post(self, request, *args, **kwargs):
-        id = request.POST.get('id')
-        instance = StockMovement.objects.get(id=id)
-        form = UnleashedForm(request.POST or None, instance=instance)
-        if form.is_valid():
-            form.save()
-        return redirect('/unleashed')     
 
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'

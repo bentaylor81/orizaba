@@ -37,6 +37,29 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 .large-modal .modal-container button { float: right; }
 .large-modal .required-notice { display: none; background: #e99595; color: #fff; padding: 15px; margin-bottom: 20px; font-weight: normal; }
 
+/* CONFIRM MODAL */
+section #modal.confirm-modal { padding-top: 200px; }
+section #modal.confirm-modal .modal-container { padding: 0px; }
+section #modal.confirm-modal .modal-close { font-size: 35px; line-height: 24px; }
+.confirm-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
+.confirm-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
+.confirm-modal .modal-top-bar span { float: right; }
+.confirm-modal .modal-container { padding: 0px; width: 400px; }
+.confirm-modal .modal-content { padding: 20px; }
+.confirm-modal .message { margin-bottom: 20px; }
+.confirm-modal .buttons { display: flex; gap: 10px; justify-content: flex-end; }
+.confirm-modal .buttons button { width: 90px !important; }
+
+/* IMAGE MODAL */
+section #modal.image-modal { padding-top: 150px; }
+section #modal.image-modal .modal-container { padding: 0px; }
+section #modal.image-modal .modal-close { font-size: 35px; line-height: 24px; }
+.image-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
+.image-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
+.image-modal .modal-top-bar span { float: right; }
+.image-modal .modal-container { padding: 0px; width: 500px; }
+.image-modal .modal-content { padding: 20px; }
+
 /* INDIVIDUAL MODAL STYLES */
 
 /* DELIVERY DETAILS MODAL */

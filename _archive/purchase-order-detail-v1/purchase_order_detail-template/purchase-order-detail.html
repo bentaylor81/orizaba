@@ -4,9 +4,9 @@
 {% block content %}
 
 <section id="purchase-order"  data-page="products" data-sub-page="purchase-orders"> 
-    <div style="background: lightblue" class="top-bar">
-        <h1>NEW Purchase Order &nbsp;&nbsp;>&nbsp;&nbsp; {{ object.reference }}&nbsp;&nbsp;&nbsp;<span id="edit-purchase-order" class="edit"><i class="fas fa-edit modal-button"></i><span></h1>
-        {% include 'app_products/purchase_order_detail_new/modals/edit.html' %}
+    <div class="top-bar">
+        <h1>Purchase Order &nbsp;&nbsp;>&nbsp;&nbsp; {{ object.reference }}&nbsp;&nbsp;&nbsp;<span id="edit-purchase-order" class="edit"><i class="fas fa-edit modal-button"></i><span></h1>
+        {% include 'app_products/purchase_order_detail/modals/edit.html' %}
     </div>
     <!-- MESSAGES COMPONENT - GLOBAL -->
     {% include 'global/messages.html' %}
@@ -14,18 +14,18 @@
     <div class="content">
         <div class="pod col-4"> 
             <!-- DETAILS COMPONENT -->
-            {% include 'app_products/purchase_order_detail_new/components/details.html' %} 
+            {% include 'app_products/purchase_order_detail/components/details.html' %} 
             <!-- END -->  
             <!-- TOTALS COMPONENT -->
-            {% include 'app_products/purchase_order_detail_new/components/totals.html' %} 
+            {% include 'app_products/purchase_order_detail/components/totals.html' %} 
             <!-- END -->  
             <!-- NOTES COMPONENT -->
-            {% include 'app_products/purchase_order_detail_new/components/notes.html' %} 
+            {% include 'app_products/purchase_order_detail/components/notes.html' %} 
             <!-- END -->           
         </div>
         <div class="pod table">
             <!-- NOTES COMPONENT -->
-            {% include 'app_products/purchase_order_detail_new/components/items.html' %} 
+            {% include 'app_products/purchase_order_detail/components/items.html' %} 
             <!-- END -->             
         </div>
     </div> 

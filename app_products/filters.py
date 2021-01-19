@@ -43,10 +43,3 @@ class SupplierProductFilter(filters.FilterSet):
             'sku' : ['icontains'],
             'brand': ['exact'],
         }
-        
-class UnleashedFilter(filters.FilterSet):
-    class Meta:
-        model = StockMovement
-        fields = {
-            'unleashed_status': ['exact'],
-        }

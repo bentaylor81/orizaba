@@ -5,6 +5,7 @@
     // 2A. - SET THE STOCK QTY FORMAT IF IT IS NONE
     // 2B. OPEN AND CLOSE THE ADD MANUAL STOCK ADJUSTMENT BLOCK
     // 2C. FILTER TABLE ITEMS FROM TEXT SEARCH AND DROPDOWN
+// 3. STOCK STATUS - HIDE THE PURCHASE ORDER BOX IF NO ITEMS ON PURCHASE ORDERS
 
 //// JAVASCRIPT ////
 
@@ -47,4 +48,12 @@ var cn = console.log.bind(document);
             query('.add-adj-block').style.display = 'none';
         });
 
-    
+// 3. STOCK STATUS - HIDE THE PURCHASE ORDER BOX IF NO ITEMS ON PURCHASE ORDERS
+    let poStatusBar = query('.poStatusBar')
+        partsOutstanding = query('.partsOutstanding')
+
+    if(partsOutstanding.innerHTML == 0) {
+        cn('gen')
+        poStatusBar.style.display = 'none'
+    }
+        
