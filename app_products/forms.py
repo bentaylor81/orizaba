@@ -16,7 +16,7 @@ class ProductLabelForm(forms.Form):
 class ProductDetailForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_image']
+        fields = ['product_image', 'has_image']
 
 class PurchaseOrderCreateForm(forms.ModelForm):
     class Meta:

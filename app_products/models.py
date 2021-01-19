@@ -102,6 +102,7 @@ class Product(models.Model):
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True, default='null')
     image = models.CharField(max_length=200, blank=True, default='null')
+    has_image = models.BooleanField(default=False) 
     product_image = models.ImageField(upload_to="images/products", null=True, blank=True)
     condition = models.CharField(max_length=200, blank=True, default='new')	
     special_order = models.CharField(max_length=200, blank=True, default='no')	
