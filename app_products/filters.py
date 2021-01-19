@@ -28,7 +28,7 @@ class ProductFilter(filters.FilterSet):
     )
     class Meta:
         model = Product
-        fields = ['Product', 'Sku', 'brand', 'supplier', 'stock_qty']
+        fields = ['Product', 'Sku', 'brand', 'supplier', 'stock_qty', 'has_image']
         
 class PurchaseOrderFilter(filters.FilterSet):
     class Meta:
