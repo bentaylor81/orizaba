@@ -243,7 +243,7 @@
 
     /* Product Detail Page */
     #product .content { display: grid; grid-template-columns: 0.9fr 1fr; grid-gap: 20px;  }
-    #product .pod-1 { display: flex; justify-content: space-between; }
+    #product .pod-1 { display: grid; grid-template-columns: 1fr 1fr; }
     #product .pod-2 { display: grid; grid-template-columns: 1.3fr 1fr; grid-gap: 50px; }
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
     #product .table-2 table th { width: 120px; }

@@ -41,18 +41,5 @@
                 <a target="_blank" href="https://gardentractorspares.co.uk/{{ product.url }}">{{ product.url }}</a>
             </td>
         </tr>
-        <tr>
-            <th>Product Image:</th>
-            <td class="edit-image">
-                <i class="fas fa-images modal-button"></i>
-                {% include 'app_products/product_detail/modals/edit-image.html' %}<!-- Opens the Edit Image Modal -->
-            </td>
-        </tr>
-        <!--- Temporary until all Images are added by Nina -->
-        <tr>
-            <td colspan=2>
-                <img style="width: 100px;" src="{{ object.product_image.url }}">
-            </td>
-        </tr>
     </table>
 </div>

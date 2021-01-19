@@ -1,8 +1,10 @@
 {% load static %}
 <div class="image">
-    {% if object.product_image == 'img/no-image.png' %}
-        <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ object.image }}" />
-    {% else %}
+    {% if object.product_image %}
         <img src="{{ object.product_image.url }}">
+    {% else %}
+        <img src="{% static 'img/no-image.png' %}">
     {% endif %}
+    <button class="modal-button">Edit Image</button>
+    {% include 'app_products/product_detail/modals/edit-image.html' %}<!-- Opens the Edit Image Modal -->
 </div>

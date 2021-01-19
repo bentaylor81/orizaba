@@ -79,8 +79,9 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()   
         if 'product-details' in request.POST:
-            form = ProductDetailForm(self.request.POST, instance=self.object)  
+            form = ProductDetailForm(self.request.POST, request.FILES or None, instance=self.object)  
             if form.is_valid(): 
+                print(form)
                 form.save()
                 return HttpResponseRedirect(self.get_success_url())
             else:
