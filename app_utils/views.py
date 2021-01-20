@@ -181,5 +181,5 @@ def scripts(request):
     #     StockLocation.objects.create(location=product.location, product=product)
 
 
-    print('run scripts')
+    print('Run Script')
     return render(request, 'app_utils/utils.html')
