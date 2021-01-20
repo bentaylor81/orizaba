@@ -4,7 +4,7 @@
 - Delete location
 - Update rename location_v2 to location
 - Update views.py to save to locaton 
-- Change back to location on label-create.html, picklist-create.html, product_list.html
+- Change back to location on label-create.html, picklist-create.html, product_list.html, picklist.html (order --> modal)
 
 # To DO
 
