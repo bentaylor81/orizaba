@@ -170,3 +170,16 @@ class ApiLogList(LoginRequiredMixin, FilterView):
     template_name = 'app_utils/api-log-list.html'
     model = ApiLog
     paginate_by = 50
+
+### SCRIPTS ###
+def scripts(request):
+    # LOCATION SCRIPT
+    products = Product.objects.all()
+    for product in products:
+        product.location_v2 = product.location
+        product.save()
+        StockLocation.objects.create(location=product.location, product=product)
+
+
+    print('run scripts')
+    return render(request, 'app_utils/utils.html')

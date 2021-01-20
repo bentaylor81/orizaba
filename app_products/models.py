@@ -1,6 +1,17 @@
 from django.db import models
 import datetime
 
+class StockLocation(models.Model):
+    product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
+    location = models.CharField(max_length=200, blank=True, null=True)
+    date_added = models.DateTimeField(blank=True, null=True) 
+
+    def __str__(self):
+        return str(self.id) + ' | ' + str(self.product_id)
+
+    class Meta:
+        ordering = ["-id"]
+
 class StockMovement(models.Model):
     STATUS_CHOICES = [
         ('Online Sale', 'Online Sale'),
@@ -97,6 +108,7 @@ class Product(models.Model):
     profit_margin = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)    
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
     location = models.CharField(max_length=200, blank=True, default='null')	
+    location_v2 = models.CharField(max_length=200, blank=True, null=True)	
     part_type = models.CharField(max_length=200, blank=True, default='null')	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')

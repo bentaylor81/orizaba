@@ -15,7 +15,11 @@
         </tr>
         <tr>
             <th>Location:</th>
-            <td>{{ product.location }}</td>
+            <td>
+                {{ product.location_v2 }} &nbsp;&nbsp; <i class="fas fa-edit modal-button"></i>
+                <!-- Model is at the bottom of the page -->
+            </td>
+            
         </tr>
         <tr>
             <th>Brand:</th>
@@ -43,3 +47,4 @@
         </tr>
     </table>
 </div>
+{% include 'app_products/product_detail/modals/edit-location.html' %}<!-- Opens the Modal -->

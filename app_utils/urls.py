@@ -21,4 +21,6 @@ urlpatterns = [
     path('utils/shiptheory-tracking-code', views.shiptheory_tracking_code, name='shiptheory-tracking-code'),  
     path('utils/xero-token', views.xero_token, name='xero-token'),
     path('utils/redis-creds', views.redis_creds, name='redis-creds'),    
+    # GENERAL SCRIPTS - RUN FUNCTIONS WHICH ARE USED ONCE
+    path('utils/scripts', views.scripts, name='scripts'),   
 ]

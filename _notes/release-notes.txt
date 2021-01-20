@@ -1,4 +1,12 @@
-# PURCHASE ORDER REFACTOR
+# STOCK LOCATIONS
 
-    # PO Image
-    # Confirm modal
+- Mike to disconnect - Product > Location 
+- Delete location
+- Update rename location_v2 to location
+- Update views.py to save to locaton 
+- Change back to location on label-create.html, picklist-create.html, product_list.html
+
+# To DO
+
+Run script to set location_v2 = location
+Add this back in to model - auto_now_add=True, 

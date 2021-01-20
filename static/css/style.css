@@ -57,9 +57,10 @@
     .messages .error {  background: #e99595; padding: 20px; }
 
     /* Forms */
-    form input, form input#date, input.date-input { font: 13px 'Roboto'; }
+    form input, form input#date, input.date-input { font: 13px 'Roboto'; height: 26px; line-height: 26px; padding: 0px 5px; }
     textarea { padding: 5px; font: 12px 'Roboto'; }
     select { height: 28px; padding-right: 10px; font-size: 12px; cursor: pointer; }
+    label { font-weight: bold; }
 
     /* Tables */
     table { width: 100%; }
@@ -86,10 +87,9 @@
     .arrow { width: 20px; float: right; font-size: 13px; background-image: url('../img/icons/caret-down-solid.svg'); background-repeat: no-repeat; background-position: center; background-size: 20px 20px; opacity: 0.2; }
 
     /* Table 1 - Stripped */ 
-    .table table thead { background: #444; }
     .table table { border-bottom: 1px solid #bbb; }
     .table table tr.row_dark td { border-bottom: 0px; }
-    .table table tr th {  color: #fff; text-align: left; font-weight: bold; border: 0px; padding: 10px 8px; }
+    .table table tr th {  background: #444; color: #fff; text-align: left; font-weight: bold; border: 0px; padding: 10px 8px; }
     .table table .totals { text-align: right; }
     .table .table-grid { display: grid; grid-template-columns: 1fr 1fr; }
     .table .table-grid .total { margin-top: 15px; }

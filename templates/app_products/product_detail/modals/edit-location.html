@@ -1,0 +1,36 @@
+<div id="modal" class="location-modal modal">
+    <div class="modal-container">
+        <div class="modal-top-bar">
+            <h1>Edit Location</h1>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-content">
+            <div class="edit-location">
+                <form class="form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>Location: <input name="location" type="text" value="{{ object.location_v2 }}"></label>
+                    <button name="edit-location" type="submit">Update</button>
+                </form>
+            </div>
+            <h3>Location History</h3>
+            <div class="previous-locations table"> 
+                <table cellpadding="0" cellspacing="0">  
+                    <thead>         
+                        <tr>
+                            <th>Location</th>
+                            <th>Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in stock_location %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td>{{ item.location }}</td>
+                            <td>{{ item.date_added }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

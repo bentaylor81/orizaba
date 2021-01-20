@@ -64,12 +64,14 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stock_movement'] = StockMovement.objects.filter(product_id__product_id=self.object.pk)
+        context['stock_movement'] = StockMovement.objects.filter(product_id__product_id=self.object.pk) # Tidy up to use product=self.object, rename model field to product) 
         context['previous_orders'] = OrderItem.objects.filter(product_id__product_id=self.object.pk)
         # PURCHASE ORDER ITEMS IN STOCK-STATUS.HTML
         purchase_order_item = PurchaseOrderItem.objects.filter(product__product_id=self.object.pk)
         context['parts_outstanding'] = purchase_order_item.aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
         context['parts_outstanding_po'] = purchase_order_item.values('purchaseorder', 'purchaseorder__reference', 'purchaseorder__date_ordered').annotate(outstanding=Sum('outstanding_qty')).order_by('-purchaseorder')
+        # STOCK LOCATION HISTORY
+        context['stock_location'] = StockLocation.objects.filter(product=self.object)
         return context
 
     def get_success_url(self):
@@ -81,13 +83,12 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
         if 'product-details' in request.POST:
             form = ProductDetailForm(self.request.POST, request.FILES or None, instance=self.object)  
             if form.is_valid(): 
-                print(form)
                 form.save()
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 return self.form_invalid(form)
 
-        if 'stock-movement' in request.POST:
+        elif 'stock-movement' in request.POST:
             # STOCK MOVEMENT - ADD A ROW TO THE STOCK MOVEMENT TABLE    
             form = ManualStockAdjustForm(self.request.POST)
             adjustment_qty = form['adjustment_qty'].value()
@@ -102,6 +103,17 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
+
+        elif 'edit-location' in request.POST: 
+            location = request.POST.get('location')
+            # CREATE ROW IN STOCK LOCATION TABLE
+            StockLocation.objects.create(product=self.object, location=location)
+            # UPDATE ROW IN PRODUCT TABLE
+            self.object.location_v2 = location
+            self.object.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+        
         
         return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
