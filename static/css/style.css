@@ -344,7 +344,7 @@
     #purchase-order .extra-content .extra-image img { width: 300px; }
     #purchase-order .extra-content .further-actions { background: #ddd; margin-left: 15px; padding: 10px; align-self: end; }
     #purchase-order .extra-content { padding: 10px; background: #eee; border-bottom: 1px solid #bbb; }    
-    #purchase-order .extra-content .extra-image img { width: 300px; }
+    #purchase-order .extra-content .extra-image img { width: 250px; }
     #purchase-order .extra-content .further-actions { margin-left: 15px; }
     #purchase-order .extra-content .further-actions > div { display: grid; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 5px; }
 
