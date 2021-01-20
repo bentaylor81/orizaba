@@ -92,20 +92,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <!-- ADDS EXTRA IMAGE UNDERNEATH IF ONLY ONE PRODUCT IS SHOWING -->
-                <div class="extra-content">
-                {% for product in object_list %}	               
-                    {% if product.image %}    
-                    <div class="extra-image">
-                        {% if product.product_image == 'img/no-image.png' %}
-                            <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{{ product.image }}" />
-                        {% else %}
-                            <img src="/static/media/{{ product.product_image }}">
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-                </div>
             </div>
             <!-- PRODUCT PAGINATION -->
             {% include 'global/pagination.html' %}

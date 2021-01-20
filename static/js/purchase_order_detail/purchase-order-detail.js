@@ -170,7 +170,10 @@ let openPartAdd = query('.openPartAdd')
             // FILTER ROWS IF ON THE CORRECT PURCHASE ORDER       
             filterInput.value = localStorage.getItem('poFilterSku')
             activeRows = false
-            for(let i=0; i < partRow.length; i++){                 
+            for(let i=0; i < partRow.length; i++){  
+                // CLOSE ALL OPEN IMAGES WHEN USING FILTERS
+                extraContent[i].classList.remove("expanded-grid")
+                rowArrowIcon[i].classList.remove("icon-down")
                 // FILTER THE TABLE         
                 if(partSku[i].innerText.includes(filterInput.value)) {
                     partRow[i].style.display = 'table-row';   

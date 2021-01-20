@@ -57,7 +57,7 @@
     .messages .error {  background: #e99595; padding: 20px; }
 
     /* Forms */
-    form input, form input#date, input.date-input { font: 13px 'Roboto'; height: 26px; line-height: 26px; padding: 0px 5px; }
+    form input, form input#date, input.date-input { font: 13px 'Roboto'; }
     textarea { padding: 5px; font: 12px 'Roboto'; }
     select { height: 28px; padding-right: 10px; font-size: 12px; cursor: pointer; }
     label { font-weight: bold; }
@@ -236,10 +236,7 @@
     #products .content .product-image img { max-width:100%; }
     #products .content .product-image img.pointer { cursor: pointer; }
     #products .content .stock span { width: 45px; line-height: 45px; text-align: center; display: block; font-size: 22px; font-weight: bold; }
-    #products .extra-content { display: none; border: 1px solid #bbb; border-top: 0px; width: calc(100% - 22px); background-color: #eee; padding: 10px 10px 8px 10px; }
-    #products .extra-content img { width: 300px; }
     #products form select.print-label { width: 50px; height: 30px; }
-    #products i.arrow { cursor: pointer; }
 
     /* Product Detail Page */
     #product .content { display: grid; grid-template-columns: 0.9fr 1fr; grid-gap: 20px;  }

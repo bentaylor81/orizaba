@@ -92,10 +92,10 @@
                     <td class="further-row" colspan="11">
                         <div class="extraContent extra-content">                 
                             <div class="extra-image">
-                                {% if item.instance.product.product_image == 'img/no-image.png' %}
-                                    <img src="https://www.gardentractorspares.co.uk/media/catalog/product/{% comment %}{{ item.instance.product.image }}{% endcomment %}" />
+                                {% if item.product.product_image %}
+                                    <img class="modal-button pointer" src="{{ item.product.product_image.url }}">
                                 {% else %}
-                                     <img src="/static/media/{{ item.product.product_image }}">
+                                    <img src="{% static 'img/no-image.png' %}">
                                 {% endif %}
                             </div>  
                             <!-- FURTHER ACTIONS SECTION -->
