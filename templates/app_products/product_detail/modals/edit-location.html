@@ -25,7 +25,13 @@
                         {% for item in stock_location %}
                         <tr class="{% cycle 'row1' 'row2' %}">
                             <td>{{ item.location }}</td>
-                            <td>{{ item.date_added }}</td>
+                            <td>
+                                {% if item.date_added %}
+                                    {{ item.date_added }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
