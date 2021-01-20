@@ -4,10 +4,10 @@ import datetime
 class StockLocation(models.Model):
     product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
     location = models.CharField(max_length=200, blank=True, null=True)
-    date_added = models.DateTimeField(blank=True, null=True) 
+    date_added = models.DateTimeField(auto_now_add=True, blank=True, null=True) 
 
     def __str__(self):
-        return str(self.id) + ' | ' + str(self.product_id)
+        return str(self.id) + ' | ' + str(self.product)
 
     class Meta:
         ordering = ["-id"]

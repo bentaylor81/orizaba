@@ -173,12 +173,12 @@ class ApiLogList(LoginRequiredMixin, FilterView):
 
 ### SCRIPTS ###
 def scripts(request):
-    # LOCATION SCRIPT
-    products = Product.objects.all()
-    for product in products:
-        product.location_v2 = product.location
-        product.save()
-        StockLocation.objects.create(location=product.location, product=product)
+    # LOCATION SCRIPT - RAN ON 20 JAN 2021
+    # products = Product.objects.all()
+    # for product in products:
+    #     product.location_v2 = product.location
+    #     product.save()
+    #     StockLocation.objects.create(location=product.location, product=product)
 
 
     print('run scripts')
