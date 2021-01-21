@@ -1,15 +1,8 @@
-# STOCK LOCATIONS
-
-- Update views.py to save to locaton - might be in a few places
-- Change back to location on label-create.html, picklist-create.html (in 2 places), product_list.html, picklist.html (order --> modal), items.html (Purchase Order Detail) and on product model
-
-
-
-
 # IMPORT ALL OLD ORDERS
 
 - Order table set initial_status_added to True to all old imported orders 
+- Order status to delivered in orders table
 - OrderItem set stock_movement_added to True for all old imported orders
-- 
+- Stock movement add for each product imported
 
 
