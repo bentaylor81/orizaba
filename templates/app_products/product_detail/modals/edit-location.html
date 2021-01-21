@@ -8,7 +8,7 @@
             <div class="edit-location">
                 <form class="form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <label>Location: <input name="location" type="text" value="{{ object.location_v2 }}"></label>
+                    <label>Location: <input name="location" type="text" value="{{ object.location }}"></label>
                     <button name="edit-location" type="submit">Update</button>
                 </form>
             </div>
