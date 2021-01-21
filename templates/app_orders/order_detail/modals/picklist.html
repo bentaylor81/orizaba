@@ -26,7 +26,7 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td class="product-name">{{ item.product_id.product_name }}<input hidden name="orderitem_id" value="{{ item.orderitem_id }}"></td>
                                 <td>{{ item.product_id.sku }}</td> 
-                                <td>{{ item.product_id.location_v2 }}</td>               
+                                <td>{{ item.product_id.location }}</td>               
                                 <td class="item-qty">{{ item.item_qty }}</td>
                                 <td><input name="send_qty" class="send-qty" type="number" value="{{ item.item_qty }}" min="0" max="{{ item.item_qty }}"></td>
                             </tr>     

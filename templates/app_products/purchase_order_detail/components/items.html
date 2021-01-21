@@ -56,7 +56,7 @@
                     <td class="number partCount">{{ forloop.counter }}</td>
                     <td class="partSku">{{ item.product }}</td>
                     <td><a href="{% url 'product-detail' item.product.pk %}">{{ item.product.product_name }}</a></td>
-                    <td>{{ item.product.location_v2 }}</a></td>
+                    <td>{{ item.product.location }}</a></td>
                     <td class="number">{{ item.order_qty }}</td>
                     <td class="receivedQty number">{{ item.received_qty }}</td>
                     <td class="number">{{ item.outstanding_qty }}</td>

@@ -107,7 +107,7 @@ class Product(models.Model):
     sell_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)  
     profit_margin = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)    
     weight = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=4)
-    location_v2 = models.CharField(max_length=200, blank=True, null=True)	
+    location = models.CharField(max_length=200, blank=True, null=True)	
     part_type = models.CharField(max_length=200, blank=True, default='null')	
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
@@ -122,7 +122,7 @@ class Product(models.Model):
         return str(self.sku)
 
     class Meta:
-        ordering = ["product_id", "location_v2"]
+        ordering = ["product_id", "location"]
 
     @property
     def product_calcs(self, *args, **kwargs):

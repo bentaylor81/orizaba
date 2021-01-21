@@ -153,8 +153,8 @@ class Order(models.Model):
     total_price_inc_vat = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     website = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(null=True, blank=True)
-    sagepay_tx_code = models.CharField(max_length=200, blank=True)
-    sagepay_tx_id = models.CharField(max_length=200, blank=True)
+    sagepay_tx_code = models.CharField(max_length=200, blank=True, null=True)
+    sagepay_tx_id = models.CharField(max_length=200, blank=True, null=True)
     status_current = models.ForeignKey('orderstatustype', db_column='status_current', on_delete=models.CASCADE, blank=True, null=True, default='10') 
     # BOOLEAN FLAG AND RETURN FIELDS
     initial_status_added = models.BooleanField(default=False) # Used to update the initial status

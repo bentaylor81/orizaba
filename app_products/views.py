@@ -109,7 +109,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             # CREATE ROW IN STOCK LOCATION TABLE
             StockLocation.objects.create(product=self.object, location=location)
             # UPDATE ROW IN PRODUCT TABLE
-            self.object.location_v2 = location
+            self.object.location = location
             self.object.save()
             return HttpResponseRedirect(self.get_success_url())
 
