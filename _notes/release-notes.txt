@@ -6,5 +6,11 @@
 - Update views.py to save to locaton - might be in a few places
 - Change back to location on label-create.html, picklist-create.html (in 2 places), product_list.html, picklist.html (order --> modal), items.html (Purchase Order Detail)
 
-# To DO
+
+
+
+# IMPORT ALL OLD ORDERS
+
+- Order table set initial_status_added to True to all old orders
+
 

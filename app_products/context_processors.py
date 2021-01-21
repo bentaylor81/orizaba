@@ -5,7 +5,7 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 
 # STOCK MOVEMENT ORDER - CREATE A ROW IN THE StockMovement TABLE WHEN AN ITEM IS ADDED TO THE ORDERITEM TABLE 
 def stock_movement_order(request):
-    orderitems = OrderItem.objects.filter(stock_movement_added=False)
+    orderitems = OrderItem.objects.filter(stock_movement_added=False, order_id__date__gt="2021-01-01")
 
     for orderitem in orderitems:
         # Get currenct stock qty from product table - orizaba_stock_qty

@@ -8,7 +8,7 @@ import wkhtmltopdf
 # CREATE INITIAL STATUS IN ORDERSTATUS HISTORY TABLE WHEN ORDER IS CREATED
 # SET STATUS_UPDATED FIELD IN ORDER TABLE TO TRUE
 def initial_status(request):
-    orders = Order.objects.filter(initial_status_added=False)
+    orders = Order.objects.filter(initial_status_added=False, date__gt="2021-01-01")
 
     for order in orders:
         type_inst = OrderStatusType.objects.get(pk=10)
