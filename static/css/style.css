@@ -317,10 +317,9 @@
     #purchase-order table { border-bottom: 0px; }
     #purchase-order .part-row td:first-child { width: 20px; text-align: center; }
     #purchase-order .part-row td:nth-child(2) { width: 20px; text-align: center; }
-    #purchase-order .part-row td:nth-child(2) { width: 20px; text-align: center; }
-    #purchase-order .part-row td:nth-child(n+5):nth-child(-n+7) { width: 70px; text-align: center; }
-    #purchase-order .part-row td:nth-child(8) { width: 80px; text-align: center; }
-    #purchase-order .part-row td:nth-child(10) { width: 300px; }
+    #purchase-order .part-row td:nth-child(n+5):nth-child(-n+8) { width: 70px; text-align: center; }
+    #purchase-order .part-row td:nth-child(9) { width: 80px; text-align: center; }
+    #purchase-order .part-row td:nth-child(11) { width: 300px; }
     #purchase-order .part-row td:last-child { width: 200px; text-align: right; }
     #purchase-order .part-row td { border-bottom: 1px solid #bbb; }
     #purchase-order .part-row .icon-right { cursor: pointer; width: 10px; background: url('/static/img/icons/caret-right-solid.svg') no-repeat 13px; background-size: 8px; border-left: 1px solid #bbb; }
