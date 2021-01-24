@@ -116,9 +116,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 if picklist == True:
                     self.print_picklist(self.request)  
                 # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
+                now = datetime.datetime.now()
                 order_inst = Order.objects.get(order_id=order_id)
                 type_inst = OrderStatusType.objects.get(pk=20)
-                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst, date=now)
                 # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
                 order_inst.status_current = type_inst
                 order_inst.save()  
@@ -276,7 +277,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 order_table.save()
                 # ADD THE ORDER REFUNDED STATUS TO ORDER STATUS HISTORY TABLE
                 type_inst = OrderStatusType.objects.get(pk=80)
-                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst)
+                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst, date=now)
                 # PROCESS REFUND IN SAGEPAY
                 refundorder = RefundOrder.objects.filter(order_id=order_id).order_by('-pk')[0]  
                 url = "https://pi-live.sagepay.com/api/v1/transactions"
@@ -339,6 +340,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 now = datetime.datetime.now()
                 # ADD STATUS ENTRY TO ORDERSTATUSHISTORYTABLE
                 form.instance.order_id = form_order_id
+                form.instance.date = now
                 form.save()
                 ### UPDATE ORDERS TABLE BASED ON STATUS TYPES
                 # MAIN ORDER STATUSES - SET ORDER TABLE STATUS_CURRENT TO NEW STATUS

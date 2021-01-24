@@ -4,5 +4,6 @@
 - Order status to delivered in orders table
 - OrderItem set stock_movement_added to True for all old imported orders
 - Stock movement add for each product imported
+- Update products where live-link not available and have a product active status on there.
 
 

@@ -1,0 +1,8 @@
+# COUNT ORDERS
+
+SELECT COUNT(order_id)
+FROM public.app_orders_order
+WHERE date = 01;
+
+SELECT * FROM public.app_orders_order
+ORDER BY order_id ASC 

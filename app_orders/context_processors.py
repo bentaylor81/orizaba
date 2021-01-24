@@ -9,14 +9,13 @@ import wkhtmltopdf
 # SET STATUS_UPDATED FIELD IN ORDER TABLE TO TRUE
 def initial_status(request):
     orders = Order.objects.filter(initial_status_added=False, date__gt="2021-01-01")
+    type_inst = OrderStatusType.objects.get(pk=10)
 
     for order in orders:
-        type_inst = OrderStatusType.objects.get(pk=10)
-        OrderStatusHistory.objects.create(order_id=order, status_type=type_inst) 
-        # order.status_current = type_inst # Remove this if default works
+        OrderStatusHistory.objects.create(order_id=order, status_type=type_inst, date=order.date) 
         order.initial_status_added = True
         order.save()
-    return ()
+    return()
 
 # CREATE PDF INVOICE WHEN AN ORDER COMES IN
 # SET INVOICE_CREATED FIELD IN ORDER TABLE TO TRUE   
@@ -32,5 +31,5 @@ def invoice_pdf(request):
         projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id 
         # pdf = pdfkit.from_url(projectUrl, 'https://orizaba-control.s3-us-west-2.amazonaws.com/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)
         pdf = pdfkit.from_url(projectUrl, 'static/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)   # Change this to upload to S3
-    return ()
+    return()
 

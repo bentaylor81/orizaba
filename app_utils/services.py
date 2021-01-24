@@ -8,50 +8,69 @@ import pdfkit
 import wkhtmltopdf
 
 ### SHIPTHEORY TOKEN ###
-# REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
-def shiptheory_token_task(request):
-    # Generate the Auth Token
-    payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
-    response = requests.request("POST", "https://api.shiptheory.com/v1/token", headers=settings.ST_HEADERS, data=payload)
-    token = json.loads(response.text)['data']['token']
-    heroku_token = 'Bearer ' + token
-    # Update Heroku with Config Vars
-    url = settings.HEROKU_URL_CONFIG_VARS
-    auth = settings.HEROKU_BEARER_TOKEN
-    payload='{"ST_AUTH":"'+heroku_token+'"}'
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
-    response = requests.request("PATCH", url, headers=headers, data=payload)
-    print('######')
-    print("ShipTheory Bearer Token Task Complete")
-    print('######')
+    # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS IN HEROKU
+    def shiptheory_token_task(request):
+        # Generate the Auth Token
+        payload='{"email": "'+settings.ST_USERNAME+'", "password": "'+settings.ST_PASSWORD+'"}'
+        response = requests.request("POST", "https://api.shiptheory.com/v1/token", headers=settings.ST_HEADERS, data=payload)
+        token = json.loads(response.text)['data']['token']
+        heroku_token = 'Bearer ' + token
+        # Update Heroku with Config Vars
+        url = settings.HEROKU_URL_CONFIG_VARS
+        auth = settings.HEROKU_BEARER_TOKEN
+        payload='{"ST_AUTH":"'+heroku_token+'"}'
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
+        response = requests.request("PATCH", url, headers=headers, data=payload)
+        print('######')
+        print("ShipTheory Bearer Token Task Complete")
+        print('######')
 
-def shiptheory_token_task_hook(task):
-    print(task.result)
+    def shiptheory_token_task_hook(task):
+        print(task.result)
 
 ### XERO TOKEN ###
-# REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS
-def xero_token_task(request):
-    # Refresh the Xero Access Token
-    url = "https://identity.xero.com/connect/token?="
-    payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
-    response = requests.request("POST", url, data=payload)
-    access_token = json.loads(response.text)['access_token']
-    refresh_token = json.loads(response.text)['refresh_token']
-    xero_token = 'Bearer ' + access_token
-    # Update Heroku with Config Vars
-    url = settings.HEROKU_URL_CONFIG_VARS
-    auth = settings.HEROKU_BEARER_TOKEN
-    payload='{"XERO_AUTH":"'+xero_token+'", "XERO_REFRESH_TOKEN":"'+refresh_token+'"}'
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
-    response = requests.request("PATCH", url, headers=headers, data=payload)
-    print('######')
-    print("Xero Token Task Complete")
-    print('######')
+    # REFRESH THE BEARER TOKEN AND ADD TO CONFIG VARS
+    def xero_token_task(request):
+        # Refresh the Xero Access Token
+        url = "https://identity.xero.com/connect/token?="
+        payload = {'grant_type': 'refresh_token','refresh_token': settings.XERO_REFRESH_TOKEN,'client_id': settings.XERO_CLIENT_ID,'client_secret': settings.XERO_CLIENT_SECRET,}
+        response = requests.request("POST", url, data=payload)
+        access_token = json.loads(response.text)['access_token']
+        refresh_token = json.loads(response.text)['refresh_token']
+        xero_token = 'Bearer ' + access_token
+        # Update Heroku with Config Vars
+        url = settings.HEROKU_URL_CONFIG_VARS
+        auth = settings.HEROKU_BEARER_TOKEN
+        payload='{"XERO_AUTH":"'+xero_token+'", "XERO_REFRESH_TOKEN":"'+refresh_token+'"}'
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.heroku+json; version=3', 'Authorization': auth, }
+        response = requests.request("PATCH", url, headers=headers, data=payload)
+        print('######')
+        print("Xero Token Task Complete")
+        print('######')
 
 
 
 
 ### CURRENTLY NOT ACTIVE ###
+
+
+# CREATE PDF INVOICE WHEN AN ORDER COMES IN
+# SET INVOICE_CREATED FIELD IN ORDER TABLE TO TRUE   
+def invoice_pdf(request):
+    orders = Order.objects.filter(invoice_created=False)
+    wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
+    config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
+
+    for order in orders: 
+        order.invoice_created = True  
+        order.save()  
+        order_id = order.order_id  
+        projectUrl = 'http://' + request.get_host() + '/orders/%s/invoice' % order_id 
+        # pdf = pdfkit.from_url(projectUrl, 'https://orizaba-control.s3-us-west-2.amazonaws.com/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)
+        pdf = pdfkit.from_url(projectUrl, 'static/pdf/invoices/invoice-%s.pdf' % order_id, configuration=config)   # Change this to upload to S3
+    return()
+
+
 def print_picklist_task(order_id):
     order = Order.objects.get(order_id=order_id)
     order_no = order.order_no    

@@ -3,7 +3,7 @@ from django.db import models
 class OrderStatusHistory(models.Model):
     order_id = models.ForeignKey('order', db_column='order_id', on_delete=models.CASCADE, null=True, blank=True)
     status_type = models.ForeignKey('orderstatustype', db_column='status_type', on_delete=models.CASCADE, null=True, blank=True)   
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(null=True)
 
     def __str__(self):
         return str(self.order_id) + ' | ' + str(self.status_type.name) + ' | ' + str(self.date)

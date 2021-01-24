@@ -6,35 +6,17 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 # STOCK MOVEMENT ORDER - CREATE A ROW IN THE StockMovement TABLE WHEN AN ITEM IS ADDED TO THE ORDERITEM TABLE 
 def stock_movement_order(request):
     orderitems = OrderItem.objects.filter(stock_movement_added=False, order_id__date__gt="2021-01-01")
-
     for orderitem in orderitems:
-        # Get currenct stock qty from product table - orizaba_stock_qty
+        # GET CURRENT STOCK QTY FROM PRODUCT TABLE (ORIZABA_STOCK_QTY)
         p_id = orderitem.product_id.product_id
         product = Product.objects.get(pk=p_id)       
-        # Add current stock qty to orderitem qty
+        # ADD CURRENT STOCK QTY TO ORDERITME QTY
         current_stock_qty = int(product.orizaba_stock_qty) - int(orderitem.item_qty) 
-        # Set the stock qty in Product table (orizaba_stock_qty) to the new rolling stock qty in stock movement table
+        # SET ORIZABA_STOCK_QTY IN PRODUCT TABLE TO NEW ROLLING STOCK QTY IN SOTCK MOVEMENT TABLE
         Product.objects.filter(pk=p_id).update(orizaba_stock_qty=current_stock_qty)
-        # Add a row in Stock Movement table, which calculates a rolling stock figure
-        StockMovement.objects.create(
-            product_id=orderitem.product_id, 
-            adjustment_qty=-orderitem.item_qty, 
-            movement_type="Online Sale",
-            order_id=orderitem.order_id,
-            current_stock_qty=current_stock_qty,
-            date_added=orderitem.order_id.date
-            )  
-        # date_added=orderitem.order_id.date - add this above if you want to update date 
-        # Set the sotck movement_added field to true, so that this doesn't get added more than once
+        # ADD ROW TO STOCK MOVEMENT TABLE TO CALCULATE THE ROLLING STOCK FIGURE
+        StockMovement.objects.create(product_id=orderitem.product_id, adjustment_qty=-orderitem.item_qty, movement_type="Online Sale", order_id=orderitem.order_id, current_stock_qty=current_stock_qty, date_added=orderitem.order_id.date)   
+        # SET THE STOCK MOVEMENT_ADDED FIELD TO TRUE
         orderitem.stock_movement_added = True
         orderitem.save()
-    return ()
-
-# RESET FUNCTIONS #
-# SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
-def stock_movement_added_false(request):
-    orderitem = OrderItem.objects.all()
-    for item in orderitem:
-        item.stock_movement_added = False
-        item.save()
     return ()

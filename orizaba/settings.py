@@ -83,11 +83,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_orders.context_processors.initial_status', # LOADS INITIAL ORDER RECEIVED STATUS INTO ORDERSTATUSHISTORY TABLE
-                #'app_orders.context_processors.invoice_pdf', # CREATES THE PDF INVOICE
                 'app_products.context_processors.stock_movement_order', # CREATES A ROW IN STOCK MOVEMENT TABLE WHEN AN ORDER ITEM IS PURCHASED
-                
-                ### TEMPORARY RESET FUNCTIONS ###
-                #'app_products.context_processors.stock_movement_added_false', # SET All ORDERITEMS STOCK_MOVEMENT_ADDED TO FALSE 
             ],
         },
     },
@@ -120,21 +116,21 @@ DATABASES = {
 # HEROKU_DB_KEY = config('HEROKU_DB_KEY')
 # DATABASES['default'] = dj_database_url.config(default=HEROKU_DB_KEY) 
 
-# # Comment out when pushing to production / Uncomment to use the Local DB
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
+# # # Comment out when pushing to production / Uncomment to use the Local DB
+# # db_from_env = dj_database_url.config(conn_max_age=600)
+# # DATABASES['default'].update(db_from_env)
 
-# # Local Database Settings
-# DATABASES = {
-# 'default': {
-#     'ENGINE': config('LOCAL_DB_ENGINE'),
-#     'NAME': config('LOCAL_DB_NAME'),
-#     'USER': config('LOCAL_DB_USER'),
-#     'PASSWORD': config('LOCAL_DB_PASSWORD'),
-#     'HOST': config('LOCAL_DB_HOST'),
-#     'PORT': config('LOCAL_DB_PORT'),
-#     }
-# }
+# # # Local Database Settings
+# # DATABASES = {
+# # 'default': {
+# #     'ENGINE': config('LOCAL_DB_ENGINE'),
+# #     'NAME': config('LOCAL_DB_NAME'),
+# #     'USER': config('LOCAL_DB_USER'),
+# #     'PASSWORD': config('LOCAL_DB_PASSWORD'),
+# #     'HOST': config('LOCAL_DB_HOST'),
+# #     'PORT': config('LOCAL_DB_PORT'),
+# #     }
+# # }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
