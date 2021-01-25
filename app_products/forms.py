@@ -26,7 +26,7 @@ class PurchaseOrderCreateForm(forms.ModelForm):
 class ManualStockAdjustForm(forms.ModelForm):
     class Meta:
         model = StockMovement
-        fields = ['product_id', 'date_added', 'movement_type', 'adjustment_qty', 'current_stock_qty', 'comments']
+        fields = ['product', 'movement_type', 'adjustment_qty', 'current_stock_qty', 'comments']
 
 ### PURCHASE ORDER LIST PAGE ###
 class PurchaseOrderCreateForm(forms.ModelForm):

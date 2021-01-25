@@ -64,10 +64,10 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stock_movement'] = StockMovement.objects.filter(product_id__product_id=self.object.pk) # Tidy up to use product=self.object, rename model field to product) 
-        context['previous_orders'] = OrderItem.objects.filter(product_id__product_id=self.object.pk)
+        context['stock_movement'] = StockMovement.objects.filter(product=self.object)
+        context['previous_orders'] = OrderItem.objects.filter(product_id=self.object)
         # PURCHASE ORDER ITEMS IN STOCK-STATUS.HTML
-        purchase_order_item = PurchaseOrderItem.objects.filter(product__product_id=self.object.pk)
+        purchase_order_item = PurchaseOrderItem.objects.filter(product=self.object)
         context['parts_outstanding'] = purchase_order_item.aggregate(Sum('outstanding_qty'))['outstanding_qty__sum'] or 0
         context['parts_outstanding_po'] = purchase_order_item.values('purchaseorder', 'purchaseorder__reference', 'purchaseorder__date_ordered').annotate(outstanding=Sum('outstanding_qty')).order_by('-purchaseorder')
         # STOCK LOCATION HISTORY
@@ -80,6 +80,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()   
+        now = datetime.datetime.now(tz=timezone.utc)
         if 'product-details' in request.POST:
             form = ProductDetailForm(self.request.POST, request.FILES or None, instance=self.object)  
             if form.is_valid(): 
@@ -95,12 +96,17 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             if form.is_valid():  
                 # SAVE THE FORM BUT DON'T COMMIT
                 event = form.save(commit=False)
-                # UPDATE THE CURRENT_STOCK_QTY FROM THE ORIZABA_STOCK_QTY IN THE PRODUCT TABLE
-                current_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
-                event.current_stock_qty = current_stock_qty
+                # STOCK MOVEMENT TABLE - ADD A NEW MOVEMENT ROW
+                new_stock_qty = self.object.orizaba_stock_qty + int(adjustment_qty)
+                event.current_stock_qty = new_stock_qty
+                event.date_added = now
                 event.save()
-                # SETS THE STOCK VALUE IN THE PRODUCT TABLE
-                Product.objects.filter(pk=self.object.product_id).update(orizaba_stock_qty=current_stock_qty) 
+                # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+                MagentoProductSync.objects.create(product=self.object, stock_qty=new_stock_qty)
+                # PRODUCT TABLE - SETS THE STOCK qTY 
+                self.object.orizaba_stock_qty = new_stock_qty
+                self.object.save()
+
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -190,7 +196,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             po_item = PurchaseOrderItem.objects.get(id=reset_part)
             # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
             new_stock_qty = int(po_item.product.orizaba_stock_qty) - int(po_item.received_qty) 
-            StockMovement.objects.create(date_added=now, product_id=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
+            StockMovement.objects.create(date_added=now, product=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
             # MAGENTOPRODUCTSYNC TABLE - ADD ROW TO UPDATE MAGENTO
             MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
             # PRODUCT TABLE - UPDATE STOCK QTY
@@ -242,7 +248,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                     poitem.save()
                     # STOCKMOVEMENT TABLE - ADD DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW   
                     new_stock_qty = int(poitem.product.orizaba_stock_qty) + int(delivery_qty) 
-                    StockMovement.objects.create(date_added=now, product_id=poitem.product, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
+                    StockMovement.objects.create(date_added=now, product=poitem.product, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
                     # PRODUCT TABLE - UPDATE STOCK QTY
                     poitem.product.orizaba_stock_qty = new_stock_qty
                     poitem.product.save()

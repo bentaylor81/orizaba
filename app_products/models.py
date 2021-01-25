@@ -31,7 +31,7 @@ class StockMovement(models.Model):
         ('Purchase Order Receipt', 'Purchase Order Receipt'),
         ('Manual Adjustment', 'Manual Adjustment'),      
     ]
-    product_id = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
     adjustment_qty = models.IntegerField(blank=True, default=0) # Related to the quantity delivered, like in PurchaseOrderItem table
     movement_type = models.CharField(max_length=200, choices=STATUS_CHOICES, blank=True, null=True)
     date_added = models.DateTimeField(blank=True, null=True) 

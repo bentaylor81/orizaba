@@ -6,12 +6,8 @@
         <form id="stock-adj-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="manual-adj">
-                <input name="product_id" type="hidden" value="{{ product.product_id }}">
-                <input name="movement_type" type="hidden" value="Manual Adjustment">
-                <div class="date">
-                    <div class="title">Date:</div>
-                    <input name="date_added" type="date" value="{% now 'Y-m-d' %}">
-                </div>
+                <input hidden name="product" value="{{ product.product_id }}">
+                <input hidden name="movement_type" value="Manual Adjustment">
                 <div class="reason">
                     <div class="title">Reason:</div>
                     <select name="comments">
