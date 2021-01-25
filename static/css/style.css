@@ -55,6 +55,7 @@
     .messages { font-weight: bold; font-size: 16px; }
     .messages .success {  background: #9eda9e; padding: 20px; }
     .messages .error {  background: #e99595; padding: 20px; }
+    .messages .warning {  background: #ff710057; padding: 20px; }
 
     /* Forms */
     form input, form input#date, input.date-input { font: 13px 'Roboto'; }

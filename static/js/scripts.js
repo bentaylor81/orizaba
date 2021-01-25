@@ -33,10 +33,10 @@
     if (messageBar != null) {
         setTimeout(function(){ 
             messageBar.classList.add('fade-out')
-        }, 1000);
+        }, 4000);
         setTimeout(function(){ 
             messageBar.style.display = 'none';
-        }, 2000);
+        }, 5000);
     }
 
     

@@ -26,6 +26,7 @@ import requests
 import json
 import pdfkit
 import wkhtmltopdf
+import time
 from django_q.tasks import async_task
 import rollbar
 from django.core import serializers
@@ -77,13 +78,10 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             orderitem = request.POST.getlist('orderitem_id')
             send_qty = request.POST.getlist('send_qty')
             # UPDATE THE SEND QTY IN THE PICKLIST
-            for oi, sq in [(orderitem, send_qty)]:
-                i=0
-                while (i < len(oi)):
-                    instance = OrderItem.objects.get(orderitem_id=oi[i])
-                    instance.send_qty = sq[i]
-                    instance.save()
-                    i+=1
+            for orderitem, send_qty in zip(orderitem, send_qty):
+                orderitem = OrderItem.objects.get(orderitem_id=orderitem)
+                orderitem.send_qty = send_qty
+                orderitem.save()
             # PASS THE SEND QTY INTO THE PDF GENERATOR
             self.print_picklist(self.request)   
             messages.success(self.request, 'Picklist is Printing') 
@@ -100,10 +98,11 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
             else: 
                 shipping_ref = str(order_no)
             # SUBMIT THE FORM
-            if form.is_valid():
+            if form.is_valid():       
+                # ORDERSHIPMENT TABLE 
                 form.instance.order_id = form_order_id
                 form.instance.shipping_ref = shipping_ref
-                form.save()          
+                form.save()  
                 # UPDATE THE SEND QTY FOR THE PICKLIST
                 orderitem = request.POST.getlist('orderitem_id')
                 send_qty = request.POST.getlist('send_qty')
@@ -111,10 +110,6 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                     orderitem = OrderItem.objects.get(orderitem_id=orderitem)
                     orderitem.send_qty = send_qty
                     orderitem.save()
-                # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
-                picklist = form['picklist'].value()
-                if picklist == True:
-                    self.print_picklist(self.request)  
                 # CREATE SHIPTHEORY SHIPMENT METHOD
                 shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
                 service_id = shipment.service_id.service_id 
@@ -142,25 +137,37 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"},"products":'+str(product_lines)+'}'
                 response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
                 print(payload)
+                print('######')
                 print(response.text)
                 # APILOG TABLE - ADD NEW ROW
                 ApiLog.objects.create(process='Create Shipment', api_service='Ship Theory', response_code=response, response_text=response.text) 
-                # ORDERSTATUSHISTORY TABLE - ADD THE SHIPMENT CREATED STATUS
-                status_type = OrderStatusType.objects.get(pk=20)
-                OrderStatusHistory.objects.create(order_id=self.object, status_type=status_type, date=now)
-                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
-                self.object.status_current = status_type
-                self.object.save()  
-                # GET THE TRACKING CODE FROM RESULT AND SAVE
-                #tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
-                code = (json.loads(response.text)['code'])
-                print(code)
-                if(code == 401):
-                    messages.success(self.request, 'Shipment Created and Label Processing')  
-                # if tracking_code:
-                #     shipment.tracking_code = tracking_code
-                #     shipment.save() 
-                messages.success(self.request, 'Shipment Created and Label Processing')  
+                # SAVE RESULT BASED ON THE RESPONSE CODE
+                if '200' in str(response):   
+                    # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
+                    picklist = form['picklist'].value()
+                    if picklist == True:
+                        self.print_picklist(self.request)  
+                    # ORDERSTATUSHISTORY TABLE - ADD THE SHIPMENT CREATED STATUS
+                    status_type = OrderStatusType.objects.get(pk=20)
+                    OrderStatusHistory.objects.create(order_id=self.object, status_type=status_type, date=now)
+                    # ORDER TABLE - SET THE STATUS TO SHIPMENT CREATED
+                    self.object.status_current = status_type
+                    self.object.save()  
+                    # GENERATE TRACKING CODE
+                    try:
+                        tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
+                    except:
+                        tracking_code = False
+                    # ORDERSHIPMENT TABLE - ADD TRACKING CODE
+                    if tracking_code:
+                        shipment.tracking_code = tracking_code
+                        shipment.save() 
+                        messages.success(self.request, 'Shipment created and label processing')  
+                    else:
+                        messages.warning(self.request, 'Shipment sent to ShipTheory but has not completed')                     
+                else:
+                    shipment.delete()
+                    messages.error(self.request, 'Shipment failed and has not been sent to ShipTheory')                         
             else:
                 return self.form_invalid(form)
 
