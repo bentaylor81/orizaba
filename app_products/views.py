@@ -167,6 +167,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object() 
         po_id = self.object.po_id
+        now = datetime.datetime.now(tz=timezone.utc)
 
         if 'status' in request.POST or 'notes' in request.POST or 'edit-po' in request.POST:
             form = PurchaseOrderForm(self.request.POST, instance=self.object)  
@@ -176,41 +177,38 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 return self.form_invalid(form)
+
         elif 'add-part' in request.POST:
-            # GET FORM ATTRIBUTES
             product_id = request.POST.get('product_id')
             order_qty = request.POST.get('order_qty')
             # ADD PART ROW TO THE TABLE
             PurchaseOrderItem.objects.create(product_id=product_id, order_qty=order_qty, outstanding_qty=order_qty, purchaseorder_id=po_id)
             return HttpResponseRedirect(self.get_success_url())
+
         elif 'reset_part' in request.POST:
             reset_part = request.POST.get('reset_part')
-            now = datetime.datetime.now(tz=timezone.utc)
-            part = PurchaseOrderItem.objects.get(id=reset_part)
-            product_id = part.product_id
-
-            # Tidy up this function
-            # Can you update another table via a foreign key???? In order to update the Product table
+            po_item = PurchaseOrderItem.objects.get(id=reset_part)
             # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
-            product_inst = Product.objects.get(pk=product_id)
-            current_stock_qty = int(product_inst.orizaba_stock_qty) - int(part.received_qty) 
-            StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=-part.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
-            # PRODUCT TABLE - UPDATE THE STOCK VALUE
-            Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty) 
+            new_stock_qty = int(po_item.product.orizaba_stock_qty) - int(po_item.received_qty) 
+            StockMovement.objects.create(date_added=now, product_id=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
             # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-            StockSyncMagento.objects.create(product=product_inst, stock_qty=current_stock_qty) 
+            StockSyncMagento.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
+            # PRODUCT TABLE - UPDATE STOCK QTY
+            po_item.product.orizaba_stock_qty = new_stock_qty
+            po_item.product.save()
             # PURCHASEORDERITEM TABLE - RESET THE RECEIVED QTY
-            part.received_qty=0
-            part.outstanding_qty=part.order_qty
-            part.received_status='Order Pending'
-            part.save() 
+            po_item.received_qty = 0
+            po_item.outstanding_qty=po_item.order_qty
+            po_item.received_status='Order Pending'
+            po_item.save() 
             return HttpResponseRedirect(self.get_success_url())
+
         elif 'delete_part' in request.POST:
-            delete_part = request.POST.getlist('delete_part')
+            delete_part = request.POST.get('delete_part')
             # DELETE THE ROW IN PURCHASEORDERITEM
-            for delete_part in delete_part:
-                PurchaseOrderItem.objects.get(id=delete_part).delete()
+            PurchaseOrderItem.objects.get(id=delete_part).delete()
             return HttpResponseRedirect(self.get_success_url())
+
         else:
             # GET LIST OF FORM ATTRIBUTES
             poitem_id = request.POST.getlist('poitem_id')

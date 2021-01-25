@@ -6,7 +6,7 @@ section .modal { display: none; position: fixed; z-index: 1; padding-top: 100px;
 /* Modal Content */
 section .modal .modal-container { position: relative; background-color: #fefefe; margin: auto; padding: 10px 20px 20px 20px; max-width: 1200px; }
 /* The Close Button */
-section .modal .modal-close { color: #000; text-align: right; position: initial; font-size: 40px; font-weight: bold; cursor: pointer; }
+section .modal .modal-close { color: #000; text-align: right; position: initial; line-height: 23px; font-size: 35px; font-weight: bold; cursor: pointer; }
 
 /* DIFFERENT MODAL STYLES */
 
@@ -46,7 +46,7 @@ section #modal.confirm-modal .modal-close { font-size: 35px; line-height: 24px; 
 .confirm-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
 .confirm-modal .modal-top-bar span { float: right; }
 .confirm-modal .modal-container { padding: 0px; width: 400px; }
-.confirm-modal .modal-content { padding: 20px; }
+.confirm-modal .modal-content { padding: 20px 20px 0px 20px; }
 .confirm-modal .message { margin-bottom: 20px; }
 .confirm-modal .buttons { display: flex; gap: 10px; justify-content: flex-end; }
 .confirm-modal .buttons button { width: 90px !important; }

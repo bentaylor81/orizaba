@@ -48,7 +48,7 @@
                 {% for item in po_items %}
                 <tr class="partRow part-row {% cycle 'row1' 'row2' %}">
                     <!-- HIDDEN PURCHASE ORDER ITEMS - FORM DATA -->
-                    <input name="poitem_id" type="text" value="{{ item.id }}">
+                    <input hidden name="poitem_id" type="text" value="{{ item.id }}">
                     <input hidden name="product_id" type="text" value="{{ item.product.product_id }}">
                     <input hidden name="print_label" type="text" class="printLabel">            
                     <!-- END -->
