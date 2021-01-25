@@ -111,9 +111,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             # UPDATE ROW IN PRODUCT TABLE
             self.object.location = location
             self.object.save()
-            return HttpResponseRedirect(self.get_success_url())
-
-        
+            return HttpResponseRedirect(self.get_success_url())  
         
         return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -186,23 +184,26 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             PurchaseOrderItem.objects.create(product_id=product_id, order_qty=order_qty, outstanding_qty=order_qty, purchaseorder_id=po_id)
             return HttpResponseRedirect(self.get_success_url())
         elif 'reset_part' in request.POST:
-            reset_part = request.POST.getlist('reset_part')
-            product_id = request.POST.getlist('product_id')
+            reset_part = request.POST.get('reset_part')
             now = datetime.datetime.now(tz=timezone.utc)
-            # UPDATE THE RECEIVED AND OUTSTANDING QTY
-            for reset_part, product_id in zip(reset_part, product_id):
-                part = PurchaseOrderItem.objects.get(id=reset_part)
-                # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
-                product_inst = Product.objects.get(pk=product_id)
-                current_stock_qty = int(product_inst.orizaba_stock_qty) - int(part.received_qty) 
-                StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=-part.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
-                # PRODUCT TABLE - UPDATE THE STOCK VALUE
-                Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)  
-                # PURCHASEORDERITEM TABLE - RESET THE RECEIVED QTY
-                part.received_qty=0
-                part.outstanding_qty=part.order_qty
-                part.received_status='Order Pending'
-                part.save() 
+            part = PurchaseOrderItem.objects.get(id=reset_part)
+            product_id = part.product_id
+
+            # Tidy up this function
+            # Can you update another table via a foreign key???? In order to update the Product table
+            # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
+            product_inst = Product.objects.get(pk=product_id)
+            current_stock_qty = int(product_inst.orizaba_stock_qty) - int(part.received_qty) 
+            StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=-part.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
+            # PRODUCT TABLE - UPDATE THE STOCK VALUE
+            Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty) 
+            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+            StockSyncMagento.objects.create(product=product_inst, stock_qty=current_stock_qty) 
+            # PURCHASEORDERITEM TABLE - RESET THE RECEIVED QTY
+            part.received_qty=0
+            part.outstanding_qty=part.order_qty
+            part.received_status='Order Pending'
+            part.save() 
             return HttpResponseRedirect(self.get_success_url())
         elif 'delete_part' in request.POST:
             delete_part = request.POST.getlist('delete_part')
@@ -245,6 +246,8 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                     StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
                     # PRODUCT TABLE - UPDATE THE STOCK VALUE
                     Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
+                    # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+                    StockSyncMagento.objects.create(product=product_inst, stock_qty=current_stock_qty)
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE LABEL CHECKBOX
                     if(print_label == 'true'):
                         # GENERATE A PDF FILE IN STATIC

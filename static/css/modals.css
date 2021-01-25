@@ -2,11 +2,11 @@
 
 .modal-button { cursor: pointer; }
 /* The Modal (background) */
-section #modal.modal { display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000000d4; text-align: left; }
+section .modal { display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000000d4; text-align: left; }
 /* Modal Content */
-section #modal.modal .modal-container { position: relative; background-color: #fefefe; margin: auto; padding: 10px 20px 20px 20px; max-width: 1200px; }
+section .modal .modal-container { position: relative; background-color: #fefefe; margin: auto; padding: 10px 20px 20px 20px; max-width: 1200px; }
 /* The Close Button */
-section #modal.modal .modal-close { color: #000; text-align: right; position: initial; font-size: 40px; font-weight: bold; cursor: pointer; }
+section .modal .modal-close { color: #000; text-align: right; position: initial; font-size: 40px; font-weight: bold; cursor: pointer; }
 
 /* DIFFERENT MODAL STYLES */
 

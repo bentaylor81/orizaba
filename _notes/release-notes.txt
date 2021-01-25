@@ -1,9 +1,20 @@
-# IMPORT ALL OLD ORDERS
+# STOCK CONTROL
 
-- Order table set initial_status_added to True to all old imported orders 
-- Order status to delivered in orders table
-- OrderItem set stock_movement_added to True for all old imported orders
-- Stock movement add for each product imported
-- Update products where live-link not available and have a product active status on there.
+- Magento Product Sync table
+
+- Update Stock figure to be the Orizaba Stock figure
+- Add a stock check field to the product
+- Add a stock check table
+- Orizaba Controls Magento stock
+- Add a scheduled task
+- Make sure Jodie has updated the stock in Unleashed 
+- Resync with Unleashed
+- Backdate Stock Movement table so a retrospective running total can be created. 
+- Stock figure on Purchase Order
+- Stock check tab in Product
+- Backups
 
 
+
+### DONE
+- Fix the /utils/stock-reconcile page

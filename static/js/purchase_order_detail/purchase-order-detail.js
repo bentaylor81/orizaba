@@ -7,7 +7,7 @@
     // 3B. PRINT LABEL CHECKBOX
     // 3C. DISPLAY COMMENTS
     // 3D. EXPANDABLE PRODUCT TABLE ROW
-    // 3E - DELETE AND RESET BUTTON STATES
+    // 3E. MODEL - DISABLED RESET AND DELETE BUTTONS AND OPEN MODAL BUTTONS
 // 4. ADD PART BLOCK AND SKU FILTER POPULATION
 // 5. DISABLE OTHER DROPDOWNS ON LOAD
 
@@ -60,10 +60,12 @@ let partRow = queryAll('.partRow')
     // SECTION D - EXPANDABLE PRODUCT TABLE ROW
     rowArrowIcon = queryAll('.rowArrowIcon')
     extraContent = queryAll('.extraContent')
-    // SECTION E - DELETE AND RESET BUTTON STATES
+    // SECTION E - MODALS
     receivedQty = queryAll('.receivedQty')
     resetButton = queryAll('.resetButton')
     deleteButton = queryAll('.deleteButton')
+    resetModal = queryAll('.resetModal') 
+    deleteModal = queryAll('.deleteModal') 
 
     for(let i=0; i < partRow.length; i++) {
         // SECTION A 
@@ -104,11 +106,20 @@ let partRow = queryAll('.partRow')
             rowArrowIcon[i].classList.toggle("icon-down")
         })
         // SECTION E
+        // DISBALE MODEL BUTTONS FOR RESET AND DELETE
         if(receivedQty[i].innerHTML == 0){
             resetButton[i].setAttribute('disabled', 'disabled')
         } else if(receivedQty[i].innerHTML != 0) {
             deleteButton[i].setAttribute('disabled', 'disabled')
         }
+        // OPEN RESET MODAL        
+        resetButton[i].addEventListener('click', () => {
+            resetModal[i].style.display = 'block'
+        })
+        // OPEN DELETE MODAL
+        deleteButton[i].addEventListener('click', () => {  
+            deleteModal[i].style.display = 'block'
+        })
     }
 
 // 4. ADD PART BLOCK AND SKU FILTERING
@@ -214,3 +225,5 @@ let openPartAdd = query('.openPartAdd')
             printLabelCheck[i].removeAttribute('hidden', 'hidden')
         }
     }
+
+    

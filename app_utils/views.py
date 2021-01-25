@@ -151,7 +151,7 @@ class StockMovementList(LoginRequiredMixin, FilterView):
     queryset = StockMovement.objects.all()
     model = StockMovement
     paginate_by = 50
-    ordering = ['unleashed_status', '-date_added']
+    ordering = ['-date_added']
     filterset_class = StockMovementFilter
 
 ### STOCK SYNC PAGE ###
