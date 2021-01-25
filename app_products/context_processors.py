@@ -9,7 +9,7 @@ def stock_movement_order(request):
     for item in orderitems:
         new_stock_qty = int(item.product_id.orizaba_stock_qty) - int(item.item_qty) 
         # STOCKMOVEMENT TABLE - CALCULATE THE ROLLING STOCK FIGURE
-        StockMovement.objects.create(product_id=item.product_id, adjustment_qty=-item.item_qty, movement_type="Online Sale", order_id=item.order_id, current_stock_qty=new_stock_qty, date_added=item.order_id.date)   
+        StockMovement.objects.create(product=item.product_id, adjustment_qty=-item.item_qty, movement_type="Online Sale", order_id=item.order_id, current_stock_qty=new_stock_qty, date_added=item.order_id.date)   
         # PRODUCT TABLE - UPDATE ORIZABA_STOCK_QTY TO NEW STOCK QTY
         item.product_id.orizaba_stock_qty = new_stock_qty
         item.product_id.save()  

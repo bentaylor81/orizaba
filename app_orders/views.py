@@ -19,6 +19,8 @@ from django_filters.views import FilterView
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime  
+from django.utils import timezone
 import datetime
 import requests
 import json
@@ -88,7 +90,8 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
 
         elif 'add-shipment' in request.POST:  
             form_class = self.get_form_class()
-            form = self.get_form(form_class)                   
+            form = self.get_form(form_class)  
+            now = datetime.datetime.now(tz=timezone.utc)                 
             # COUNT THE NUMBER OF SHIPMENTS AND CONCATENATE TO ORDER_NO, TO AVOID DUPLICATING REF
             shipment_no = OrderShipment.objects.filter(order_id=order_id).count()
             global shipping_ref
@@ -104,25 +107,14 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 # UPDATE THE SEND QTY FOR THE PICKLIST
                 orderitem = request.POST.getlist('orderitem_id')
                 send_qty = request.POST.getlist('send_qty')
-                for oi, sq in [(orderitem, send_qty)]:
-                    i=0
-                    while (i < len(oi)):
-                        instance = OrderItem.objects.get(orderitem_id=oi[i])
-                        instance.send_qty = sq[i]
-                        instance.save()
-                        i+=1
+                for orderitem, send_qty in zip(orderitem, send_qty):
+                    orderitem = OrderItem.objects.get(orderitem_id=orderitem)
+                    orderitem.send_qty = send_qty
+                    orderitem.save()
                 # PRINT THE PICKLIST IF PICKLIST CHECKBOX IS TRUE
                 picklist = form['picklist'].value()
                 if picklist == True:
                     self.print_picklist(self.request)  
-                # ADD THE SHIPMENT CREATED AND PICKLIST PRINTED STATUS TO ORDER STATUS HISTORY TABLE
-                now = datetime.datetime.now()
-                order_inst = Order.objects.get(order_id=order_id)
-                type_inst = OrderStatusType.objects.get(pk=20)
-                OrderStatusHistory.objects.create(order_id=order_inst, status_type=type_inst, date=now)
-                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
-                order_inst.status_current = type_inst
-                order_inst.save()  
                 # CREATE SHIPTHEORY SHIPMENT METHOD
                 shipment = OrderShipment.objects.get(shipping_ref=shipping_ref)
                 service_id = shipment.service_id.service_id 
@@ -138,7 +130,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 total_price = shipment.total_price_ex_vat
                 weight = shipment.weight
                 # GET PRODUCT INFORMATION
-                shipment_products = OrderItem.objects.filter(order_id=order_inst)
+                shipment_products = OrderItem.objects.filter(order_id=self.object)
                 product_lines = []
                 for product in shipment_products:
                     if product.send_qty > 0:
@@ -151,12 +143,23 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
                 print(payload)
                 print(response.text)
-                ApiLog.objects.create(process='Create Shipment', api_service='Ship Theory', response_code=response, response_text=response.text) # LOG RESULT  
+                # APILOG TABLE - ADD NEW ROW
+                ApiLog.objects.create(process='Create Shipment', api_service='Ship Theory', response_code=response, response_text=response.text) 
+                # ORDERSTATUSHISTORY TABLE - ADD THE SHIPMENT CREATED STATUS
+                status_type = OrderStatusType.objects.get(pk=20)
+                OrderStatusHistory.objects.create(order_id=self.object, status_type=status_type, date=now)
+                # SET THE STATUS IN THE ORDER TABLE TO SHIPMENT CREATED
+                self.object.status_current = status_type
+                self.object.save()  
                 # GET THE TRACKING CODE FROM RESULT AND SAVE
-                tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
-                if tracking_code:
-                    shipment.tracking_code = tracking_code
-                    shipment.save() 
+                #tracking_code = (json.loads(response.text)['carrier_result']['tracking'])
+                code = (json.loads(response.text)['code'])
+                print(code)
+                if(code == 401):
+                    messages.success(self.request, 'Shipment Created and Label Processing')  
+                # if tracking_code:
+                #     shipment.tracking_code = tracking_code
+                #     shipment.save() 
                 messages.success(self.request, 'Shipment Created and Label Processing')  
             else:
                 return self.form_invalid(form)
