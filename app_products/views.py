@@ -191,8 +191,8 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
             new_stock_qty = int(po_item.product.orizaba_stock_qty) - int(po_item.received_qty) 
             StockMovement.objects.create(date_added=now, product_id=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
-            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-            StockSyncMagento.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
+            # MAGENTOPRODUCTSYNC TABLE - ADD ROW TO UPDATE MAGENTO
+            MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
             # PRODUCT TABLE - UPDATE STOCK QTY
             po_item.product.orizaba_stock_qty = new_stock_qty
             po_item.product.save()
@@ -212,53 +212,54 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
         else:
             # GET LIST OF FORM ATTRIBUTES
             poitem_id = request.POST.getlist('poitem_id')
-            product_id = request.POST.getlist('product_id')
             delivery_qty = request.POST.getlist('delivery_qty')
             comments = request.POST.getlist('comments')
             print_label = request.POST.getlist('print_label')
-            now = datetime.datetime.now(tz=timezone.utc)
-            count = 0
             # ITERATE OVER THE FORM LISTS
-            for poitem_id, product_id, delivery_qty, comments, print_label in zip(poitem_id, product_id, delivery_qty, comments, print_label):
+            for poitem_id, delivery_qty, comments, print_label in zip(poitem_id, delivery_qty, comments, print_label):
                 # CALCULATE OUTSTANDING AND RECEIVED QUANTITES
-                item = PurchaseOrderItem.objects.get(id=poitem_id)
-                received_qty = item.received_qty + int(delivery_qty)
-                outstanding_qty = item.order_qty - received_qty
+                poitem = PurchaseOrderItem.objects.get(id=poitem_id)
+                received_qty = poitem.received_qty + int(delivery_qty)
+                outstanding_qty = poitem.order_qty - received_qty
                 # SET THE STATUS BASED ON THE OUTSTANDING QUANTITY
                 if(outstanding_qty == 0):
                     received_status = 'Full Receipt'
-                elif(outstanding_qty != 0 and outstanding_qty < item.order_qty):
+                elif(outstanding_qty != 0 and outstanding_qty < poitem.order_qty):
                     received_status = 'Partial Receipt'
                 else:
                     received_status = 'Order Pending'
-                # UPDATE THE COMMENTS FIELD IN PURCHASEORDERITEM
-                if(comments != item.comments):
-                    PurchaseOrderItem.objects.filter(id=poitem_id).update(comments=comments)                
+                # PURCHASEORDERITEM - UPDATE THE COMMENTS FIELD
+                if(comments != poitem.comments):
+                    poitem.comments = comments
+                    poitem.save()             
                 # UPDATE THE TABLES FOR EACH ITEM
                 if(int(delivery_qty) > 0):  
                     # PURCHASEORDERITEM - UPDATE ROW FOR POITEM_ID
-                    PurchaseOrderItem.objects.filter(id=poitem_id).update(product_id=product_id, received_qty=received_qty, outstanding_qty=outstanding_qty, received_status=received_status, date_updated=now)
+                    poitem.received_qty = received_qty
+                    poitem.outstanding_qty = outstanding_qty
+                    poitem.received_status = received_status
+                    poitem.date_updated = now
+                    poitem.save()
                     # STOCKMOVEMENT TABLE - ADD DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW   
-                    product_inst = Product.objects.get(pk=product_id)
-                    current_stock_qty = int(product_inst.orizaba_stock_qty) + int(delivery_qty) 
-                    StockMovement.objects.create(date_added=now, product_id=product_inst, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=current_stock_qty) 
-                    # PRODUCT TABLE - UPDATE THE STOCK VALUE
-                    Product.objects.filter(pk=product_id).update(orizaba_stock_qty=current_stock_qty)   
+                    new_stock_qty = int(poitem.product.orizaba_stock_qty) + int(delivery_qty) 
+                    StockMovement.objects.create(date_added=now, product_id=poitem.product, adjustment_qty=delivery_qty, movement_type="Purchase Order Receipt", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
+                    # PRODUCT TABLE - UPDATE STOCK QTY
+                    poitem.product.orizaba_stock_qty = new_stock_qty
+                    poitem.product.save()
                     # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-                    StockSyncMagento.objects.create(product=product_inst, stock_qty=current_stock_qty)
+                    MagentoProductSync.objects.create(product=poitem.product, stock_qty=new_stock_qty)
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE LABEL CHECKBOX
                     if(print_label == 'true'):
                         # GENERATE A PDF FILE IN STATIC
-                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % product_inst.sku
+                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % poitem.product.sku
                         pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
                         # SELECT THE PRINTER
                         process = PrintProcess.objects.get(process_id=3)
                         printer_id = process.process_printer.printnode_id
                         # SEND TO PRINTNODE
-                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(product_inst.sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(delivery_qty)+ '}}'
+                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(poitem.product.sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(delivery_qty)+ '}}'
                         response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
                         print(response.text.encode('utf8'))
-            
             return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

@@ -1,7 +1,7 @@
 from django.db import models
 import datetime
 
-class StockSyncMagento(models.Model):
+class MagentoProductSync(models.Model):
     product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
     stock_qty = models.IntegerField(blank=True, default=0)
     date_added = models.DateTimeField(auto_now_add=True, blank=True, null=True)  
