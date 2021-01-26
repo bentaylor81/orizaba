@@ -46,5 +46,10 @@
             </td>
         </tr>
     </table>
+    <br><br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        <button name="magento-sync">Magento Sync</button>
+    </form>
 </div>
 {% include 'app_products/product_detail/modals/edit-location.html' %}<!-- Opens the Modal -->

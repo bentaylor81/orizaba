@@ -1,17 +1,15 @@
 # STOCK CONTROL
 
 
-
-
-- Add a stock check field to the product
-- Add a stock check table
 - Orizaba Controls Magento stock
 - Add a scheduled task
 - Make sure Jodie has updated the stock in Unleashed 
 - Resync with Unleashed
 - Backdate Stock Movement table so a retrospective running total can be created. 
-- Stock check tab in Product
 - Backups
+- Stock check tab in Product
+- Add a stock check field to the product
+- Add a stock check table
 
 ### DONE
 - Magento Product Sync table

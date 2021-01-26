@@ -102,7 +102,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 event.date_added = now
                 event.save()
                 # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-                MagentoProductSync.objects.create(product=self.object, stock_qty=new_stock_qty)
+                # MagentoProductSync.objects.create(product=self.object, stock_qty=new_stock_qty)
                 # PRODUCT TABLE - SETS THE STOCK qTY 
                 self.object.orizaba_stock_qty = new_stock_qty
                 self.object.save()
@@ -118,6 +118,22 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.location = location
             self.object.save()
             return HttpResponseRedirect(self.get_success_url())  
+
+        elif 'magento-sync' in request.POST:
+            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+            MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
+            # POST TO MAGENTO
+            url = 'https://www.gardentractorspares.co.uk/inventory_update.php'
+            params = dict(
+                product_id=self.object,
+                stock_qty=self.object.orizaba_stock_qty
+            )
+            response = requests.get(url=url, params=params)
+            data = response.json()
+            print(data)
+
+
+            return HttpResponseRedirect(self.get_success_url())         
         
         return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -198,7 +214,7 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             new_stock_qty = int(po_item.product.orizaba_stock_qty) - int(po_item.received_qty) 
             StockMovement.objects.create(date_added=now, product=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
             # MAGENTOPRODUCTSYNC TABLE - ADD ROW TO UPDATE MAGENTO
-            MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
+            # MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
             # PRODUCT TABLE - UPDATE STOCK QTY
             po_item.product.orizaba_stock_qty = new_stock_qty
             po_item.product.save()

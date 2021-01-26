@@ -35,6 +35,12 @@
             <th>Email:</th>
             <td>{{ order.delivery_email }}</td>
         </tr>
+        {% if order.delivery_tax_number %}
+        <tr>
+            <th>Tax Number:</th>
+            <td>{{ order.delivery_tax_number }}</td>
+        </tr>
+        {% endif %}
         <tr>
             <th><hr></th>
             <td><hr></td>

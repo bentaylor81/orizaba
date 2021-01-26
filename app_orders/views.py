@@ -122,6 +122,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                 country = shipment.delivery_country_code
                 phone = shipment.delivery_phone
                 email = shipment.delivery_email
+                tax_number = shipment.delivery_tax_number
                 total_price = shipment.total_price_ex_vat
                 weight = shipment.weight
                 # GET PRODUCT INFORMATION
@@ -134,7 +135,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                         product_lines.append(line)
                 product_lines = json.dumps(product_lines)
                 # CREATE SHIPTHEORY SHIPMENT
-                payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'"},"products":'+str(product_lines)+'}'
+                payload = '{"reference":"'+str(shipping_ref)+'","reference2":"GTS","delivery_service":"'+str(service_id)+'","increment":"1","shipment_detail":{"weight":"'+str(weight)+'","parcels":1,"value":'+str(total_price)+'},"recipient":{"firstname":"'+firstname+'","lastname":"'+lastname+'","address_line_1":"'+address_1+'","address_line_2":"'+address_2+'","city":"'+city+'","postcode":"'+postcode+'","country":"'+country+'","telephone":"'+phone+'","email":"'+email+'","tax_number":"'+tax_number+'"},"products":'+str(product_lines)+'}'
                 response = requests.request("POST", "https://api.shiptheory.com/v1/shipments", headers=settings.ST_HEADERS, data=payload)
                 print(payload)
                 print('######')
