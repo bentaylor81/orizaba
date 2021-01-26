@@ -38,7 +38,11 @@
         {% if order.delivery_country != 'United Kingdom' %}
         <tr>
             <th>Tax Number:</th>
-            <td>{{ order.delivery_tax_number }}</td>
+            {% if order.delivery_tax_number %}
+                <td>{{ order.delivery_tax_number }}</td>
+            {% else %}
+                <td>--</td>
+            {% endif %}
         </tr>
         {% endif %}
         <tr>
