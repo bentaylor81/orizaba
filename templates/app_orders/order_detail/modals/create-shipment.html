@@ -50,10 +50,12 @@
                             <th>Email:</th>
                             <td><input type="text" name="delivery_email" value="{{ order.delivery_email }}"></td>
                         </tr>
+                        {% if order.delivery_country != 'United Kingdom' %}
                         <tr>
                             <th>Tax Number:</th>
                             <td><input type="text" name="delivery_tax_number" value="{{ order.delivery_tax_number }}"></td>
                         </tr>
+                        {% endif %}
                     </table>          
                 </div>
                 <div class="modal-col-2">     
