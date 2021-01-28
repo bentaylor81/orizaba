@@ -28,13 +28,14 @@
                             <th></th>
                             <th data-order="product_name">Product Name<i class="arrow">&nbsp;</i></th>
                             <th data-order="sku" class="col-100">SKU<i class="arrow">&nbsp;</i></th>
-                            <th data-order="weight" class="col-100">Weight<i class="arrow">&nbsp;</i></th>
-                            <th data-order="sell_price" class="col-100">Sell Price<i class="arrow">&nbsp;</i></th>
+                            <th data-order="weight" class="col-80">Weight<i class="arrow">&nbsp;</i></th>
+                            <th data-order="sell_price" class="col-80">Sell Price<i class="arrow">&nbsp;</i></th>
                             <th data-order="brand" class="col-140">Brand<i class="arrow">&nbsp;</i></th>
                             <th data-order="supplier" class="col-140">Supplier<i class="arrow">&nbsp;</i></th>
-                            <th data-order="location" class="col-140">Location<i class="arrow">&nbsp;</i></th>
-                            <th data-order="orizaba_stock_qty" class="col-80">Stock Qty<i class="arrow">&nbsp;</i></th>
+                            <th data-order="location" class="col-120">Location<i class="arrow">&nbsp;</i></th>
+                            <th data-order="orizaba_stock_qty" class="col-60">Stock<i class="arrow">&nbsp;</i></th>
                             <th class="col-80">Label</th>
+                            <th data-order="last_stock_check" class="col-80">Checked<i class="arrow">&nbsp;</i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,10 +83,16 @@
                                     </div>  
                                 </form>
                             </td>
+                            <td>
+                                {% if product.last_stock_check %}
+                                    {{ product.last_stock_check|date:'d M Y' }}</td>
+                                {% else %}
+                                    --
+                                {% endif %}
                         </tr>
                         {% empty %}
                         <tr>
-                            <td class="empty" colspan="9">
+                            <td class="empty" colspan="10">
                                 There are no orders to display. 
                             </td>
                         </tr>

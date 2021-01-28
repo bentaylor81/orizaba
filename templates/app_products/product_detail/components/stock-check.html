@@ -1,27 +1,27 @@
 <div class="table stock-check">
-    <h2>Stock Check&nbsp;&nbsp;&nbsp;<i id="add-check-icon" class="far fa-plus-square"></i></h2>
+    <h2>Stock Check&nbsp;&nbsp;&nbsp;<i id="openCheckIcon" class="far fa-plus-square"></i></h2>
     <!-- ADD STOCK CHECK -->
-    <div class="add-check-block">
-        <form id="stock-adj-form" method="post" enctype="multipart/form-data">
+    <div class="openCheckBlock check-block">
+        <form id="stock-check-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="add-check-form">
+            <div class="check-form">
                 <div>
-                    <div class="title">Actual:</div>
-                    <input name="adjustment_qty" type="number" value="1">
+                    <div>Actual:</div>
+                    <input class="checkActQty" name="actual_qty" type="text" value="{{ object.orizaba_stock_qty }}">
                 </div>
                 <div>
-                    <div class="title">Expected:</div>
-                    <input readonly class="readonly" name="adjustment_qty" type="number" value="1">
+                    <div>Expected:</div>
+                    <input readonly class="checkAdjQty readonly" name="adjustment_qty" type="text" value="{{ object.orizaba_stock_qty }}">
                 </div>
                 <div>
-                    <div class="title">Difference:</div>
-                    <input readonly class="readonly" name="difference_qty" type="number" value="1">
+                    <div>Difference:</div>
+                    <input readonly class="checkDiffQty readonly" name="difference_qty" type="text">
                 </div>
                 <div class="submit">
                     <div class="title">&nbsp;</div>
-                    <button name="stock-movement">Submit</button>
+                    <button name="stock-check">Submit</button>
                 </div>
-                <div id="close-adj-icon"><i class="far fa-window-close"></i></div>
+                <div id="closeCheckIcon" class="close-check-icon"><i class="far fa-window-close"></i></div>
             </div>
         </form>
     </div> 
@@ -30,8 +30,8 @@
         <thead>
             <tr class="{% cycle 'row1' 'row2' %}">
                 <th>Date Checked</th>
-                <th>Expected Qty</th>
-                <th>Actual Qty</th>
+                <th>Expected</th>
+                <th>Actual</th>
                 <th>Difference</th>
             </tr>
         </thead>
@@ -41,7 +41,12 @@
                 <td>{{ item.date_checked }}</td>
                 <td>{{ item.expected_qty }}</td>
                 <td>{{ item.actual_qty }}</td>
-                <td>{{ item.difference_qty }}</td>
+                <!-- COLOUR THE DIFFERENCE QTY DEPENDING ON RESULT -->
+                {% if item.difference_qty == 0 %}
+                    <td class="correct">{{ item.difference_qty }}</td>
+                {% else %}
+                    <td class="incorrect">{{ item.difference_qty }}</td>
+                {% endif %}
             </tr>
             {% empty %}
             <tr>

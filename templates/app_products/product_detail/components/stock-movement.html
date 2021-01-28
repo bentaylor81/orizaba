@@ -1,8 +1,8 @@
 <div class="table stock-movement">
-    <h2>Stock Movement&nbsp;&nbsp;&nbsp;<i id="add-adj-icon" class="far fa-plus-square"></i></h2>
+    <h2>Stock Movement&nbsp;&nbsp;&nbsp;<i id="openAdjIcon" class="far fa-plus-square"></i></h2>
     <!-- EXPANDABLE SECTION FOR ADDING A MANUAL STOCK ADJUSTMENT -->
         <!-- GENERATED VIA THE jS PURCHASE-ORDER-DETAIL.JS LINE 125 -->   
-    <div class="add-adj-block">
+    <div class="openAdjBlock adj-block">
         <form id="stock-adj-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="manual-adj">
@@ -11,7 +11,6 @@
                 <div class="reason">
                     <div class="title">Reason:</div>
                     <select name="comments">
-                        <option value="Stock Count Adjustment">Stock Count Adjustment</option>
                         <option value="Extra Sent by Supplier">Extra Sent by Supplier</option>
                         <option value="Non Website Sale">Non Website Sale</option>
                         <option value="Website Sale">Website Sale</option>
@@ -28,12 +27,12 @@
                     <div class="title">&nbsp;</div>
                     <button name="stock-movement">Submit</button>
                 </div>
-                <div id="close-adj-icon"><i class="far fa-window-close"></i></div>
+                <div id="closeAdjIcon" class="close-adj-icon"><i class="far fa-window-close"></i></div>
             </div>
         </form>
     </div> 
     <!-- PAGINATE AND FILTER TABLE COMPONENT -->
-    {% include 'global/pag-filter-table.html' %}
+    {% include 'app_products/product_detail/components/pag-filter-table.html' %}
     <!-- END -->  
     <!-- STOCK MOVEMENT TABLE -->
     {% if stock_movement %}
@@ -83,9 +82,17 @@
                 <td><a href="{% url 'purchase-order-detail' item.purchaseorder.po_id %}">{{ item.purchaseorder.reference }}</a></td>
                 <td class="change-qty">{{ item.adjustment_qty }}</td>
                 <td class="stock-qty">{{ item.current_stock_qty }}</td>
+            <!-- STOCK CHECK ADJUSTMENT -->
+            {% elif item.movement_type == 'Stock Check' %}
+                <td class="highlight"><i class="fas fa-check-circle"></i></td>
+                <td class="highlight">{{ item.movement_type }}</td>
+                <td class="highlight">{{ item.date_added|date:'D d M Y' }}</td>
+                <td class="highlight">--</td>
+                <td class="highlight">{{ item.adjustment_qty }}</td>
+                <td class="highlight">{{ item.current_stock_qty }}</td>
             <!-- MANUAL ADJUSTMENT -->
             {% else %}
-                <td class="icons"><i class="fas fa-sliders-h"></i></td>
+                <td><i class="fas fa-sliders-h"></i></td>
                 <td>{{ item.movement_type }} - {{ item.comments }}</td>
                 <td class="first-col">{{ item.date_added|date:'D d M Y' }}</td>
                 <td>--</td>
@@ -94,7 +101,7 @@
             {% endif %}
             </tr>
         {% endfor %}
-            <tr class="noItems">
+            <tr class="noItems no-items">
                 <td colspan="6">
                     No Items to Display
                 </td>

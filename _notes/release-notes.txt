@@ -3,16 +3,17 @@
 
 - Orizaba Controls Magento stock
 - Add a scheduled task
-- Make sure Jodie has updated the stock in Unleashed 
 - Resync with Unleashed
 - Backdate Stock Movement table so a retrospective running total can be created. 
 - Backups
-- Stock check tab in Product
-- Add a stock check field to the product
-- Add a stock check table
+
 
 ### DONE
 - Magento Product Sync table
 - Fix the /utils/stock-reconcile page
 - Update Stock figure to be the Orizaba Stock figure
 - Stock figure on Purchase Order
+- Stock check tab in Product
+- Add a stock check date field to the product
+- Add a stock check table
+- Make sure Jodie has updated the stock in Unleashed 

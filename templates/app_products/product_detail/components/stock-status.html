@@ -1,6 +1,18 @@
 <div class="stock-status-bar">
     <div class="stock">
-        <span>{{ product.orizaba_stock_qty }}</span>&nbsp; In Stock
+        <!-- DISPLAY STOCK QTY AND COLOUR BASED ON AMOUNTS -->
+        {% if product.orizaba_stock_qty > 4 %}
+            <span class="qty good-stock">{{ product.orizaba_stock_qty }}</span>
+        {% elif product.orizaba_stock_qty == 0 %}
+            <span class="qty no-stock">{{ product.orizaba_stock_qty }}</span>
+        {% else %}
+            <span class="qty low-stock">{{ product.orizaba_stock_qty }}</span>
+        {% endif %}
+            &nbsp; In Stock
+        <!-- DISPLAY WHEN STOCK LAST CHECKED -->
+        {% if product.last_stock_check %}
+            <span class="last_stock_check">(checked {{ product.last_stock_check|date:'d M Y' }})</span>
+        {% endif %}
     </div>
     <div class="poStatusBar on-purchase-order">            
         <div class="qty">

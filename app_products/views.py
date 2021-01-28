@@ -108,7 +108,6 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 # PRODUCT TABLE - SETS THE STOCK QTY 
                 self.object.orizaba_stock_qty = new_stock_qty
                 self.object.save()
-
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -134,7 +133,21 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 date_synced = now
             # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
             MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty, synced=synced, date_synced=date_synced)
-            return HttpResponseRedirect(self.get_success_url())         
+            return HttpResponseRedirect(self.get_success_url())   
+
+        elif 'stock-check' in request.POST: 
+            actual_qty = request.POST.get('actual_qty')
+            difference_qty = request.POST.get('difference_qty')
+            # STOCKCHECK TABLE - CREATE A ROW FOR THE STOCK CHECK
+            StockCheck.objects.create(product=self.object, expected_qty=self.object.orizaba_stock_qty, actual_qty=actual_qty, difference_qty=difference_qty)
+            # STOCK MOVEMENT TABLE - CREATE A ROW
+            StockMovement.objects.create(product=self.object, date_added=now, adjustment_qty=difference_qty, movement_type="Stock Check", current_stock_qty=actual_qty) 
+            # PRODUCT TABLE - UPDATE STOCK_QTY
+            self.object.orizaba_stock_qty = actual_qty
+            self.object.last_stock_check = now
+            self.object.save()
+
+            messages.success(request, 'Stock Check Added')  
         
         return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -287,6 +300,12 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('purchase-order-detail', kwargs={'pk': self.object.pk})   
+
+class StockCheckList(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    template_name = 'app_products/stock-check-list.html'
+    model = StockCheck
+    paginate_by = 20
 
 class SupplierList(LoginRequiredMixin, ListView):
     login_url = '/login/'

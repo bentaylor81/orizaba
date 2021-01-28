@@ -16,6 +16,8 @@
 
 4. Edit CCS in modal.css and add a new class for specific modal. e.g. .confirm-modal
 
+### DATES IN TEMPLATES ###
 
+|date:'D - d M Y'
 
     

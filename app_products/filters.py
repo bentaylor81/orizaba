@@ -23,6 +23,8 @@ class ProductFilter(filters.FilterSet):
             ('-supplier', 'Supplier (desc)'),
             ('weight', 'Weight'),
             ('-weight', 'Weight (desc)'),
+            ('last_stock_check', 'Last Stock Check'),
+            ('-last_stock_check', 'Last Stock Check (desc)'),
         ),
         label='',
     )

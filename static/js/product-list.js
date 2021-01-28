@@ -3,8 +3,7 @@
 // 1. TABLE ORDERING
 // 2. LOOP TO SET THE ORDERING BY ASC OR DESC
 // 3. LOOP TO SET THE DIRECTION OF THE ARROWS
-// REMOVED - 4. SHOW PICTURE IF THERE IS ONLY ONE ROW IN THE TABLE
-// 5. STOCK QUANTITY SET CLASS
+// 4. STOCK QUANTITY SET CLASS
 
 //// JAVASCRIPT ////
 
@@ -53,7 +52,7 @@ for(let i=0; i < tableHead.length; i++){
     }
 }
 
-// 5. STOCK QUANTITY SET CLASS
+// 4. STOCK QUANTITY SET CLASS
     // Style the Stock Quantity class depending on the quantity
     let stock = document.querySelectorAll('.stock span');
 
@@ -68,27 +67,3 @@ for(let i=0; i < tableHead.length; i++){
         }
     } 
 
-// // *** REMOVED *** - 4. SHOW PICTURE IF THERE IS ONLY ONE ROW IN THE TABLE
-// // ALLOWS THE PICTURE TO BE SHOWN, SO WE DON'T HAVE TO CLICK INTO THE PRODUCT DETAIL
-// let mainRow = document.querySelectorAll('.main-row');
-    
-// if (mainRow.length == 1) {
-//     let extraContent = document.querySelector('.extra-content')
-//     extraContent.style.display = 'block';
-// }
-
-// ** REMOVED DUE TO PAGE LOAD TIME **
-// // PRODUCT LIST - EXPANDABLE PRODUCT TABLE ROW
-//     // Expand the table row when click to show .extra-content
-//     let row = document.querySelectorAll('#products tr.main-row');
-//         extra = document.querySelectorAll('#products tr.extra-content');
-//         children = document.querySelectorAll('.no-js')
-
-//     for(let tr=0; tr < row.length; tr++){
-//         row[tr].addEventListener('click', expandContent);
-//         children[tr].addEventListener('click', e => e.stopPropagation());
-    
-//         function expandContent(){         
-//             extra[tr].classList.toggle("active");
-//         }
-//     }  

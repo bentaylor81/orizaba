@@ -125,6 +125,7 @@ class Product(models.Model):
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 
     orizaba_stock_qty = models.IntegerField(blank=True, default=0)
+    last_stock_check = models.DateTimeField(null=True)
     stock_discrepancy = models.IntegerField(blank=True, default=0)  # Used in the Stock tab to highlight any differences between stock_qty (Unleashed) and orizaba_stock_qty (generated value).
     stock_balances = models.BooleanField(default=True)  # Set by stock_discrepancy above
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)

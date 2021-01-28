@@ -6,9 +6,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [   
     path('products', ProductList.as_view(), name='product-list'),
+
+    path('products/purchase-orders', PurchaseOrderList.as_view(), name='purchase-order-list'),
+    path('products/purchase-orders/<pk>', PurchaseOrderDetail.as_view(), name='purchase-order-detail'),
+    path('products/stock-check', StockCheckList.as_view(), name='stock-check-list'),
     path('products/<pk>', ProductDetail.as_view(), name='product-detail'),
-    path('purchase-orders', PurchaseOrderList.as_view(), name='purchase-order-list'),
-    path('purchase-orders/<pk>', PurchaseOrderDetail.as_view(), name='purchase-order-detail'),
     path('suppliers', SupplierList.as_view(), name='supplier-list'),
     path('customers', CustomerList.as_view(), name='customer-list'),
     path('brands', BrandList.as_view(), name='brand-list'),  
