@@ -18,7 +18,7 @@ class ProductFilter(filters.FilterSet):
             ('sku', 'SKU'),
             ('-sku', 'SKU (desc)'),
             ('orizaba_stock_qty', 'Stock Qty'),
-            ('-stock_qty', 'Stock Qty (desc)'),
+            ('-orizaba_stock_qty', 'Stock Qty (desc)'),
             ('supplier', 'Supplier'),
             ('-supplier', 'Supplier (desc)'),
             ('weight', 'Weight'),
