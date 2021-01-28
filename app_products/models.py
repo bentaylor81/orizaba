@@ -12,7 +12,20 @@ class MagentoProductSync(models.Model):
         return str(self.id) + ' | ' + str(self.product)
 
     class Meta:
-        ordering = ["id"]
+        ordering = ["synced", "id"]
+
+class StockCheck(models.Model):
+    product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
+    expected_qty = models.IntegerField(blank=True, default=0)
+    actual_qty = models.IntegerField(blank=True, default=0)
+    difference_qty = models.IntegerField(blank=True, default=0)
+    date_checked = models.DateTimeField(auto_now_add=True, blank=True, null=True) 
+
+    def __str__(self):
+        return str(self.id) + ' | ' + str(self.product)
+
+    class Meta:
+        ordering = ["-id"]
 
 class StockLocation(models.Model):
     product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)

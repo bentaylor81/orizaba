@@ -1,0 +1,52 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<section id="magento-product-sync" data-page="utils" data-sub-page="magento-product-sync"> 
+    <div class="top-bar">
+        <h1>Magento Product Sync</h1>
+    </div>
+    <div class="content">
+        <div class="pod">
+            
+            <!-- PAGINATION -->
+            {% include 'global/pagination-cbv.html' %}
+
+            <div class="table">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date Added</th>
+                            <th>Product Name</th>
+                            <th>Stock Change</th>
+                            <th>Date Synced</th>  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in object_list %}
+                        <tr class="magentoRow {% cycle 'row1' 'row2' %}">
+                            <td hidden class="magentoSynced">{{ item.synced }}</td>
+                            <td>{{ item.date_added }}</td>
+                            <td><a href="{% url 'product-detail' item.product.pk %}">{{ item.product.product_name }}</a></td>
+                            <td>{{ item.stock_qty }}</td>
+                            <td class="dateSynced">
+                                {% if item.synced == True %}
+                                    {{ item.date_synced }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- PRODUCT PAGINATION -->
+            {% include 'global/pagination.html' %}
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+{% endblock %}

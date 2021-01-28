@@ -18,7 +18,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.forms import formset_factory
 from .forms import *
-from datetime import datetime  
+from datetime import datetime, date  
 from django.utils import timezone
 import datetime
 import requests
@@ -72,6 +72,8 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
         context['parts_outstanding_po'] = purchase_order_item.values('purchaseorder', 'purchaseorder__reference', 'purchaseorder__date_ordered').annotate(outstanding=Sum('outstanding_qty')).order_by('-purchaseorder')
         # STOCK LOCATION HISTORY
         context['stock_location'] = StockLocation.objects.filter(product=self.object)
+        # STOCK CHECK 
+        context['stock_check'] = StockCheck.objects.filter(product=self.object)
         return context
 
     def get_success_url(self):
@@ -103,7 +105,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 event.save()
                 # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
                 # MagentoProductSync.objects.create(product=self.object, stock_qty=new_stock_qty)
-                # PRODUCT TABLE - SETS THE STOCK qTY 
+                # PRODUCT TABLE - SETS THE STOCK QTY 
                 self.object.orizaba_stock_qty = new_stock_qty
                 self.object.save()
 
@@ -119,9 +121,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.save()
             return HttpResponseRedirect(self.get_success_url())  
 
-        elif 'magento-sync' in request.POST:
-            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-            MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
+        elif 'magento-sync' in request.POST: 
             # POST TO MAGENTO
             url = 'https://www.gardentractorspares.co.uk/inventory_update.php'
             params = dict(
@@ -129,10 +129,11 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 stock_qty=self.object.orizaba_stock_qty
             )
             response = requests.get(url=url, params=params)
-            data = response.json()
-            print(data)
-
-
+            synced = response.json()['updated']
+            if(synced == True):
+                date_synced = now
+            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+            MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty, synced=synced, date_synced=date_synced)
             return HttpResponseRedirect(self.get_success_url())         
         
         return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 

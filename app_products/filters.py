@@ -17,7 +17,7 @@ class ProductFilter(filters.FilterSet):
             ('-sell_price', 'Sell Price (desc)'),
             ('sku', 'SKU'),
             ('-sku', 'SKU (desc)'),
-            ('stock_qty', 'Stock Qty'),
+            ('orizaba_stock_qty', 'Stock Qty'),
             ('-stock_qty', 'Stock Qty (desc)'),
             ('supplier', 'Supplier'),
             ('-supplier', 'Supplier (desc)'),
@@ -28,7 +28,7 @@ class ProductFilter(filters.FilterSet):
     )
     class Meta:
         model = Product
-        fields = ['Product', 'Sku', 'brand', 'supplier', 'stock_qty', 'has_image']
+        fields = ['Product', 'Sku', 'brand', 'supplier', 'orizaba_stock_qty', 'has_image']
         
 class PurchaseOrderFilter(filters.FilterSet):
     class Meta:

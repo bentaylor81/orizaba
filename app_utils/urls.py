@@ -3,6 +3,7 @@ from . import views
 from .views import *
 from app_products.views import *
 from app_orders.views import *
+from app_utils.views import *
 from django.conf import settings
 
 urlpatterns = [    
@@ -10,6 +11,7 @@ urlpatterns = [
     path('utils/stock-reconcile', StockMovementList.as_view(), name='stock-reconcile'),
     path('utils/stock-sync', StockSync.as_view(), name='stock-sync'),  
     path('utils/api-log-list', ApiLogList.as_view(), name='api-log-list'),  
+    path('utils/magento-product-sync', MagentoProductSync.as_view(), name='magento-product-sync'),  
     # SEPARATE FUNCTIONS
     path('utils', views.utils, name='utils-list'),
     path('utils/orizaba-stock-reset', views.orizaba_stock_reset, name='orizaba-stock-reset'),   

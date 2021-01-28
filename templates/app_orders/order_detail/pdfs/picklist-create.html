@@ -50,14 +50,11 @@
                             <td class="prod-name">{{ order_item.product_id.product_name }}</td>
                             <td>{{ order_item.product_id.sku }}</td>
                             <td>{{ order_item.product_id.location }}</td>
-                            <!-- Remove below when we have a colour printer -->
-                            <td>{{ order_item.send_qty }}</td>
-                            <!-- Add the below in later when we have a colour printer -->
-                            {% comment %}{% if order_item.send_qty > 1 %}
-                                <!-- <td><span class="qtyplus">{{ order_item.send_qty }}</span></td> -->
+                            {% if order_item.send_qty > 1 %}
+                                <td><span class="qtyplus">{{ order_item.send_qty }}</span></td>
                             {% else %}
-                                <!-- <td>{{ order_item.send_qty }}</td> -->
-                            {% endif %}{% endcomment %}
+                                <td>{{ order_item.send_qty }}</td>
+                            {% endif %}
                         </tr>
                         {% else %}
                         <tr class="inactive">

@@ -171,6 +171,13 @@ class ApiLogList(LoginRequiredMixin, FilterView):
     model = ApiLog
     paginate_by = 50
 
+### MAGENTO STOCK SYNC ###
+class MagentoProductSync(LoginRequiredMixin, FilterView):
+    login_url = '/login/'
+    template_name = 'app_utils/magento-product-sync.html'
+    model = MagentoProductSync
+    paginate_by = 50
+
 ### SCRIPTS ###
 def scripts(request):
     return render(request, 'app_utils/utils.html')

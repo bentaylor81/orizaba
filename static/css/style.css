@@ -243,6 +243,7 @@
     #product .content { display: grid; grid-template-columns: 0.9fr 1fr; grid-gap: 20px;  }
     #product .pod-1 { display: grid; grid-template-columns: 1fr 1fr; }
     #product .pod-2 { display: grid; grid-template-columns: 1.3fr 1fr; grid-gap: 50px; }
+    #product .pod-3 { display: grid; grid-template-columns: 1.8fr 1fr; grid-gap: 50px; }
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
     #product .table-2 table th { width: 120px; }
     #product .stock-status-bar { width: 400px; }
@@ -281,6 +282,15 @@
     #product .stock-movement .change-qty { text-align: center; }
     #product .stock-movement .stock-qty { text-align: center; font-weight: bold; }
     #product .stock-movement i { cursor: pointer; }
+    #product .stock-check { width: 100%; }
+    #product .stock-check .add-check-block { background: #ddd; padding: 10px; margin: -5px 0px 10px 0px; }
+    #product .stock-check .add-check-form { display: flex; }
+    #product .stock-check .add-check-form div { margin: 0px 10px 5px 0px; font-weight: bold; }
+    #product .stock-check .add-check-form input { width: 60px; height: 23px; }
+    #product .stock-check .add-check-form input.readonly { border: 1px solid #ccc; background: #eee;}
+    #product .stock-check .add-check-form .submit button { width: 80px; }
+    #product .stock-check .add-check-form #close-adj-icon { margin: 0px 0px 0px auto; }
+    #product .stock-check .add-check-form #close-adj-icon i { font-size: 22px; }
     
     /* Purchase Order List Page */
     #purchase-orders .status { width: 120px; text-align: center; font-weight: bold; background-color: #bbb; }
