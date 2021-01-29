@@ -12,7 +12,7 @@ class MagentoProductSync(models.Model):
         return str(self.id) + ' | ' + str(self.product)
 
     class Meta:
-        ordering = ["-has_synced", "-id"]
+        ordering = ["-has_synced", "-pk"]
 
 class StockCheck(models.Model):
     product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
