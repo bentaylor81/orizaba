@@ -1,10 +1,12 @@
 # STOCK CONTROL
 
+- Mike Resync with Unleashed - In Progress
 
 - Orizaba Controls Magento stock
 - Add a scheduled task
-- Resync with Unleashed
+- stock_qty = orizaba_stock_qty
 - Backdate Stock Movement table so a retrospective running total can be created. 
+- Disconnect Unleashed
 - Backups
 
 

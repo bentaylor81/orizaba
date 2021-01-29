@@ -121,18 +121,15 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(self.get_success_url())  
 
         elif 'magento-sync' in request.POST: 
-            # POST TO MAGENTO
-            url = 'https://www.gardentractorspares.co.uk/inventory_update.php'
-            params = dict(
-                product_id=self.object,
-                stock_qty=self.object.orizaba_stock_qty
-            )
-            response = requests.get(url=url, params=params)
-            synced = response.json()['updated']
-            if(synced == True):
-                date_synced = now
-            # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-            MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty, synced=synced, date_synced=date_synced)
+            # print(self.object.product_id)
+            # # POST TO MAGENTO
+            # payload='{"product_id":"'+str(self.object.product_id)+'","stock_qty":"'+str(self.object.orizaba_stock_qty)+'"}'
+            # response = requests.request("POST", settings.MAGENTO_URL, headers=settings.MAGENTO_HEADERS, data=payload)
+            # print(response.text.encode('utf8'))
+            # if(synced == True):
+            #     date_synced = now
+            # # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+            # MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty, synced=synced, date_synced=date_synced)
             return HttpResponseRedirect(self.get_success_url())   
 
         elif 'stock-check' in request.POST: 
@@ -141,11 +138,13 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             # STOCKCHECK TABLE - CREATE A ROW FOR THE STOCK CHECK
             StockCheck.objects.create(product=self.object, expected_qty=self.object.orizaba_stock_qty, actual_qty=actual_qty, difference_qty=difference_qty)
             # STOCK MOVEMENT TABLE - CREATE A ROW
-            StockMovement.objects.create(product=self.object, date_added=now, adjustment_qty=difference_qty, movement_type="Stock Check", current_stock_qty=actual_qty) 
+            StockMovement.objects.create(product=self.object, date_added=now, adjustment_qty=difference_qty, movement_type="Stock Check", current_stock_qty=actual_qty)    
             # PRODUCT TABLE - UPDATE STOCK_QTY
             self.object.orizaba_stock_qty = actual_qty
             self.object.last_stock_check = now
             self.object.save()
+             # MAGENTO SYNC TABLE - CREATE A ROW
+            MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
 
             messages.success(request, 'Stock Check Added')  
         

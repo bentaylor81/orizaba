@@ -12,6 +12,7 @@ import json
 import os
 import redis
 from django_q.tasks import async_task
+from django.utils import timezone
 
 def utils(request): 
     return render(request, 'app_utils/utils.html')
@@ -172,7 +173,7 @@ class ApiLogList(LoginRequiredMixin, FilterView):
     paginate_by = 50
 
 ### MAGENTO STOCK SYNC ###
-class MagentoProductSync(LoginRequiredMixin, FilterView):
+class MagentoProductSyncList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_utils/magento-product-sync.html'
     model = MagentoProductSync
@@ -180,4 +181,20 @@ class MagentoProductSync(LoginRequiredMixin, FilterView):
 
 ### SCRIPTS ###
 def scripts(request):
+    now = datetime.datetime.now(tz=timezone.utc)
+    sync_products = MagentoProductSync.objects.filter(has_synced=False)
+    # LOOP TO POST TO MAGENTO
+    for product in sync_products:
+        payload='{"product_id":"'+str(product.product_id)+'","stock_qty":"'+str(product.stock_qty)+'"}'
+        response = requests.request("POST", settings.MAGENTO_URL, headers=settings.MAGENTO_HEADERS, data=payload)
+        # MAGENTOPRODUCTSYNC - UPDATE HAS_SYNCED TO TRUE AND DATE_SYNCED
+        has_updated = json.loads(response.text)['updated']
+        if has_updated == True:
+            product.has_synced = True
+            product.date_synced = now
+            product.save()
+        print(response.text)    
+    print('######')
+    print(sync_products.count(), 'Products synced with Magento')
+    print('######')
     return render(request, 'app_utils/utils.html')

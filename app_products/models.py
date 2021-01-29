@@ -6,13 +6,13 @@ class MagentoProductSync(models.Model):
     stock_qty = models.IntegerField(blank=True, default=0)
     date_added = models.DateTimeField(auto_now_add=True, blank=True, null=True)  
     date_synced = models.DateTimeField(blank=True, null=True) 
-    synced = models.BooleanField(default=False)
+    has_synced = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id) + ' | ' + str(self.product)
 
     class Meta:
-        ordering = ["synced", "id"]
+        ordering = ["has_synced", "id"]
 
 class StockCheck(models.Model):
     product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
@@ -125,7 +125,7 @@ class Product(models.Model):
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_qty = models.IntegerField(blank=True, default=0) 
     orizaba_stock_qty = models.IntegerField(blank=True, default=0)
-    last_stock_check = models.DateTimeField(null=True)
+    last_stock_check = models.DateTimeField(blank=True, null=True)
     stock_discrepancy = models.IntegerField(blank=True, default=0)  # Used in the Stock tab to highlight any differences between stock_qty (Unleashed) and orizaba_stock_qty (generated value).
     stock_balances = models.BooleanField(default=True)  # Set by stock_discrepancy above
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)

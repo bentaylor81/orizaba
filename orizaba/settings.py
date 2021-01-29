@@ -229,9 +229,9 @@ WKHTMLTOPDF_CMD = config('WKHTMLTOPDF_CMD')
 WKHTMLTOPDF_CONFIG = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
 WKHTMLTOPDF_OPTIONS = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
 
-# PRINTNODE
-PRINTNODE_AUTH = config('PRINTNODE_AUTH')
-PRINTNODE_HEADERS = {'Content-Type': 'application/json', 'Authorization': PRINTNODE_AUTH, }
+# MAGENTO
+MAGENTO_URL = config('MAGENTO_URL')
+MAGENTO_HEADERS = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
 # MAILGUN
 MAILGUN_URL = config('MAILGUN_URL')
@@ -239,6 +239,10 @@ MAILGUN_AUTH = config('MAILGUN_AUTH')
 MAILGUN_FROM = config('MAILGUN_FROM')
 MAILGUN_BCC = config('MAILGUN_BCC')
 MAILGUN_HEADERS = {'Authorization': MAILGUN_AUTH }
+
+# PRINTNODE
+PRINTNODE_AUTH = config('PRINTNODE_AUTH')
+PRINTNODE_HEADERS = {'Content-Type': 'application/json', 'Authorization': PRINTNODE_AUTH, }
 
 # SHIPTHEORY
 ST_USERNAME = config('ST_USERNAME')
