@@ -10,7 +10,12 @@
     </div>
     <div class="content">
         <div class="pod">
-            
+            <div class="filter">
+                <form method="get">
+                    {{ filter.form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
             <!-- PAGINATION -->
             {% include 'global/pagination-cbv.html' %}
 
@@ -19,8 +24,8 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Process</th>
                             <th>Service Name</th>
+                            <th>Process</th>
                             <th>Response Text</th>
                             <th>Response Code</th>  
                         </tr>
@@ -32,11 +37,11 @@
                                 {{ log.date }}
                             </td>
                             <td>
-                                {{ log.process }}
-                            </td>
-                            <td>
                                 {{ log.api_service }}
                             </td>
+                            <td>
+                                {{ log.process }}
+                            </td> 
                             <td>
                                 {{ log.response_text }}
                             </td>

@@ -25,6 +25,7 @@ import requests
 import json
 import pdfkit
 import wkhtmltopdf
+import time
 
 class ProductList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
@@ -108,6 +109,8 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 self.object.save()
                 # MAGENTO SYNC TABLE - CREATE A ROW
                 MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
+                # MAGENTO SYNC FUNCTION
+                magento_sync(request)
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -133,6 +136,8 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.save()
             # MAGENTO SYNC TABLE - CREATE A ROW
             MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
+            # MAGENTO SYNC FUNCTION
+            magento_sync(request)
 
             messages.success(request, 'Stock Check Added')  
         
@@ -309,12 +314,31 @@ class CustomerList(LoginRequiredMixin, ListView):
     template_name = 'app_products/customer-list.html'
     model = Customer
 
-# This Function creates the file which renders the PDF
+# PRODUCT LABEL - CREATE THE FILE WHICH RENDERS THE PDF LABEL
 def generate_label(request, id):
     context = { 
             'product': Product.objects.get(sku=id),
         }
     return render(request, 'app_products/product_list/pdfs/label-create.html', context )
+
+# MAGENTO STOCK SYNC - UPDATE THE STOCK VALUE IN MAGENTO 
+def magento_sync(request): 
+    now = datetime.datetime.now(tz=timezone.utc)
+    sync_products = MagentoProductSync.objects.filter(has_synced=False).order_by('id')
+    # LOOP TO POST TO MAGENTO
+    for product in sync_products:
+        payload='{"product_id":"'+str(product.product_id)+'","stock_qty":"'+str(product.stock_qty)+'"}'
+        response = requests.request("POST", settings.MAGENTO_URL, headers=settings.MAGENTO_HEADERS, data=payload)
+        # MAGENTOPRODUCTSYNC - UPDATE HAS_SYNCED TO TRUE AND DATE_SYNCED
+        has_updated = json.loads(response.text)['updated']
+        if has_updated == True:
+            product.has_synced = True
+            product.date_synced = now
+            product.save()
+        print(response.text)
+        # APILOG - ADD ROW    
+        ApiLog.objects.create(process='Sync Products', api_service='Magento', response_code=response, response_text=response.text)   
+
 
 
 

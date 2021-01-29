@@ -34,7 +34,7 @@ class ApiLog(models.Model):
     process = models.CharField(max_length=200, blank=True, null=True) 
 
     def __str__(self):
-        return str(self.id) + ' | ' + str(self.response)
+        return str(self.id) + ' | ' + str(self.response_code)
 
     class Meta:
         ordering = ["-id"]

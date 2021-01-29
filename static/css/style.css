@@ -404,4 +404,9 @@
     #stock-sync .update-stats { margin-bottom: 20px; }
     #stock-sync .balances { background-color: #1c8c0573; font-weight: bold; }
     #stock-sync .not-balance { background-color: #ff000082; font-weight: bold; }
+
+    /* Api Log Page */
+    #api-log table th:nth-child(-n+3) { width: 180px; }
+    #api-log table th:nth-child(5) { width: 140px; }
+
     
