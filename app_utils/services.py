@@ -53,7 +53,7 @@ def xero_token_task(request):
 # UPDATE THE STOCK VALUE IN MAGENTO 
 def magento_sync(reqeust): 
     now = datetime.datetime.now(tz=timezone.utc)
-    sync_products = MagentoProductSync.objects.filter(has_synced=False)
+    sync_products = MagentoProductSync.objects.filter(has_synced=False).order_by('id')
     # LOOP TO POST TO MAGENTO
     for product in sync_products:
         payload='{"product_id":"'+str(product.product_id)+'","stock_qty":"'+str(product.stock_qty)+'"}'
