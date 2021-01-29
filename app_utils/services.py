@@ -72,7 +72,6 @@ def magento_sync(reqeust):
 
 ### CURRENTLY NOT ACTIVE ###
 
-
 # CREATE PDF INVOICE WHEN AN ORDER COMES IN
 # SET INVOICE_CREATED FIELD IN ORDER TABLE TO TRUE   
 def invoice_pdf(request):

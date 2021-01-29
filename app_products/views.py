@@ -103,11 +103,11 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 event.current_stock_qty = new_stock_qty
                 event.date_added = now
                 event.save()
-                # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-                # MagentoProductSync.objects.create(product=self.object, stock_qty=new_stock_qty)
                 # PRODUCT TABLE - SETS THE STOCK QTY 
                 self.object.orizaba_stock_qty = new_stock_qty
                 self.object.save()
+                # MAGENTO SYNC TABLE - CREATE A ROW
+                MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -120,18 +120,6 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.save()
             return HttpResponseRedirect(self.get_success_url())  
 
-        elif 'magento-sync' in request.POST: 
-            # print(self.object.product_id)
-            # # POST TO MAGENTO
-            # payload='{"product_id":"'+str(self.object.product_id)+'","stock_qty":"'+str(self.object.orizaba_stock_qty)+'"}'
-            # response = requests.request("POST", settings.MAGENTO_URL, headers=settings.MAGENTO_HEADERS, data=payload)
-            # print(response.text.encode('utf8'))
-            # if(synced == True):
-            #     date_synced = now
-            # # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
-            # MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty, synced=synced, date_synced=date_synced)
-            return HttpResponseRedirect(self.get_success_url())   
-
         elif 'stock-check' in request.POST: 
             actual_qty = request.POST.get('actual_qty')
             difference_qty = request.POST.get('difference_qty')
@@ -143,7 +131,7 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.orizaba_stock_qty = actual_qty
             self.object.last_stock_check = now
             self.object.save()
-             # MAGENTO SYNC TABLE - CREATE A ROW
+            # MAGENTO SYNC TABLE - CREATE A ROW
             MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
 
             messages.success(request, 'Stock Check Added')  
