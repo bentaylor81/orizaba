@@ -54,7 +54,7 @@ class StockMovement(models.Model):
     comments = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return str(self.product_id) + ' | ' + self.product_id.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type) + ' | ' + str(self.purchaseorder)
+        return str(self.product_id) + ' | ' + self.product.product_name + ' | ' + str(self.date_added) + ' | ' + str(self.adjustment_qty) + ' | ' + str(self.current_stock_qty) + ' | ' + str(self.movement_type) + ' | ' + str(self.purchaseorder)
 
     class Meta:
         ordering = ["-date_added", "-pk"]

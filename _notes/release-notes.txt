@@ -1,13 +1,12 @@
 # STOCK CONTROL
 
-- Backdate Stock Movement table so a retrospective running total can be created. 
 - Print PO
+- Upload pdf to PO
+- Pdf to PO video for Nina
 
 - Backups
-- Fix all the models
+- Fix all the modals
 
-# OTHER TASKS
-- Format all modals
 
 
 
@@ -15,6 +14,7 @@
 
 
 ### DONE
+- Backdate Stock Movement table so a retrospective running total can be created. 
 - Enabled / Disabled state
 - Magento Product Sync table
 - Fix the /utils/stock-reconcile page
@@ -37,5 +37,7 @@
 
 ### ISSUES FOR MIKE 
  
- - Truncated text on address block transfer
  - Mike disconnect product updating to Magento
+
+
+## MODAL LIST

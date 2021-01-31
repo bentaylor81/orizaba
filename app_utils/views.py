@@ -183,5 +183,32 @@ class MagentoProductSyncList(LoginRequiredMixin, FilterView):
 ### SCRIPTS ###
 def scripts(request):
     
-    print('######')
+    print('')
+
+    return render(request, 'app_utils/utils.html')
+
+### RAN ON 31 JAN 2021 ###
+### BACKDATES THE STOCK MOVEMENT TABLE QUANTITIES, SO THE ROLLOWING QTY IS CORRECT
+def stock_movement_backdate_qty(request):
+    products = Product.objects.all()
+
+    for product in products:
+        stockmovement = StockMovement.objects.filter(product=product).order_by('-date_added')
+        qty = product.orizaba_stock_qty
+        print('')
+        print('########## Starting', product.sku)
+        print('')
+        for movement in stockmovement: 
+            movement.current_stock_qty = qty
+            movement.save()
+            
+            qty = qty - movement.adjustment_qty
+            print(movement)
+        print('')
+        print('######### Product', product.sku, 'updated ##########')
+        print('')
+
+    print(products.count(), 'Products Updated')
+    print('')
+
     return render(request, 'app_utils/utils.html')
