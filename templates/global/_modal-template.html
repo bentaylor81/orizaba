@@ -1,0 +1,20 @@
+<div class="modal">
+    <div id="ENTER-ID" class="modal-container">
+        <div class="modal-top-bar">
+            <h1></h1>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-content">
+            <form class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- NOTE -->
+                <label></label>
+                <input name="" value="" type="text">
+                <!-- SUBMIT BUTTON -->
+                <span class="submit">
+                    <button id="submit-button" name="product-details" type="submit">Submit</button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>

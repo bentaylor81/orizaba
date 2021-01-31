@@ -1,19 +1,37 @@
-/* GENERAL MODAL STYLE */
+/* ### GENERAL MODAL STYLE ### */
 .modal { display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000000d4; text-align: left; }
 .modal-button { cursor: pointer; }
 .modal-container { padding: 0px; position: relative; background-color: #fefefe; margin: auto; max-width: 1200px; }
 .modal-content { padding: 30px; }
 .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
 .modal-top-bar h1 { font-size: 20px; margin: 0px; }
-.modal-top-bar span { float: right; }
 .modal-top-bar .modal-close { font-size: 35px; line-height: 24px; font-weight: bold; font-weight: bold; cursor: pointer; }
 .modal-content form { display: grid; grid-template-columns: 140px 1fr; grid-gap: 10px; align-items: center; }
 .modal-content form input { padding: 5px; }
 .modal-content form img { grid-column: 2 / 3; width: 100px !important; }
-.modal-content form .submit { text-align: right; grid-column: 1 / 3; border-top: 1px solid #ddd; padding-top: 20px; margin-top: 10px; }
+.modal-content form .submit { text-align: right; grid-column: 1 / 3; margin-top: 10px; }
+
+/* ### INDIVIDUAL MODAL STYLES ### */
+
+/* EDIT PRODUCT MODAL - edit-product.html - PRODUCT DETAIL */
+#edit-product.modal-container { width: 500px; }
+#edit-product .modal-content form .submit { text-align: right; grid-column: 1 / 3; border-top: 1px solid #ddd; padding-top: 20px; margin-top: 10px; }
+
+/* EDIT LOCATION MODAL - edit-location.html - PRODUCT DETAIL */
+#edit-location.modal-container { width: 500px; }
+#edit-location .table { border-top: 1px solid #ddd; margin-top: 20px; }
+
+/* VIEW IMAGE MODAL - view-image.html - PRODUCT LIST */
+#view-image.modal-container { width: 500px; }
 
 
 
+
+
+
+
+
+/* LEFT TO DO */
 
 /* Small Modal */
 .small-modal .modal-container { width: 400px; }
@@ -54,28 +72,9 @@ section #modal.confirm-modal .modal-close { font-size: 35px; line-height: 24px; 
 .confirm-modal .buttons { display: flex; gap: 10px; justify-content: flex-end; }
 .confirm-modal .buttons button { width: 90px !important; }
 
-/* IMAGE MODAL */
-section #modal.image-modal { padding-top: 150px; }
-section #modal.image-modal .modal-container { padding: 0px; }
-section #modal.image-modal .modal-close { font-size: 35px; line-height: 24px; }
-.image-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
-.image-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
-.image-modal .modal-top-bar span { float: right; }
-.image-modal .modal-container { padding: 0px; width: 500px; }
-.image-modal .modal-content { padding: 20px; }
 
-/* LOCATION MODAL */
-section #modal.location-modal { padding-top: 150px; }
-section #modal.location-modal .modal-container { padding: 0px; }
-section #modal.location-modal .modal-close { font-size: 35px; line-height: 24px; }
-.location-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
-.location-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
-.location-modal .modal-top-bar span { float: right; }
-.location-modal .modal-container { padding: 0px; width: 500px; }
-.location-modal .modal-content { padding: 20px; }
-.location-modal .edit-location { padding-bottom: 40px; margin-top: 20px; border-bottom: 1px solid #ddd; }
-.location-modal .edit-location input { height: 26px; line-height: 26px; padding: 0px 5px; }
-.location-modal .edit-location button { padding: 6px 0px; width: 60px; }
+
+
 
 /* INDIVIDUAL MODAL STYLES */
 
@@ -140,14 +139,6 @@ section #modal.location-modal .modal-close { font-size: 35px; line-height: 24px;
 #create-shipment .shipping-table td { border: 0px; padding: 6px 0px; font-size: 20px; }
 #create-shipment .shipment-actions { display: flex; justify-content: flex-end; align-items: center; }
 #create-shipment .shipment-actions input { margin-right: 20px; }
-
-/* EDIT PRODUCT MODAL */
-#edit-product.modal-container { width: 500px; }
-#edit-product 
-
-/* EMAIL MODAL */
-
-
 
 
 /* Temporarily Wind this down */
