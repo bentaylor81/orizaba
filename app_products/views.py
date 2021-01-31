@@ -65,6 +65,8 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['suppliers'] = Supplier.objects.all()
+        context['brands'] = Brand.objects.all()
         context['stock_movement'] = StockMovement.objects.filter(product=self.object)
         context['previous_orders'] = OrderItem.objects.filter(product_id=self.object)
         # PURCHASE ORDER ITEMS IN STOCK-STATUS.HTML

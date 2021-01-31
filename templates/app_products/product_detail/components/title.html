@@ -1,1 +1,7 @@
-<h1>Product &nbsp;&nbsp;>&nbsp;&nbsp; {{ product.product_name }} &nbsp;-&nbsp; {{ product.sku }}</h1>
+<h1>
+    Product &nbsp;&nbsp;>&nbsp;&nbsp; {{ product.product_name }} &nbsp;-&nbsp; {{ product.sku }} 
+    <!-- DISPLAY PRODUCT STATUS IF DISABLED -->
+    {% if product.status == 'Disabled' %}
+        <span class="status">{{ product.status }}</span>
+    {% endif %}
+</h1>

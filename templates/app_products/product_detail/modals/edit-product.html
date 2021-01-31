@@ -1,0 +1,68 @@
+<div class="modal">
+    <div id="edit-product" class="modal-container">
+        <div class="modal-top-bar">
+            <h1>Edit Product - {{ product.sku }}</h1>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-content">
+            <form class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- STATUS -->
+                <label>Status:</label>
+                <select name="status" type="select">
+                    <option selected hidden value="{{object.status }}">{{ object.status }}</option>
+                    <option value="Enabled">Enabled</option>
+                    <option value="Disabled">Disabled</option>
+                </select>
+                <!-- PRODUCT NAME -->
+                <label>Product Name:</label> 
+                <input name="product_name" value="{{ object.product_name }}" type="text">
+                <!-- SKU -->
+                <label>SKU:</label>
+                <input name="sku" value="{{ object.sku }}" type="text">
+                <!-- BRAND -->
+                <label>Brand:</label>
+                <select name="brand" type="select">
+                    <option selected hidden value="{{ object.brand }}">{{ object.brand }}</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.brand }}">{{ brand.brand }}</option>
+                    {% endfor %}
+                </select>
+                <!-- SUPPLIER -->
+                <label>Supplier:</label>
+                <select name="supplier" type="select">
+                    <option selected hidden value="{{object.supplier }}">{{ object.supplier }}</option>
+                    {% for supplier in suppliers %}
+                        <option value="{{ supplier.supplier }}">{{ supplier.supplier }}</option>
+                    {% endfor %}
+                </select>
+                <!-- SEALED ITEM -->
+                <label>Sealed Item:</label> 
+                <select name="sealed_item" type="select">
+                    <option selected hidden value="{{ object.sealed_item }}">
+                        {% if object.sealed_item == True %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </option>
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+                <!-- WEIGHT -->
+                <label>Weight (kg):</label> 
+                <input name="weight" value="{{ object.weight }}" type="text">
+                <!-- PRODUCT IMAGE -->
+                <label>Product Image:</label> 
+                <input name="product_image" value="{{ object.product_image }}" type="file">
+                {% if object.product_image %}
+                    <img src="{{ object.product_image.url }}">
+                {% endif %}
+                <!-- SUBMIT BUTTON -->
+                <span class="submit">
+                    <button id="submit-button" name="product-details" type="submit">Submit</button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>

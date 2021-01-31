@@ -118,6 +118,10 @@ class PurchaseOrder(models.Model):
         ordering = ["-pk"]
 
 class Product(models.Model):
+    STATUS_CHOICES = [
+        ('Enabled', 'Enabled'),
+        ('Disabled', 'Disabled'),
+    ]
     product_id = models.IntegerField(primary_key=True)
     product_name = models.CharField(max_length=200, blank=True)	
     sku = models.CharField(max_length=200, blank=True)
@@ -139,6 +143,7 @@ class Product(models.Model):
     brand = models.ForeignKey('brand', db_column='brand', on_delete=models.CASCADE, null=True, blank=True, default='Other')
     supplier = models.ForeignKey('supplier', db_column='supplier', on_delete=models.CASCADE, null=True, blank=True, default='Unknown')
     url = models.CharField(max_length=200, blank=True, default='null')
+    status = models.CharField(max_length=200, blank=True, choices=STATUS_CHOICES, default='Enabled')	
     has_image = models.BooleanField(default=False) 
     product_image = models.ImageField(upload_to="images/products", null=True, blank=True)
     condition = models.CharField(max_length=200, blank=True, default='new')	

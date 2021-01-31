@@ -44,7 +44,7 @@
                             <td class="product-image">
                                 {% if product.product_image %}
                                     <img class="modal-button pointer" src="{{ product.product_image.url }}">
-                                    {% include 'app_products/product_detail/modals/view-image.html' %}<!-- Opens the Modal -->
+                                    {% include 'app_products/product_list/modals/view-image.html' %}<!-- Opens the Modal -->
                                 {% else %}
                                     <img src="{% static 'img/no-image.png' %}">
                                 {% endif %}

@@ -1,15 +1,21 @@
 # STOCK CONTROL
 
-- Mike Resync with Unleashed - In Progress
-
-
-- stock_qty = orizaba_stock_qty
 - Backdate Stock Movement table so a retrospective running total can be created. 
-- Disconnect Unleashed
+- Print PO
+
 - Backups
+- Fix all the models
+
+# OTHER TASKS
+- Format all modals
+
+
+
+
 
 
 ### DONE
+- Enabled / Disabled state
 - Magento Product Sync table
 - Fix the /utils/stock-reconcile page
 - Update Stock figure to be the Orizaba Stock figure
@@ -19,3 +25,17 @@
 - Add a stock check table
 - Make sure Jodie has updated the stock in Unleashed 
 - Orizaba Controls Magento stock
+- Mike Resync with Unleashed
+- Disconnect Unleashed
+- Check 10 products stock_qty between Magento and Orizaba
+- stock_qty = orizaba_stock_qty
+
+### NOTES FOR NICK AND JODIE ###
+
+- Always edit stock in Orizaba not in Magento
+
+
+### ISSUES FOR MIKE 
+ 
+ - Truncated text on address block transfer
+ - Mike disconnect product updating to Magento
