@@ -49,7 +49,11 @@
                                     <img src="{% static 'img/no-image.png' %}">
                                 {% endif %}
                             </td>
-                            <td class="first-col"><a href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a></td>
+                            <td class="first-col"><a href="{% url 'product-detail' product.product_id %}">{{ product.product_name }}</a>
+                                {% if product.status == 'Disabled' %}
+                                    <br><span class="status">{{ product.status }}</span>    
+                                {% endif %}
+                            </td>
                             <td>{{ product.sku }}</td>	
                             <td>{{ product.weight|floatformat:2 }}kg</td>	
                             <td>£{{ product.sell_price }}</td>
@@ -92,7 +96,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td class="empty" colspan="10">
+                            <td class="empty" colspan="11">
                                 There are no orders to display. 
                             </td>
                         </tr>

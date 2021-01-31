@@ -1,9 +1,18 @@
+from django import forms
 from django_filters import rest_framework as filters
 from .models import *
 
 class ProductFilter(filters.FilterSet):
+
+    STATUS_CHOICES = [
+        ('Enabled', 'Enabled'),
+        ('Disabled', 'Disabled'),
+    ]
+
     Product = filters.CharFilter(field_name='product_name', label='Product', lookup_expr='icontains')
     Sku = filters.CharFilter(field_name='sku', label='SKU', lookup_expr='icontains')
+    Stock_qty = filters.CharFilter(field_name='stock_qty', label='Stock Qty', widget=forms.NumberInput(attrs={'type': 'number', 'class': 'stock_qty_input'}))
+    Status = filters.ChoiceFilter(field_name='status', label='Status', choices=STATUS_CHOICES)
     # stock_qty = filters.ChoiceFilter(choices=STOCK_CHOICES, label='Out of Stock')
     o = filters.OrderingFilter(
         choices=(
@@ -30,7 +39,7 @@ class ProductFilter(filters.FilterSet):
     )
     class Meta:
         model = Product
-        fields = ['Product', 'Sku', 'brand', 'supplier', 'orizaba_stock_qty', 'has_image']
+        fields = ['Product', 'Sku', 'brand', 'supplier', 'Stock_qty', 'has_image']
         
 class PurchaseOrderFilter(filters.FilterSet):
     class Meta:
