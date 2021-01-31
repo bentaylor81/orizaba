@@ -1,14 +1,24 @@
 # STOCK CONTROL
 
+- Nina do disabled product
+- Stock check on all zero products in Orizaba (and minus stocks)
+- Teach Jodie and Nick stock control - test with product 3100
+- Mike add product fields to API
+- Mike disconnect product get from Magento
+- Delete stock_qty field
+- Change orizaba_stock_qty to stock_qty
+- Remove stock_sync page in utils
+- Look into stock_reconcile page
+
+# OTHER
 - Print PO
 - Upload pdf to PO
 - Pdf to PO video for Nina
-
 - Backups
 - Fix all the modals
 
-
-
+# NEXT WORK ON MANUAL ORDERS
+- Tell Nick how to adjust stock for manual orders
 
 
 
