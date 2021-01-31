@@ -27,8 +27,10 @@
                     <tbody>
                         {% for item in object_list %}
                         <tr class="magentoRow {% cycle 'row1' 'row2' %}">
-                            <td hidden class="magentoSynced">{{ item.synced }}</td>
-                            <td>{{ item.date_added }}</td>
+                            <td>
+                                <span hidden class="magentoSynced">{{ item.synced }}</span>
+                                {{ item.date_added }}
+                            </td>
                             <td><a href="{% url 'product-detail' item.product.pk %}">{{ item.product.product_name }}</a></td>
                             <td>{{ item.stock_qty }}</td>
                             <td class="dateSynced">
