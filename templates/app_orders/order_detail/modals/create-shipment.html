@@ -16,39 +16,39 @@
                     <table class="delivery-table" cellpadding="0" cellspacing="0">
                         <tr>
                             <th>First Name:</th>
-                            <td><input type="text" name="delivery_firstname" value="{{ order.delivery_firstname|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_firstname" value="{{ order.delivery_firstname|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Last Name:</th>
-                            <td><input type="text" name="delivery_lastname" value="{{ order.delivery_lastname|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_lastname" value="{{ order.delivery_lastname|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Address:</th>
-                            <td><input type="text" name="delivery_address_1" value="{{ order.delivery_address_1|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_address_1" value="{{ order.delivery_address_1|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th></th>
-                            <td><input type="text" name="delivery_address_2" value="{{ order.delivery_address_2|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_address_2" value="{{ order.delivery_address_2|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>City:</th>
-                            <td><input type="text" name="delivery_city" value="{{ order.delivery_city|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_city" value="{{ order.delivery_city|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Postcode:</th>
-                            <td><input type="text" name="delivery_postcode" value="{{ order.delivery_postcode|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_postcode" value="{{ order.delivery_postcode|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Country:</th>
-                            <td><input type="text" name="delivery_country" value="{{ order.delivery_country|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_country" value="{{ order.delivery_country|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Phone:</th>
-                            <td><input type="text" name="delivery_phone" value="{{ order.delivery_phone|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_phone" value="{{ order.delivery_phone|slice:35 }}" maxlength="35"></td>
                         </tr>
                         <tr>
                             <th>Email:</th>
-                            <td><input type="text" name="delivery_email" value="{{ order.delivery_email|truncatechars:35 }}" maxlength="35"></td>
+                            <td><input type="text" name="delivery_email" value="{{ order.delivery_email|slice:35 }}" maxlength="35"></td>
                         </tr>
                         {% if order.delivery_country != 'United Kingdom' %}
                         <tr>
