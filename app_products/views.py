@@ -4,6 +4,7 @@ from django.db.models import Subquery, OuterRef, DecimalField, IntegerField, Sum
 from app_products.models import *
 from app_orders.models import *
 from app_utils.models import *
+from app_products.utils import *
 from .filters import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,26 +38,13 @@ class ProductList(LoginRequiredMixin, FilterView):
     form_class = ProductLabelForm
 
     def post(self, request, *args, **kwargs):
+        # PRINT PRODUCT LABEL
         form = ProductLabelForm(request.POST)
-        sku = form.data['sku']
-        product_id = form.data['product_id']
-        qty = form.data['qty']
-        path = form.data['path']        
-        wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
-        config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
-        options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
-        # GENERATE A PDF FILE IN STATIC
-        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % product_id
-        pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)   
-        # SELECT THE PRINTER
-        process = PrintProcess.objects.get(process_id=3)
-        printer_id = process.process_printer.printnode_id     
-        # SEND TO PRINTNODE
-        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(qty)+ '}}'
-        response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
-        print(response.text.encode('utf8'))
+        form.save()
+        # RUN PRINT LABEL FUNCTION FROM UTILS.PY
+        printProductLabel(request)
         messages.success(self.request, 'Processing Product Label')
-        return HttpResponseRedirect(path)
+        return HttpResponseRedirect(reverse('product-list'))
 
 class ProductDetail(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
@@ -110,10 +98,10 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
                 # PRODUCT TABLE - SETS THE STOCK QTY 
                 self.object.orizaba_stock_qty = new_stock_qty
                 self.object.save()
-                # MAGENTO SYNC TABLE - CREATE A ROW
+                # MAGENTO SYNC TABLE - CREATE A ROW AND RUN FUNCTION
                 MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
-                # MAGENTO SYNC FUNCTION
                 magento_sync(request)
+                
                 messages.success(request, 'Manual Stock Adjustment Added')
                 return HttpResponseRedirect(reverse('product-detail', kwargs={'pk': self.object.pk})) 
 
@@ -137,9 +125,8 @@ class ProductDetail(LoginRequiredMixin, UpdateView):
             self.object.orizaba_stock_qty = actual_qty
             self.object.last_stock_check = now
             self.object.save()
-            # MAGENTO SYNC TABLE - CREATE A ROW
+            # MAGENTO SYNC TABLE - CREATE A ROW AND RUN FUNCTION
             MagentoProductSync.objects.create(product=self.object, stock_qty=self.object.orizaba_stock_qty)
-            # MAGENTO SYNC FUNCTION
             magento_sync(request)
 
             messages.success(request, 'Stock Check Added')  
@@ -222,8 +209,9 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
             # STOCKMOVEMENT TABLE - REMOVE DELIVERY QTY TO STOCK QTY IN PRODUCT TABLE AND ADD A NEW ROW
             new_stock_qty = int(po_item.product.orizaba_stock_qty) - int(po_item.received_qty) 
             StockMovement.objects.create(date_added=now, product=po_item.product, adjustment_qty=-po_item.received_qty, movement_type="Purchase Order Receipt - Reversal", purchaseorder_id=po_id, current_stock_qty=new_stock_qty) 
-            # MAGENTOPRODUCTSYNC TABLE - ADD ROW TO UPDATE MAGENTO
-            # MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
+            # MAGENTO SYNC TABLE - CREATE A ROW AND RUN FUNCTION
+            MagentoProductSync.objects.create(product=po_item.product, stock_qty=new_stock_qty) 
+            magento_sync(request)
             # PRODUCT TABLE - UPDATE STOCK QTY
             po_item.product.orizaba_stock_qty = new_stock_qty
             po_item.product.save()
@@ -277,20 +265,16 @@ class PurchaseOrderDetail(LoginRequiredMixin, UpdateView):
                     # PRODUCT TABLE - UPDATE STOCK QTY
                     poitem.product.orizaba_stock_qty = new_stock_qty
                     poitem.product.save()
-                    # STOCKSYNCMAGENTO TABLE - ADD ROW TO UPDATE MAGENTO
+                    # MAGENTO SYNC TABLE - CREATE A ROW AND RUN FUNCTION
                     MagentoProductSync.objects.create(product=poitem.product, stock_qty=new_stock_qty)
+                    magento_sync(request)
                     # PRODUCT LABEL - GENERATE LABEL BASED ON THE LABEL CHECKBOX
                     if(print_label == 'true'):
-                        # GENERATE A PDF FILE IN STATIC
-                        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % poitem.product.sku
-                        pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=settings.WKHTMLTOPDF_CONFIG, options=settings.WKHTMLTOPDF_OPTIONS)        
-                        # SELECT THE PRINTER
-                        process = PrintProcess.objects.get(process_id=3)
-                        printer_id = process.process_printer.printnode_id
-                        # SEND TO PRINTNODE
-                        payload = '{"printerId": '+str(printer_id)+', "title": "Label for: ' +str(poitem.product.sku)+ ' ", "contentType": "pdf_uri", "content":"https://orizaba.herokuapp.com/static/pdf/product-label.pdf", "source": "GTS Product Label", "options": {"copies": ' +str(delivery_qty)+ '}}'
-                        response = requests.request("POST", "https://api.printnode.com/printjobs", headers=settings.PRINTNODE_HEADERS, data=payload)
-                        print(response.text.encode('utf8'))
+                        # PRODUCTLABE - CREATE A NEW ROW
+                        ProductLabel.objects.create(product=poitem.product, qty=delivery_qty)
+                        # RUN PRINT LABEL FUNCTION FROM UTILS.PY
+                        printProductLabel(request)
+
             return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

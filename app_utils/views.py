@@ -168,6 +168,7 @@ class MagentoProductSyncList(LoginRequiredMixin, FilterView):
     login_url = '/login/'
     template_name = 'app_utils/magento-product-sync.html'
     model = MagentoProductSync
+    ordering = '-id'
     paginate_by = 50
 
 ### SCRIPTS ###

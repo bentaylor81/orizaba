@@ -5,7 +5,12 @@ import json
 from django.forms import inlineformset_factory
 
 ### PRODUCT LIST PAGE ###
-class ProductLabelForm(forms.Form):
+class ProductLabelForm(forms.ModelForm):
+    class Meta:
+        model = ProductLabel
+        fields = ['product', 'qty']
+
+class ProductLabelForm2(forms.Form):
     sku = forms.CharField(max_length=20)
     product_id = forms.CharField(max_length=20)
     product_name = forms.CharField(max_length=20)

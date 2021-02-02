@@ -117,6 +117,18 @@ class PurchaseOrder(models.Model):
     class Meta:
         ordering = ["-pk"]
 
+class ProductLabel(models.Model):
+    product = models.ForeignKey('product', on_delete=models.CASCADE, null=True, blank=True)
+    qty = models.PositiveIntegerField(blank=True)
+    is_printed = models.BooleanField(default=False)
+    date_printed = models.DateTimeField(blank=True, null=True) 
+
+    def __str__(self):
+        return str(self.product) + ' | ' + str(self.qty) + ' | ' + str(self.date_printed)
+
+    class Meta:
+        ordering = ["id"]
+
 class Product(models.Model):
     TYPE_CHOICES = [
         ('Part', 'Part'),
