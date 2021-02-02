@@ -1,54 +1,40 @@
-<div id="modal" class="modal large-modal">
-    <div id="email-invoice-modal" class="modal-container">
+<div class="modal">
+    <div id="email-invoice" class="modal-container">
         <div class="modal-top-bar">
             <h1>Email Invoice</h1>
-            <span class="modal-close">&times;</span>
+            <span onclick="closeModal()">&times;</span>
         </div>
-        <form class="form" method="post" enctype="multipart/form-data">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form class="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="email-fields">
-                    <div class="field-1">
-                        Email: 
-                    </div>
-                    <div class="field-2">
-                        <input type="text" name="to_email" value="{{ order.billing_email.billing_email }}">
-                    </div>
+                <!-- EMAIL -->
+                <label>Email:</label>
+                <input type="text" name="to_email" value="{{ order.billing_email.billing_email }}">
+                <!-- SUBJECT -->
+                <label>Subject:</label>
+                <input type="text" name="subject" value="Your Invoice is Attached">
+                <label>Message:</label>
+                <!-- 1. User types a message -->
+                <textarea class="customMessage">Dear {{ order.billing_firstname }},
+
+Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
+                
+Kind regards,
+                
+Garden Tractor Spares
+                </textarea>   
+                <!-- 2. Javascript adds the message to the email template -->
+                <div hidden class="emailTemplate">
+                    {% include 'app_orders/order_detail/emails/invoice.html' %} 
                 </div>
-                <div class="email-fields">
-                    <div class="field-1">
-                        Subject:
-                    </div>
-                    <div class="field-2">
-                        <input type="text" name="subject" value="Your Invoice is Attached">
-                    </div>
+                <!-- 3. Whole email template html including customer message is added to submitted textarea below -->
+                <div hidden>
+                    <textarea class="submittedTextarea" name="message"></textarea>
                 </div>
-                <div class="email-fields message">
-                    <div class="field-1">
-                        Message:
-                    </div>
-                    <div class="field-2">
-                        <!-- 1. User types a message -->
-                        <textarea id="custom-message-textarea">Dear {{ order.billing_name }},
-                            
-    Attached is a pdf invoice for order number {{ order.order_no }} on {{ order.date|date:'d M Y' }}.
-                        
-    Kind regards,
-                        
-    Garden Tractor Spares
-                        </textarea>   
-                        <!-- 2. Javascript adds the message to the email template -->
-                        <div id="email-template">
-                            {% include 'app_orders/order_detail/emails/invoice.html' %} 
-                        </div>
-                        <!-- 3. Whole email template html including customer message is added to submitted textarea below -->
-                        <textarea id="submitted-textarea" name="message"></textarea>
-                    </div>
-                </div>
-                <div class="button">
+                <div class="submit">
                     <button name="email-invoice" type="submit">Send</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

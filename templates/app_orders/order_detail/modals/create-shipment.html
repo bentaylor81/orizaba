@@ -1,67 +1,55 @@
-<div id="modal" class="modal large-modal">
+<div class="modal">
     <div id="create-shipment" class="modal-container">
         <div class="modal-top-bar">
             <h1>Create Shipment</h1>
-            <span class="modal-close">&times;</span>
+            <span onclick="closeModal()">&times;</span>
         </div>
-        <form class="form" method="post" enctype="multipart/form-data">
-            <div class="modal-content">
-                <div class="modal-col-1">
-                    <h2>Delivery Details</h2>
-                    {% csrf_token %}
+        <div class="modal-content">
+            <form class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-left">
+                    <h2>Delivery Details</h2> 
                     <!-- Inputted from order-details.js, based on calculated values below -->
-                    <input hidden id="total_price" name="total_price_ex_vat">
-                    <input hidden id="total_weight" name="weight">
+                    <input hidden id="totalPriceInput" name="total_price_ex_vat">
+                    <input hidden id="totalWeightInput" name="weight">
                     <input hidden name="delivery_country_code" value="{{ order.delivery_country_code }}">
-                    <table class="delivery-table" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <th>First Name:</th>
-                            <td><input type="text" name="delivery_firstname" value="{{ order.delivery_firstname|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Last Name:</th>
-                            <td><input type="text" name="delivery_lastname" value="{{ order.delivery_lastname|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Address:</th>
-                            <td><input type="text" name="delivery_address_1" value="{{ order.delivery_address_1|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td><input type="text" name="delivery_address_2" value="{{ order.delivery_address_2|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>City:</th>
-                            <td><input type="text" name="delivery_city" value="{{ order.delivery_city|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Postcode:</th>
-                            <td><input type="text" name="delivery_postcode" value="{{ order.delivery_postcode|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Country:</th>
-                            <td><input type="text" name="delivery_country" value="{{ order.delivery_country|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Phone:</th>
-                            <td><input type="text" name="delivery_phone" value="{{ order.delivery_phone|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        <tr>
-                            <th>Email:</th>
-                            <td><input type="text" name="delivery_email" value="{{ order.delivery_email|slice:35 }}" maxlength="35"></td>
-                        </tr>
-                        {% if order.delivery_country != 'United Kingdom' %}
-                        <tr>
-                            <th>Tax Number:</th>
-                            <td><input type="text" name="delivery_tax_number" value="{{ order.delivery_tax_number|truncatechars:35 }}" maxlength="35"></td>
-                        </tr>
-                        {% endif %}
-                    </table>          
+                    <!-- DELIVERY FIRST NAME -->
+                    <label>First Name:</label>
+                    <input type="text" name="delivery_firstname" value="{{ order.delivery_firstname|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY LAST NAME -->
+                    <label>Last Name:</label>
+                    <input type="text" name="delivery_lastname" value="{{ order.delivery_lastname|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY ADDRESS 1 -->
+                    <label>Address 1:</label>
+                    <input type="text" name="delivery_address_1" value="{{ order.delivery_address_1|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY ADDRESS 2 -->
+                    <label>Address 2:</label>
+                    <input type="text" name="delivery_address_2" value="{{ order.delivery_address_2|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY CITY -->
+                    <label>City:</label>
+                    <input type="text" name="delivery_city" value="{{ order.delivery_city|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY POSTCODE -->
+                    <label>Postcode:</label>
+                    <input type="text" name="delivery_postcode" value="{{ order.delivery_postcode|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY COUNTRY -->
+                    <label>Country:</label>
+                    <input type="text" name="delivery_country" value="{{ order.delivery_country|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY PHONE -->
+                    <label>Phone:</label>
+                    <input type="text" name="delivery_phone" value="{{ order.delivery_phone|slice:35 }}" maxlength="35">
+                    <!-- DELIVERY EMAIL -->
+                    <label>Email:</label>
+                    <input type="text" name="delivery_email" value="{{ order.delivery_email|slice:35 }}" maxlength="35">
+                    <!-- TAX NUMBER -->
+                    {% if order.delivery_country != 'United Kingdom' %}
+                    <label>Tax Number:</label>
+                    <input type="text" name="delivery_tax_number" value="{{ order.delivery_tax_number|truncatechars:35 }}" maxlength="35">
+                    {% endif %}          
                 </div>
-                <div class="modal-col-2">     
+                <div class="col-right">     
                     <div class="table">
                         <h2>Order Items</h2>
-                        <table class="item-table" cellpadding="0" cellspacing="0">
+                        <table cellpadding="0" cellspacing="0">
                             <thead>
                                 <tr>  
                                     <th>Product Name</th>
@@ -73,42 +61,35 @@
                             </thead>
                             <tbody>                    
                                 {% for item in order_items %}           
-                                <tr class="{% cycle 'row1' 'row2' %} item-row">
-                                    <td class="product-name">{{ item.product_id.product_name }}<input hidden name="orderitem_id" value="{{ item.orderitem_id }}"></td>
-                                    <td class="number"><span class="weight">{{ item.product_id.weight|floatformat:2 }}</span>kg</td> 
-                                    <td class="number">£<span class="price">{{ item.item_price|floatformat:2 }}</span></td>               
-                                    <td class="number item-qty">{{ item.item_qty }}</td>
-                                    <td class="number send-qty"><input name="send_qty" class="send-qty" type="number" value="{{ item.item_qty }}" min="0" max="{{ item.item_qty }}"></td>
-                                    <!-- Hidden fields to calculate the sum of each row -->
-                                    <td hidden class="total-item-weight"></td>
-                                    <td hidden class="total-item-price"></td>
+                                <tr class="itemRow {% cycle 'row1' 'row2' %}">
+                                    <td>{{ item.product_id.product_name }}<input hidden name="orderitem_id" value="{{ item.orderitem_id }}"></td>
+                                    <td><span class="itemWeight">{{ item.product_id.weight|floatformat:2 }}</span>kg</td> 
+                                    <td>£<span class="itemPrice">{{ item.item_price|floatformat:2 }}</span></td>               
+                                    <td class="itemQty">{{ item.item_qty }}</td>
+                                    <td><input name="send_qty" class="sendQty" type="number" value="{{ item.item_qty }}" min="0" max="{{ item.item_qty }}"></td>
+                                    <!-- HIDDEN FIELDS CALCULATE THE SUM OF EACH ROW -->
+                                    <td hidden class="totalItemWeight"></td>
+                                    <td hidden class="totalItemPrice"></td>
                                 </tr>     
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    <div class="shipping-info"> 
-                        <div class="weight-value">
-                            <h2>Shipping Information</h2>
-                            <table class="shipping-table" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <th>Total Weight:</th>
-                                    <td class="total-weight"><!-- Calculated from JS --></td>
-                                </tr>
-                                <tr>
-                                    <th>Total Value:</th>
-                                    <td class="total-price"><!-- Calculated from JS --></td>
-                                </tr>
-                            </table>
+                    <div class="shipping"> 
+                        <div class="product">
+                            <h2>Product Information</h2>
+                            <label>Total Weight:</label>
+                            <span class="totalWeightField"><!-- Calculated from JS --></span>
+                            <label>Total Value:</label>
+                            <span class="totalPriceField"><!-- Calculated from JS --></span>
                         </div>
-                        <div class="date-method">
+                        <div class="method">
                             <div>
-                                <label>Despatch Date: <input name="date_sent" type="date" value="{% now 'Y-m-d' %}" min="{% now 'Y-m-d' %}"></label>
+                                <label>Despatch Date: <input class="dateSent" name="date_sent" type="date" value="{% now 'Y-m-d' %}" min="{% now 'Y-m-d' %}"></label>
                             </div>
-                            <div class="delivery-method-div">
-                                <label>
-                                    Delivery Method:
-                                    <select name="service_id">
+                            <div class="deliveryMethodDiv">
+                                <label>Delivery Method:
+                                    <select class="deliveryMethodSelect" name="service_id">
                                         <option>Select Delivery Method</option>
                                         {% for delivery in delivery_methods %}                       
                                         <option value="{{ delivery.service_id }}">{{ delivery.delivery_method }}</option>
@@ -118,16 +99,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="shipment-actions">
+                    <div class="actions">
                         <label>Print Picklist:<input name="picklist" type="checkbox" checked></label>
                         <button disabled type="submit" name="add-shipment" class="submitShipment">Create Shipment</button>
                     </div>
-                    <div class="confirm-shipment confirmShipment">
+                    <div class="confirm confirmShipment">
                         A Tracked Shipment for this order has already been created. Are you sure you want to proceed?&nbsp;&nbsp;
                         <button type="submit" name="add-shipment">Continue</button>
                     </div>
-                </div>
-            </div>
-        </form>
+                </div>    
+            </form>
+        </div>
     </div>
 </div>

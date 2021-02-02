@@ -21,6 +21,9 @@ todayButton.addEventListener('click', (event) => {
 today = new Date();
 date = today.getFullYear()+'-'+('0'+(today.getMonth()+1)).slice(-2)+'-'+('0'+today.getDate()).slice(-2);
 
+// BUTTON DON'T ALLOW TO SUBMIT TWICE
+onclick="this.disabled=true,this.form.submit()"
+
 
 
 

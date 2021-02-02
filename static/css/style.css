@@ -202,14 +202,10 @@
     #order .content .shipment .fa-warehouse { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-truck { color: #546ce2; font-size: 34px; margin: 0px 0px 10px 0px; }
     #order .content .shipment .fa-check-square { color: #38a938; font-size: 40px; margin: 0px 0px 10px 0px; }
-    #order .content #create-shipment .confirm-shipment { display: none; padding: 10px; background:#9eda9ead; margin-top: 10px; text-align:right; }
-    #order .content #create-shipment .confirm-shipment button { float: none; width: 70px; }
     #order .content .postcode-valid img { width: 12px; margin-left: 8px; position: relative; top: 1px; cursor: pointer; }
     #order .content .other-actions .item { display: flex; align-items: center; margin-bottom: 15px; }
     #order .content .other-actions .item .title { width: 100px; font-weight: bold; align-items: center; }
-    #order .content .other-actions .item .action button { width: 100px; margin-right: 5px; }
-    #order .content .other-actions #submitted-textarea { display: none; }
-    #order .content .other-actions #email-template { display: none; }
+    #order .content .other-actions .item .action button { width: 100px; margin-bottom: 5px; }
     #order .content .status_header { display: flex; }
     #order .content .status_header h2 { flex: 1;}
 
@@ -245,7 +241,7 @@
     #product i { cursor: pointer; }
     #product .content { display: grid; grid-template-columns: 0.9fr 1fr; grid-gap: 20px;  }
     #product .pod-1 { display: grid; grid-template-columns: 1fr 1fr; }
-    #product .pod-2 { display: grid; grid-template-columns: 1.3fr 1fr; grid-gap: 50px; }
+    #product .pod-2 { display: grid; grid-template-columns: 1.6fr 1fr; grid-gap: 50px; }
     #product .pod-3 { display: grid; grid-template-columns: 1.3fr 1fr; grid-gap: 50px; }
     #product .col-3 { display: grid; grid-template-columns: 1fr 310px 1fr; grid-gap: 50px; }
     #product h1 .status { background: #ff000082; padding: 5px 20px; margin-left: 20px; }

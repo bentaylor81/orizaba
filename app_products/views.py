@@ -39,13 +39,14 @@ class ProductList(LoginRequiredMixin, FilterView):
     def post(self, request, *args, **kwargs):
         form = ProductLabelForm(request.POST)
         sku = form.data['sku']
+        product_id = form.data['product_id']
         qty = form.data['qty']
         path = form.data['path']        
         wkhtmltopdf_config = settings.WKHTMLTOPDF_CMD
         config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_config)
         options = {'copies' : '1', 'page-width' : '51mm', 'page-height' : '102mm', 'orientation' : 'Landscape', 'margin-top': '0', 'margin-right': '0', 'margin-bottom': '0', 'margin-left': '0', }
         # GENERATE A PDF FILE IN STATIC
-        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % sku
+        projectUrl = 'http://' + request.get_host() + '/product/label/%s' % product_id
         pdf = pdfkit.from_url(projectUrl, "static/pdf/product-label.pdf", configuration=config, options=options)   
         # SELECT THE PRINTER
         process = PrintProcess.objects.get(process_id=3)
@@ -319,7 +320,7 @@ class CustomerList(LoginRequiredMixin, ListView):
 # PRODUCT LABEL - CREATE THE FILE WHICH RENDERS THE PDF LABEL
 def generate_label(request, id):
     context = { 
-            'product': Product.objects.get(sku=id),
+            'product': Product.objects.get(product_id=id),
         }
     return render(request, 'app_products/product_list/pdfs/label-create.html', context )
 

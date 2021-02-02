@@ -43,7 +43,7 @@
                         <tr class="main-row {% cycle 'row1' 'row2' %}">
                             <td class="product-image">
                                 {% if product.product_image %}
-                                    <img class="modal-button pointer" src="{{ product.product_image.url }}">
+                                    <img class="modalOpenButton pointer" src="{{ product.product_image.url }}">
                                     {% include 'app_products/product_list/modals/view-image.html' %}<!-- Opens the Modal -->
                                 {% else %}
                                     <img src="{% static 'img/no-image.png' %}">
@@ -64,11 +64,12 @@
                             <td class="product-label">
                                 <form method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                    <div class="hidden">
-                                        <input type="text" name="sku" value="{{ product.sku }}">
-                                        <input type="text" name="product" value="{{ product.product_name }}">
-                                        <input type="text" name="location" value="{{ product.location }}">
-                                        <input type="text" name="path" value="{{ request.get_full_path }}">                            
+                                    <div>
+                                        <input hidden type="text" name="sku" value="{{ product.sku }}">
+                                        <input hidden type="text" name="product_id" value="{{ product.product_id }}">
+                                        <input hidden type="text" name="product" value="{{ product.product_name }}">
+                                        <input hidden type="text" name="location" value="{{ product.location }}">
+                                        <input hidden type="text" name="path" value="{{ request.get_full_path }}">                            
                                     </div>
                                     <div>
                                         <select name="qty" class="print-label" onchange="this.form.submit()">

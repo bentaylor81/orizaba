@@ -62,8 +62,8 @@ let partRow = queryAll('.partRow')
     extraContent = queryAll('.extraContent')
     // SECTION E - MODALS
     receivedQty = queryAll('.receivedQty')
-    resetButton = queryAll('.resetButton')
-    deleteButton = queryAll('.deleteButton')
+    resetButtonState = queryAll('.resetButtonState')
+    deleteButtonState = queryAll('.deleteButtonState')
     resetModal = queryAll('.resetModal') 
     deleteModal = queryAll('.deleteModal') 
 
@@ -106,20 +106,12 @@ let partRow = queryAll('.partRow')
             rowArrowIcon[i].classList.toggle("icon-down")
         })
         // SECTION E
-        // DISBALE MODEL BUTTONS FOR RESET AND DELETE
+        // DISABLE MODEL BUTTONS FOR RESET AND DELETE
         if(receivedQty[i].innerHTML == 0){
-            resetButton[i].setAttribute('disabled', 'disabled')
+            resetButtonState[i].setAttribute('disabled', 'disabled')
         } else if(receivedQty[i].innerHTML != 0) {
-            deleteButton[i].setAttribute('disabled', 'disabled')
+            deleteButtonState[i].setAttribute('disabled', 'disabled')
         }
-        // OPEN RESET MODAL        
-        resetButton[i].addEventListener('click', () => {
-            resetModal[i].style.display = 'block'
-        })
-        // OPEN DELETE MODAL
-        deleteButton[i].addEventListener('click', () => {  
-            deleteModal[i].style.display = 'block'
-        })
     }
 
 // 4. ADD PART BLOCK AND SKU FILTERING

@@ -155,16 +155,6 @@ class StockMovementList(LoginRequiredMixin, FilterView):
     ordering = ['-date_added']
     filterset_class = StockMovementFilter
 
-### STOCK SYNC PAGE ###
-# CHECK THE STOCK SYNCRONIZATION BETWEEN MAGENTO AND ORIZABA
-class StockSync(LoginRequiredMixin, FilterView):
-    login_url = '/login/'
-    template_name = 'app_utils/stock-sync.html'
-    queryset = Product.objects.filter(stock_balances=False)
-    paginate_by = 50
-    filterset_class = StockSyncFilter
-    ordering = ['stock_balances', '-stock_discrepancy']
-
 ### API LOG ###
 class ApiLogList(LoginRequiredMixin, FilterView):
     login_url = '/login/'

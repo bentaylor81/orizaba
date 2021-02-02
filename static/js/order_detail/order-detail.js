@@ -1,11 +1,8 @@
 //// CONTENTS - ORDER DETAIL ////
 
 // 1. BILLING DETAILS
-// 2. CREATE PICKLIST 
-// 3. EMAIL INVOICE - OPEN MODAL
 // 4. EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
 // 5. DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
-// 6. CREATE SHIPMENT - MODAL 
 // 7. REFUNDS COMPONENT 
 
 //// JAVASCRIPT ////
@@ -15,7 +12,7 @@ var queryAll = document.querySelectorAll.bind(document);
 
 // 1. BILLING DETAILS
     // Convert the purchased on website code to readable format
-let purchased = document.querySelector('#purchased-on').innerHTML;
+let purchased = query('#purchased-on').innerHTML;
 
     if (purchased.includes('GARD')){
         site = 'gardentractorspares.co.uk'     
@@ -34,51 +31,29 @@ let purchased = document.querySelector('#purchased-on').innerHTML;
     } else {
         site = 'None'
     }
-    document.querySelector('#purchased-on').innerHTML = site  
-
-// 2. CREATE PICKLIST 
-    //Limit the Send Qty !> Item Qty
-    // Set the initial Send Qty = Item Qty
-let sendQty = document.querySelectorAll('#send-qty input');
-    itemQty = document.querySelectorAll('#item-qty');
-
-for(let i=0; i < sendQty.length; i++){
-    sendQty[i].setAttribute("max", itemQty[i].innerHTML);
-    sendQty[i].setAttribute("value", itemQty[i].innerHTML);
-}
-
-// 3. EMAIL INVOICE - OPEN MODAL
-let emailButton = document.querySelector('#email-invoice');
-    emailButton.addEventListener('click', emailInvoice)
-
-function emailInvoice(event) {
-    event.preventDefault()   
-}
+    query('#purchased-on').innerHTML = site  
 
 // 4. EMAIL INVOICE - ADD CUSTOM MESSAGE TO TEMPLATE
-let customMessage = document.querySelector('#custom-message-textarea')
-    emailTemplate = document.querySelector('#email-template')
-    emailTemplateCustom = document.querySelector('#email-custom-message')
-    submittedTextarea = document.querySelector('#submitted-textarea')
+let customMessage = query('.customMessage')
+    emailTemplate = query('.emailTemplate')
+    emailCustomMessage = query('.emailCustomMessage')
+    submittedTextarea = query('.submittedTextarea')
 
-    // If no custom message is entered, submit the default message
+    // IF NO CUSTOM MESSAGE IS ENTERED, SUBMIT THE DEFAULT MESSAGE
     submittedTextarea.innerHTML = emailTemplate.innerHTML
 
-    // As content a customer message is typed, it is added to the template and then to the submitted textarea
+    // AS CONTENT IS TYPED, ADD MESSAGE TO THE TEMPLATE
     customMessage.addEventListener('keyup', function() {
-
-        // Adds lines breaks to the text
-        formatText = customMessage.value.replace(/\n/g, '<br>\n')
-        // Adds the text aboce to the email template html
-        emailTemplateCustom.innerHTML = formatText;
-        // Add the whole email template HTML to the textarea to be submitted to Mailgun 
+        // ADD THE MESSAGE TO TEMPLATE AND SUBSTITUTE IN LINE BREAKS
+        emailCustomMessage.innerHTML = customMessage.value.replace(/\n/g, '<br>\n')
+        // ADD THE WHOLE EMAIL TEMPLATE HTML TO THE TEXTAREA TO BE SUBMITTED 
         submittedTextarea.innerHTML = emailTemplate.innerHTML    
-    });
+    })
 
 // 5. DISABLE CREATE SHIPMENT BUTTON IF DELIVERY TYPE IS COLLECTION OR DELIVERY WITH ANOTHER ORDER
-let deliveryType = document.querySelector('.delivery-type')
-    deliveryTypeSelected =document.querySelector('.delivery-type-selected') 
-    createShipmentButton = document.querySelector('.create-shipment button')
+let deliveryType = query('.delivery-type')
+    deliveryTypeSelected =query('.delivery-type-selected') 
+    createShipmentButton = query('.create-shipment button')
 
     // If Delivery Type is flatrate, change the text to Collection from Warehouse
     if(deliveryType.innerHTML == 'flatrate') {
@@ -97,125 +72,11 @@ let deliveryType = document.querySelector('.delivery-type')
         deliveryType.style.backgroundColor = '#1c89062e';
         deliveryType.style.padding = '5px';
     }
-    
-// 6. CREATE SHIPMENT - MODAL 
-let itemRow = document.querySelectorAll('.item-table .item-row')
-    weight = document.querySelectorAll('.item-table .weight')
-    price = document.querySelectorAll('.item-table .price')
-    itemQty = document.querySelectorAll('.item-table .item-qty input');
-    sendQty = document.querySelectorAll('.item-table .send-qty input')
-    totalItemPriceTd = document.querySelectorAll('.item-table .total-item-price')
-    totalItemWeightTd = document.querySelectorAll('.item-table .total-item-weight')
-    totalPriceField = document.querySelector('.total-price')
-    totalWeightField = document.querySelector('.total-weight')
-    totalWeight = 0
-    totalPrice = 0
-    
-    // CALCULATE THE INITIAL TOTAL WEIGHT AND TOTAL PRICE
-    for(let i=0; i<itemRow.length; i++) {
-        // Populate the total item price and weight table cells
-        totalItemPriceTd[i].innerHTML = sendQty[i].value * price[i].innerHTML 
-        totalItemWeightTd[i].innerHTML = sendQty[i].value * weight[i].innerHTML
-        // Calculate the initial total price and weight
-        totalPrice += parseFloat(totalItemPriceTd[i].innerHTML)
-        totalWeight += parseFloat(totalItemWeightTd[i].innerHTML)
-        // Populate the total price and weight fields
-        totalPriceField.innerHTML = '£' + totalPrice.toFixed(2)    
-        totalWeightField.innerHTML = totalWeight.toFixed(2) + 'kg'
-        // Set the inputs for price and weight based on calculations above
-        document.querySelector('#total_price').value = totalPrice.toFixed(2) 
-        document.querySelector('#total_weight').value = totalWeight.toFixed(2)
-    }
-    
-    // CALCULATE THE TOTAL PRICE AND WEIGHT AS THE SEND QTY IS CHANGED
-    for(let i=0; i<itemRow.length; i++) {
-        // Event listener when the send quantities are changed
-        sendQty[i].addEventListener('change', function(){
-            totalPrice = 0
-            totalWeight = 0
-            // Populate the total item price and weight table cells
-            totalItemPriceTd[i].innerHTML = (sendQty[i].value * price[i].innerHTML)
-            totalItemWeightTd[i].innerHTML = (sendQty[i].value * weight[i].innerHTML)
-            // Calculate the initial total price and weight
-            for(let j=0; j<itemRow.length; j++) { 
-                totalPrice += parseFloat(totalItemPriceTd[j].innerHTML)
-                totalWeight += parseFloat(totalItemWeightTd[j].innerHTML)
-            }
-            // Populate the total price and weight fields
-            totalPriceField.innerHTML = '£' + totalPrice.toFixed(2)
-            totalWeightField.innerHTML = totalWeight.toFixed(2) + 'kg'  
-            // Set the inputs for price and weight based on calculations above
-            document.querySelector('#total_price').value = totalPrice.toFixed(2)
-            document.querySelector('#total_weight').value = totalWeight.toFixed(2)
-       });       
-    }
-    // DISABLE SUBMIT BUTTON IF FIELDS ARE NOT SET
-    let deliveryMethodSelect = document.querySelector('.shipping-info select')
-        deliveryMethodDiv = document.querySelector('.delivery-method-div')
-        shippingActionsButton = document.querySelector('.shipment-actions button')
-        deliveryMethodDiv.style.backgroundColor = '#1c89062e'
-
-        // DISABLE THE BUTTON IF NO METHOD IS SELECTED
-        // SET THE COLOUR OF THE DELIVERY METHOD LABEL
-        deliveryMethodSelect.addEventListener('change', function(){
-            confirmShipment.style.display = 'none'
-            if(deliveryMethodSelect.value == 'Select Delivery Method') {
-                deliveryMethodDiv.style.backgroundColor = '#1c89062e'
-                shippingActionsButton.setAttribute('disabled', 'disabled')
-            } 
-            else {
-                shippingActionsButton.removeAttribute('disabled', 'disabled')
-                deliveryMethodDiv.style.backgroundColor = 'unset'
-            }
-        });
-    // LOCAL STORAGE SAVE THE DATE
-    let dateSent = document.querySelector('.date-method input')
-        savedDate = localStorage.getItem('sentDate')
-    
-        // GET TODAYS DATE
-        today = new Date();
-        date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        // POPULATE THE DATE FILTER WITH THE VALUE IN LOCAL STORAGE
-        if(savedDate > date) {
-            dateSent.value = savedDate
-        }
-        // SAVE THE DATE INTO LOCAL STORAGE
-        dateSent.addEventListener('change', () => {
-            localStorage.setItem('sentDate', dateSent.value);
-        } )
-
-    // HIGHLIGHT THE INPUT BOX WHEN SEND_QTY IS CHANGED
-    let sendQtyInput = document.querySelectorAll('input.send-qty')
-        itemQtyInput = document.querySelectorAll('.item-qty')
-
-        for(let i=0; i < sendQtyInput.length; i++){
-
-            sendQtyInput[i].addEventListener('change', () => {
-                if(sendQtyInput[i].value < parseInt(itemQtyInput[i].innerHTML)){
-                    sendQtyInput[i].style.backgroundColor = '#1c89062e';
-                }     
-                else {
-                    sendQtyInput[i].style.backgroundColor = '#ffffff';
-                }          
-            });
-        }
-    // CHECK IF SHIPMENT HAS ALREADY BEEN CREATED
-    let submitShipment = query('.submitShipment')
-        trackedShipment = queryAll('.trackedShipment')
-        confirmShipment = query('.confirmShipment')
-        
-        submitShipment.addEventListener('click', (e) => {
-            if(trackedShipment.length > 0) {
-                e.preventDefault()
-                confirmShipment.style.display = 'block'
-                submitShipment.setAttribute('disabled', 'disabled')
-            }
-        })
         
 
 // REFUND COMPONENT - CALCULATE ITEM PRICE INC VAT
-    let refItemAmount = document.querySelectorAll('.refItemAmount')
-        refItemAmountIncVat = document.querySelectorAll('.refItemAmountIncVat')
+    let refItemAmount = queryAll('.refItemAmount')
+        refItemAmountIncVat = queryAll('.refItemAmountIncVat')
 
         for(let i=0; i < refItemAmount.length; i++){
          refItemAmountIncVat[i].innerHTML = parseFloat(refItemAmount[i].innerHTML * 1.2).toFixed(2)

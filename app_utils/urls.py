@@ -9,7 +9,6 @@ from django.conf import settings
 urlpatterns = [    
     # INDIVIDUAL PAGES 
     path('utils/stock-reconcile', StockMovementList.as_view(), name='stock-reconcile'),
-    path('utils/stock-sync', StockSync.as_view(), name='stock-sync'),  
     path('utils/api-log-list', ApiLogList.as_view(), name='api-log-list'),  
     path('utils/magento-product-sync', MagentoProductSyncList.as_view(), name='magento-product-sync'),  
     # SEPARATE FUNCTIONS

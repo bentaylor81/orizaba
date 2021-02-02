@@ -91,6 +91,7 @@ for(let i=0; i < refItemRow.length; i++){
             
         // SET THE SELECTED TOTAL TO TABLE TOTAL SET ABOVE
         // DUE TO MAGENTO ROUNDING ERROR, TOTALS ARE NOT CALCULATED BY JS IF ALL CHECKBOXES ARE CHECKED
+        
         if(refItemCheckbox.length == refItemCheckboxChecked.length) {
             selectedTotal.innerHTML = parseFloat(orderTotalPrice)
         } else {

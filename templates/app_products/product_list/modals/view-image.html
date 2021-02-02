@@ -2,7 +2,7 @@
     <div id="view-image" class="modal-container">
         <div class="modal-top-bar">
             <h1>{{ product.sku }}</h1>
-            <span class="modal-close">&times;</span>
+            <span onclick="closeModal()">&times;</span>
         </div>
         <div class="modal-content">
             <img src="{{ product.product_image.url }}">

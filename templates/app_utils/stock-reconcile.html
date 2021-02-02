@@ -22,11 +22,10 @@
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>Movement Type</th>
                             <th>Date Added</th>  
                             <th>Product Name</th>
-                            <th>SKU</th>
-                            <th>Movement Type</th>
+                            <th>SKU</th> 
                             <th>PO / Order No</th>
                             <th>Adjust Qty</th>                     
                         </tr>
@@ -34,29 +33,19 @@
                     <tbody>                  
                     {% for stock_item in object_list %}	      
                         <tr class="{% cycle 'row1' 'row2' %} unleashed-row">
-                            <td class="icons">
-                            {% if  stock_item.movement_type == 'Online Sale' %}
-                                <i class="fas fa-money-bill"></i>
-                            {% elif  stock_item.movement_type == 'Purchase Order Receipt' %}
-                                <i class="fas fa-receipt"></i>
-                            {% elif stock_item.movement_type == 'Manual Adjustment' %}
-                                <i class="fas fa-sliders-h"></i>
-                            {% endif %}               
-                            </td>
-                            <td class="first-col">{{ stock_item.date_added|date:'D d M Y' }}</td>
-                            <td><a href="{% url 'product-detail' stock_item.product_id.product_id %}">{{ stock_item.product_id.product_name }}</a></td>
-                            <td>{{ stock_item.product_id.sku }}</td> 
                             <td>{{ stock_item.movement_type }}</td>
+                            <td class="first-col">{{ stock_item.date_added|date:'D d M Y' }}</td>
+                            <td><a href="{% url 'product-detail' stock_item.product.product_id %}">{{ stock_item.product.product_name }}</a></td>
+                            <td>{{ stock_item.product.sku }}</td> 
                             <td>
-                            {% if stock_item.movement_type == 'Online Sale' %}
-                                {{ stock_item.order_id.order_no }} - {{ stock_item.order_id.billing_name }}
-                            {% elif stock_item.movement_type == 'Purchase Order Receipt' %}
-                                {{ stock_item.purchaseorder.reference }}
-                            {% elif stock_item.movement_type == 'Manual Adjustment' %}
-                                {{ stock_item.comments }}
-                            {% endif %}
+                                {% if stock_item.movement_type == 'Online Sale' %}
+                                    {{ stock_item.order_id.order_no }} - {{ stock_item.order_id.billing_name }}
+                                {% elif stock_item.movement_type == 'Purchase Order Receipt' %}
+                                    {{ stock_item.purchaseorder.reference }}
+                                {% elif stock_item.movement_type == 'Manual Adjustment' %}
+                                    {{ stock_item.comments }}
+                                {% endif %}
                             </td>
-
                             <td><b>{{ stock_item.adjustment_qty }}</b></td>
                         </tr>
                     {% endfor %}

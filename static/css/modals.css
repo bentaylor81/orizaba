@@ -5,27 +5,89 @@
 .modal-content { padding: 30px; }
 .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
 .modal-top-bar h1 { font-size: 20px; margin: 0px; }
-.modal-top-bar .modal-close { font-size: 35px; line-height: 24px; font-weight: bold; font-weight: bold; cursor: pointer; }
-.modal-content form { display: grid; grid-template-columns: 140px 1fr; grid-gap: 10px; align-items: center; }
+.modal-top-bar span { font-size: 35px; line-height: 24px; font-weight: bold; font-weight: bold; cursor: pointer; }
+.modal-content form { display: grid; grid-template-columns: 140px 1fr; grid-gap: 10px; }
 .modal-content form input { padding: 5px; }
+.modal-content form textarea { height: 160px; }
+.modal-content form label { align-self: center; }
 .modal-content form img { grid-column: 2 / 3; width: 100px !important; }
 .modal-content form .submit { text-align: right; grid-column: 1 / 3; margin-top: 10px; }
 
-/* ### INDIVIDUAL MODAL STYLES ### */
+/***** INDIVIDUAL MODAL STYLES *****/
 
-/* EDIT PRODUCT MODAL - edit-product.html - PRODUCT DETAIL */
+/*** ORDER DETAIL ***/
+
+/* GOOGLE MAPS MODAL - google-maps.html */
+#google-maps.modal-container { width: 800px; }
+
+/* DELIVERY DETAILS MODAL - delivery-details.html */
+#delivery-details.modal-container { width: 500px;  }
+
+/* CREATE SHIPMENT MODAL - create-shipment.html */
+#create-shipment.modal-container { width: 1200px; }
+#create-shipment form { display: grid; grid-template-columns: 1fr 3fr; grid-gap: 40px; }
+#create-shipment form .col-left { display: grid; grid-template-columns: 100px 1fr; grid-gap: 10px; align-items: center; }
+#create-shipment form .col-left h2 { grid-column: 1 / 3; margin-bottom: 10px; }
+#create-shipment form .col-right { display: flex; flex-direction: column; justify-content: space-between; }
+#create-shipment form .col-right .table h2 { margin-bottom: 20px; }
+#create-shipment form .col-right .table { margin-bottom: 30px; }
+#create-shipment form .col-right .table th:nth-child(n+2) { width: 60px; }
+#create-shipment form .col-right .shipping { display: flex; flex: 1; }
+#create-shipment form .col-right .product span { font-size: 20px; }
+#create-shipment form .col-right .product { display: grid; grid-template-columns: 120px 120px; align-items: center; grid-row-gap: 15px; align-self: start; flex: 1;}
+#create-shipment form .col-right .product h2 { grid-column: 1 / 3; margin-bottom: 10px; }
+#create-shipment form .col-right .method { text-align: right }
+#create-shipment form .col-right .method div { margin-bottom: 15px; }
+#create-shipment form .col-right .method label { padding: 0px 10px; }
+#create-shipment form .col-right .method input { width: 246px; margin-left: 5px; }
+#create-shipment form .col-right .method select { width: 260px; margin-left: 5px; }
+#create-shipment form .col-right .actions { display: flex; justify-content: flex-end; align-items: center;  }
+#create-shipment form .col-right .actions label { margin-right: 10px; padding: 0px 10px; }
+#create-shipment form .col-right .confirm { display: none; padding: 10px; background:#9eda9ead; margin-top: 10px; text-align:right; }
+#create-shipment form .col-right .confirm button { float: none; width: 70px;  }
+
+/* PICKLIST MODAL - picklist.html */
+#picklist.modal-container { width: 800px; }
+#picklist .modal-content form { display: block; }
+#picklist .modal-content table { margin-bottom: 20px; }
+#picklist th:first-child, #picklist td:first-child  { width: 20px; text-align: center; }
+#picklist .modal-content .submit { text-align: right; display: inline-block; width: 100%; }
+
+/* EMAIL INVOICE NODAL - email-invoice.html */
+#email-invoice.modal-container { width: 600px; }
+
+/*** PRODUCT LIST ***/
+
+/* VIEW IMAGE MODAL - view-image.html */
+#view-image.modal-container { width: 500px; }
+
+/*** PRODUCT DETAIL ***/
+
+/* EDIT PRODUCT MODAL - edit-product.html */
 #edit-product.modal-container { width: 500px; }
 #edit-product .modal-content form .submit { text-align: right; grid-column: 1 / 3; border-top: 1px solid #ddd; padding-top: 20px; margin-top: 10px; }
 
-/* EDIT LOCATION MODAL - edit-location.html - PRODUCT DETAIL */
+/* EDIT LOCATION MODAL - edit-location.html */
 #edit-location.modal-container { width: 500px; }
 #edit-location .table { border-top: 1px solid #ddd; margin-top: 20px; }
 
-/* VIEW IMAGE MODAL - view-image.html - PRODUCT LIST */
-#view-image.modal-container { width: 500px; }
+/*** PURCHASE ORDER LIST ***/
 
+/* ADD PURCHASE ORDER - add.html */
+#add-po.modal-container { width: 500px;  }
 
+/*** PURCHASE ORDER DETAIL ***/
 
+/* EDIT PURCHASE ORDER MODAL - edit.html  */
+#edit-po.modal-container { width: 500px;  }
+
+/* CONFIRM DELETE PO LINE MODAL - confirm-delete.html */
+#confirm-delete-po-line.modal-container { width: 400px;  }
+#confirm-delete-po-line .message { margin-bottom: 15px; }
+
+/* CONFIRM RESET PO LINE MODAL - confirm-reset.html */
+#confirm-reset-po-line.modal-container { width: 400px;  }
+#confirm-reset-po-line .message { margin-bottom: 15px; }
 
 
 
@@ -59,37 +121,6 @@ section #modal.large-modal .modal-close { font-size: 35px; line-height: 24px; }
 .large-modal .modal-container button { float: right; }
 .large-modal .required-notice { display: none; background: #e99595; color: #fff; padding: 15px; margin-bottom: 20px; font-weight: normal; }
 
-/* CONFIRM MODAL */
-section #modal.confirm-modal { padding-top: 200px; }
-section #modal.confirm-modal .modal-container { padding: 0px; }
-section #modal.confirm-modal .modal-close { font-size: 35px; line-height: 24px; }
-.confirm-modal .modal-top-bar { background: #ddd; display: flex; justify-content: space-between; margin: 0px; padding: 10px 15px; border-bottom: 0px; }
-.confirm-modal .modal-top-bar h1 { font-size: 20px; margin: 0px; }
-.confirm-modal .modal-top-bar span { float: right; }
-.confirm-modal .modal-container { padding: 0px; width: 400px; }
-.confirm-modal .modal-content { padding: 20px 20px 0px 20px; }
-.confirm-modal .message { margin-bottom: 20px; }
-.confirm-modal .buttons { display: flex; gap: 10px; justify-content: flex-end; }
-.confirm-modal .buttons button { width: 90px !important; }
-
-
-
-
-
-/* INDIVIDUAL MODAL STYLES */
-
-/* DELIVERY DETAILS MODAL */
-#delivery-details-modal.modal-container { width: 400px;  }
-#delivery-details-modal .modal-content { min-height: 550px; display: flex; flex-direction: column; justify-content: space-between; }
-#delivery-details-modal td { border: 0px; }
-#delivery-details-modal select { width: 104%; }
-
-/* PICKLIST MODAL */
-#picklist-modal.modal-container { width: 800px;  }
-#picklist-modal .modal-content { min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; }
-#picklist-modal .modal-content .table { margin-bottom: 20px; }
-#picklist-modal .product-name { white-space: nowrap; }
-
 /* REFUND ORDER MODAL */
 #refund-order.modal-container { width: 1000px; }
 #refund-order .modal-content { display: flex; flex-direction: column; }
@@ -117,45 +148,5 @@ section #modal.confirm-modal .modal-close { font-size: 35px; line-height: 24px; 
 #refund-order .modal-content .refund-amount .manual-line-desc input { padding: 5px; width: 200px; }
 #refund-order .modal-content .refund-actions button { margin-right: 0px !important; }
 
-/* CREATE SHIPMENT MODAL */
-#create-shipment.modal-container { width: 1200px; }
-#create-shipment .modal-content { display: flex; }
-#create-shipment .modal-col-1 { width: 25%; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px; }
-#create-shipment .modal-col-2 { width: 75%; display: flex; flex-direction: column; justify-content: space-between; }
-#create-shipment .modal-col-2 .table { flex: 1; }
-#create-shipment .modal-col-2 .shipping-info { flex: 1; display: flex; }
-#create-shipment .modal-col-2 .weight-value { flex: 1; }
-#create-shipment .date-method { text-align: right; }
-#create-shipment .date-method > div { margin-bottom: 15px; padding-left: 10px; }
-#create-shipment .date-method input { width: calc(246px - 5px); }
-#create-shipment .date-method .fa-save { font-size: 22px; margin-left: 10px; line-height: 20px }
-#create-shipment .date-method select { width: calc(260px - 5px); }
-#create-shipment .product-name { white-space: nowrap; }
-#create-shipment .delivery-table th { width: 90px; }
-#create-shipment .delivery-table td { border: 0px; padding: 6px; }
-#create-shipment .item-table { margin-bottom: 20px; }
-#create-shipment .item-table td.number { width: 60px;}
-#create-shipment .shipping-table th { width: 90px; }
-#create-shipment .shipping-table td { border: 0px; padding: 6px 0px; font-size: 20px; }
-#create-shipment .shipment-actions { display: flex; justify-content: flex-end; align-items: center; }
-#create-shipment .shipment-actions input { margin-right: 20px; }
 
 
-/* Temporarily Wind this down */
-.delivery-modal .modal-container { width: 400px; }
-.delivery-modal .modal-container input { padding: 5px; width: calc(100% - 13px); }
-.delivery-modal .modal-container input#date { width: calc(100% - 15px); }
-.delivery-modal .modal-container select { padding: 5px; width: 100%; }
-.delivery-modal .modal-container button { float: right; }
-.delivery-modal .modal-container th { width: 80px; }
-.delivery-modal .modal-container td { border: 0px;  }
-.google-map-modal .modal-container { width: 800px; }
-.other-actions .modal .modal-container { width: 716px; }
-.other-actions .modal-content .email-fields { display: flex; align-items: center; margin-bottom: 10px; }
-.other-actions .modal-content .email-fields .field-1 { width: 100px; }
-.other-actions .modal-content .email-fields .field-2 { width: 300px; }
-.other-actions .modal-content .email-fields.message { align-items: flex-start; }
-.other-actions .modal-content .email-fields.message .field-1 { padding: 5px 0px 0px 0px; }
-.other-actions .modal-content .button { display: flex; justify-content: flex-end; }
-.other-actions .modal .modal-container tr { margin-bottom: 10px; }
-.other-actions .modal .modal-container textarea { width: 600px; height: 200px; white-space: pre-line; }

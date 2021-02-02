@@ -7,6 +7,7 @@ from django.forms import inlineformset_factory
 ### PRODUCT LIST PAGE ###
 class ProductLabelForm(forms.Form):
     sku = forms.CharField(max_length=20)
+    product_id = forms.CharField(max_length=20)
     product_name = forms.CharField(max_length=20)
     location = forms.CharField(max_length=20)
     qty = forms.IntegerField()

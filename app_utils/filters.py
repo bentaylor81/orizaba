@@ -9,14 +9,6 @@ class StockMovementFilter(filters.FilterSet):
         model = StockMovement
         fields = ['product_id__sku', 'movement_type']
 
-class StockSyncFilter(filters.FilterSet):
-    class Meta:
-        model = Product
-        fields = {
-            'sku' : ['icontains'],
-            'stock_discrepancy': ['exact'],
-        }
-
 class ApiLogFilter(filters.FilterSet):
 
     SERVICE_CHOICES = [

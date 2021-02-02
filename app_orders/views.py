@@ -339,7 +339,7 @@ class OrderDetail(LoginRequiredMixin, FormMixin, DetailView):
                         # GETS NEW ROLLING STOCK QTY VALUE IN STOCKMOVEMENT TABLE
                         current_stock_qty = int(orizaba_stock_qty) + int(stockitem.item_qty) 
                         # CREATE ROW IN STOCKMOVEMENT TABLE     
-                        StockMovement.objects.create(date_added=now, product_id=product_id, adjustment_qty=adjustment_qty, movement_type="Returned Item", order_id=order_inst, current_stock_qty=current_stock_qty, comments=comments) 
+                        StockMovement.objects.create(date_added=now, product=product_id, adjustment_qty=adjustment_qty, movement_type="Returned Item", order_id=order_inst, current_stock_qty=current_stock_qty, comments=comments) 
                         # ADDS NEW STOCK QTY TO QTY IN PRODUCT TABLE
                         Product.objects.filter(pk=product_id.pk).update(orizaba_stock_qty=current_stock_qty)            
                 messages.success(request, 'Refund has been Processed')

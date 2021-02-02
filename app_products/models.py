@@ -118,20 +118,24 @@ class PurchaseOrder(models.Model):
         ordering = ["-pk"]
 
 class Product(models.Model):
+    TYPE_CHOICES = [
+        ('Part', 'Part'),
+        ('Delivery', 'Delivery'),
+        ('Gift', 'Gift'),
+    ]
     STATUS_CHOICES = [
         ('Enabled', 'Enabled'),
         ('Disabled', 'Disabled'),
     ]
     product_id = models.IntegerField(primary_key=True)
     product_name = models.CharField(max_length=200, blank=True)	
+    product_type = models.CharField(max_length=200, blank=True, choices=STATUS_CHOICES, default='Part')	
     sku = models.CharField(max_length=200, blank=True)
     buy_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     sell_price = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
-    stock_qty = models.IntegerField(blank=True, default=0) 
-    orizaba_stock_qty = models.IntegerField(blank=True, default=0)
+    stock_qty = models.IntegerField(blank=True, default=0) # Will be removed
+    orizaba_stock_qty = models.IntegerField(blank=True, default=0) # Will eventually be changed to stock_qty
     last_stock_check = models.DateTimeField(blank=True, null=True)
-    stock_discrepancy = models.IntegerField(blank=True, default=0)  # Used in the Stock tab to highlight any differences between stock_qty (Unleashed) and orizaba_stock_qty (generated value).
-    stock_balances = models.BooleanField(default=True)  # Set by stock_discrepancy above
     item_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     stock_profit = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
     buy_value = models.DecimalField(blank=True, default=0, max_digits=7, decimal_places=2)
@@ -158,13 +162,6 @@ class Product(models.Model):
 
     @property
     def product_calcs(self, *args, **kwargs):
-        # Check that Unleased stock and Orizaba calculated stock balances
-        # This can also be calculated on in bulk using update_stock_descrepancy_stats in utils
-        self.stock_discrepancy = (self.stock_qty - self.orizaba_stock_qty)  
-        if self.stock_discrepancy != 0:
-            self.stock_balances = False
-        else:
-            self.stock_balances = True
         # Calculate - Buy Value, Sell Value, Profit Per Item, Total Stock Profit
         self.buy_value = (self.buy_price * self.stock_qty)
         self.sell_value = (self.sell_price * self.stock_qty)

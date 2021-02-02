@@ -5,7 +5,7 @@
             Picklist:
         </div>
         <div class="action">
-            <button class="modal-button">Print</button>  
+            <button class="modalOpenButton">Print</button>  
             {% include 'app_orders/order_detail/modals/picklist.html' %}
         </div>
     </div> 
@@ -16,11 +16,12 @@
         <div class="action">
             <form name="invoice" id="other-actions" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <button name="download-invoice" type="submit">Download</button>
-                <button name="print-invoice" type="submit">Print</button>
-                <button name="email" class="modal-button" id="email-invoice">Email</button>
-                {% include 'app_orders/order_detail/modals/email-invoice.html' %}
+                <button name="download-invoice" type="submit">Download</button><br>
+                <button name="print-invoice" type="submit">Print</button>           
             </form>
+            <button name="email" class="modalOpenButton" id="email-invoice" onclick="event.preventDefault();">Email</button>
+            {% include 'app_orders/order_detail/modals/email-invoice.html' %}
+            
         </div>
     </div>       
     <div class="item">
@@ -28,7 +29,7 @@
             Returns:
         </div>
         <div class="action">
-                <button name="refund-order" class="refundOrderButton modal-button">Refund Order</button>
+                <button name="refund-order" class="modalOpenButton refundOrderButton">Refund Order</button>
                 {% include 'app_orders/order_detail/modals/refund-order.html' %}
         </div>
     </div>            
